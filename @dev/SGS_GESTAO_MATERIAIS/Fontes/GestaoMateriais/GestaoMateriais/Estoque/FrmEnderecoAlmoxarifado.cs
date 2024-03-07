@@ -23,7 +23,6 @@ namespace HospitalAnaCosta.SGS.GestaoMateriais.Estoque
 
         public FrmEnderecoAlmoxarifado()
         {
-            //testandooooo
             InitializeComponent();
         }
 
@@ -39,7 +38,6 @@ namespace HospitalAnaCosta.SGS.GestaoMateriais.Estoque
             txtEndFarm.Text = dtbMatMed.Rows[0]["CAD_MTMD_ENDERECO_ALMOX_ACS"].ToString();
 
             this.ShowDialog();
-            //testandooooo//testandooooo//testandooooo
         }        
 
         private void FrmEnderecoAlmoxarifado_Load(object sender, EventArgs e) {}        
