@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\Seguranca.Interface.dll
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\Seguranca.Interface.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Interface\obj\Debug\Seguranca.Interface.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Interface\obj\Debug\Seguranca.Interface.dll
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Interface\obj\Debug\Seguranca.Interface.pdb

@@ -1,0 +1,144 @@
+CREATE OR REPLACE PROCEDURE "PRC_IML_HIST_PAC_S"
+(
+  pATD_ATE_ID IN TB_ATD_ATE_ATENDIMENTO.ATD_ATE_ID%type DEFAULT NULL,
+  io_cursor OUT PKG_CURSOR.t_cursor
+)
+IS
+/********************************************************************
+*    Procedure: PRC_IML_HIST_PAC_S
+*
+*    Data Criacao:   01/09/2009   Por: Caio H. B. Chagas
+*    Funcao: Listar as movimentac?es historicos de um paciente
+*
+*    Data Alteracao: 14/10/2010   Por: Cristiane Gomes
+*    Data Alteracao: 01/11/2010   Por: Fabiola Lopes
+*    Data Alteracao: 01/11/2010   Por: Fabiola Lopes
+*    Data Alteracao: 05/11/2010   Por: Fabiola Lopes
+*    Data Alteracao: 17/06/2011   Por: Fabiola Lopes
+*
+*    Alteracao: Apresentar somente movimentacoes ativas e apresentar movimentacoes de setor e clinica
+*    Alteracao: Incluir status de cortesia e diferenca de classe
+*    Alteracao: Ordenar por Data de Entrada, Hora de Entrada, Data de Saida, Hora de Saida
+*    Alteracao: Removi o decode para cortesia / diferenca de classe
+*    Alteracao: Inclusao do campo de identificacao para falta de vaga
+*
+*******************************************************************/
+V_CURSOR PKG_CURSOR.T_CURSOR;
+BEGIN
+OPEN V_CURSOR FOR
+    SELECT ATE.ATD_ATE_ID,
+           IML.ATD_IML_DT_ENTRADA,
+           IML.ATD_IML_HR_ENTRADA,
+           IML.ATD_IML_DT_SAIDA,
+           IML.ATD_IML_HR_SAIDA,
+           STR.CAD_SET_DS_SETOR,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           TAC.TIS_TAC_DS_TIPO_ACOMODACAO,
+           TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO ACOMODACAO_AUTORIZADA,
+           USUATE.SEG_USU_DS_NOME         USUARIO_INTERNACAOO,
+           USUINA.SEG_USU_DS_NOME         USUARIO_ALTA_ADMINISTRATIVA,
+           USUIML.SEG_USU_DS_NOME         USUARIO_MOVIMENTACAO,
+           PAC.CAD_CNV_ID_CONVENIO,
+           PAC.CAD_PLA_ID_PLANO,
+           PAC.CAD_PAC_ID_PACIENTE,
+           IML.ATD_IML_FL_CORTESIA        STATUS_CORTESIA,
+           IML.ATD_IML_FL_DIF_CLASSE      STATUS_DIFERENCACLASSE,
+           QLE.CAD_QLE_TP_QUARTO_LEITO    TIPO_QUARTO_LEITO,
+           IML.ATD_IML_FL_FALTA_VAGA      STATUS_FALTAVAGA,
+           IML.ATD_IML_ID,
+           TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO AS AUTORIZADA, -- Necessario para Historico Paciente (Pedro)
+           QLE.CAD_SET_ID
+      FROM TB_ATD_IML_INT_MOV_LEITO  IML
+      JOIN TB_ATD_ATE_ATENDIMENTO    ATE        ON IML.ATD_ATE_ID = ATE.ATD_ATE_ID
+      JOIN TB_CAD_QLE_QUARTO_LEITO   QLE        ON IML.CAD_CAD_QLE_ID = QLE.CAD_QLE_ID
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC        ON IML.TIS_TAC_CD_TIPO_ACOMODACAO = TAC.TIS_TAC_CD_TIPO_ACOMODACAO
+      JOIN TB_CAD_SET_SETOR           STR        ON QLE.CAD_SET_ID = STR.CAD_SET_ID
+      JOIN TB_SEG_USU_USUARIO         USUATE     ON ATE.SEG_USU_ID_USUARIO = USUATE.SEG_USU_ID_USUARIO
+      JOIN TB_SEG_USU_USUARIO         USUIML      ON IML.SEG_USU_ID_USUARIO = USUIML.SEG_USU_ID_USUARIO
+      JOIN TB_CAD_PAC_PACIENTE        PAC        ON PAC.CAD_PAC_ID_PACIENTE = IML.CAD_PAC_ID_PACIENTE
+      LEFT JOIN TB_ATD_INA_INT_ALTA   INA        ON INA.ATD_ATE_ID = ATE.ATD_ATE_ID
+      LEFT JOIN TB_SEG_USU_USUARIO    USUINA     ON INA.SEG_USU_ID_USUARIO_ALTA = USUINA.SEG_USU_ID_USUARIO
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT    ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMOD_AUT
+
+     WHERE ATE.ATD_ATE_ID = PATD_ATE_ID
+       AND IML.ATD_IML_FL_STATUS = 'A'
+    UNION ALL
+    SELECT ATE.ATD_ATE_ID,
+           IMS.ATD_IMS_DT_ENTRADA,
+           IMS.ATD_IMS_HR_ENTRADA,
+           IMS.ATD_IMS_DT_SAIDA,
+           IMS.ATD_IMS_HR_SAIDA,
+           STR.CAD_SET_DS_SETOR,
+           NULL,
+           NULL,
+           NULL TIS_TAC_DS_TIPO_ACOMODACAO,
+           TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO ACOMODACAO_AUTORIZADA,
+           USUATE.SEG_USU_DS_NOME USUARIO_INTERNACAOO,
+           USUINA.SEG_USU_DS_NOME USUARIO_ALTA_ADMINISTRATIVA,
+           USUIMS.SEG_USU_DS_NOME USUARIO_MOVIMENTACAO,
+           NULL,
+           NULL,
+           NULL,
+           NULL,
+           NULL,
+           NULL                   TIPO_QUARTO_LEITO,
+           NULL,
+           NULl,
+           TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO AS AUTORIZADA, -- Necessario para Historico Paciente (Pedro)
+           IMS.CAD_SET_ID_SETOR CAD_SET_ID
+      FROM TB_ATD_IMS_INT_MOV_SETOR IMS
+      JOIN TB_ATD_ATE_ATENDIMENTO   ATE        ON IMS.ATD_ATE_ID = ATE.ATD_ATE_ID
+      JOIN TB_CAD_SET_SETOR         STR        ON IMS.CAD_SET_ID_SETOR = STR.CAD_SET_ID
+      JOIN TB_SEG_USU_USUARIO       USUATE     ON ATE.SEG_USU_ID_USUARIO = USUATE.SEG_USU_ID_USUARIO
+      JOIN TB_SEG_USU_USUARIO       USUIMS     ON IMS.SEG_USU_ID_USUARIO = USUIMS.SEG_USU_ID_USUARIO
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA        ON INA.ATD_ATE_ID = ATE.ATD_ATE_ID
+      LEFT JOIN TB_SEG_USU_USUARIO USUINA      ON INA.SEG_USU_ID_USUARIO_ALTA = USUINA.SEG_USU_ID_USUARIO
+      LEFT JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT  ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IMS.TIS_TAC_CD_TIPO_ACOMOD_AUT
+
+       WHERE ATE.ATD_ATE_ID = PATD_ATE_ID
+       AND IMS.ATD_IMS_FL_STATUS = 'A'
+    UNION ALL
+    SELECT ATE.ATD_ATE_ID,
+           IMC.ATD_IMC_DT_ENTRADA,
+           IMC.ATD_IMC_HR_ENTRADA,
+           IMC.ATD_IMC_DT_SAIDA,
+           IMC.ATD_IMC_HR_SAIDA,
+           CLC.CAD_CLC_DS_RESUMIDA,
+           NULL,
+           NULL,
+           NULL,
+           NULL,
+           USUATE.SEG_USU_DS_NOME  USUARIO_INTERNACAOO,
+           USUINA.SEG_USU_DS_NOME  USUARIO_ALTA_ADMINISTRATIVA,
+           USUIMC.SEG_USU_DS_NOME  USUARIO_MOVIMENTACAO,
+           NULL,
+           NULL,
+           NULL,
+           NULL,
+           NULL,
+           NULL                    TIPO_QUARTO_LEITO,
+           NULL,
+           NULL,
+           NULL,
+           NULL CAD_SET_ID
+      FROM TB_ATD_IMC_INT_MOV_CLINICA IMC
+      JOIN TB_ATD_ATE_ATENDIMENTO ATE
+        ON IMC.ATD_ATE_ID = ATE.ATD_ATE_ID
+      JOIN TB_CAD_CLC_CLINICA_CREDENCIADA CLC
+        ON IMC.CAD_CLC_ID = CLC.CAD_CLC_ID
+      JOIN TB_SEG_USU_USUARIO USUATE
+        ON ATE.SEG_USU_ID_USUARIO = USUATE.SEG_USU_ID_USUARIO
+      JOIN TB_SEG_USU_USUARIO USUIMC
+        ON IMC.SEG_USU_ID_USUARIO = USUIMC.SEG_USU_ID_USUARIO
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA
+        ON INA.ATD_ATE_ID = ATE.ATD_ATE_ID
+      LEFT JOIN TB_SEG_USU_USUARIO USUINA
+        ON INA.SEG_USU_ID_USUARIO_ALTA = USUINA.SEG_USU_ID_USUARIO
+     WHERE ATE.ATD_ATE_ID = PATD_ATE_ID
+     ORDER BY 2, 3, 4, 5;
+  IO_CURSOR := V_CURSOR;
+END PRC_IML_HIST_PAC_S;
+
+
+ 

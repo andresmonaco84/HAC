@@ -1,0 +1,200 @@
+CREATE OR REPLACE PROCEDURE PRC_ASS_CVP_CONV_VLR_PRODUTO_R
+(
+     pCAD_CNV_ID_CONVENIO IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_CNV_ID_CONVENIO%type,
+     pCAD_PLA_ID_PLANO IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_PLA_ID_PLANO%type DEFAULT NULL,
+     pCAD_SPL_ID IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_SPL_ID%type DEFAULT NULL,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type DEFAULT NULL,
+     pCAD_UNI_ID_UNIDADE IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+     pCAD_PRD_ID IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_PRD_ID%type DEFAULT NULL,
+     pCAD_TAP_TP_ATRIBUTO IN TB_ASS_CVP_CONV_VLR_PRODUTO.CAD_TAP_TP_ATRIBUTO%type DEFAULT NULL,
+     pTIS_MED_CD_TABELAMEDICA IN TB_ASS_CVP_CONV_VLR_PRODUTO.TIS_MED_CD_TABELAMEDICA%type DEFAULT NULL,
+     pAUX_EPP_CD_ESPECPROC IN TB_ASS_CVP_CONV_VLR_PRODUTO.AUX_EPP_CD_ESPECPROC%type DEFAULT NULL,
+     pAUX_GPC_CD_GRUPOPROC IN TB_ASS_CVP_CONV_VLR_PRODUTO.AUX_GPC_CD_GRUPOPROC%type DEFAULT NULL,
+     pTIPO_ATRIBUTOS IN VARCHAR2 DEFAULT NULL, -- String com os tipos de atributos concatenados para colocar no IN()
+     pCAD_PLA_CT_CATEGORIA_PLANO IN TB_CAD_PLA_PLANO.CAD_PLA_CT_CATEGORIA_PLANO%type DEFAULT NULL,
+     pVIGENCIA IN VARCHAR2 DEFAULT NULL, -- 0 = TODOS; 1 = VIGENTES; -1 = NÃO VIGENTES
+     io_cursor OUT PKG_CURSOR.t_cursor
+)
+is
+/********************************************************************
+*    Procedure: PRC_ASS_CVP_CONV_VLR_PRODUTO_R
+*
+*    Data Criacao: 	 11/2009    Por: Alexandre Muniz
+*
+*    Data Alteracao: 10/08/2010 Por: André Souza Monaco
+*         Alteracao: Coloquei NVL (todos os planos, sub planos, unidades e locais)
+*                    e adicionei join e campo CAD_TAP_DS_ATRIBUTO
+*
+*    Data Alteracao: 13/08/2010 Por: André Souza Monaco
+*         Alteracao: Adição de campos da vigência (datas)
+*
+*    Data Alteracao: 16/09/2010 Por: Davi Silvestre M. dos Reis
+*         Alteracao: Alteracao na clausula WHERE para trazer somente
+*                    o plano informado "ou" NENHUM plano associado
+*
+*    Data Alteracao: 20/09/2010  Por: André S. Monaco
+*         Alteracao: Adição de campos (TIS_MED_CD_TABELAMEDICA,
+*                                      AUX_EPP_CD_ESPECPROC,
+*                                      AUX_GPC_CD_GRUPOPROC,
+*                                      ASS_CVP_FL_STATUS)
+*    Data Alteracao: 26/10/2010  Por: André S. Monaco
+*         Alteracao: Adição do campo CAD_PRD_ID_TAXA_ADM
+*    Data Alteracao: 29/10/2010  Por: André S. Monaco
+*         Alteracao: Adição dos campos 'ASS_CVP_FL_ISEN_COBRA',
+*                                      'ASS_CVP_FL_COBERT_ANEST' e
+*                                      'VALOR_FINAL' na query
+*    Data Alteracao: 11/11/2010  Por: André S. Monaco
+*         Alteracao: Adição do parâmetro pTIPO_ATRIBUTOS
+*                    e mudança na construção da query (para dinâmica)
+*    Data Alteracao: 24/11/2010  Por: André S. Monaco
+*         Alteracao: Comentário no filtro (CVP.CAD_PLA_ID_PLANO IS NULL)
+*    Data Alteracao: 25/11/2010  Por: André S. Monaco
+*         Alteracao: Adição do campo CAD_PRD_ADM_DS_DESCRICAO na query
+*    Data Alteracao: 06/12/2010  Por: André S. Monaco
+*         Alteracao: Adição dos campos ASS_CVP_TP_PORTE_SALA e ASS_CVP_PC_ACOMOD_HM
+*    Data Alteracao:	26/06/2013  Por: André
+*         Alteracao:	Adição do campo/parâmetro CAD_PLA_CT_CATEGORIA_PLANO e pVIGENCIA
+*
+*    Funcao: Lista valores de procedimento por convênio juntos com
+*            as tabelas de relacionamento
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+V_WHERE  varchar2(3000);
+V_SELECT varchar2(6000);
+begin
+V_WHERE := NULL;
+IF pTIS_MED_CD_TABELAMEDICA IS NOT NULL THEN
+   V_WHERE := ' AND CVP.TIS_MED_CD_TABELAMEDICA = ' || CHR(39) || pTIS_MED_CD_TABELAMEDICA || CHR(39);
+END IF;
+IF pAUX_EPP_CD_ESPECPROC IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.AUX_EPP_CD_ESPECPROC = ' || CHR(39) || pAUX_EPP_CD_ESPECPROC || CHR(39);
+END IF;
+IF pAUX_GPC_CD_GRUPOPROC IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.AUX_GPC_CD_GRUPOPROC = ' || CHR(39) || pAUX_GPC_CD_GRUPOPROC || CHR(39);
+END IF;
+IF pCAD_CNV_ID_CONVENIO IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.CAD_CNV_ID_CONVENIO = ' || pCAD_CNV_ID_CONVENIO;
+END IF;
+IF pCAD_PLA_ID_PLANO IS NOT NULL THEN
+  V_WHERE := V_WHERE || ' AND CVP.CAD_PLA_ID_PLANO = ' || pCAD_PLA_ID_PLANO;
+/*ELSE
+  V_WHERE := V_WHERE || ' AND CVP.CAD_PLA_ID_PLANO IS NULL ';*/
+END IF;
+IF pCAD_SPL_ID IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.CAD_SPL_ID = ' || pCAD_SPL_ID;
+END IF;
+IF pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || pCAD_LAT_ID_LOCAL_ATENDIMENTO;
+END IF;
+IF pCAD_UNI_ID_UNIDADE IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.CAD_UNI_ID_UNIDADE = ' || pCAD_UNI_ID_UNIDADE;
+END IF;
+IF pCAD_PRD_ID IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.CAD_PRD_ID = ' || pCAD_PRD_ID;
+END IF;
+IF pTIPO_ATRIBUTOS IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND CVP.CAD_TAP_TP_ATRIBUTO IN (' || pTIPO_ATRIBUTOS || ') ';
+ELSE IF pCAD_TAP_TP_ATRIBUTO IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND CVP.CAD_TAP_TP_ATRIBUTO = ' || CHR(39) || pCAD_TAP_TP_ATRIBUTO || CHR(39);
+    END IF;
+END IF;
+IF pCAD_PLA_CT_CATEGORIA_PLANO IS NOT NULL THEN
+   V_WHERE := V_WHERE || ' AND PLA.CAD_PLA_CT_CATEGORIA_PLANO = ' || CHR(39) || pCAD_PLA_CT_CATEGORIA_PLANO || CHR(39);
+END IF;
+IF (NVL(pVIGENCIA, '0') = '1') THEN
+   V_WHERE := V_WHERE || ' AND (FNC_VALIDAR_VIGENCIA(CVP.ASS_CVP_DT_INICIO_VIGENCIA, CVP.ASS_CVP_DT_FIM_VIGENCIA) = 1 OR CVP.ASS_CVP_DT_INICIO_VIGENCIA > TRUNC(SYSDATE)) ';
+ELSIF (NVL(pVIGENCIA, '0') = '-1') THEN
+   V_WHERE := V_WHERE || ' AND (FNC_VALIDAR_VIGENCIA(CVP.ASS_CVP_DT_INICIO_VIGENCIA, CVP.ASS_CVP_DT_FIM_VIGENCIA) = 0 AND CVP.ASS_CVP_DT_INICIO_VIGENCIA < TRUNC(SYSDATE)) ';
+END IF;
+V_SELECT := 'SELECT
+             CVP.ASS_CVP_ID,
+             PRD.CAD_PRD_ID,
+             NVL(PRD.CAD_PRD_CD_CODIGO, ''TODOS'') CAD_PRD_CD_CODIGO,
+             NVL(PRD.CAD_PRD_DS_DESCRICAO, ''TODOS'') CAD_PRD_DS_DESCRICAO,
+             MED.TIS_MED_DS_TABELAMEDICA,
+             EPP.AUX_EPP_DS_DESCRICAO,
+             GPC.AUX_GPC_DS_DESCRICAO,
+             CVP.CAD_TIH_TP_INDICE_HOSP,
+             CVP.ASS_CVP_QT_INDICE_HOSP,
+             CVP.ASS_CVP_VL_INDICE_HOSP,
+             CVP.ASS_CVP_TP_PORTE,
+             CVP.CAD_TAP_TP_ATRIBUTO,
+             CVP.ASS_CVP_PC_DESCONTO,
+             CVP.ASS_CVP_PC_ACRESCIMO,
+             CVP.ASS_CVP_PC_TAXAADM,
+             CVP.ASS_CVP_VL_PRODUTO,
+             CVP.ASS_CVP_VL_ACRESCIMO,
+             CVP.ASS_CVP_VL_DESCONTO,
+             CVP.TIS_CDE_CD_CODIGO_DESPESA,
+             CVP.ASS_CVP_PC_DOPPLER,
+             CVP.ASS_CVP_QT_MINIMA_PERM,
+             CVP.ASS_CVP_QT_MAXIMA_PERM,
+             CVP.ASS_CVP_FL_PC_ACRESCIMOHR,
+             CVP.ASS_CVP_DT_INICIO_VIGENCIA,
+             CVP.ASS_CVP_DT_FIM_VIGENCIA,
+             CVP.AUX_EPP_CD_ESPECPROC,
+             CVP.AUX_GPC_CD_GRUPOPROC,
+             CVP.ASS_CVP_FL_STATUS,
+             CVP.TIS_MED_CD_TABELAMEDICA,
+             CVP.CAD_PRD_ID_TAXA_ADM,
+             CVP.ASS_CVP_PC_ACOMOD_HM,
+             CVP.ASS_CVP_TP_PORTE_SALA,
+             PRD_ADM.CAD_PRD_CD_CODIGO || '' - '' || PRD_ADM.CAD_PRD_DS_DESCRICAO CAD_PRD_ADM_DS_DESCRICAO,
+             DECODE(NVL(CVP.ASS_CVP_FL_ISEN_COBRA,''N''), ''S'', ''SIM'', ''NÃO'') ASS_CVP_FL_ISEN_COBRA,
+             DECODE(NVL(CVP.ASS_CVP_FL_COBERT_ANEST,''N''), ''S'', ''SIM'', ''NÃO'') ASS_CVP_FL_COBERT_ANEST,
+             CNV.CAD_CNV_CD_HAC_PRESTADOR,
+             NVL(PLA.CAD_PLA_CD_PLANO_HAC, ''TODOS'') CAD_PLA_CD_PLANO_HAC,
+             NVL(SPL.CAD_SPL_DS_SUB_PLANO, ''TODOS'') CAD_SPL_DS_SUB_PLANO,
+             NVL(UNI.CAD_UNI_DS_UNIDADE, ''TODAS'') CAD_UNI_DS_UNIDADE,
+             NVL(LOC.CAD_LAT_DS_LOCAL_ATENDIMENTO, ''TODOS'') CAD_LAT_DS_LOCAL_ATENDIMENTO,
+             TPI.CAD_TIH_DS_INDICE_HOSP,
+             TAP.CAD_TAP_DS_ATRIBUTO,
+             CASE
+                 WHEN (NVL(CVP.ASS_CVP_PC_ACRESCIMO,0) > 0) THEN
+                    CVP.ASS_CVP_VL_PRODUTO * ((CVP.ASS_CVP_PC_ACRESCIMO / 100) + 1)
+                 WHEN (NVL(CVP.ASS_CVP_PC_DESCONTO,0) > 0) THEN
+                    CVP.ASS_CVP_VL_PRODUTO - ((CVP.ASS_CVP_PC_DESCONTO / 100) * CVP.ASS_CVP_VL_PRODUTO)
+                 WHEN (NVL(CVP.ASS_CVP_VL_ACRESCIMO,0) > 0) THEN
+                    CVP.ASS_CVP_VL_PRODUTO + CVP.ASS_CVP_VL_ACRESCIMO
+                 WHEN (NVL(CVP.ASS_CVP_VL_DESCONTO,0) > 0) THEN
+                    CVP.ASS_CVP_VL_PRODUTO - CVP.ASS_CVP_VL_DESCONTO
+                 ELSE
+                    CVP.ASS_CVP_VL_PRODUTO
+             END VALOR_FINAL,
+             PLA.CAD_PLA_CT_CATEGORIA_PLANO
+        FROM TB_CAD_PRD_PRODUTO PRD,
+             TB_ASS_CVP_CONV_VLR_PRODUTO CVP,
+             TB_TIS_MED_TABELAMEDICA MED,
+             TB_AUX_EPP_ESPECPROC EPP,
+             TB_AUX_GPC_GRUPOPROC GPC,
+             TB_CAD_CNV_CONVENIO CNV,
+             TB_CAD_PLA_PLANO PLA,
+             TB_CAD_SPL_SUB_PLANO SPL,
+             TB_CAD_UNI_UNIDADE UNI,
+             TB_CAD_LAT_LOCAL_ATENDIMENTO LOC,
+             TB_CAD_TIH_TP_INDICE_HOSP TPI,
+             TB_CAD_TAP_TP_ATRIB_PRODUTO TAP,
+             TB_CAD_PRD_PRODUTO PRD_ADM
+       WHERE PRD.CAD_PRD_ID (+)= CVP.CAD_PRD_ID
+         AND MED.TIS_MED_CD_TABELAMEDICA (+)= CVP.TIS_MED_CD_TABELAMEDICA
+         AND (CVP.AUX_EPP_CD_ESPECPROC = EPP.AUX_EPP_CD_ESPECPROC(+) AND CVP.TIS_MED_CD_TABELAMEDICA = EPP.TIS_MED_CD_TABELAMEDICA(+))
+         AND (CVP.AUX_GPC_CD_GRUPOPROC = GPC.AUX_GPC_CD_GRUPOPROC(+) AND CVP.TIS_MED_CD_TABELAMEDICA = GPC.TIS_MED_CD_TABELAMEDICA(+)
+              AND CVP.AUX_EPP_CD_ESPECPROC = GPC.AUX_EPP_CD_ESPECPROC(+))
+         AND CNV.CAD_CNV_ID_CONVENIO = CVP.CAD_CNV_ID_CONVENIO
+         AND PLA.CAD_PLA_ID_PLANO (+)= CVP.CAD_PLA_ID_PLANO
+         AND SPL.CAD_SPL_ID (+)= CVP.CAD_SPL_ID
+         AND UNI.CAD_UNI_ID_UNIDADE (+)= CVP.CAD_UNI_ID_UNIDADE
+         AND LOC.CAD_LAT_ID_LOCAL_ATENDIMENTO (+)= CVP.CAD_LAT_ID_LOCAL_ATENDIMENTO
+         AND TPI.CAD_TIH_TP_INDICE_HOSP (+)= CVP.CAD_TIH_TP_INDICE_HOSP
+         AND TAP.CAD_TAP_TP_ATRIBUTO (+)= CVP.CAD_TAP_TP_ATRIBUTO
+         AND PRD_ADM.CAD_PRD_ID (+)= CVP.CAD_PRD_ID_TAXA_ADM
+         AND ASS_CVP_FL_STATUS = ''A''' || V_WHERE ||
+         ' ORDER BY CNV.CAD_CNV_CD_HAC_PRESTADOR, PLA.CAD_PLA_CD_PLANO_HAC,
+                    UNI.CAD_UNI_DS_UNIDADE, LOC.CAD_LAT_DS_LOCAL_ATENDIMENTO, EPP.AUX_EPP_DS_DESCRICAO, PRD.CAD_PRD_DS_DESCRICAO,
+                    ASS_CVP_DT_INICIO_VIGENCIA';
+OPEN v_cursor FOR
+V_SELECT;
+io_cursor := v_cursor;
+end PRC_ASS_CVP_CONV_VLR_PRODUTO_R;
+ 

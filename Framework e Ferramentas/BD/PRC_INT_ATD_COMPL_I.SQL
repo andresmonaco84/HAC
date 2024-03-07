@@ -1,0 +1,62 @@
+  --PRC_INT_ATD_COMPL_I
+  create or replace procedure PRC_INT_ATD_COMPL_I
+  (
+     pATD_ATE_ID IN TB_ATD_AIC_ATE_INT_COMPL.ATD_ATE_ID%type,
+     pTIS_TIN_CD_INTERNACAO IN TB_ATD_AIC_ATE_INT_COMPL.TIS_TIN_CD_INTERNACAO%type,
+     pCAD_PRO_ID_PROF_ADM IN TB_ATD_AIC_ATE_INT_COMPL.CAD_PRO_ID_PROF_ADM%type default NULL,
+     pATD_AIC_DS_CONTATO IN TB_ATD_AIC_ATE_INT_COMPL.ATD_AIC_DS_CONTATO%type default NULL,
+     pATD_AIC_DS_PROCEDIMENTO IN TB_ATD_AIC_ATE_INT_COMPL.ATD_AIC_DS_PROCEDIMENTO%type default NULL,
+     pTIS_TRI_CD_REGINTENNACAO IN TB_ATD_AIC_ATE_INT_COMPL.TIS_TRI_CD_REGINTENNACAO%type,
+     pATD_AIC_QT_DIARIA_SOLICITADA IN TB_ATD_AIC_ATE_INT_COMPL.ATD_AIC_QT_DIARIA_SOLICITADA%type default NULL,
+     pATD_AIC_DS_EMPRESA IN TB_ATD_AIC_ATE_INT_COMPL.ATD_AIC_DS_EMPRESA%type default NULL,
+     pATD_AIC_DT_ULTIMA_ATUALIZACAO IN TB_ATD_AIC_ATE_INT_COMPL.ATD_AIC_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_ATD_AIC_ATE_INT_COMPL.SEG_USU_ID_USUARIO%type,
+     pATD_AIC_TP_SITUACAO_PAC IN TB_ATD_AIC_ATE_INT_COMPL.ATD_AIC_TP_SITUACAO_PAC%type,
+     pCAD_PRD_ID IN TB_ATD_AIC_ATE_INT_COMPL.CAD_PRD_ID%type default NULL	
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_INT_ATD_COMPL_I
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/  
+	  
+  begin
+	    
+    INSERT INTO TB_ATD_AIC_ATE_INT_COMPL
+    (
+       ATD_ATE_ID,
+       TIS_TIN_CD_INTERNACAO,
+       CAD_PRO_ID_PROF_ADM,
+       ATD_AIC_DS_CONTATO,
+       ATD_AIC_DS_PROCEDIMENTO,
+       TIS_TRI_CD_REGINTENNACAO,
+       ATD_AIC_QT_DIARIA_SOLICITADA,
+       ATD_AIC_DS_EMPRESA,
+       ATD_AIC_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ATD_AIC_TP_SITUACAO_PAC,
+       CAD_PRD_ID
+    )
+    VALUES
+    (
+	     pATD_ATE_ID,
+	     pTIS_TIN_CD_INTERNACAO,
+	     pCAD_PRO_ID_PROF_ADM,
+	     pATD_AIC_DS_CONTATO,
+	     pATD_AIC_DS_PROCEDIMENTO,
+	     pTIS_TRI_CD_REGINTENNACAO,
+	     pATD_AIC_QT_DIARIA_SOLICITADA,
+	     pATD_AIC_DS_EMPRESA,
+	     pATD_AIC_DT_ULTIMA_ATUALIZACAO,
+	     pSEG_USU_ID_USUARIO,
+	     pATD_AIC_TP_SITUACAO_PAC,
+	     pCAD_PRD_ID
+    );
+	
+  end PRC_INT_ATD_COMPL_I;
+

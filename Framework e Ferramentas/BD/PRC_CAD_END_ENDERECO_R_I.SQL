@@ -1,0 +1,73 @@
+
+
+--PRC_CAD_END_ENDERECO_R_I
+create or replace procedure PRC_CAD_END_ENDERECO_R_I
+(
+     pNewIdt OUT integer,
+     pCAD_END_ID_ENDERECO IN TB_CAD_END_ENDERECO.CAD_END_ID_ENDERECO%type default NULL,
+     pCAD_END_NM_LOGRADOURO IN TB_CAD_END_ENDERECO.CAD_END_NM_LOGRADOURO%type,
+     pCAD_END_NM_BAIRRO IN TB_CAD_END_ENDERECO.CAD_END_NM_BAIRRO%type,
+     pCAD_END_SG_UF IN TB_CAD_END_ENDERECO.CAD_END_SG_UF%type,
+     pCAD_END_CD_CEP IN TB_CAD_END_ENDERECO.CAD_END_CD_CEP%type default NULL,
+     pCAD_END_DS_NUMERO IN TB_CAD_END_ENDERECO.CAD_END_DS_NUMERO%type,
+     pCAD_END_DT_ULTIMA_ATUALIZACAO IN TB_CAD_END_ENDERECO.CAD_END_DT_ULTIMA_ATUALIZACAO%type,
+     pCAD_END_DS_COMPLEMENTO IN TB_CAD_END_ENDERECO.CAD_END_DS_COMPLEMENTO%type default NULL,
+     pAUX_MUN_CD_IBGE IN TB_CAD_END_ENDERECO.AUX_MUN_CD_IBGE%type,
+     pSEG_USU_ID_USUARIO IN TB_CAD_END_ENDERECO.SEG_USU_ID_USUARIO%type,
+     pAUX_TTE_CD_TP_TEL_END IN TB_CAD_END_ENDERECO.AUX_TTE_CD_TP_TEL_END%type,
+     pTIS_TLG_CD_TPLOGRADOURO IN TB_CAD_END_ENDERECO.TIS_TLG_CD_TPLOGRADOURO%type,
+     pCAD_PES_ID_PESSOA IN TB_CAD_END_ENDERECO.CAD_PES_ID_PESSOA%type default NULL,
+     pCAD_END_NM_ENDERECO_NF IN TB_CAD_END_ENDERECO.CAD_END_NM_ENDERECO_NF%type default NULL	
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_END_ENDERECO_R_I
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/  
+    lIdtRetorno integer;
+	  
+begin
+    SELECT SEQ_CAD_END_01.NextVal INTO lIdtRetorno FROM DUAL;
+	    
+INSERT INTO TB_CAD_END_ENDERECO
+(
+       CAD_END_ID_ENDERECO,
+       CAD_END_NM_LOGRADOURO,
+       CAD_END_NM_BAIRRO,
+       CAD_END_SG_UF,
+       CAD_END_CD_CEP,
+       CAD_END_DS_NUMERO,
+       CAD_END_DT_ULTIMA_ATUALIZACAO,
+       CAD_END_DS_COMPLEMENTO,
+       AUX_MUN_CD_IBGE,
+       SEG_USU_ID_USUARIO,
+       AUX_TTE_CD_TP_TEL_END,
+       TIS_TLG_CD_TPLOGRADOURO,
+       CAD_PES_ID_PESSOA,
+       CAD_END_NM_ENDERECO_NF
+)
+VALUES
+(
+      lIdtRetorno,
+	     pCAD_END_NM_LOGRADOURO,
+	     pCAD_END_NM_BAIRRO,
+	     pCAD_END_SG_UF,
+	     pCAD_END_CD_CEP,
+	     pCAD_END_DS_NUMERO,
+	     pCAD_END_DT_ULTIMA_ATUALIZACAO,
+	     pCAD_END_DS_COMPLEMENTO,
+	     pAUX_MUN_CD_IBGE,
+	     pSEG_USU_ID_USUARIO,
+	     pAUX_TTE_CD_TP_TEL_END,
+	     pTIS_TLG_CD_TPLOGRADOURO,
+	     pCAD_PES_ID_PESSOA,
+	     pCAD_END_NM_ENDERECO_NF
+);
+    pNewIdt := lIdtRetorno;	
+end PRC_CAD_END_ENDERECO_R_I;
+

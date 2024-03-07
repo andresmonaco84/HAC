@@ -1,0 +1,146 @@
+CREATE OR REPLACE PROCEDURE "PRC_FAT_REL_COMP_MENS_FAIXA"
+  (
+       pTIS_TAT_CD_TPATENDIMENTO IN TB_TIS_TAT_TP_ATENDIMENTO.TIS_TAT_CD_TPATENDIMENTO%TYPE DEFAULT NULL,
+       pCAD_CNV_ID_CONVENIO IN TB_CAD_CNV_CONVENIO.CAD_CNV_ID_CONVENIO%TYPE DEFAULT NULL,
+       pCAD_PLA_ID_PLANO IN TB_CAD_PLA_PLANO.CAD_PLA_ID_PLANO%TYPE DEFAULT NULL,
+       pTIS_CBO_CD_CBOS IN tb_tis_cbo_cbos.tis_cbo_cd_cbos%type DEFAULT NULL,
+       pCAD_UNI_ID_UNIDADE IN tb_cad_uni_unidade.cad_uni_id_unidade%type DEFAULT NULL,
+       pCAD_LAT_ID_LOCAL_ATENDIMENTO IN tb_cad_lat_local_atendimento.cad_lat_id_local_atendimento%type DEFAULT NULL,
+       pCAD_SET_ID IN TB_CAD_SET_SETOR.CAD_SET_ID%TYPE DEFAULT NULL,
+       pCAD_PLA_CD_TIPOPLANO_GB IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL, --ACS
+      pCAD_PLA_CD_TIPOPLANO_PL IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL, --ACS
+      pCAD_PLA_CD_TIPOPLANO_FU IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+      pCAD_PLA_CD_TIPOPLANO_NP IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+      pCAD_PLA_CD_TIPOPLANO_PA IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+      pCAD_PLA_CD_TIPOPLANO_SP IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+      pDATA_INI IN TB_ATD_INA_INT_ALTA.ATD_INA_DT_ALTA_CLINICA%TYPE DEFAULT NULL,
+       pDATA_FIM IN TB_ATD_INA_INT_ALTA.ATD_INA_DT_ALTA_CLINICA%TYPE DEFAULT NULL,
+       pFAT_CCP_MES_FAT IN TB_FAT_CCP_CONTA_CONS_PARC.FAT_CCP_MES_FAT%TYPE,
+       pFAT_CCP_ANO_FAT IN TB_FAT_CCP_CONTA_CONS_PARC.FAT_CCP_ANO_FAT%TYPE,
+       pFAT_CCP_ANO_COMPET IN TB_FAT_CCP_CONTA_CONS_PARC.FAT_CCP_ANO_COMPET%type default null,
+       pFAT_CCP_MES_COMPET IN TB_FAT_CCP_CONTA_CONS_PARC.FAT_CCP_MES_COMPET%type default null,
+       pATD_ATE_TP_PACIENTE_I in tb_atd_ate_atendimento.atd_ate_tp_paciente%type default null,
+    pATD_ATE_TP_PACIENTE_E in tb_atd_ate_atendimento.atd_ate_tp_paciente%type default null,
+    pATD_ATE_TP_PACIENTE_A in tb_atd_ate_atendimento.atd_ate_tp_paciente%type default null,
+    pATD_ATE_TP_PACIENTE_U in tb_atd_ate_atendimento.atd_ate_tp_paciente%type default null,
+      io_cursor OUT PKG_CURSOR.t_cursor
+     -- ,TESTE OUT LONG
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_FAT_REL_COMP_MENS_FAIXA
+  *
+  *    Data ALT:  04/09/2013         Por: Pedro
+  *    Funcao: CUSTO
+  *
+  *
+  *********************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(2000);
+  V_SELECT  varchar2(20000);
+  begin
+    V_WHERE := NULL;
+    IF pCAD_UNI_ID_UNIDADE IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND CCP.CAD_UNI_ID_UNIDADE = ' || pCAD_UNI_ID_UNIDADE;    END IF;
+    IF pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND CCP.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || pCAD_LAT_ID_LOCAL_ATENDIMENTO;    END IF;
+    IF pCAD_SET_ID IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND ATE.CAD_SET_ID = ' || pCAD_SET_ID;    END IF;
+    IF pFAT_CCP_MES_COMPET IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND CCP.FAT_CCP_MES_COMPET = ' || pFAT_CCP_MES_COMPET;    END IF;
+    IF pFAT_CCP_ANO_COMPET IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND CCP.FAT_CCP_ANO_COMPET = ' || pFAT_CCP_ANO_COMPET;    END IF;
+    IF pCAD_CNV_ID_CONVENIO IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND CCP.CAD_CNV_ID_CONVENIO = ' || pCAD_CNV_ID_CONVENIO;    END IF;
+    IF pCAD_PLA_ID_PLANO IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND CCP.CAD_PLA_ID_PLANO = ' || pCAD_PLA_ID_PLANO;    END IF;
+  -- IF pDATA_INI IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND ATE.ATD_ATE_DT_ATENDIMENTO >= ' ||CHR(39)|| pDATA_INI ||CHR(39);    END IF;
+  --  IF pDATA_FIM IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND ATE.ATD_ATE_DT_ATENDIMENTO <= ' ||CHR(39)|| pDATA_FIM ||CHR(39);    END IF;
+    IF pTIS_TAT_CD_TPATENDIMENTO IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND ATE.TIS_TAT_CD_TPATENDIMENTO = ' ||CHR(39)|| pTIS_TAT_CD_TPATENDIMENTO ||CHR(39);    END IF;
+    IF pTIS_CBO_CD_CBOS IS NOT NULL THEN       V_WHERE := V_WHERE || ' AND ATE.TIS_CBO_CD_CBOS = ' ||CHR(39)|| pTIS_CBO_CD_CBOS ||CHR(39);    END IF;
+    V_SELECT :=
+    'SELECT   DISTINCT
+     CASE  WHEN CCP.FAT_CCP_VL_TOT_CONTA  < 5000.00 THEN                                                1
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 5000.00 AND CCP.FAT_CCP_VL_TOT_CONTA  < 10000.01  THEN     2
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 10000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 20000.01  THEN    3
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 20000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 30000.01  THEN    4
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 30000.01 AND CCP.FAT_CCP_VL_TOT_CONTA < 40000.01  THEN     5
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 40000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 50000.01  THEN    6
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 50000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 60000.01  THEN    7
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 60000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 70000.01  THEN    8
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 70000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 80000.01  THEN    9
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 80000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 90000.01  THEN   10
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 90000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 100000.01  THEN  11
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 100000.01 THEN                                          12
+     END ORDEM_FAIXA_VALORES,
+     CASE  WHEN CCP.FAT_CCP_VL_TOT_CONTA  < 5000.00 THEN   '||chr(39)||'ate R$ 5.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 5000.00 AND CCP.FAT_CCP_VL_TOT_CONTA  < 10000.01  THEN   '||chr(39)||'De R$  5.000,01 ate R$ 10.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 10000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 20000.01  THEN  '||chr(39)||'De R$ 10.000,01 ate R$ 20.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 20000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 30000.01  THEN  '||chr(39)||'De R$ 20.000,01 ate R$ 30.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 30000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 40000.01  THEN  '||chr(39)||'De R$ 30.000,01 ate R$ 40.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 40000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 50000.01  THEN  '||chr(39)||'De R$ 40.000,01 ate R$ 50.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 50000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 60000.01  THEN  '||chr(39)||'De R$ 50.000,01 ate R$ 60.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 60000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 70000.01  THEN  '||chr(39)||'De R$ 60.000,01 ate R$ 70.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 70000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 80000.01  THEN  '||chr(39)||'De R$ 70.000,01 ate R$ 80.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 80000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 90000.01  THEN  '||chr(39)||'De R$ 80.000,01 ate R$ 90.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 90000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 100000.01  THEN '||chr(39)||'De R$ 90.000,01 ate R$ 100.000,00'||chr(39)||'
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 100000.01 THEN  '||chr(39)||'Maior que R$ 100.000,00'||chr(39)||'
+     END FAIXA_VALORES,
+      COUNT(DISTINCT CCP.ATD_ATE_ID|| CCP.FAT_CCP_ID|| CCP.CAD_CNV_ID_CONVENIO)  OVER(PARTITION BY  CASE  WHEN CCP.FAT_CCP_VL_TOT_CONTA  < 5000.00 THEN                                                1
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 5000.00 AND CCP.FAT_CCP_VL_TOT_CONTA  < 10000.01  THEN     2
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 10000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 20000.01  THEN    3
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 20000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 30000.01  THEN    4
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 30000.01 AND CCP.FAT_CCP_VL_TOT_CONTA < 40000.01  THEN     5
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 40000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 50000.01  THEN    6
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 50000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 60000.01  THEN    7
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 60000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 70000.01  THEN    8
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 70000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 80000.01  THEN    9
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 80000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 90000.01  THEN   10
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 90000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 100000.01  THEN  11
+           WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 100000.01 THEN                                          12
+     END) QTD,
+     SUM(CCP.FAT_CCP_VL_TOT_CONTA) OVER (PARTITION BY CASE  WHEN CCP.FAT_CCP_VL_TOT_CONTA  < 5000.00 THEN                       1
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 5000.00 AND CCP.FAT_CCP_VL_TOT_CONTA  < 10000.01  THEN     2
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 10000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 20000.01  THEN    3
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 20000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 30000.01  THEN    4
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 30000.01 AND CCP.FAT_CCP_VL_TOT_CONTA < 40000.01  THEN     5
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 40000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 50000.01  THEN    6
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 50000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 60000.01  THEN    7
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 60000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 70000.01  THEN    8
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 70000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 80000.01  THEN    9
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 80000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 90000.01  THEN   10
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 90000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 100000.01  THEN  11
+                                   WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 100000.01 THEN                                            12
+                             END) TOTAL,
+      SUM(CCP.FAT_CCP_VL_TOT_CONTA) OVER () TOTAL_GERAL,
+      ROUND((SUM(CCP.FAT_CCP_VL_TOT_CONTA) OVER (PARTITION BY CASE  WHEN CCP.FAT_CCP_VL_TOT_CONTA  < 5000.00 THEN                       1
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 5000.00 AND CCP.FAT_CCP_VL_TOT_CONTA  < 10000.01  THEN     2
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 10000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 20000.01  THEN    3
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 20000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 30000.01  THEN    4
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 30000.01 AND CCP.FAT_CCP_VL_TOT_CONTA < 40000.01  THEN     5
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 40000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 50000.01  THEN    6
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 50000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 60000.01  THEN    7
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 60000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 70000.01  THEN    8
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 70000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 80000.01  THEN    9
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 80000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 90000.01  THEN   10
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 90000.01 AND CCP.FAT_CCP_VL_TOT_CONTA  < 100000.01  THEN  11
+                                         WHEN CCP.FAT_CCP_VL_TOT_CONTA  >= 100000.01 THEN                                            12
+                                   END) * 100) / SUM(CCP.FAT_CCP_VL_TOT_CONTA) OVER (),2)  PERCENTUAL
+       FROM    TB_FAT_CCP_CONTA_CONS_PARC CCP
+              JOIN    TB_ATD_ATE_ATENDIMENTO       ATE
+              ON      CCP.ATD_ATE_ID             = ATE.ATD_ATE_ID
+              WHERE   (CCP.FAT_CCP_FL_FATURADA = '||chr(39)||'S'||chr(39)||')
+              AND     (CCP.FAT_CCP_FL_STATUS = '||chr(39)||'A'||chr(39)||')
+              AND     (CCP.FAT_CCP_VL_TOT_CONTA IS NOT NULL)
+              AND     (CCP.FAT_NOF_ID IS NOT NULL)
+              AND     (CCP.FAT_CCP_MES_FAT = '||chr(39)|| pFAT_CCP_MES_FAT ||chr(39)||')
+              AND     (CCP.FAT_CCP_ANO_FAT = '||chr(39)|| pFAT_CCP_ANO_FAT ||chr(39)||')
+              '||V_WHERE||'
+              AND ('||chr(39)||pCAD_PLA_CD_TIPOPLANO_GB ||chr(39)|| ' IS not NULL and CCP.CAD_TPE_CD_CODIGO = '||chr(39)||'ACS'||chr(39)||'
+               OR '||chr(39)||pCAD_PLA_CD_TIPOPLANO_PA ||chr(39)|| ' IS NOT NULL AND CCP.CAD_TPE_CD_CODIGO = '||chr(39)||'PA'||chr(39)||'
+               OR '||chr(39)||pCAD_PLA_CD_TIPOPLANO_SP ||chr(39)|| ' IS NOT NULL AND CCP.CAD_TPE_CD_CODIGO = '||chr(39)||'SP'||chr(39)||'
+               OR '||chr(39)||pCAD_PLA_CD_TIPOPLANO_NP ||chr(39)|| ' IS NOT NULL AND CCP.CAD_TPE_CD_CODIGO = '||chr(39)||'NP'||chr(39)||'
+               OR '||chr(39)||pCAD_PLA_CD_TIPOPLANO_FU ||chr(39)|| ' IS NOT NULL AND CCP.CAD_TPE_CD_CODIGO = '||chr(39)||'FU'||chr(39)||')
+               AND ('||chr(39)||pATD_ATE_TP_PACIENTE_I ||chr(39)|| ' IS not NULL and CCP.atd_ate_tp_paciente = '||chr(39)||'I'||chr(39)||'
+               OR '||chr(39)||pATD_ATE_TP_PACIENTE_E ||chr(39)|| ' IS NOT NULL AND CCP.atd_ate_tp_paciente = '||chr(39)||'E'||chr(39)||'
+               OR '||chr(39)||pATD_ATE_TP_PACIENTE_A ||chr(39)|| ' IS NOT NULL AND CCP.atd_ate_tp_paciente = '||chr(39)||'A'||chr(39)||'
+               OR '||chr(39)|| pATD_ATE_TP_PACIENTE_U ||chr(39)|| ' IS NOT NULL AND CCP.atd_ate_tp_paciente = '||chr(39)||'U'||chr(39)||')'
+;
+  --TESTE :=  V_SELECT ;
+OPEN v_cursor FOR
+   V_SELECT ;
+    io_cursor := v_cursor;
+end PRC_FAT_REL_COMP_MENS_FAIXA;

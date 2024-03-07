@@ -1,0 +1,1070 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FC63C07E-B25E-4136-BC31-C91D0F53CCE1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hac.Windows.Forms.Controls</RootNamespace>
+    <AssemblyName>Hac.Windows.Forms.Controls</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\DLL\_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\DLL\_Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cadastro.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLL\_Debug\Cadastro\Cadastro.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="HacFramework.Communication.Remoting, Version=1.0.0.0, Culture=neutral, PublicKeyToken=deb3523d55e09a28, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Framework e Ferramentas\SGS.AgenteService\ManterAgendaDll\HacFramework.Communication.Remoting.dll</HintPath>
+    </Reference>
+    <Reference Include="HospitalAnaCosta.Services.Email.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLL\_Debug\Email\HospitalAnaCosta.Services.Email.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="HospitalAnaCosta.Services.Seguranca.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLL\_Debug\Seguranca\HospitalAnaCosta.Services.Seguranca.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServicesView, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLL\_Debug\ServicesView.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\Funcoes.cs" />
+    <Compile Include="CommonCtrl.cs" />
+    <Compile Include="HacCmbEspecialidadeProcedimentoCirurgico.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbEspecialidadeProcedimentoCirurgico.Designer.cs">
+      <DependentUpon>HacCmbEspecialidadeProcedimentoCirurgico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaMatMed.designer.cs">
+      <DependentUpon>FrmPesquisaMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPesquisaMaterialMedicamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPesquisaMaterialMedicamento.designer.cs">
+      <DependentUpon>FrmPesquisaMaterialMedicamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacMaterialMedicamento.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacMaterialMedicamento.designer.cs">
+      <DependentUpon>HacMaterialMedicamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaTUSS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaTUSS.Designer.cs">
+      <DependentUpon>FrmPesquisaTUSS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmWebPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmWebPopup.Designer.cs">
+      <DependentUpon>FrmWebPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmWeb.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmWeb.Designer.cs">
+      <DependentUpon>FrmWeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaFornecedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaFornecedor.Designer.cs">
+      <DependentUpon>FrmPesquisaFornecedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbAtributoProduto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbAtributoProduto.Designer.cs">
+      <DependentUpon>HacCmbAtributoProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarTabela.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarTabela.Designer.cs">
+      <DependentUpon>FrmReplicarTabela.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoTelefone.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoTelefone.Designer.cs">
+      <DependentUpon>HacCmbTipoTelefone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoEndereco.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoEndereco.Designer.cs">
+      <DependentUpon>HacCmbTipoEndereco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbMunicipio.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbMunicipio.Designer.cs">
+      <DependentUpon>HacCmbMunicipio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbUF.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbUF.Designer.cs">
+      <DependentUpon>HacCmbUF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoLogradouro.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoLogradouro.Designer.cs">
+      <DependentUpon>HacCmbTipoLogradouro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmCadastroSetor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCadastroSetor.Designer.cs">
+      <DependentUpon>FrmCadastroSetor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmCadastroTipoProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCadastroTipoProduto.Designer.cs">
+      <DependentUpon>FrmCadastroTipoProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacBancoConta.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacBancoConta.designer.cs">
+      <DependentUpon>HacBancoConta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbBanco.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbBanco.Designer.cs">
+      <DependentUpon>HacCmbBanco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbImposto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbImposto.Designer.cs">
+      <DependentUpon>HacCmbImposto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoCredenciamentoProfissional.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoCredenciamentoProfissional.Designer.cs">
+      <DependentUpon>HacCmbTipoCredenciamentoProfissional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaClinica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaClinica.designer.cs">
+      <DependentUpon>FrmPesquisaClinica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacClinica.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacClinica.designer.cs">
+      <DependentUpon>HacClinica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbSetor_.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbSetor_.Designer.cs">
+      <DependentUpon>HacCmbSetor_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbLocal_.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbLocal_.Designer.cs">
+      <DependentUpon>HacCmbLocal_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbUnidade_.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbUnidade_.Designer.cs">
+      <DependentUpon>HacCmbUnidade_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmFoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarPlanos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarPlanos.Designer.cs">
+      <DependentUpon>FrmReplicarPlanos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarTipoProcedimento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarTipoProcedimento.Designer.cs">
+      <DependentUpon>FrmReplicarTipoProcedimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarUnidadesLocais.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReplicarUnidadesLocais.Designer.cs">
+      <DependentUpon>FrmReplicarUnidadesLocais.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmReportViewer.Designer.cs">
+      <DependentUpon>FrmReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPacienteAtendimento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPacienteAtendimento.Designer.cs">
+      <DependentUpon>FrmSelecaoPacienteAtendimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoProntuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoProntuario.designer.cs">
+      <DependentUpon>FrmSelecaoProntuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbMes.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbMes.Designer.cs">
+      <DependentUpon>HacCmbMes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoAtendimento.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoAtendimento.Designer.cs">
+      <DependentUpon>HacCmbTipoAtendimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaBeneficiario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaBeneficiario.Designer.cs">
+      <DependentUpon>FrmPesquisaBeneficiario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaCarencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaCarencia.Designer.cs">
+      <DependentUpon>FrmPesquisaCarencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaCoberturaExigencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaCoberturaExigencia.Designer.cs">
+      <DependentUpon>FrmPesquisaCoberturaExigencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaExclusaoContratual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaExclusaoContratual.Designer.cs">
+      <DependentUpon>FrmPesquisaExclusaoContratual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbSexo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbSexo.Designer.cs">
+      <DependentUpon>HacCmbSexo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacActionToolStrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacActionToolStrip.Designer.cs">
+      <DependentUpon>HacActionToolStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbIndiceHospitalar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbIndiceHospitalar.Designer.cs">
+      <DependentUpon>HacCmbIndiceHospitalar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaConvenioProdutoEquivale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaConvenioProdutoEquivale.designer.cs">
+      <DependentUpon>FrmPesquisaConvenioProdutoEquivale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbUnidadeConsumo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbUnidadeConsumo.Designer.cs">
+      <DependentUpon>HacCmbUnidadeConsumo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacConvenioProdutoEquivale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacConvenioProdutoEquivale.designer.cs">
+      <DependentUpon>HacConvenioProdutoEquivale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbCodigoDespesa.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbCodigoDespesa.Designer.cs">
+      <DependentUpon>HacCmbCodigoDespesa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoPaciente.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoPaciente.Designer.cs">
+      <DependentUpon>HacCmbTipoPaciente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbClassificacaoContabil.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbClassificacaoContabil.Designer.cs">
+      <DependentUpon>HacCmbClassificacaoContabil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbCentroDeCusto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbCentroDeCusto.Designer.cs">
+      <DependentUpon>HacCmbCentroDeCusto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbSubGrupoMaterialMedicamento.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbSubGrupoMaterialMedicamento.Designer.cs">
+      <DependentUpon>HacCmbSubGrupoMaterialMedicamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbGrupoProdutoMaterialMecicamento.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbGrupoProdutoMaterialMecicamento.Designer.cs">
+      <DependentUpon>HacCmbGrupoProdutoMaterialMecicamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbDiaSemana.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbDiaSemana.Designer.cs">
+      <DependentUpon>HacCmbDiaSemana.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbSimNao.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbSimNao.Designer.cs">
+      <DependentUpon>HacCmbSimNao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacDecimalTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacProdutoMaterialMedicamento.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacProdutoMaterialMedicamento.designer.cs">
+      <DependentUpon>HacProdutoMaterialMedicamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbGrupoProcedimento.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbGrupoProcedimento.Designer.cs">
+      <DependentUpon>HacCmbGrupoProcedimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbEspecialidadeProcedimento.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbEspecialidadeProcedimento.Designer.cs">
+      <DependentUpon>HacCmbEspecialidadeProcedimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbStatus.Designer.cs">
+      <DependentUpon>HacCmbStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTabelaMedica.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTabelaMedica.Designer.cs">
+      <DependentUpon>HacCmbTabelaMedica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Declare.cs" />
+    <Compile Include="Exceptions\HacRequiredFieldException.cs" />
+    <Compile Include="Forms\FrmPesquisaConvenio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaConvenio.designer.cs">
+      <DependentUpon>FrmPesquisaConvenio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaPlano.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaPlano.designer.cs">
+      <DependentUpon>FrmPesquisaPlano.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaProcedimentoProposto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaProcedimentoProposto.designer.cs">
+      <DependentUpon>FrmPesquisaProcedimentoProposto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaProfissionalCorpoClinico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaProfissionalCorpoClinico.designer.cs">
+      <DependentUpon>FrmPesquisaProfissionalCorpoClinico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaProfissionalSolicitante.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaProfissionalSolicitante.designer.cs">
+      <DependentUpon>FrmPesquisaProfissionalSolicitante.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaSubPlano.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaSubPlano.designer.cs">
+      <DependentUpon>FrmPesquisaSubPlano.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPesquisaUsuario.designer.cs">
+      <DependentUpon>FrmPesquisaUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoEndereco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoEndereco.designer.cs">
+      <DependentUpon>FrmSelecaoEndereco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPaciente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPaciente.designer.cs">
+      <DependentUpon>FrmSelecaoPaciente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPessoa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPessoa.designer.cs">
+      <DependentUpon>FrmSelecaoPessoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPessoaPaciente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSelecaoPessoaPaciente.designer.cs">
+      <DependentUpon>FrmSelecaoPessoaPaciente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBase.Designer.cs">
+      <DependentUpon>FrmBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacBtnCancelar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacBtnCancelar.Designer.cs">
+      <DependentUpon>HacBtnCancelar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacBtnMatMed.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacBtnMatMed.Designer.cs">
+      <DependentUpon>HacBtnMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacBtnNovo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacBtnNovo.Designer.cs">
+      <DependentUpon>HacBtnNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacBtnSair.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacBtnSair.Designer.cs">
+      <DependentUpon>HacBtnSair.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacBtnSalvar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacBtnSalvar.Designer.cs">
+      <DependentUpon>HacBtnSalvar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacButton.Designer.cs">
+      <DependentUpon>HacButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCheckBox.Designer.cs">
+      <DependentUpon>HacCheckBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCheckedListBox.Designer.cs">
+      <DependentUpon>HacCheckedListBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbEspecialidade.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbEspecialidade.Designer.cs">
+      <DependentUpon>HacCmbEspecialidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbLocal.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbLocal.Designer.cs">
+      <DependentUpon>HacCmbLocal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbSetor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbSetor.Designer.cs">
+      <DependentUpon>HacCmbSetor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoAcomodacao.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoAcomodacao.Designer.cs">
+      <DependentUpon>HacCmbTipoAcomodacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbTipoProduto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbTipoProduto.Designer.cs">
+      <DependentUpon>HacCmbTipoProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacCmbUnidade.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacCmbUnidade.Designer.cs">
+      <DependentUpon>HacCmbUnidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacComboBox.Designer.cs">
+      <DependentUpon>HacComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacConvenio.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacConvenio.designer.cs">
+      <DependentUpon>HacConvenio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacDataGridView.Designer.cs">
+      <DependentUpon>HacDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacDateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacDateTimePicker.Designer.cs">
+      <DependentUpon>HacDateTimePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacLabel.Designer.cs">
+      <DependentUpon>HacLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacListBox.Designer.cs">
+      <DependentUpon>HacListBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacMaskedTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacMaskedTextBox.Designer.cs">
+      <DependentUpon>HacMaskedTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacPlano.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacPlano.designer.cs">
+      <DependentUpon>HacPlano.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacProcedimentoProposto.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacProcedimentoProposto.designer.cs">
+      <DependentUpon>HacProcedimentoProposto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacProfissionalCorpoClinico.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacProfissionalCorpoClinico.designer.cs">
+      <DependentUpon>HacProfissionalCorpoClinico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacProfissionalSolicitante.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacProfissionalSolicitante.designer.cs">
+      <DependentUpon>HacProfissionalSolicitante.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacRadioButton.Designer.cs">
+      <DependentUpon>HacRadioButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacSubPlano.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacSubPlano.designer.cs">
+      <DependentUpon>HacSubPlano.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacTextBox.Designer.cs">
+      <DependentUpon>HacTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacToolStrip.Designer.cs">
+      <DependentUpon>HacToolStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacToolStripEventArgs.cs" />
+    <Compile Include="HacTreeViewOnDemand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HacTreeViewOnDemand.Designer.cs">
+      <DependentUpon>HacTreeViewOnDemand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacUserControl.Designer.cs">
+      <DependentUpon>HacUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HacUsuario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HacUsuario.designer.cs">
+      <DependentUpon>HacUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IHacRequiredControl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ToolStripHacEventHandler.cs" />
+    <Compile Include="VerificadorClientControl.cs" />
+    <Compile Include="WebCamCapture.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\FrmPesquisaMatMed.resx">
+      <DependentUpon>FrmPesquisaMatMed.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPesquisaMaterialMedicamento.resx">
+      <DependentUpon>FrmPesquisaMaterialMedicamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacMaterialMedicamento.resx">
+      <DependentUpon>HacMaterialMedicamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaTUSS.resx">
+      <DependentUpon>FrmPesquisaTUSS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmWebPopup.resx">
+      <DependentUpon>FrmWebPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmWeb.resx">
+      <DependentUpon>FrmWeb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmFoto.resx">
+      <DependentUpon>FrmFoto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaFornecedor.resx">
+      <DependentUpon>FrmPesquisaFornecedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReplicarPlanos.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmReplicarPlanos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReplicarTabela.resx">
+      <DependentUpon>FrmReplicarTabela.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReplicarTipoProcedimento.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmReplicarTipoProcedimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReplicarUnidadesLocais.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmReplicarUnidadesLocais.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmReportViewer.resx">
+      <DependentUpon>FrmReportViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSelecaoPacienteAtendimento.resx">
+      <DependentUpon>FrmSelecaoPacienteAtendimento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSelecaoProntuario.resx">
+      <DependentUpon>FrmSelecaoProntuario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaBeneficiario.resx">
+      <DependentUpon>FrmPesquisaBeneficiario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaCarencia.resx">
+      <DependentUpon>FrmPesquisaCarencia.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaCoberturaExigencia.resx">
+      <DependentUpon>FrmPesquisaCoberturaExigencia.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaConvenioProdutoEquivale.resx">
+      <DependentUpon>FrmPesquisaConvenioProdutoEquivale.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaExclusaoContratual.resx">
+      <DependentUpon>FrmPesquisaExclusaoContratual.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacActionToolStrip.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacActionToolStrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCheckBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacCheckBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbDiaSemana.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacCmbDiaSemana.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbMes.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacCmbMes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacConvenioProdutoEquivale.resx">
+      <DependentUpon>HacConvenioProdutoEquivale.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacProdutoMaterialMedicamento.resx">
+      <DependentUpon>HacProdutoMaterialMedicamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaConvenio.resx">
+      <DependentUpon>FrmPesquisaConvenio.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaPlano.resx">
+      <DependentUpon>FrmPesquisaPlano.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaProcedimentoProposto.resx">
+      <DependentUpon>FrmPesquisaProcedimentoProposto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaProfissionalCorpoClinico.resx">
+      <DependentUpon>FrmPesquisaProfissionalCorpoClinico.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaProfissionalSolicitante.resx">
+      <DependentUpon>FrmPesquisaProfissionalSolicitante.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaSubPlano.resx">
+      <DependentUpon>FrmPesquisaSubPlano.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaUsuario.resx">
+      <DependentUpon>FrmPesquisaUsuario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSelecaoEndereco.resx">
+      <DependentUpon>FrmSelecaoEndereco.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSelecaoPaciente.resx">
+      <DependentUpon>FrmSelecaoPaciente.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSelecaoPessoa.resx">
+      <DependentUpon>FrmSelecaoPessoa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSelecaoPessoaPaciente.resx">
+      <DependentUpon>FrmSelecaoPessoaPaciente.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBase.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacBtnSalvar.resx">
+      <DependentUpon>HacBtnSalvar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacButton.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbLocal.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacCmbLocal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbSetor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacCmbSetor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbUnidade.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacCmbUnidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacComboBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacConvenio.resx">
+      <DependentUpon>HacConvenio.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacDataGridView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacLabel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacPlano.resx">
+      <DependentUpon>HacPlano.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacProcedimentoProposto.resx">
+      <DependentUpon>HacProcedimentoProposto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacProfissionalCorpoClinico.resx">
+      <DependentUpon>HacProfissionalCorpoClinico.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacProfissionalSolicitante.resx">
+      <DependentUpon>HacProfissionalSolicitante.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacSubPlano.resx">
+      <DependentUpon>HacSubPlano.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacTextBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacToolStrip.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HacToolStrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacUsuario.resx">
+      <DependentUpon>HacUsuario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WebCamCapture.resx">
+      <DependentUpon>WebCamCapture.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Resources\fundo_barras_verde.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Imagens\bulb.png" />
+    <EmbeddedResource Include="Forms\FrmCadastroSetor.resx">
+      <DependentUpon>FrmCadastroSetor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCadastroTipoProduto.resx">
+      <DependentUpon>FrmCadastroTipoProduto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacBancoConta.resx">
+      <DependentUpon>HacBancoConta.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPesquisaClinica.resx">
+      <DependentUpon>FrmPesquisaClinica.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacClinica.resx">
+      <DependentUpon>HacClinica.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbSetor_.resx">
+      <DependentUpon>HacCmbSetor_.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbLocal_.resx">
+      <DependentUpon>HacCmbLocal_.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HacCmbUnidade_.resx">
+      <DependentUpon>HacCmbUnidade_.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Imagens\CAMERA.ICO" />
+    <Content Include="Imagens\edit_add_p.gif" />
+    <Content Include="Imagens\edit_cancel_p.png" />
+    <Content Include="Imagens\edit_ok_p.png" />
+    <Content Include="Imagens\edit_remove_p.gif" />
+    <Content Include="Imagens\img_13.png" />
+    <Content Include="Imagens\img_16.png" />
+    <Content Include="Imagens\img_25.png" />
+    <Content Include="Imagens\img_26.gif" />
+    <Content Include="Imagens\img_4.png" />
+    <Content Include="Imagens\img_58.png" />
+    <Content Include="Imagens\img_lupa.gif" />
+    <Content Include="Imagens\Symbol - Add_32.png" />
+    <Content Include="Imagens\Symbol - Add_48.png" />
+    <Content Include="Imagens\Symbol - Check_32.png" />
+    <Content Include="Imagens\Symbol - Check_48.png" />
+    <Content Include="Imagens\Symbol - Delete_32.png" />
+    <Content Include="Imagens\Symbol - Delete_48.png" />
+    <Content Include="Imagens\Symbol - Remove_32.png" />
+    <Content Include="Imagens\Symbol - Remove_48.png" />
+    <None Include="Resources\Add patient.png" />
+    <None Include="Resources\btnVoltar_35x33.png" />
+    <None Include="Resources\button_ok.ico" />
+    <Content Include="Resources\Cadeado.gif" />
+    <None Include="Resources\exit.png" />
+    <None Include="Resources\edit_add_p.png" />
+    <Content Include="Resources\folder_open_add-32.png" />
+    <None Include="Resources\folder_open_add-321.png" />
+    <Content Include="Resources\Home.png" />
+    <Content Include="Resources\lock_edit.png" />
+    <None Include="Resources\replace2.gif" />
+    <Content Include="Resources\TituloLogin.gif" />
+    <Content Include="Imagens\WebCam01.png" />
+    <Content Include="Imagens\WebCam02.png" />
+    <None Include="Resources\user2.png" />
+    <None Include="Resources\webcam1.png" />
+    <None Include="Resources\lixo.gif" />
+    <None Include="Resources\Bin %28empty%29.png" />
+    <None Include="Resources\tsBtnLimpar.Image.png" />
+    <None Include="Resources\Bin %28empty%29.ico" />
+    <None Include="Resources\tsBtnLimpar.Image.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Control\Cadastro.Control.csproj">
+      <Project>{b984a28e-3e7d-4a30-9332-fd2d9ad0019d}</Project>
+      <Name>Cadastro.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.DTO\Cadastro.DTO.csproj">
+      <Project>{b1a4c379-87d9-4d11-85bf-89ff4aa30bf1}</Project>
+      <Name>Cadastro.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.DTO\HospitalAnaCosta.Services.Produto.DTO.csproj">
+      <Project>{3e0ec7ff-d81d-4c87-acd3-e7ab6a23e1ac}</Project>
+      <Name>HospitalAnaCosta.Services.Produto.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.Interface\HospitalAnaCosta.Services.Produto.Interface.csproj">
+      <Project>{a364a320-963d-46fc-88ce-b16cb0c93401}</Project>
+      <Name>HospitalAnaCosta.Services.Produto.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Seguranca\Fontes\SegurancaHac\HospitalAnaCosta.Services.Seguranca.DTO\HospitalAnaCosta.Services.Seguranca.DTO.csproj">
+      <Project>{83d8af55-3438-41b8-8915-f4540743439a}</Project>
+      <Name>HospitalAnaCosta.Services.Seguranca.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\HacFramework\HacFramework.csproj">
+      <Project>{9e19e9ac-7b48-4ef1-9b18-65286f023f34}</Project>
+      <Name>HacFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

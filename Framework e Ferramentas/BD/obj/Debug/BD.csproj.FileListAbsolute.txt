@@ -1,0 +1,5 @@
+C:\TFS\SGS\Framework e Ferramentas\BD\bin\Debug\BD.dll
+C:\TFS\SGS\Framework e Ferramentas\BD\bin\Debug\BD.pdb
+C:\TFS\SGS\Framework e Ferramentas\BD\obj\Debug\BD.dll
+C:\TFS\SGS\Framework e Ferramentas\BD\obj\Debug\BD.pdb
+C:\TFS\SGS\Framework e Ferramentas\BD\obj\Debug\BD.csprojResolveAssemblyReference.cache

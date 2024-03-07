@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\HospitalAnaCosta.Services.Seguranca.Model.dll
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\HospitalAnaCosta.Services.Seguranca.Model.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\SegurancaHac\HospitalAnaCosta.Services.Seguranca.Model\obj\Debug\HospitalAnaCosta.Services.Seguranca.Model.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Seguranca\Fontes\SegurancaHac\HospitalAnaCosta.Services.Seguranca.Model\obj\Debug\HospitalAnaCosta.Services.Seguranca.Model.dll
+C:\TFS\SGS\@dev\Seguranca\Fontes\SegurancaHac\HospitalAnaCosta.Services.Seguranca.Model\obj\Debug\HospitalAnaCosta.Services.Seguranca.Model.pdb

@@ -1,0 +1,43 @@
+create or replace procedure PRC_TIS_UTD_UNIDTEMPODOENCA_I
+  (
+     pTIS_UTD_CD_UNIDTEMPODOENCA IN TB_TIS_UTD_UNIDTEMPODOENCA.TIS_UTD_CD_UNIDTEMPODOENCA%type,
+     pTIS_UTD_DS_UNIDTEMPODOENCA IN TB_TIS_UTD_UNIDTEMPODOENCA.TIS_UTD_DS_UNIDTEMPODOENCA%type,
+     pSEG_USU_ID_USUARIO_CRIACAO IN TB_TIS_UTD_UNIDTEMPODOENCA.SEG_USU_ID_USUARIO_CRIACAO%TYPE DEFAULT NULL,
+     pTIS_UTD_DT_ULT_ATUALIZACAO IN TB_TIS_UTD_UNIDTEMPODOENCA.TIS_UTD_DT_ULT_ATUALIZACAO%TYPE DEFAULT NULL,
+     pSEG_USU_ID_USU_ULT_ATUALIZ IN TB_TIS_UTD_UNIDTEMPODOENCA.SEG_USU_ID_USU_ULT_ATUALIZ%TYPE DEFAULT NULL
+ 
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_TIS_UTD_UNIDTEMPODOENCA_I
+  *
+  *    Data Criacao: 	16/04/2007  Por: Silmara
+  *    Data Alteracao:	28/05/2007  Por: Silmara
+  *    Altera???#o:Foi alterado os par??metros para gravar em mai??sculo
+  *    Funcao: Inclui unidade(s) de tempo de doen??a(s) - TISS
+  *
+  *******************************************************************/
+
+  begin
+
+    INSERT INTO TB_TIS_UTD_UNIDTEMPODOENCA
+    (
+       TIS_UTD_CD_UNIDTEMPODOENCA,
+       TIS_UTD_DS_UNIDTEMPODOENCA,
+       TIS_UTD_DT_CRIACAO,
+       SEG_USU_ID_USUARIO_CRIACAO,
+       TIS_UTD_DT_ULT_ATUALIZACAO,
+       SEG_USU_ID_USU_ULT_ATUALIZ
+    )
+    VALUES
+    (
+	     UPPER(pTIS_UTD_CD_UNIDTEMPODOENCA),
+	     UPPER(pTIS_UTD_DS_UNIDTEMPODOENCA),
+       SYSDATE,
+       pSEG_USU_ID_USUARIO_CRIACAO,
+       SYSDATE,
+       pSEG_USU_ID_USU_ULT_ATUALIZ
+    );
+
+  end PRC_TIS_UTD_UNIDTEMPODOENCA_I;
+ 

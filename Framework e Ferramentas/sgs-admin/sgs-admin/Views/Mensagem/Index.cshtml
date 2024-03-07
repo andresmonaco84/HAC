@@ -1,0 +1,118 @@
+﻿@using System.Globalization
+@*@model IEnumerable<sgs_admin.Models.Mensagem>*@
+@*@model sgs_admin.Models.MensagemViewModel*@
+
+
+@model PagedList.IPagedList<sgs_admin.Models.Mensagem>
+@using PagedList.Mvc
+
+<h2>Cadastro de Mensagens de Aviso da TI</h2>
+
+<p title="Adicionar">
+    <a href="@Url.Action("Create")"><img class="borderIcon" src="~/Images/imgAdd2.png" /></a>
+</p>
+<table>
+    <tr>
+        <b>
+        <th width="120px" height="10" padding="0px">
+            Início
+        </th>
+        <th width="120px" height="10" padding="0px">
+            Fim
+        </th>
+        <th width="120px" height="10" padding="0px">
+            Sistema
+        </th>
+        <th width="400px" height="10" padding="0px">
+            Texto
+        </th>
+        @*<td width="50px" height="30" padding="0px">
+            Status
+        </th>*@
+        @*<th width="50px" height="10" padding="0px">
+            Módulo
+        </th>*@
+        <th>
+            
+        </th>
+        </b>
+    </tr>
+    
+    
+    
+
+
+    @{
+        int i = 1;
+     }
+    
+    
+    
+
+    @*@foreach (var item in Model.Excluidas)*@
+    @foreach (var item in Model)
+    {
+        @*<tr title="@item.Texto">*@
+
+
+        i = i + 1;
+        string rowColor;
+        if (i % 2 == 0)
+        {
+            rowColor = "generalAltRow";
+        }
+        else
+        {
+            rowColor = "generalRow";
+        }
+        
+
+        
+        
+        <tr class="@rowColor" id="css">
+            <td width="120px" height="10" padding="0px">
+                @*@Html.DisplayFor(modelItem => item.Inicio)*@
+                @item.Inicio.ToString("dd/MM/yyyy HH:mm")
+            </td>
+            <td width="120px" height="10" padding="0px">
+                @*@Html.DisplayFor(modelItem => item.Fim)*@
+                @item.Fim.ToString("dd/MM/yyyy HH:mm")
+            </td>
+            <td width="120px" height="10" padding="0px">
+                @Html.DisplayFor(modelItem => item.Sistema)
+            </td>
+            <td width="400px" height="10" padding="0px">
+                @Html.DisplayFor(modelItem => item.Texto)
+            </td>
+            @*<td width="50px" height="30" padding="0px">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>*@
+            @*<td width="50px" height="10" padding="0px">
+                @Html.DisplayFor(modelItem => item.Modulo)
+            </td>*@
+            @*<td>*@
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id })*@
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            @*</td>*@
+            
+            <td title="Alterar">
+                @if (item.Fim > DateTime.Now)
+                {
+                    <a href="@Url.Action("Edit", new {id = item.Id})"><img class="borderIcon" src="~/Images/imgEdit.png" /></a>
+                }
+                else
+                {
+                    <img class="borderIcon" src="~/Images/imgCancel.png"/>
+                }
+            </td>
+
+            <td title="Excluir">
+                <a href="@Url.Action("Delete", new { id = item.Id })"><img class="borderIcon" src="~/Images/imgDelete.png" /></a>
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+@ViewBag.Fabiola

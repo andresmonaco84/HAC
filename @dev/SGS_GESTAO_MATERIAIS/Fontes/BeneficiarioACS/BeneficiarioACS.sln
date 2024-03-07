@@ -1,0 +1,227 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BeneficiarioACSService", "BeneficiarioACSService", "{D5B88044-15C1-4216-B5C0-890A91CFEBB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Remoting", "HospitalAnaCosta.Services.BeneficiarioACS.Remoting\HospitalAnaCosta.Services.BeneficiarioACS.Remoting.csproj", "{F278F32C-2FFE-452A-95F4-8FF9AA17253C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B} = {08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Model", "HospitalAnaCosta.Services.BeneficiarioACS.Model\HospitalAnaCosta.Services.BeneficiarioACS.Model.csproj", "{534393D7-3923-4264-B3D0-E09B1D189FD1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1} = {6FE3DCA5-2194-4261-8A1D-51E029D316E1}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Interface", "HospitalAnaCosta.Services.BeneficiarioACS.Interface\HospitalAnaCosta.Services.BeneficiarioACS.Interface.csproj", "{34D69262-33D3-4844-ADD4-3E9173544EAF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1} = {6FE3DCA5-2194-4261-8A1D-51E029D316E1}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.DTO", "HospitalAnaCosta.Services.BeneficiarioACS.DTO\HospitalAnaCosta.Services.BeneficiarioACS.DTO.csproj", "{6FE3DCA5-2194-4261-8A1D-51E029D316E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Control", "HospitalAnaCosta.Services.BeneficiarioACS.Control\HospitalAnaCosta.Services.BeneficiarioACS.Control.csproj", "{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{534393D7-3923-4264-B3D0-E09B1D189FD1} = {534393D7-3923-4264-B3D0-E09B1D189FD1}
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1} = {6FE3DCA5-2194-4261-8A1D-51E029D316E1}
+		{34D69262-33D3-4844-ADD4-3E9173544EAF} = {34D69262-33D3-4844-ADD4-3E9173544EAF}
+	EndProjectSection
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "HospitalAnaCosta.Services.BeneficiarioACS.DataBase", "HospitalAnaCosta.Services.BeneficiarioACS.DataBase\HospitalAnaCosta.Services.BeneficiarioACS.DataBase.sqlproj", "{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.View", "HospitalAnaCosta.Services.BeneficiarioACS.View\HospitalAnaCosta.Services.BeneficiarioACS.View.csproj", "{02EEB720-3105-46E1-98DC-876B247F8096}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C} = {F278F32C-2FFE-452A-95F4-8FF9AA17253C}
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B} = {08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BenefACSWeb", "http://localhost/BenefACSWeb", "{ADD9240B-34A5-4CA1-9B38-08209AAD8563}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
+		Debug.AspNetCompiler.VirtualPath = "/BenefACSWeb"
+		Debug.AspNetCompiler.PhysicalPath = "BenefACSWeb\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\BenefACSWeb\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/BenefACSWeb"
+		Release.AspNetCompiler.PhysicalPath = "BenefACSWeb\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\BenefACSWeb\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "BenefACSWeb\"
+	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C} = {F278F32C-2FFE-452A-95F4-8FF9AA17253C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Homecare", "Homecare\Homecare.csproj", "{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 10
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/sgs
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HospitalAnaCosta.Services.BeneficiarioACS.Remoting\\HospitalAnaCosta.Services.BeneficiarioACS.Remoting.csproj
+		SccProjectTopLevelParentUniqueName1 = BeneficiarioACS.sln
+		SccProjectName1 = HospitalAnaCosta.Services.BeneficiarioACS.Remoting
+		SccLocalPath1 = HospitalAnaCosta.Services.BeneficiarioACS.Remoting
+		SccProjectUniqueName2 = HospitalAnaCosta.Services.BeneficiarioACS.Model\\HospitalAnaCosta.Services.BeneficiarioACS.Model.csproj
+		SccProjectTopLevelParentUniqueName2 = BeneficiarioACS.sln
+		SccProjectName2 = HospitalAnaCosta.Services.BeneficiarioACS.Model
+		SccLocalPath2 = HospitalAnaCosta.Services.BeneficiarioACS.Model
+		SccProjectUniqueName3 = HospitalAnaCosta.Services.BeneficiarioACS.Interface\\HospitalAnaCosta.Services.BeneficiarioACS.Interface.csproj
+		SccProjectTopLevelParentUniqueName3 = BeneficiarioACS.sln
+		SccProjectName3 = HospitalAnaCosta.Services.BeneficiarioACS.Interface
+		SccLocalPath3 = HospitalAnaCosta.Services.BeneficiarioACS.Interface
+		SccProjectUniqueName4 = HospitalAnaCosta.Services.BeneficiarioACS.DTO\\HospitalAnaCosta.Services.BeneficiarioACS.DTO.csproj
+		SccProjectTopLevelParentUniqueName4 = BeneficiarioACS.sln
+		SccProjectName4 = HospitalAnaCosta.Services.BeneficiarioACS.DTO
+		SccLocalPath4 = HospitalAnaCosta.Services.BeneficiarioACS.DTO
+		SccProjectUniqueName5 = HospitalAnaCosta.Services.BeneficiarioACS.Control\\HospitalAnaCosta.Services.BeneficiarioACS.Control.csproj
+		SccProjectTopLevelParentUniqueName5 = BeneficiarioACS.sln
+		SccProjectName5 = HospitalAnaCosta.Services.BeneficiarioACS.Control
+		SccLocalPath5 = HospitalAnaCosta.Services.BeneficiarioACS.Control
+		SccProjectUniqueName6 = HospitalAnaCosta.Services.BeneficiarioACS.View\\HospitalAnaCosta.Services.BeneficiarioACS.View.csproj
+		SccProjectTopLevelParentUniqueName6 = BeneficiarioACS.sln
+		SccProjectName6 = HospitalAnaCosta.Services.BeneficiarioACS.View
+		SccLocalPath6 = HospitalAnaCosta.Services.BeneficiarioACS.View
+		SccWebProject7 = true
+		SccProjectUniqueName7 = http://localhost/BenefACSWeb
+		SccProjectName7 = BenefACSWeb
+		SccLocalPath7 = BenefACSWeb
+		SccProjectEnlistmentChoice7 = 2
+		SccProjectUniqueName8 = HospitalAnaCosta.Services.BeneficiarioACS.DataBase\\HospitalAnaCosta.Services.BeneficiarioACS.DataBase.sqlproj
+		SccProjectTopLevelParentUniqueName8 = BeneficiarioACS.sln
+		SccProjectName8 = HospitalAnaCosta.Services.BeneficiarioACS.DataBase
+		SccLocalPath8 = HospitalAnaCosta.Services.BeneficiarioACS.DataBase
+		SccProjectUniqueName9 = Homecare\\Homecare.csproj
+		SccProjectName9 = Homecare
+		SccLocalPath9 = Homecare
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|.NET.ActiveCfg = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|.NET.ActiveCfg = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|.NET.ActiveCfg = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|.NET.ActiveCfg = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|.NET.ActiveCfg = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Release|.NET.ActiveCfg = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADD9240B-34A5-4CA1-9B38-08209AAD8563}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Release|.NET.ActiveCfg = Release|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D866B3CC-8B7D-48C9-B0E1-913FD6529DEC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+		{534393D7-3923-4264-B3D0-E09B1D189FD1} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+		{34D69262-33D3-4844-ADD4-3E9173544EAF} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+		{F67BD177-458A-4EEA-BF62-0C47BAAD67E8} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+		{02EEB720-3105-46E1-98DC-876B247F8096} = {D5B88044-15C1-4216-B5C0-890A91CFEBB3}
+	EndGlobalSection
+EndGlobal

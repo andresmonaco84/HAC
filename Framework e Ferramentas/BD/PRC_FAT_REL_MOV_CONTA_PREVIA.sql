@@ -1,0 +1,219 @@
+CREATE OR REPLACE PROCEDURE SGS.PRC_FAT_REL_MOV_CONTA_PREVIA
+(
+    pATD_ATE_DT_ATENDIMENTO_INI VARCHAR2 DEFAULT NULL,
+    pATD_ATE_DT_ATENDIMENTO_FIM VARCHAR2 DEFAULT NULL,
+    pCAD_UNI_ID_UNIDADE VARCHAR2 DEFAULT NULL,
+    pCAD_LAT_ID_LOCAL_ATENDIMENTO VARCHAR2 DEFAULT NULL,
+    pCAD_SET_ID VARCHAR2 DEFAULT NULL,
+    pTIS_TAT_CD_TPATENDIMENTO VARCHAR2 DEFAULT NULL,
+    pTIS_CBO_CD_CBOS VARCHAR2 DEFAULT NULL,
+    pFAT_CCP_MES_FAT VARCHAR2 DEFAULT NULL,
+    pFAT_CCP_ANO_FAT VARCHAR2 DEFAULT NULL,
+    pCAD_CNV_ID_CONVENIO VARCHAR2 DEFAULT NULL,
+    pCAD_PLA_ID_PLANO VARCHAR2 DEFAULT NULL,
+    pCAD_PLA_CD_TIPOPLANO_GB IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+    pCAD_PLA_CD_TIPOPLANO_PL IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+    pCAD_PLA_CD_TIPOPLANO_FU IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+    pCAD_PLA_CD_TIPOPLANO_PA IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+    pCAD_PLA_CD_TIPOPLANO_SP IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+    pCAD_PLA_CD_TIPOPLANO_NP IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+    pCAD_CGC_ID IN TB_CAD_CNV_CONVENIO.CAD_CGC_ID%TYPE DEFAULT NULL,
+    io_cursor OUT PKG_CURSOR.t_cursor--,
+ --   TESTE OUT LONG
+)
+IS
+/********************************************************************
+*    Procedure: PRC_FAT_REL_MOV_CONTA_PREVIA
+*    *** FAT_31 *** FAT_23 *** FAT_47
+*    Data Alteracao: 18/7/2011  Por: Pedro
+*    Altera¨’o: V_SELECT  varchar2(12000);
+*
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(3000);
+  V_SELECT  varchar2(30000);
+begin
+  V_WHERE := NULL;
+IF pCAD_UNI_ID_UNIDADE IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATE.CAD_UNI_ID_UNIDADE in (select column_value from table(fnc_split(''' || pCAD_UNI_ID_UNIDADE || '''))) '; END IF;
+IF pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATE.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || pCAD_LAT_ID_LOCAL_ATENDIMENTO; END IF;
+IF pCAD_CNV_ID_CONVENIO IS NOT NULL THEN V_WHERE := V_WHERE || ' AND PAC.CAD_CNV_ID_CONVENIO = ' || pCAD_CNV_ID_CONVENIO;    END IF;
+IF pCAD_PLA_ID_PLANO IS NOT NULL THEN    V_WHERE := V_WHERE || ' AND PAC.CAD_PLA_ID_PLANO = ' || pCAD_PLA_ID_PLANO;    END IF;
+IF NVL(pCAD_CGC_ID,0) <> 0 THEN    V_WHERE := V_WHERE || ' AND CNV.CAD_CGC_ID = ' || pCAD_CGC_ID;    END IF;
+IF pATD_ATE_DT_ATENDIMENTO_INI IS NOT NULL THEN V_WHERE := V_WHERE || ' AND TRUNC(CCI.FAT_CCI_DT_INICIO_CONSUMO) >= ' ||CHR(39)|| pATD_ATE_DT_ATENDIMENTO_INI ||CHR(39);    END IF;
+IF pATD_ATE_DT_ATENDIMENTO_FIM IS NOT NULL THEN V_WHERE := V_WHERE || ' AND TRUNC(CCI.FAT_CCI_DT_FIM_CONSUMO) <= ' ||CHR(39)|| pATD_ATE_DT_ATENDIMENTO_FIM ||CHR(39);    END IF;
+V_SELECT:=
+'
+ SELECT DISTINCT
+       TIPO_PLANO,
+       DESPESA_RECEITA,
+       LOCAL_ATENDIMENTO,
+       CAD_LAT_DS_LOCAL_ATENDIMENTO,
+       CAD_UNI_ID_UNIDADE,
+       CAD_UNI_DS_UNIDADE,
+       SUM(DIGITADOS) OVER (PARTITION BY TIPO_PLANO,DESPESA_RECEITA,LOCAL_ATENDIMENTO,CAD_LAT_DS_LOCAL_ATENDIMENTO, CAD_UNI_ID_UNIDADE, CAD_UNI_DS_UNIDADE) DIGITADOS ,
+       SUM(EMITIDOS) OVER (PARTITION BY TIPO_PLANO,DESPESA_RECEITA,LOCAL_ATENDIMENTO,CAD_LAT_DS_LOCAL_ATENDIMENTO, CAD_UNI_ID_UNIDADE, CAD_UNI_DS_UNIDADE) EMITIDOS,
+       SUM(AUDITORIA) OVER (PARTITION BY TIPO_PLANO,DESPESA_RECEITA,LOCAL_ATENDIMENTO,CAD_LAT_DS_LOCAL_ATENDIMENTO, CAD_UNI_ID_UNIDADE, CAD_UNI_DS_UNIDADE) AUDITORIA,
+       SUM(FATURADOS) OVER (PARTITION BY TIPO_PLANO,DESPESA_RECEITA,LOCAL_ATENDIMENTO,CAD_LAT_DS_LOCAL_ATENDIMENTO, CAD_UNI_ID_UNIDADE, CAD_UNI_DS_UNIDADE) FATURADOS,
+       SUM(FATURADOS_NOF) OVER (PARTITION BY TIPO_PLANO,DESPESA_RECEITA,LOCAL_ATENDIMENTO,CAD_LAT_DS_LOCAL_ATENDIMENTO, CAD_UNI_ID_UNIDADE, CAD_UNI_DS_UNIDADE) FATURADOS_NOF,
+       SUM(TOTAL)  OVER (PARTITION BY TIPO_PLANO,DESPESA_RECEITA,LOCAL_ATENDIMENTO,CAD_LAT_DS_LOCAL_ATENDIMENTO, CAD_UNI_ID_UNIDADE, CAD_UNI_DS_UNIDADE) TOTAL
+  FROM
+  (
+    SELECT
+           CASE WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'GB'||chr(39)||','||chr(39)||'PL'||chr(39)||') THEN '||chr(39)||'ANA COSTA SAUDE'||chr(39)||'
+                 WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'SP'||chr(39)||')  THEN '||chr(39)||'SERVI¨O PRESTADO'||chr(39)||'
+                 WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'PA'||chr(39)||')  THEN '||chr(39)||'PARTICULAR'||chr(39)||'
+                 WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'FU'||chr(39)||')  THEN '||chr(39)||'FUNCIONARIO HAC'||chr(39)||'
+                 WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'FU-S077'||chr(39)||')  THEN '||chr(39)||'FUNCIONARIO ACS'||chr(39)||'
+                 WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'NP'||chr(39)||')  THEN '||chr(39)||'NAO PAGANTE'||chr(39)||'
+            END  TIPO_PLANO,
+            CASE WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'FU'||chr(39)||','||chr(39)||'NP'||chr(39)||','||chr(39)||'FU-S077'||chr(39)||') THEN 1 ELSE 0 END DESPESA_RECEITA,
+            CASE WHEN LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO != 29 THEN '||chr(39)||'AMBULATORIO'||chr(39)||' ELSE '||chr(39)||'INTERNADO'||chr(39)||' END LOCAL_ATENDIMENTO,
+            LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+            UNI.CAD_UNI_ID_UNIDADE,
+             CASE WHEN UNI.CAD_UNI_ID_UNIDADE = 244 AND DIFERENCA.DIF = '||chr(39)||'COMDIF'||chr(39)||' AND TP_PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'PA'||chr(39)||' THEN '||chr(39)||'DIF. DE CLASSE - SANTOS'||chr(39)||'
+                 WHEN UNI.CAD_UNI_ID_UNIDADE = 247 AND DIFERENCA.DIF = '||chr(39)||'COMDIF'||chr(39)||' AND TP_PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'PA'||chr(39)||' THEN '||chr(39)||'DIF. DE CLASSE - S.VICENTE'||chr(39)||'
+                 WHEN UNI.CAD_UNI_ID_UNIDADE = 245 AND DIFERENCA.DIF = '||chr(39)||'COMDIF'||chr(39)||' AND TP_PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'PA'||chr(39)||' THEN '||chr(39)||'DIF. DE CLASSE - GUARUJæ'||chr(39)||'
+                 ELSE UNI.CAD_UNI_DS_UNIDADE
+            END CAD_UNI_DS_UNIDADE,
+            DIFERENCA.DIF,
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'DIGITADO'||chr(39)||'   then  NVL(EMITIDOS.TOTAL,0) ELSE 0 END  DIGITADOS,
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'EMITIDO'||chr(39)||'   then  NVL(EMITIDOS.TOTAL,0) ELSE 0 END EMITIDOS,
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'AUDITORIA'||chr(39)||'   then  NVL(EMITIDOS.TOTAL,0) ELSE 0 END AUDITORIA,
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'LOTE'||chr(39)||'      then  NVL(EMITIDOS.TOTAL,0) ELSE 0  END FATURADOS,
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'FATURADO'||chr(39)||'  then  NVL(EMITIDOS.TOTAL,0) ELSE 0  END FATURADOS_NOF,
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'DIGITADO'||chr(39)||'   then  NVL(EMITIDOS.TOTAL,0) ELSE 0 END +
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'EMITIDO'||chr(39)||'   then  NVL(EMITIDOS.TOTAL,0) ELSE 0 END +
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'AUDITORIA'||chr(39)||'   then  NVL(EMITIDOS.TOTAL,0) ELSE 0 END +
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'LOTE'||chr(39)||'      then  NVL(EMITIDOS.TOTAL,0) ELSE 0  END +
+            CASE WHEN EMITIDOS.SITUACAO = '||chr(39)||'FATURADO'||chr(39)||'  then  NVL(EMITIDOS.TOTAL,0) ELSE 0  END TOTAL
+    FROM    TB_CAD_UNI_UNIDADE UNI
+    JOIN    TB_ASS_ULO_UNID_LOCAL ULO             ON      UNI.CAD_UNI_ID_UNIDADE           = ULO.CAD_UNI_ID_UNIDADE
+    JOIN    TB_CAD_LAT_LOCAL_ATENDIMENTO LAT      ON      ULO.CAD_LAT_ID_LOCAL_ATENDIMENTO = LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO
+    JOIN    (SELECT DISTINCT PLA.CAD_PLA_CD_TIPOPLANO  FROM TB_CAD_PLA_PLANO PLA) TP_PLA    ON      1 = 1
+    JOIN    (SELECT '||chr(39)||'SEMDIF'||chr(39)||' DIF FROM DUAL union
+             SELECT '||chr(39)||'COMDIF'||chr(39)||' DIF FROM DUAL  ) DIFERENCA    ON       1 = 1
+    LEFT JOIN (  SELECT  SUM(CCI.FAT_CCI_VL_FATURADO) TOTAL,
+                        ATE.CAD_UNI_ID_UNIDADE,
+                        ATE.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+                        CASE WHEN PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'GB'||chr(39)||','||chr(39)||'PL'||chr(39)||') THEN '||chr(39)||'ACS'||chr(39)||' 
+                          WHEN PLA.CAD_PLA_CD_PLANO_HAC = ''S077'' AND PLA.CAD_PLA_CD_TIPOPLANO IN (''FU'') THEN ''FU-S077''
+                          ELSE PLA.CAD_PLA_CD_TIPOPLANO END CAD_PLA_CD_TIPOPLANO,
+                 CASE WHEN CCP.FAT_NOF_ID IS NOT NULL THEN '||CHR(39)||'FATURADO'||CHR(39)||'
+                 WHEN CCP.FAT_CCP_FL_STATUS_AUDIT = '||CHR(39)||'E'||CHR(39)||' THEN '||CHR(39)||'AUDITORIA'||CHR(39)||'
+                 WHEN CCP.FAT_CCP_FL_FATURADA = '||CHR(39)||'S'||CHR(39)||' AND CCP.FAT_NOF_ID IS NULL THEN '||CHR(39)||'LOTE'||CHR(39)||'
+                 WHEN CCP.FAT_CCP_FL_EMITIDA = '||CHR(39)||'S'||CHR(39)||' AND CCP.FAT_CCP_FL_FATURADA = '||CHR(39)||'N'||CHR(39)||'
+                      AND (CCP.FAT_CCP_FL_STATUS_AUDIT = '||CHR(39)||'A'||CHR(39)||' OR CCP.FAT_CCP_DT_ENVIO_AUDIT IS NULL) THEN '||CHR(39)||'EMITIDO'||CHR(39)||'
+                 WHEN CCI.FAT_CCP_ID IS NULL THEN '||CHR(39)||'DIGITADO'||CHR(39)||'
+                 END SITUACAO,
+                        CASE WHEN MCC.FAT_TCO_ID != 10 THEN '||chr(39)||'SEMDIF'||chr(39)||'
+                             WHEN MCC.FAT_TCO_ID = 10  THEN '||chr(39)||'COMDIF'||chr(39)||'
+                         END  DIF
+              FROM    TB_FAT_CCI_CONTA_CONSU_ITEM   CCI
+              JOIN    TB_CAD_CNV_CONVENIO CNV ON CCI.CAD_CNV_ID_CONVENIO = CNV.CAD_CNV_ID_CONVENIO
+              JOIN    TB_ATD_ATE_ATENDIMENTO       ATE  ON      CCI.ATD_ATE_ID             = ATE.ATD_ATE_ID
+              JOIN    TB_CAD_PAC_PACIENTE          PAC  ON      PAC.CAD_PAC_ID_PACIENTE    = CCI.CAD_PAC_ID_PACIENTE
+              JOIN    TB_CAD_PLA_PLANO             PLA  ON      PLA.CAD_PLA_ID_PLANO       = PAC.CAD_PLA_ID_PLANO
+              LEFT JOIN TB_FAT_CCP_CONTA_CONS_PARC CCP  ON      CCP.ATD_ATE_ID             = CCI.ATD_ATE_ID
+                                                        AND     CCP.CAD_PAC_ID_PACIENTE    = CCI.CAD_PAC_ID_PACIENTE
+                                                        AND     CCP.FAT_CCP_ID             = CCI.FAT_CCP_ID
+                                                        AND     CCP.FAT_COC_ID             = CCI.FAT_COC_ID
+                                                        AND     (CCP.FAT_CCP_FL_STATUS     = '||chr(39)||'A'||chr(39)||')
+                                                        AND     (CCP.FAT_CCP_MES_FAT       = ' ||chr(39)|| pFAT_CCP_MES_FAT  ||chr(39)||')
+                                                        AND     (CCP.FAT_CCP_ANO_FAT       = ' ||chr(39)|| pFAT_CCP_ANO_FAT  ||chr(39)||')
+              JOIN    TB_FAT_MCC_MOV_COM_CONSUMO   MCC  ON      MCC.FAT_MCC_ID             = CCI.FAT_MCC_ID
+              WHERE
+                      CCI.FAT_CCI_FL_STATUS = '||chr(39)||'A'||chr(39)||'
+              AND     (CCI.FAT_CCI_FL_PACOTE = '||chr(39)||'N'||chr(39)||' OR CCI.FAT_CCI_FL_PACOTE IS NULL)
+              AND     (ATE.ATD_ATE_FL_STATUS = '||chr(39)||'A'||chr(39)||')
+             AND     (CCI.FAT_CCI_MES_FECHAMENTO =  '||chr(39)|| pFAT_CCP_MES_FAT  ||chr(39)||')
+              AND     (CCI.FAT_CCI_ANO_FECHAMENTO =  '||chr(39)|| pFAT_CCP_ANO_FAT  ||chr(39)||')
+               AND     (CCI.FAT_CCI_TP_DESTINO_ITEM not in ('||chr(39)||'H'||chr(39)||','||chr(39)||'T'||chr(39)||'))
+             ' || V_WHERE || '
+              AND    ('||chr(39)|| pCAD_PLA_CD_TIPOPLANO_GB ||chr(39)||' IS not NULL and PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'GB'||chr(39)||'
+               OR '||chr(39)|| pCAD_PLA_CD_TIPOPLANO_PL ||chr(39)||' IS NOT NULL AND PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'PL'||chr(39)||'
+               OR '||chr(39)|| pCAD_PLA_CD_TIPOPLANO_PA ||chr(39)||' IS NOT NULL AND PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'PA'||chr(39)||'
+               OR '||chr(39)|| pCAD_PLA_CD_TIPOPLANO_SP ||chr(39)||' IS NOT NULL AND PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'SP'||chr(39)||'
+               OR '||chr(39)|| pCAD_PLA_CD_TIPOPLANO_FU ||chr(39)||' IS NOT NULL AND PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'FU'||chr(39)||'
+               OR '||chr(39)|| pCAD_PLA_CD_TIPOPLANO_NP ||chr(39)||' IS NOT NULL AND PLA.CAD_PLA_CD_TIPOPLANO = '||chr(39)||'NP'||chr(39)||')
+              GROUP BY
+                      ATE.CAD_UNI_ID_UNIDADE,
+                      ATE.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+                      CASE WHEN PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'GB'||chr(39)||','||chr(39)||'PL'||chr(39)||') THEN '||chr(39)||'ACS'||chr(39)||' 
+                          WHEN PLA.CAD_PLA_CD_PLANO_HAC = ''S077'' AND PLA.CAD_PLA_CD_TIPOPLANO IN (''FU'') THEN ''FU-S077''
+                          ELSE PLA.CAD_PLA_CD_TIPOPLANO END,
+                     CASE WHEN CCP.FAT_NOF_ID IS NOT NULL THEN '||CHR(39)||'FATURADO'||CHR(39)||'
+                 WHEN CCP.FAT_CCP_FL_STATUS_AUDIT = '||CHR(39)||'E'||CHR(39)||' THEN '||CHR(39)||'AUDITORIA'||CHR(39)||'
+                 WHEN CCP.FAT_CCP_FL_FATURADA = '||CHR(39)||'S'||CHR(39)||' AND CCP.FAT_NOF_ID IS NULL THEN '||CHR(39)||'LOTE'||CHR(39)||'
+                 WHEN CCP.FAT_CCP_FL_EMITIDA = '||CHR(39)||'S'||CHR(39)||' AND CCP.FAT_CCP_FL_FATURADA = '||CHR(39)||'N'||CHR(39)||'
+                      AND (CCP.FAT_CCP_FL_STATUS_AUDIT = '||CHR(39)||'A'||CHR(39)||' OR CCP.FAT_CCP_DT_ENVIO_AUDIT IS NULL) THEN '||CHR(39)||'EMITIDO'||CHR(39)||'
+                 WHEN CCI.FAT_CCP_ID IS NULL THEN '||CHR(39)||'DIGITADO'||CHR(39)||'
+                 END,
+                      CASE WHEN MCC.FAT_TCO_ID != 10 THEN '||chr(39)||'SEMDIF'||chr(39)||'
+                           WHEN MCC.FAT_TCO_ID = 10  THEN '||chr(39)||'COMDIF'||chr(39)||'
+                      END
+            ) EMITIDOS
+            ON  EMITIDOS.CAD_UNI_ID_UNIDADE           = UNI.CAD_UNI_ID_UNIDADE
+            AND EMITIDOS.CAD_LAT_ID_LOCAL_ATENDIMENTO = LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO
+            AND EMITIDOS.CAD_PLA_CD_TIPOPLANO         = CASE WHEN TP_PLA.CAD_PLA_CD_TIPOPLANO IN ('||chr(39)||'GB'||chr(39)||','||chr(39)||'PL'||chr(39)||') THEN '||chr(39)||'ACS'||chr(39)||' ELSE TP_PLA.CAD_PLA_CD_TIPOPLANO END
+            AND EMITIDOS.DIF                          = DIFERENCA.DIF
+    WHERE   UNI.CAD_UNI_FL_FATURA_UNID_OK = '||chr(39)||'S'||chr(39)||'
+   -- )
+  --  WHERE (EMITIDOS > 0 OR DIGITADOS > 0  OR FATURADOS > 0 OR  FATURADOS_NOF > 0)
+     UNION
+    SELECT  '||chr(39)||'PARTICULAR'||chr(39)||' TIPO_PLANO, --LEGADO(AMB)
+            0 DESPESA_RECEITA,
+            '||chr(39)||'AMBULATORIO'||chr(39)||' LOCAL_ATENDIMENTO,
+            LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+            UNI.CAD_UNI_ID_UNIDADE,
+            UNI.CAD_UNI_DS_UNIDADE,
+            NULL DIF,
+            0 DIGITADOS,
+            0 EMITIDOS,
+            0 AUDITORIA,
+            0 FATURADOS,
+            NVL(SUM(FATURADOS_NOF.TOTAL),0) FATURADOS_NOF,
+            NVL(SUM(FATURADOS_NOF.TOTAL) ,0) TOTAL
+    FROM    TB_CAD_UNI_UNIDADE UNI
+    JOIN    TB_ASS_ULO_UNID_LOCAL ULO        ON   UNI.CAD_UNI_ID_UNIDADE = ULO.CAD_UNI_ID_UNIDADE
+    JOIN    TB_CAD_LAT_LOCAL_ATENDIMENTO LAT ON   ULO.CAD_LAT_ID_LOCAL_ATENDIMENTO = LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO
+          LEFT JOIN  (
+             SELECT   '||chr(39)||'PARTICULAR'||chr(39)||' TIPO_PLANO,
+                       27 CAD_LAT_ID_LOCAL_ATENDIMENTO,
+                       '||chr(39)||'AMBULATORIO'||chr(39)||' CAD_LAT_DS_LOCAL_ATENDIMENTO ,
+                       U.CAD_UNI_ID_UNIDADE,
+                       U.CAD_UNI_DS_UNIDADE,
+                       SUM(NVL(F.VALTOTNF,0)) + SUM(NVL(F.VL_DESCONTO_ISS,0)) TOTAL
+           FROM  TB_NOTA_FISCAL F, TB_CAD_UNI_UNIDADE U
+           WHERE F.TIPONF = '||chr(39)||'AMB'||chr(39)||'
+           AND F.CODUNIHOS = U.CAD_UNI_CD_UNID_HOSPITALAR
+           AND TO_CHAR(DATNF,'||chr(39)||'mmyyyy'||chr(39)||') = trim(to_char('||chr(39)|| pFAT_CCP_MES_FAT ||chr(39)|| ','||chr(39)||'00'||chr(39)||') || to_char('||chr(39)|| pFAT_CCP_ANO_FAT ||chr(39)||'))
+           AND F.SITNF != '||chr(39)||'C'||chr(39)||'
+           AND NOT (F.CODCXA = 2 AND F.CODUNIHOS = 6)
+           AND ('||chr(39)|| pCAD_UNI_ID_UNIDADE ||chr(39)||' IS NULL OR U.CAD_UNI_ID_UNIDADE in (select column_value from table(fnc_split(''' || pCAD_UNI_ID_UNIDADE || '''))))
+           AND (
+               ('||chr(39)|| pCAD_PLA_CD_TIPOPLANO_PA ||chr(39)||' IS NOT NULL)
+               OR (rownum =0)
+               )
+             GROUP BY '||chr(39)||'PARTICULAR'||chr(39)||' ,
+                       27 ,
+                       '||chr(39)||'AMBULATORIO'||chr(39)||' ,
+                       U.CAD_UNI_ID_UNIDADE,
+                       U.CAD_UNI_DS_UNIDADE
+           HAVING SUM(NVL(F.VALTOTNF,0)) + SUM(NVL(F.VL_DESCONTO_ISS,0)) > 0
+            ) FATURADOS_NOF
+         ON FATURADOS_NOF.CAD_UNI_ID_UNIDADE            = UNI.CAD_UNI_ID_UNIDADE
+         AND FATURADOS_NOF.CAD_LAT_ID_LOCAL_ATENDIMENTO = LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO
+    WHERE   UNI.CAD_UNI_FL_FATURA_UNID_OK = '||chr(39)||'S'||chr(39)||'
+    group by LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+            UNI.CAD_UNI_ID_UNIDADE,
+            UNI.CAD_UNI_DS_UNIDADE
+     having NVL(SUM(FATURADOS_NOF.TOTAL),0) > 0
+    )
+    WHERE (EMITIDOS > 0 OR DIGITADOS > 0 OR AUDITORIA > 0 OR FATURADOS > 0 OR FATURADOS_NOF > 0 )';
+  --TESTE :=  V_SELECT ;
+  --DBMS_OUTPUT.put_line(V_SELECT);
+  OPEN v_cursor FOR
+   V_SELECT ;
+    io_cursor := v_cursor;
+END PRC_FAT_REL_MOV_CONTA_PREVIA;

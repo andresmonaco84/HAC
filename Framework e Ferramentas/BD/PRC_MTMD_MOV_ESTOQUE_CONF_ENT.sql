@@ -1,0 +1,328 @@
+CREATE OR REPLACE PROCEDURE SGS.PRC_MTMD_MOV_ESTOQUE_CONF_ENT
+  (
+     pMTMD_MOV_MES IN NUMBER DEFAULT NULL,
+     pMTMD_MOV_ANO IN NUMBER DEFAULT NULL,
+     pCAD_MTMD_FILIAL_ID IN TB_MTMD_MOV_ESTOQUE_DIA.CAD_MTMD_FILIAL_ID%type DEFAULT NULL,
+     pTROCA_GRUPOS IN NUMBER DEFAULT NULL, -- 0 ou 1 (se 0 = Relatorio para conferencia do total de notas fiscais e grupo de mat/med)
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_MTMD_MOV_ESTOQUE_CONF_ENT
+  *
+  *    Data Criacao:   11/07/2011   Por: Andre Souza Monaco
+  *
+  *    Funcao: Relatorio de conferencia de entradas RM x SGS
+  *            (GM_MovimentacaoMensal_EntradasConf e GM_MovimentacaoMensal_TrocaGrupoConf)
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  vUnidade TB_MTMD_MOV_ESTOQUE_MES.CAD_UNI_ID_UNIDADE%type := 244; --SANTOS
+  dDataIni DATE;
+  dDataFim DATE;
+  sMes     VARCHAR2(2);
+  BEGIN
+  IF (  LENGTH(TO_CHAR(pMTMD_MOV_MES)) = 1 ) THEN
+     sMes := '0'||TO_CHAR(pMTMD_MOV_MES);
+  ELSE
+     sMes := TO_CHAR(pMTMD_MOV_MES);
+  END IF;
+  dDataIni := TO_DATE( '01'||sMes||TO_CHAR(pMTMD_MOV_ANO)||' 0000','DDMMYYYY HH24MI');
+  dDatafIM := TO_DATE( TO_CHAR(LAST_DAY(dDataIni),'DDMMYYYY')||' 2359','DDMMYYYY HH24MI');
+  IF (NVL(pTROCA_GRUPOS,0)=0) THEN
+     OPEN v_cursor FOR
+     SELECT '0' REL_AGRUPAR, 'TOTAL NOTAS - RM CONTABILIZADO' AGRUPAMENTO, NULL VAL_ENTRADA FROM DUAL
+     UNION ALL
+     SELECT '0' REL_AGRUPAR, CODTMV AGRUPAMENTO, VALOR_REL VAL_ENTRADA FROM
+     (SELECT
+            CODTMV,
+            SUM(DECODE(CODTMV, '2.2.03', -TITMMOV.VALORFINANCEIRO, TITMMOV.VALORFINANCEIRO)) VALOR_REL
+      FROM  TMOV@RMDB TMOV,
+            FCFOCOMPL@RMDB FCFOCOMPL,
+            TITMMOV@RMDB TITMMOV,
+            TPRODUTO@RMDB TPRD,
+            --TUND@RMDB TUND,
+            TTRBMOV@RMDB TTRBMOV,
+            TTRBMOV@RMDB TTRBMOV_ICMS,
+            --TUND@RMDB TUNDVENDA,
+            MTM_MAT_MED M,
+            TB_CAD_MTMD_MAT_MED MTMD,
+            TB_CAD_MTMD_GRUPO GRUPO
+     WHERE (       CODTMV = '1.2.41'
+               OR  CODTMV = '1.2.45'
+               OR  CODTMV = '1.2.46'
+               OR  CODTMV = '1.2.47'
+               OR  CODTMV = '1.2.48'
+               OR  CODTMV = '1.2.51'
+               OR  CODTMV = '1.2.56'
+               OR  CODTMV = '1.2.58'
+               OR  CODTMV = '1.2.62'
+               OR  CODTMV = '1.2.70'
+               OR  CODTMV = '2.2.03')
+     AND GRUPO.CAD_MTMD_GRUPO_ID = TITMMOV.CODTB3FAT
+     AND TMOV.CODCOLIGADA = FCFOCOMPL.CODCOLIGADA(+)
+     AND TMOV.CODCFO = FCFOCOMPL.CODCFO(+)
+     AND TITMMOV.CODCOLIGADA = TPRD.CODCOLPRD
+     AND TITMMOV.IDPRD = TPRD.IDPRD
+     AND TMOV.CODCOLIGADA = TITMMOV.CODCOLIGADA
+     AND TMOV.IDMOV = TITMMOV.IDMOV
+     --AND TUND.CODUND = TITMMOV.CODUND
+     --AND TUNDVENDA.CODUND = TPRD.CODUNDVENDA
+     AND TTRBMOV.CODCOLIGADA(+)  = TITMMOV.CODCOLIGADA
+     AND TTRBMOV.IDMOV(+)        = TITMMOV.IDMOV
+     AND TTRBMOV.NSEQITMMOV(+)   = TITMMOV.NSEQITMMOV
+     AND TTRBMOV.CODTRB(+)       = 'IPI'
+     AND TTRBMOV_ICMS.CODCOLIGADA(+)  = TITMMOV.CODCOLIGADA
+     AND TTRBMOV_ICMS.IDMOV(+)        = TITMMOV.IDMOV
+     AND TTRBMOV_ICMS.NSEQITMMOV(+)   = TITMMOV.NSEQITMMOV
+     AND TTRBMOV_ICMS.CODTRB(+)       = 'ICMS'
+     AND TMOV.DATASAIDA >= dDataIni
+     AND TMOV.DATASAIDA <= dDataFim
+     AND M.CODALFMAT(+)  = SUBSTR(TPRD.CODIGOPRD,1,7)
+     AND TMOV.CODCOLIGADA IN (1,2)
+     --AND MTMD.CAD_MTMD_CD_RM(+) = TPRD.IDPRD
+     AND TRIM(MTMD.CAD_MTMD_CODMNE) = TRIM(TPRD.CODIGOPRD)
+     AND (pCAD_MTMD_FILIAL_ID = 2 OR (TMOV.codfilial != 51 AND TMOV.CODCOLIGADA = 1))
+     AND (pCAD_MTMD_FILIAL_ID = 1 OR (TMOV.codfilial  = 51 OR TMOV.CODCOLIGADA = 2))
+     GROUP BY CODTMV
+     ORDER BY CODTMV)
+     UNION ALL
+     SELECT '1' REL_AGRUPAR, 'TOTAL GRUPO - RM CONTABILIZADO', NULL FROM DUAL
+     UNION ALL
+     SELECT '1' REL_AGRUPAR, CAD_MTMD_GRUPO_DESCRICAO AGRUPAMENTO, VALOR_REL VAL_ENTRADA FROM
+     (SELECT GRUPO.CAD_MTMD_GRUPO_DESCRICAO,
+            SUM(DECODE(CODTMV, '2.2.03', -TITMMOV.VALORFINANCEIRO, TITMMOV.VALORFINANCEIRO)) VALOR_REL
+      FROM  TMOV@RMDB TMOV,
+            FCFOCOMPL@RMDB FCFOCOMPL,
+            TITMMOV@RMDB TITMMOV,
+            TPRODUTO@RMDB TPRD,
+            --TUND@RMDB TUND,
+            TTRBMOV@RMDB TTRBMOV,
+            TTRBMOV@RMDB TTRBMOV_ICMS,
+            --TUND@RMDB TUNDVENDA,
+            MTM_MAT_MED M,
+            TB_CAD_MTMD_MAT_MED MTMD,
+            TB_CAD_MTMD_GRUPO GRUPO
+     WHERE (       CODTMV = '1.2.41'
+               OR  CODTMV = '1.2.45'
+               OR  CODTMV = '1.2.46'
+               OR  CODTMV = '1.2.47'
+               OR  CODTMV = '1.2.48'
+               OR  CODTMV = '1.2.51'
+               OR  CODTMV = '1.2.56'
+               OR  CODTMV = '1.2.58'
+               OR  CODTMV = '1.2.62'
+               OR  CODTMV = '1.2.70'
+               OR  CODTMV = '2.2.03')
+     AND GRUPO.CAD_MTMD_GRUPO_ID = TITMMOV.CODTB3FAT
+     AND TMOV.CODCOLIGADA = FCFOCOMPL.CODCOLIGADA(+)
+     AND TMOV.CODCFO = FCFOCOMPL.CODCFO(+)
+     AND TITMMOV.CODCOLIGADA = TPRD.CODCOLPRD
+     AND TITMMOV.IDPRD = TPRD.IDPRD
+     AND TMOV.CODCOLIGADA = TITMMOV.CODCOLIGADA
+     AND TMOV.IDMOV = TITMMOV.IDMOV
+     --AND TUND.CODUND = TITMMOV.CODUND
+     --AND TUNDVENDA.CODUND = TPRD.CODUNDVENDA
+     AND TTRBMOV.CODCOLIGADA(+)  = TITMMOV.CODCOLIGADA
+     AND TTRBMOV.IDMOV(+)        = TITMMOV.IDMOV
+     AND TTRBMOV.NSEQITMMOV(+)   = TITMMOV.NSEQITMMOV
+     AND TTRBMOV.CODTRB(+)       = 'IPI'
+     AND TTRBMOV_ICMS.CODCOLIGADA(+)  = TITMMOV.CODCOLIGADA
+     AND TTRBMOV_ICMS.IDMOV(+)        = TITMMOV.IDMOV
+     AND TTRBMOV_ICMS.NSEQITMMOV(+)   = TITMMOV.NSEQITMMOV
+     AND TTRBMOV_ICMS.CODTRB(+)       = 'ICMS'
+     AND TMOV.DATASAIDA >= dDataIni
+     AND TMOV.DATASAIDA <= dDataFim
+     AND M.CODALFMAT(+)  = SUBSTR(TPRD.CODIGOPRD,1,7)
+     AND TMOV.CODCOLIGADA IN (1,2)
+     --AND MTMD.CAD_MTMD_CD_RM(+) = TPRD.IDPRD
+     AND TRIM(MTMD.CAD_MTMD_CODMNE) = TRIM(TPRD.CODIGOPRD)
+     AND (pCAD_MTMD_FILIAL_ID = 2 OR (TMOV.codfilial != 51 AND TMOV.CODCOLIGADA = 1))
+     AND (pCAD_MTMD_FILIAL_ID = 1 OR (TMOV.codfilial  = 51 OR TMOV.CODCOLIGADA = 2))
+     GROUP BY TITMMOV.CODTB3FAT, GRUPO.CAD_MTMD_GRUPO_DESCRICAO
+     ORDER BY TITMMOV.CODTB3FAT, GRUPO.CAD_MTMD_GRUPO_DESCRICAO)
+     UNION ALL
+     SELECT '2' REL_AGRUPAR, 'TOTAL GRUPO - MOVIMENTO SGS', NULL FROM DUAL
+     UNION ALL
+     SELECT '2' REL_AGRUPAR, CAD_MTMD_GRUPO_DESCRICAO AGRUPAMENTO, VAL_ENTRADA FROM
+     (SELECT GRUPO.CAD_MTMD_GRUPO_DESCRICAO,
+             SUM(MOV.MTMD_VALOR_ENTRADA) VAL_ENTRADA
+     FROM TB_MTMD_MOV_ESTOQUE_DIA MOV,
+          TB_CAD_MTMD_GRUPO GRUPO
+      WHERE GRUPO.CAD_MTMD_GRUPO_ID = MOV.CAD_MTMD_GRUPO_ID
+      AND   MOV.MTMD_MOV_DATA >= dDataIni
+      AND   MOV.MTMD_MOV_DATA <= dDataFim
+      AND   MOV.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID
+      AND   MOV.CAD_MTMD_TPMOV_ID = 1
+      AND   MOV.CAD_MTMD_SUBTP_ID = 1
+      GROUP BY MOV.CAD_MTMD_GRUPO_ID, GRUPO.CAD_MTMD_GRUPO_DESCRICAO
+      ORDER BY MOV.CAD_MTMD_GRUPO_ID, GRUPO.CAD_MTMD_GRUPO_DESCRICAO);
+  ELSE
+       OPEN v_cursor FOR
+       SELECT
+                TMOV.IDMOV,
+                TMOV.NUMEROMOV,
+                TMOV.CODTMV,
+                MTMD.CAD_MTMD_NOMEFANTASIA || ' - ' || MTMD.CAD_MTMD_CODMNE PRODUTO,
+                (SELECT G.CAD_MTMD_GRUPO_DESCRICAO FROM TB_CAD_MTMD_GRUPO G WHERE G.CAD_MTMD_GRUPO_ID = TITMMOV.CODTB3FAT) GRUPO_ENTRADA_RM,
+                (SELECT G.CAD_MTMD_GRUPO_DESCRICAO FROM TB_CAD_MTMD_GRUPO G WHERE
+                        G.CAD_MTMD_GRUPO_ID = (SELECT DISTINCT CAD_MTMD_GRUPO_ID
+                                                  FROM TB_MTMD_MOV_ESTOQUE_DIA WHERE
+                                                  CAD_MTMD_TPMOV_ID = 1
+                                                  AND CAD_MTMD_SUBTP_ID = 1
+                                                  AND CAD_MTMD_FILIAL_ID = PCAD_MTMD_FILIAL_ID
+                                                  AND CAD_MTMD_ID = MTMD.CAD_MTMD_ID
+                                                  AND MTMD_MOV_DATA = TMOV.DATASAIDA)) GRUPO_REL_SGS,
+                TITMMOV.VALORFINANCEIRO VALOR_REL
+          FROM  TMOV@RMDB TMOV,
+                FCFOCOMPL@RMDB FCFOCOMPL,
+                TITMMOV@RMDB TITMMOV,
+                TPRODUTO@RMDB TPRD,
+                --TUND@RMDB TUND,
+                TTRBMOV@RMDB TTRBMOV,
+                TTRBMOV@RMDB TTRBMOV_ICMS,
+                --TUND@RMDB TUNDVENDA,
+                MTM_MAT_MED M,
+                TB_CAD_MTMD_MAT_MED MTMD
+     WHERE (       CODTMV = '1.2.41'
+               OR  CODTMV = '1.2.45'
+               OR  CODTMV = '1.2.46'
+               OR  CODTMV = '1.2.47'
+               OR  CODTMV = '1.2.48'
+               OR  CODTMV = '1.2.51'
+               OR  CODTMV = '1.2.56'
+               OR  CODTMV = '1.2.58'
+               OR  CODTMV = '1.2.62'
+               OR  CODTMV = '1.2.70'
+               OR  CODTMV = '1.2.64')
+     AND TMOV.CODCOLIGADA = FCFOCOMPL.CODCOLIGADA(+)
+     AND TMOV.CODCFO = FCFOCOMPL.CODCFO(+)
+     AND TITMMOV.CODCOLIGADA = TPRD.CODCOLPRD
+     AND TITMMOV.IDPRD = TPRD.IDPRD
+     AND TMOV.CODCOLIGADA = TITMMOV.CODCOLIGADA
+     AND TMOV.IDMOV = TITMMOV.IDMOV
+     --AND TUND.CODUND = TITMMOV.CODUND
+     --AND TUNDVENDA.CODUND = TPRD.CODUNDVENDA
+     AND TTRBMOV.CODCOLIGADA(+)  = TITMMOV.CODCOLIGADA
+     AND TTRBMOV.IDMOV(+)        = TITMMOV.IDMOV
+     AND TTRBMOV.NSEQITMMOV(+)   = TITMMOV.NSEQITMMOV
+     AND TTRBMOV.CODTRB(+)       = 'IPI'
+     AND TTRBMOV_ICMS.CODCOLIGADA(+)  = TITMMOV.CODCOLIGADA
+     AND TTRBMOV_ICMS.IDMOV(+)        = TITMMOV.IDMOV
+     AND TTRBMOV_ICMS.NSEQITMMOV(+)   = TITMMOV.NSEQITMMOV
+     AND TTRBMOV_ICMS.CODTRB(+)       = 'ICMS'
+     --AND TMOV.DATASAIDA >= TO_DATE('01062011 0000','DDMMYYYY  HH24MI')  AND TMOV.DATASAIDA <= TO_DATE('30062011 2359','DDMMYYYY HH24MI')
+     AND trunc(TMOV.DATASAIDA) >= trunc(dDataIni) AND trunc(TMOV.DATASAIDA) <= trunc(dDataFim)
+     AND M.CODALFMAT(+)  = SUBSTR(TPRD.CODIGOPRD,1,7)
+     AND TMOV.CODCOLIGADA IN (1,2)
+     --AND MTMD.CAD_MTMD_CD_RM(+) = TPRD.IDPRD
+     AND TRIM(MTMD.CAD_MTMD_CODMNE) = TRIM(TPRD.CODIGOPRD)
+     AND (pCAD_MTMD_FILIAL_ID = 2 OR (TMOV.codfilial != 51 AND TMOV.CODCOLIGADA = 1))
+     AND (pCAD_MTMD_FILIAL_ID = 1 OR (TMOV.codfilial  = 51 OR TMOV.CODCOLIGADA = 2))
+     AND TITMMOV.CODTB3FAT != (
+                               SELECT DISTINCT CAD_MTMD_GRUPO_ID
+                                FROM TB_MTMD_MOV_ESTOQUE_DIA WHERE
+                                CAD_MTMD_TPMOV_ID = 1
+                                AND CAD_MTMD_SUBTP_ID = 1
+                                AND CAD_MTMD_FILIAL_ID = PCAD_MTMD_FILIAL_ID
+                                AND CAD_MTMD_ID = MTMD.CAD_MTMD_ID
+                                AND MTMD_MOV_DATA = TMOV.DATASAIDA
+                                --and rownum = 1
+                               );
+      /*UNION ALL
+      SELECT NULL IDMOV,
+             NULL NUMEROMOV,
+             NULL CODTMV,
+             MTMD.CAD_MTMD_NOMEFANTASIA || ' - ' || MTMD.CAD_MTMD_CODMNE PRODUTO,
+           (
+           SELECT G.CAD_MTMD_GRUPO_DESCRICAO
+             FROM TB_MTMD_MOV_ESTOQUE_DIA E,
+                  TB_CAD_MTMD_GRUPO G
+             WHERE G.CAD_MTMD_GRUPO_ID          = E.CAD_MTMD_GRUPO_ID
+             AND   CAD_MTMD_TPMOV_ID            = 0
+             AND   CAD_MTMD_SUBTP_ID            = 0
+             AND   CAD_MTMD_ID = MTMD.CAD_MTMD_ID
+             AND   MTMD_MOV_DATA = dDataIni
+             AND   CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID
+           ) GRUPO_ANTERIOR,
+           (
+           SELECT CAD_MTMD_GRUPO_DESCRICAO FROM
+               (SELECT G.CAD_MTMD_GRUPO_DESCRICAO, CAD_MTMD_ID
+                 FROM TB_MTMD_MOV_ESTOQUE_DIA E,
+                      TB_CAD_MTMD_GRUPO G
+                 WHERE G.CAD_MTMD_GRUPO_ID          = E.CAD_MTMD_GRUPO_ID
+                 AND   CAD_MTMD_TPMOV_ID            = 2
+                 AND   MTMD_MOV_DATA >= dDataIni
+                 AND   MTMD_MOV_DATA <= dDataFim
+                 AND   CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID ORDER BY MTMD_MOV_DATA DESC)
+             WHERE CAD_MTMD_ID = MTMD.CAD_MTMD_ID AND ROWNUM = 1
+           ) GRUPO_ATUAL,
+           --LINHA_ZERO.MTMD_VALOR_ANTERIOR VALOR_ANTERIOR,
+           --LINHA_ZERO.MTMD_VALOR_ATUAL VALOR_ATUAL,
+           LINHA_ZERO.MTMD_VALOR_ANTERIOR - LINHA_ZERO.MTMD_VALOR_ATUAL VALOR_DIF
+      FROM TB_CAD_MTMD_MAT_MED MTMD,
+           TB_MTMD_MOV_ESTOQUE_DIA DIAP,
+           (
+             SELECT *
+             FROM TB_MTMD_MOV_ESTOQUE_DIA
+             WHERE MTMD_MOV_DATA                = dDataIni
+             AND   ( CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID )
+             AND CAD_MTMD_ID IN (SELECT DISTINCT D.CAD_MTMD_ID FROM TB_MTMD_MOV_ESTOQUE_DIA D
+                                  WHERE D.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID
+                                    AND D.MTMD_MOV_DATA >= dDataIni
+                                  --AND D.CAD_MTMD_GRUPO_ID IN (1, 6)
+                                  AND D.CAD_MTMD_TPMOV_ID != 0 --AND D.CAD_MTMD_SUBTP_ID = 0
+                                  AND D.CAD_MTMD_GRUPO_ID != (SELECT CAD_MTMD_GRUPO_ID FROM TB_MTMD_MOV_ESTOQUE_DIA E WHERE
+                                                              MTMD_MOV_DATA = dDataIni
+                                                              AND E.CAD_MTMD_TPMOV_ID = 0 AND E.CAD_MTMD_ID = D.CAD_MTMD_ID
+                                                              AND E.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID))
+             AND   CAD_LAT_ID_LOCAL_ATENDIMENTO = 33
+             AND   CAD_UNI_ID_UNIDADE           = 244
+             AND   CAD_SET_ID                   = 29
+             AND   CAD_MTMD_TPMOV_ID            = 0
+             AND   CAD_MTMD_SUBTP_ID            = 0
+           ) LINHA_ZERO,
+           (
+             SELECT *
+             FROM TB_MTMD_MOV_ESTOQUE_DIA
+             WHERE CAD_MTMD_TPMOV_ID            = 1
+             AND   CAD_MTMD_SUBTP_ID            = 1
+             AND CAD_MTMD_ID IN (SELECT DISTINCT D.CAD_MTMD_ID FROM TB_MTMD_MOV_ESTOQUE_DIA D
+                                  WHERE D.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID
+                                    AND D.MTMD_MOV_DATA >= dDataIni
+                                  --AND D.CAD_MTMD_GRUPO_ID IN (1, 6)
+                                  AND D.CAD_MTMD_TPMOV_ID != 0 --AND D.CAD_MTMD_SUBTP_ID = 0
+                                  AND D.CAD_MTMD_GRUPO_ID != (SELECT CAD_MTMD_GRUPO_ID FROM TB_MTMD_MOV_ESTOQUE_DIA E WHERE
+                                                              MTMD_MOV_DATA = dDataIni
+                                                              AND E.CAD_MTMD_TPMOV_ID = 0 AND E.CAD_MTMD_ID = D.CAD_MTMD_ID
+                                                              AND E.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID))
+             AND   MTMD_MOV_DATA >= dDataIni
+             AND   MTMD_MOV_DATA <= dDataFim
+             AND   ( CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID )
+           ) NOTAS
+      WHERE DIAP.MTMD_MOV_DATA >= dDataIni
+      AND   DIAP.MTMD_MOV_DATA <= dDataFim
+      AND   ( DIAP.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID )
+      AND   MTMD.CAD_MTMD_ID                    = DIAP.CAD_MTMD_ID
+      AND  LINHA_ZERO.CAD_MTMD_ID(+)               = DIAP.CAD_MTMD_ID
+      AND  LINHA_ZERO.CAD_MTMD_FILIAL_ID(+)        = DIAP.CAD_MTMD_FILIAL_ID
+      --AND  LINHA_ZERO.CAD_MTMD_GRUPO_ID(+)         = DIAP.CAD_MTMD_GRUPO_ID
+      AND  NOTAS.MTMD_MOV_DATA(+)       = DIAP.MTMD_MOV_DATA
+      AND  NOTAS.CAD_MTMD_ID(+)         = DIAP.CAD_MTMD_ID
+      AND  NOTAS.CAD_MTMD_FILIAL_ID(+)  = DIAP.CAD_MTMD_FILIAL_ID
+      AND  NOTAS.CAD_MTMD_TPMOV_ID(+)   = DIAP.CAD_MTMD_TPMOV_ID
+      AND  NOTAS.CAD_MTMD_SUBTP_ID(+)   = DIAP.CAD_MTMD_SUBTP_ID
+      AND NOT LINHA_ZERO.CAD_MTMD_FILIAL_ID IS NULL
+      GROUP BY MTMD.CAD_MTMD_ID,
+               MTMD.CAD_MTMD_CODMNE,
+               DIAP.CAD_MTMD_FILIAL_ID,
+               MTMD.CAD_MTMD_NOMEFANTASIA,
+               LINHA_ZERO.MTMD_CUSTO_MEDIO_ANTERIOR,
+               LINHA_ZERO.MTMD_SALDO_ATUAL,
+               LINHA_ZERO.MTMD_CUSTO_MEDIO_ATUAL,
+               LINHA_ZERO.MTMD_VALOR_ATUAL,
+               LINHA_ZERO.MTMD_SALDO_ANTERIOR,
+               LINHA_ZERO.MTMD_VALOR_ANTERIOR
+      HAVING SUM(NVL(DIAP.MTMD_SALDO_ANTERIOR,0)+NVL(DIAP.MTMD_SALDO_ATUAL,0)+ NVL(DIAP.MTMD_QTDE_ENTRADA,0)+ NVL(DIAP.MTMD_QTDE_SAIDA,0)+ NVL(LINHA_ZERO.MTMD_VALOR_ANTERIOR,0) ) > 0;*/
+  END IF;
+  io_cursor := v_cursor;
+end PRC_MTMD_MOV_ESTOQUE_CONF_ENT;

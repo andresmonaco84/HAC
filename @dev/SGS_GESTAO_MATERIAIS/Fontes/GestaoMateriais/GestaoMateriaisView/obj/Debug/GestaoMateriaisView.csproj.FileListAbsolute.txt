@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Debug\GestaoMateriais\GestaoMateriaisView.dll
+C:\TFS\SGS\@dev\DLL\_Debug\GestaoMateriais\GestaoMateriaisView.pdb
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\GestaoMateriais\GestaoMateriaisView\obj\Debug\GestaoMateriaisView.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\GestaoMateriais\GestaoMateriaisView\obj\Debug\GestaoMateriaisView.dll
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\GestaoMateriais\GestaoMateriaisView\obj\Debug\GestaoMateriaisView.pdb

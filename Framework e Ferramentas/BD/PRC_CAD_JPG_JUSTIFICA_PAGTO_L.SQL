@@ -1,0 +1,42 @@
+--PRC_CAD_JPG_JUSTIFICA_PAGTO_L
+create or replace procedure PRC_CAD_JPG_JUSTIFICA_PAGTO_L 
+(
+     pID_CAD_JPG IN TB_CAD_JPG_JUSTIFICA_PAGTO.ID_CAD_JPG%type DEFAULT NULL,
+     pCAD_JPG_DS_JUSTIFICATIVA IN TB_CAD_JPG_JUSTIFICA_PAGTO.CAD_JPG_DS_JUSTIFICATIVA%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_CAD_JPG_JUSTIFICA_PAGTO.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pCAD_JPG_DT_ULTIMA_ATUALIZACAO IN TB_CAD_JPG_JUSTIFICA_PAGTO.CAD_JPG_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_JPG_JUSTIFICA_PAGTO_L
+* 
+*    Data Criacao: 	  28/02/2012         Por: Fabíola Lopes
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Lista as Justificativas de Pagamento
+*
+*******************************************************************/  
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pID_CAD_JPG IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ID_CAD_JPG = ' || pID_CAD_JPG; END IF;
+IF pCAD_JPG_DS_JUSTIFICATIVA IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_JPG_DS_JUSTIFICATIVA = ' || CHR(39) || pCAD_JPG_DS_JUSTIFICATIVA || CHR(39); END IF;
+IF pSEG_USU_ID_USUARIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_USU_ID_USUARIO = ' || pSEG_USU_ID_USUARIO; END IF;
+IF pCAD_JPG_DT_ULTIMA_ATUALIZACAO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_JPG_DT_ULTIMA_ATUALIZACAO = ' || CHR(39) || pCAD_JPG_DT_ULTIMA_ATUALIZACAO || CHR(39); END IF;
+ 
+   V_SELECT := '
+SELECT	
+       ID_CAD_JPG,
+       CAD_JPG_DS_JUSTIFICATIVA,
+       SEG_USU_ID_USUARIO,
+       CAD_JPG_DT_ULTIMA_ATUALIZACAO
+FROM TB_CAD_JPG_JUSTIFICA_PAGTO
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_CAD_JPG_JUSTIFICA_PAGTO_L;

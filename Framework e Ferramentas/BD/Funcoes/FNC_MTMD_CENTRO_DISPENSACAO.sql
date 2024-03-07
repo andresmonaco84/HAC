@@ -1,0 +1,65 @@
+create or replace function FNC_MTMD_CENTRO_DISPENSACAO
+(
+     pCAD_UNI_ID_UNIDADE           IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%type,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_CAD_LAT_LOCAL_ATENDIMENTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%TYPE,
+     pCAD_SET_ID                   IN TB_CAD_SET_SETOR.CAD_SET_ID%TYPE
+) RETURN NUMBER IS
+
+
+/***********************************************************************************************
+*    Function: FNC_MTMD_CENTRO_DISPENSACAO
+*
+*    Data Criacao:   06/08/2010 Por: Ricardo Costa
+*    Data Alteracao:             Por:
+*         Descrição:
+*
+*    Funcao: VERIFICA SE TIPO DE ESTOQUE É CENTRO DE DISPENSACAO RETORN0 1= CENTRO DE DISPENSACAO / 0 = SETOR NORMAL
+*************************************************************************************************/
+
+SIM                CONSTANT NUMBER := 1;
+nCENTRODISPENSACAO NUMBER;
+nFARMACIA          NUMBER := 0;
+
+BEGIN
+   nCENTRODISPENSACAO := 0;
+   -- VERIFICO SE OUTROS SETORES DEPENDE DELE PARA SER ABASTECIDO
+   BEGIN
+      SELECT 1
+      INTO   nCENTRODISPENSACAO
+      FROM TB_CAD_SET_SETOR SETOR
+      WHERE SETOR.CAD_SET_UNIDADE_ALMOX = pCAD_UNI_ID_UNIDADE
+      AND   SETOR.CAD_SET_LOCAL_ALMOX   = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+      AND   SETOR.CAD_SET_SETOR_ALMOX   = pCAD_SET_ID;
+   EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+         -- NAO ACHOU OUTRAS UNIDADES VERIFICA SE É ALMOX CENTRAL
+         BEGIN
+            SELECT 1
+            INTO   nCENTRODISPENSACAO
+            FROM TB_CAD_SET_SETOR SETOR
+            WHERE SETOR.CAD_UNI_ID_UNIDADE           = pCAD_UNI_ID_UNIDADE
+            AND   SETOR.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+            AND   SETOR.CAD_SET_ID                   = pCAD_SET_ID
+            AND   SETOR.CAD_SET_ALMOX_CENTRAL        = SIM;
+         EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+               SELECT COUNT(CAD_SET_ID)
+                 INTO nFARMACIA
+                 FROM TB_CAD_SET_SETOR
+                WHERE CAD_SET_SETOR_FARMACIA = pCAD_SET_ID; 
+             
+               IF (nFARMACIA > 0) THEN
+                 nCENTRODISPENSACAO := 1;  
+               ELSE
+                 -- NAO É CENTRAL TAMB´ME, ENTÃO É SETOR NORMAL
+                 nCENTRODISPENSACAO := 0;
+               END IF;
+         END;
+      WHEN TOO_MANY_ROWS THEN
+         -- RETORNOU VÁRIAS LINHAS OUTRAS UNIDADES DEPENDE DELE PARA SER ABASTECIDO
+         nCENTRODISPENSACAO := 1;
+   END;
+
+   RETURN nCENTRODISPENSACAO;
+
+END FNC_MTMD_CENTRO_DISPENSACAO;

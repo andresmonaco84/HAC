@@ -1,0 +1,99 @@
+CREATE OR REPLACE PROCEDURE "PRC_AGS_REL_PRODUTIV_USU"
+  (
+     PDT_INI_CONSULTA IN TB_AGS_AGE_AGENDA_SADT.AGS_AGE_DT_ATENDIMENTO%TYPE,
+     pDT_FIM_CONSULTA    IN TB_AGS_AGE_AGENDA_SADT.AGS_AGE_DT_ATENDIMENTO%TYPE,
+     pCAD_UNI_ID_UNIDADE IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%TYPE DEFAULT NULL,
+     PNM_UNIDADE IN TB_CAD_UNI_UNIDADE.CAD_UNI_DS_UNIDADE%TYPE DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_AGS_REL_PRODUTIV_USU
+  *
+  *   Data Criação:   21/08/2012    Por: Eduardo Hyppolito
+  *   Função: Mostrar Produtividade por Usuario - Agendamentos
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+  OPEN v_cursor FOR
+   SELECT
+                  UNIDADES.CAD_UNI_ID_UNIDADE,
+                  UNIDADES.CAD_UNI_DS_UNIDADE,
+                  USUARIOS.SEG_USU_ID_USUARIO,
+                  USUARIOS.SEG_USU_DS_NOME,
+                  USUARIOS.SEG_USU_CD_MATRICULA,
+                  NVL(AGENDAMENTOS_CANCELADOS.TOTAL_CANCELADOS,0) TOTAL_CANCELADOS,
+                  NVL(AGENDADOS.TOTAL_AGENDADOS,0) TOTAL_AGENDADOS
+
+ FROM             (SELECT UNI.CAD_UNI_ID_UNIDADE,UNI.CAD_UNI_DS_UNIDADE FROM TB_CAD_UNI_UNIDADE UNI
+                  JOIN TB_AGS_ESM_ESCALA_SADT ESM ON ESM.CAD_UNI_ID_UNIDADE   = UNI.CAD_UNI_ID_UNIDADE
+                  GROUP BY UNI.CAD_UNI_ID_UNIDADE,UNI.CAD_UNI_DS_UNIDADE
+                  ) UNIDADES
+
+LEFT JOIN         (SELECT USU.SEG_USU_ID_USUARIO,USU.SEG_USU_DS_NOME,USU.SEG_USU_CD_MATRICULA FROM TB_SEG_USU_USUARIO USU
+                  JOIN TB_AGS_AGE_AGENDA_SADT AGS ON AGS.SEG_USU_ID_USUARIO_AGENDA = USU.SEG_USU_ID_USUARIO
+                  GROUP BY USU.SEG_USU_ID_USUARIO,USU.SEG_USU_DS_NOME,USU.SEG_USU_CD_MATRICULA
+                  ) USUARIOS
+ON                1 = 1
+
+ LEFT JOIN         (SELECT COUNT(ESM.AGS_ESM_ID) TOTAL_AGENDADOS,
+                                ESM.CAD_UNI_ID_UNIDADE,
+                                AGS.SEG_USU_ID_USUARIO_AGENDA
+                                --ESM.CAD_SET_ID,
+                   FROM   TB_AGS_AGE_AGENDA_SADT AGS,
+                           TB_AGS_ESM_ESCALA_SADT ESM,
+                           TB_CAD_UNI_UNIDADE     UNI
+
+                    WHERE  AGS.AGS_ESM_ID = ESM.AGS_ESM_ID
+                    AND    ESM.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+                    AND (ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    --   AND (ATE.CAD_SET_ID = pCAD_SET_ID)
+                    AND    TRUNC(AGS.AGS_AGE_DT_AGENDAMENTO) BETWEEN PDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+                    GROUP BY ESM.CAD_UNI_ID_UNIDADE,
+                             AGS.SEG_USU_ID_USUARIO_AGENDA
+                     --ATE.CAD_SET_ID,
+                  )  AGENDADOS
+    ON  AGENDADOS.SEG_USU_ID_USUARIO_AGENDA  = USUARIOS.SEG_USU_ID_USUARIO
+    AND AGENDADOS.CAD_UNI_ID_UNIDADE       = UNIDADES.CAD_UNI_ID_UNIDADE
+
+LEFT JOIN         (SELECT COUNT(ESM.AGS_ESM_ID) TOTAL_CANCELADOS,
+                                ESM.CAD_UNI_ID_UNIDADE,
+                                AGC.SEG_USU_ID_USUARIO_CANC
+                                --ESM.CAD_SET_ID,
+                   FROM   TB_AGS_AGC_AGENDA_CANC_SADT AGC,
+                           TB_AGS_ESM_ESCALA_SADT     ESM,
+                           TB_CAD_UNI_UNIDADE         UNI
+
+                    WHERE  AGC.AGS_ESM_ID = ESM.AGS_ESM_ID
+                    AND    ESM.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+                    AND (ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    --   AND (ATE.CAD_SET_ID = pCAD_SET_ID)
+                    AND    TRUNC(AGC.AGS_AGC_DT_CANCELAMENTO) BETWEEN PDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+                    GROUP BY ESM.CAD_UNI_ID_UNIDADE,
+                             AGC.SEG_USU_ID_USUARIO_CANC
+                     --ATE.CAD_SET_ID,
+                  )  AGENDAMENTOS_CANCELADOS
+    ON  AGENDAMENTOS_CANCELADOS.SEG_USU_ID_USUARIO_CANC  = USUARIOS.SEG_USU_ID_USUARIO
+    AND AGENDAMENTOS_CANCELADOS.CAD_UNI_ID_UNIDADE       = UNIDADES.CAD_UNI_ID_UNIDADE
+
+WHERE   NVL(AGENDAMENTOS_CANCELADOS.TOTAL_CANCELADOS,0) > 0 OR
+        NVL(AGENDADOS.TOTAL_AGENDADOS,0) > 0
+
+
+GROUP BY
+                           UNIDADES.CAD_UNI_ID_UNIDADE,
+                  UNIDADES.CAD_UNI_DS_UNIDADE,
+                  USUARIOS.SEG_USU_ID_USUARIO,
+                  USUARIOS.SEG_USU_DS_NOME,
+                  USUARIOS.SEG_USU_CD_MATRICULA,
+
+                  NVL(AGENDAMENTOS_CANCELADOS.TOTAL_CANCELADOS,0) ,
+                  NVL(AGENDADOS.TOTAL_AGENDADOS,0)
+
+ORDER BY USUARIOS.SEG_USU_DS_NOME,UNIDADES.CAD_UNI_DS_UNIDADE;
+
+
+io_cursor := v_cursor;
+ end PRC_AGS_REL_PRODUTIV_USU;
+ 

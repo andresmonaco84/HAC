@@ -1,0 +1,79 @@
+CREATE OR REPLACE PROCEDURE "PRC_ATS_APL_ATEN_PROC_LAUDO_I" (
+     pNewIdt OUT integer,
+     pATS_APL_ID IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_ID%type default NULL,
+     pATS_ATE_ID IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_ATE_ID%type,
+     pATS_APL_DT_LAUDO IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_DT_LAUDO%type,
+     pATS_APL_HR_LAUDO IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_HR_LAUDO%type,
+     pATS_APL_DS_OBSERVACAO IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_DS_OBSERVACAO%type default NULL,
+     pCAD_PRO_ID_PROF IN TB_ATS_APL_ATEN_PROCED_LAUDO.CAD_PRO_ID_PROF%type,
+     pCAD_CLC_ID IN TB_ATS_APL_ATEN_PROCED_LAUDO.CAD_CLC_ID%type default NULL,
+     pATS_APL_STATUS_LAUDO IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_STATUS_LAUDO%type,
+     pATS_APL_DT_ULTIMA_ATUALIZACAO IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_ATS_APL_ATEN_PROCED_LAUDO.SEG_USU_ID_USUARIO%type,
+     pATS_APL_TEXTO_LAUDO IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_APL_TEXTO_LAUDO%type,
+     pAUX_EPP_CD_ESPECPROC IN TB_ATS_APL_ATEN_PROCED_LAUDO.AUX_EPP_CD_ESPECPROC%type,
+     pATS_ATE_IN_INTLIB IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_ATE_IN_INTLIB%type,
+     pATS_ATE_CD_INTLIB IN TB_ATS_APL_ATEN_PROCED_LAUDO.ATS_ATE_CD_INTLIB%type,
+     pCAD_PRD_ID IN TB_ATS_APL_ATEN_PROCED_LAUDO.CAD_PRD_ID%type,
+     pTIS_MED_CD_TABELAMEDICA IN TB_ATS_APS_ATEN_PROC_SEGMENTO.TIS_MED_CD_TABELAMEDICA%type	
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_ATS_APL_ATEN_PROC_LAUDO_I
+  * 
+  *    Data Criacao:   18/11/2008       Por: Fab√≠ola Lopes
+  *    Data Alteracao:	27/03/2010  Por: Pedro
+  *    AlteraÁ„o: pTIS_MED_CD_TABELAMEDICA
+  *
+  *    Funcao: Inclui os dados do Laudo do Procedimento/Exame
+  *
+  *******************************************************************/  
+    lIdtRetorno integer;
+    ex         exception;
+  begin
+    SELECT SEQ_ATS_APL.NextVal INTO lIdtRetorno FROM DUAL;
+    INSERT INTO TB_ATS_APL_ATEN_PROCED_LAUDO
+    (
+       ATS_APL_ID,
+       ATS_ATE_ID,
+       ATS_APL_DT_LAUDO,
+       ATS_APL_HR_LAUDO,
+       ATS_APL_DS_OBSERVACAO,
+       CAD_PRO_ID_PROF,
+       CAD_CLC_ID,
+       ATS_APL_STATUS_LAUDO,
+       ATS_APL_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ATS_APL_TEXTO_LAUDO,
+       AUX_EPP_CD_ESPECPROC,
+       ATS_ATE_IN_INTLIB,
+       ATS_ATE_CD_INTLIB,
+       CAD_PRD_ID,
+       TIS_MED_CD_TABELAMEDICA
+    )
+    VALUES
+    (
+      lIdtRetorno,
+       pATS_ATE_ID,
+       pATS_APL_DT_LAUDO,
+       pATS_APL_HR_LAUDO,
+       UPPER(pATS_APL_DS_OBSERVACAO),
+       pCAD_PRO_ID_PROF,
+       pCAD_CLC_ID,
+       pATS_APL_STATUS_LAUDO,
+       pATS_APL_DT_ULTIMA_ATUALIZACAO,
+       pSEG_USU_ID_USUARIO,
+       pATS_APL_TEXTO_LAUDO,
+       pAUX_EPP_CD_ESPECPROC,
+       pATS_ATE_IN_INTLIB,
+       pATS_ATE_CD_INTLIB,
+       pCAD_PRD_ID,
+       pTIS_MED_CD_TABELAMEDICA
+    );
+           
+   pNewIdt := lIdtRetorno;
+     EXCEPTION
+  WHEN ex THEN
+       raise_application_error('-20000', 'Laudo j√° incluso!');
+  end PRC_ATS_APL_ATEN_PROC_LAUDO_I;
+/

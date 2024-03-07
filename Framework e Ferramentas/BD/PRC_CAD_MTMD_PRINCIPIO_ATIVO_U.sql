@@ -1,0 +1,32 @@
+﻿create or replace procedure PRC_CAD_MTMD_PRINCIPIO_ATIVO_U
+  (
+     pCAD_MTMD_PRIATI_ID IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.CAD_MTMD_PRIATI_ID%type,
+     pCAD_MTMD_PRIATI_DESCRICAO IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.CAD_MTMD_PRIATI_DESCRICAO%type default NULL,
+     pCAD_MTMD_FL_IRRITANTE IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.CAD_MTMD_FL_IRRITANTE%type default NULL,
+     pCAD_MTMD_FL_VESICANTE IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.CAD_MTMD_FL_VESICANTE%type default NULL,
+     pCAD_MTMD_FL_FLEBITANTE IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.CAD_MTMD_FL_FLEBITANTE%type default NULL,
+     pCAD_MTMD_ORIENTACAO IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.CAD_MTMD_ORIENTACAO%type default NULL,
+     pSEG_USU_ID_USUARIO IN TB_CAD_MTMD_PRIATI_PRINC_ATIVO.SEG_USU_ID_USUARIO%type default NULL
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_CAD_MTMD_PRIATI_PATIVO_U
+  *
+  *    Data Criacao: 	data da  criaÃ§Ã£o   Por: Nome do Analista
+  *    Data Alteracao:	data da alteraÃ§Ã£o  Por: Nome do Analista
+  *
+  *    Funcao: DescriÃ§Ã£o da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  begin
+    UPDATE TB_CAD_MTMD_PRIATI_PRINC_ATIVO
+    SET
+        CAD_MTMD_PRIATI_DESCRICAO = pCAD_MTMD_PRIATI_DESCRICAO,
+        CAD_MTMD_FL_IRRITANTE = pCAD_MTMD_FL_IRRITANTE,
+        CAD_MTMD_FL_VESICANTE = pCAD_MTMD_FL_VESICANTE,
+        CAD_MTMD_FL_FLEBITANTE = pCAD_MTMD_FL_FLEBITANTE,
+        CAD_MTMD_ORIENTACAO = pCAD_MTMD_ORIENTACAO,
+        SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO
+    WHERE
+        CAD_MTMD_PRIATI_ID = pCAD_MTMD_PRIATI_ID;
+  end PRC_CAD_MTMD_PRINCIPIO_ATIVO_U;

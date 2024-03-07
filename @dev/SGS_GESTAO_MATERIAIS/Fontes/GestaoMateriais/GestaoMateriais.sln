@@ -1,0 +1,568 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico", "Servico", "{533452FB-0B6A-4592-904D-3D5F5556DF30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seguranca", "Seguranca", "{7289D3C3-16A5-4AA6-A973-3DBA60692CC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E8506E6-A6B1-4606-B315-2210E8CEAD6D}"
+	ProjectSection(SolutionItems) = preProject
+		Exemplo_planilha_excell.txt = Exemplo_planilha_excell.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico.CadastroFaturamento", "Servico.CadastroFaturamento", "{725C7E02-33B1-43B2-B4DD-68BD8CF15768}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BD", "BD", "{3D6F67C8-C2E8-4A8A-A7FE-E7080F91DB8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HacFrameWork", "HacFrameWork", "{EFAD65D1-043D-48AD-956A-5F91B5C845FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico.BeneficiarioACS", "Servico.BeneficiarioACS", "{0A12889E-3E08-4860-959D-15C211E7ED5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico.Cadastro", "Servico.Cadastro", "{3E4A3046-8500-4081-97FC-0D2EE5C28FA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico.CalculoFaturamento", "Servico.CalculoFaturamento", "{50528FDB-10A8-4F7B-B0B1-14B39DFA9751}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico.Produto", "Servico.Produto", "{8CBC6810-D149-47D3-BF60-8A63FCA6C784}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servico.Internacao", "Servico.Internacao", "{02CBDC27-0EB8-48A0-B87D-3CEDB1D5E37E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AtendimentoSADT", "AtendimentoSADT", "{3EF06A27-8137-46DC-9BCD-A4FD45D982D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriais", "GestaoMateriais\GestaoMateriais.csproj", "{61AC207B-D0DD-40F2-924B-0E3E2F0C6A4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriais.DTO", "..\SOA\GestaoMateriais.DTO\GestaoMateriais.DTO.csproj", "{58E97D43-4E12-43DE-9CE0-2C1332DC21F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriais.Interface", "..\SOA\GestaoMateriais.Interface\GestaoMateriais.Interface.csproj", "{6C20B269-28CB-4C21-B27D-9AE069A78EA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriais.Remoting", "..\SOA\GestaoMateriais.remoting\GestaoMateriais.Remoting.csproj", "{060B9E73-2223-4276-9629-3A6028482065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriais.Model", "..\SOA\GestaoMateriais.Model\GestaoMateriais.Model.csproj", "{54DEDA17-091A-4AAC-9704-9F2C5F791BFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriais.Control", "..\SOA\GestaoMateriais.Control\GestaoMateriais.Control.csproj", "{D1FF0381-0E77-40F0-8499-911BC2024B75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{54DEDA17-091A-4AAC-9704-9F2C5F791BFB} = {54DEDA17-091A-4AAC-9704-9F2C5F791BFB}
+		{58E97D43-4E12-43DE-9CE0-2C1332DC21F3} = {58E97D43-4E12-43DE-9CE0-2C1332DC21F3}
+		{6C20B269-28CB-4C21-B27D-9AE069A78EA7} = {6C20B269-28CB-4C21-B27D-9AE069A78EA7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoMateriaisView", "GestaoMateriaisView\GestaoMateriaisView.csproj", "{B99F59C0-67B1-44B6-A329-7B6126BEC18F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Forms", "..\..\..\Seguranca\Fontes\Seguranca.Forms\Seguranca.Forms.csproj", "{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Componentes", "Componentes\Componentes.csproj", "{99461475-0C79-46E1-8B75-B05D2A16F3E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Remoting", "..\..\..\Seguranca\Fontes\Seguranca\SOA\Seguranca.Remoting\Seguranca.Remoting\Seguranca.Remoting.csproj", "{E1E93418-8430-472C-8AD1-31737A3ECD5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Control", "..\..\..\Seguranca\Fontes\Seguranca\SOA\Seguranca.Control\Seguranca.Control.csproj", "{5C06877D-97D6-462C-91DA-AD166A7794FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.DTO", "..\..\..\Seguranca\Fontes\Seguranca\SOA\Seguranca.DTO\Seguranca.DTO.csproj", "{F91F151E-76E2-4F53-AF84-D470714F071A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Interface", "..\..\..\Seguranca\Fontes\Seguranca\SOA\Seguranca.Interface\Seguranca.Interface.csproj", "{937EBE97-553E-4B38-8E70-25EB22525597}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Model", "..\..\..\Seguranca\Fontes\Seguranca\SOA\Seguranca.Model\Seguranca.Model.csproj", "{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.View", "..\..\..\Seguranca\Fontes\Seguranca\Seguranca.View\Seguranca.View.csproj", "{74136C59-AC98-44B5-A2F2-7C44B69FC25E}"
+EndProject
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Relatorios", "Relatorios\Relatorios.rptproj", "{2C14071F-5124-4365-B715-0D3192FB2D26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CadastroFaturamento.Control", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CadastroFaturamento.Control\HospitalAnaCosta.Services.CadastroFaturamento.Control.csproj", "{897DD029-D0D9-49A4-94A5-39BEF8A9D3E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CadastroFaturamento.DTO", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CadastroFaturamento.DTO\HospitalAnaCosta.Services.CadastroFaturamento.DTO.csproj", "{8D0FE017-4DCE-467C-82E4-0366C999D1AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CadastroFaturamento.Interface", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CadastroFaturamento.Interface\HospitalAnaCosta.Services.CadastroFaturamento.Interface.csproj", "{48F6B13D-D05D-47F0-80A3-F48BAA6E111C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CadastroFaturamento.Model", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CadastroFaturamento.Model\HospitalAnaCosta.Services.CadastroFaturamento.Model.csproj", "{ADC939F6-4203-4CBE-A717-0BAA71B963B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HacFramework", "..\..\..\Framework e Ferramentas\Framework\HacFramework\HacFramework.csproj", "{9E19E9AC-7B48-4EF1-9B18-65286F023F34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Control", "..\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.Control\HospitalAnaCosta.Services.BeneficiarioACS.Control.csproj", "{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.DTO", "..\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.DTO\HospitalAnaCosta.Services.BeneficiarioACS.DTO.csproj", "{6FE3DCA5-2194-4261-8A1D-51E029D316E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Interface", "..\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.Interface\HospitalAnaCosta.Services.BeneficiarioACS.Interface.csproj", "{34D69262-33D3-4844-ADD4-3E9173544EAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Model", "..\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.Model\HospitalAnaCosta.Services.BeneficiarioACS.Model.csproj", "{534393D7-3923-4264-B3D0-E09B1D189FD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.Remoting", "..\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.Remoting\HospitalAnaCosta.Services.BeneficiarioACS.Remoting.csproj", "{F278F32C-2FFE-452A-95F4-8FF9AA17253C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.BeneficiarioACS.View", "..\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.View\HospitalAnaCosta.Services.BeneficiarioACS.View.csproj", "{02EEB720-3105-46E1-98DC-876B247F8096}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.Control", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Control\Cadastro.Control.csproj", "{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.DTO", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.DTO\Cadastro.DTO.csproj", "{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.Interface", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Interface\Cadastro.Interface.csproj", "{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.Model", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Model\Cadastro.Model.csproj", "{A4E7BD11-4707-4025-AF0C-677607C9DB06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CalculoFaturamento.Control", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CalculoFaturamento.Control\HospitalAnaCosta.Services.CalculoFaturamento.Control.csproj", "{DA36C013-280E-4582-8DB9-FBB3BECEC4C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CalculoFaturamento.DTO", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CalculoFaturamento.DTO\HospitalAnaCosta.Services.CalculoFaturamento.DTO.csproj", "{EA121C36-6EF8-4EC4-87EB-AEA494D6B9A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CalculoFaturamento.Interface", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CalculoFaturamento.Interface\HospitalAnaCosta.Services.CalculoFaturamento.Interface.csproj", "{95EDF8B5-8E4D-4FE3-8281-9B1D84B961C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CalculoFaturamento.Model", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CalculoFaturamento.Model\HospitalAnaCosta.Services.CalculoFaturamento.Model.csproj", "{AF19DF9C-B597-40FA-9E69-265481F6E342}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.CalculoFaturamento.View", "..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CalculoFaturamento.View\HospitalAnaCosta.Services.CalculoFaturamento.View.csproj", "{F3622C64-EEB4-4CA8-8185-0947C38544E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Produto.Control", "..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.Control\HospitalAnaCosta.Services.Produto.Control.csproj", "{4A7EED64-6338-4A21-9434-370765968478}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Produto.DTO", "..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.DTO\HospitalAnaCosta.Services.Produto.DTO.csproj", "{3E0EC7FF-D81D-4C87-ACD3-E7AB6A23E1AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Produto.Model", "..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.Model\HospitalAnaCosta.Services.Produto.Model.csproj", "{5312FC09-7081-44AD-B774-5C41AFC2CDEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Produto.Interface", "..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.Interface\HospitalAnaCosta.Services.Produto.Interface.csproj", "{A364A320-963D-46FC-88CE-B16CB0C93401}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.SGS.Internacao.Control", "..\..\..\SGS_INTERNACAO\Fontes\HospitalAnaCosta.SGS.Internacao.Control\HospitalAnaCosta.SGS.Internacao.Control.csproj", "{6069739B-100C-4A78-A942-2B7BE1CDAF21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.SGS.Internacao.DTO", "..\..\..\SGS_INTERNACAO\Fontes\HospitalAnaCosta.SGS.Internacao.DTO\HospitalAnaCosta.SGS.Internacao.DTO.csproj", "{C3B17FBA-C5BD-4219-902A-705B57299211}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.SGS.Internacao.Interface", "..\..\..\SGS_INTERNACAO\Fontes\HospitalAnaCosta.SGS.Internacao.Interface\HospitalAnaCosta.SGS.Internacao.Interface.csproj", "{E2FCB15E-3000-4C48-9251-B717B6D54B09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.SGS.Internacao.Model", "..\..\..\SGS_INTERNACAO\Fontes\HospitalAnaCosta.SGS.Internacao.Model\HospitalAnaCosta.SGS.Internacao.Model.csproj", "{3848580F-E9F8-42D4-BB1C-EBB4034317C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoSADT.Control", "..\..\..\SGS\Fontes\SOA\AtendimentoSADT\AtendimentoSADT.Control\AtendimentoSADT.Control.csproj", "{11CF1609-0F0A-4D7B-B223-1FD45929A11F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoSADT.DTO", "..\..\..\SGS\Fontes\SOA\AtendimentoSADT\AtendimentoSADT.DTO\AtendimentoSADT.DTO.csproj", "{0FD0FD6C-F62B-48AE-9B88-E81607D3B808}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoSADT.Interface", "..\..\..\SGS\Fontes\SOA\AtendimentoSADT\AtendimentoSADT.Interface\AtendimentoSADT.Interface.csproj", "{AC161394-81BB-437E-A2A9-9AF9951B5AB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoSADT.Model", "..\..\..\SGS\Fontes\SOA\AtendimentoSADT\AtendimentoSADT.Model\AtendimentoSADT.Model.csproj", "{33E19C1A-5C75-49DE-8D7F-D02CDBCED963}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BD", "..\..\..\Framework e Ferramentas\BD\BD.dbp", "{B854A30A-D2E3-4628-A029-1C1E28FAE17B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GestaoInstall", "GestaoInstall\GestaoInstall.vdproj", "{155C5BD3-D93D-4082-A31A-093E804628C2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 51
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/hac
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = GestaoMateriais\\GestaoMateriais.csproj
+		SccProjectName1 = GestaoMateriais
+		SccLocalPath1 = GestaoMateriais
+		SccProjectUniqueName2 = ..\\SOA\\GestaoMateriais.DTO\\GestaoMateriais.DTO.csproj
+		SccProjectTopLevelParentUniqueName2 = GestaoMateriais.sln
+		SccProjectName2 = ../SOA/GestaoMateriais.DTO
+		SccLocalPath2 = ..\\SOA\\GestaoMateriais.DTO
+		SccProjectUniqueName3 = ..\\SOA\\GestaoMateriais.Interface\\GestaoMateriais.Interface.csproj
+		SccProjectTopLevelParentUniqueName3 = GestaoMateriais.sln
+		SccProjectName3 = ../SOA/GestaoMateriais.Interface
+		SccLocalPath3 = ..\\SOA\\GestaoMateriais.Interface
+		SccProjectUniqueName4 = ..\\SOA\\GestaoMateriais.remoting\\GestaoMateriais.Remoting.csproj
+		SccProjectTopLevelParentUniqueName4 = GestaoMateriais.sln
+		SccProjectName4 = ../SOA/GestaoMateriais.remoting
+		SccLocalPath4 = ..\\SOA\\GestaoMateriais.remoting
+		SccProjectUniqueName5 = ..\\SOA\\GestaoMateriais.Model\\GestaoMateriais.Model.csproj
+		SccProjectTopLevelParentUniqueName5 = GestaoMateriais.sln
+		SccProjectName5 = ../SOA/GestaoMateriais.Model
+		SccLocalPath5 = ..\\SOA\\GestaoMateriais.Model
+		SccProjectUniqueName6 = ..\\SOA\\GestaoMateriais.Control\\GestaoMateriais.Control.csproj
+		SccProjectTopLevelParentUniqueName6 = GestaoMateriais.sln
+		SccProjectName6 = ../SOA/GestaoMateriais.Control
+		SccLocalPath6 = ..\\SOA\\GestaoMateriais.Control
+		SccProjectUniqueName7 = GestaoMateriaisView\\GestaoMateriaisView.csproj
+		SccProjectName7 = GestaoMateriaisView
+		SccLocalPath7 = GestaoMateriaisView
+		SccProjectUniqueName8 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca.Forms\\Seguranca.Forms.csproj
+		SccProjectName8 = ../../../Seguranca/Fontes/Seguranca.Forms
+		SccLocalPath8 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca.Forms
+		SccProjectUniqueName9 = Componentes\\Componentes.csproj
+		SccProjectName9 = Componentes
+		SccLocalPath9 = Componentes
+		SccProjectUniqueName10 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Remoting\\Seguranca.Remoting\\Seguranca.Remoting.csproj
+		SccProjectTopLevelParentUniqueName10 = GestaoMateriais.sln
+		SccProjectName10 = ../../../Seguranca/Fontes/Seguranca/SOA/Seguranca.Remoting/Seguranca.Remoting
+		SccLocalPath10 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Remoting\\Seguranca.Remoting
+		SccProjectUniqueName11 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Control\\Seguranca.Control.csproj
+		SccProjectTopLevelParentUniqueName11 = GestaoMateriais.sln
+		SccProjectName11 = ../../../Seguranca/Fontes/Seguranca/SOA/Seguranca.Control
+		SccLocalPath11 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Control
+		SccProjectUniqueName12 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.DTO\\Seguranca.DTO.csproj
+		SccProjectTopLevelParentUniqueName12 = GestaoMateriais.sln
+		SccProjectName12 = ../../../Seguranca/Fontes/Seguranca/SOA/Seguranca.DTO
+		SccLocalPath12 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.DTO
+		SccProjectUniqueName13 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Interface\\Seguranca.Interface.csproj
+		SccProjectTopLevelParentUniqueName13 = GestaoMateriais.sln
+		SccProjectName13 = ../../../Seguranca/Fontes/Seguranca/SOA/Seguranca.Interface
+		SccLocalPath13 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Interface
+		SccProjectUniqueName14 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Model\\Seguranca.Model.csproj
+		SccProjectTopLevelParentUniqueName14 = GestaoMateriais.sln
+		SccProjectName14 = ../../../Seguranca/Fontes/Seguranca/SOA/Seguranca.Model
+		SccLocalPath14 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\SOA\\Seguranca.Model
+		SccProjectUniqueName15 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\Seguranca.View\\Seguranca.View.csproj
+		SccProjectName15 = ../../../Seguranca/Fontes/Seguranca/Seguranca.View
+		SccLocalPath15 = ..\\..\\..\\Seguranca\\Fontes\\Seguranca\\Seguranca.View
+		SccProjectUniqueName16 = Relatorios\\Relatorios.rptproj
+		SccProjectName16 = Relatorios
+		SccLocalPath16 = Relatorios
+		SccProjectUniqueName17 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.Control\\HospitalAnaCosta.Services.CadastroFaturamento.Control.csproj
+		SccProjectTopLevelParentUniqueName17 = GestaoMateriais.sln
+		SccProjectName17 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CadastroFaturamento.Control
+		SccLocalPath17 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.Control
+		SccProjectUniqueName18 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.DTO\\HospitalAnaCosta.Services.CadastroFaturamento.DTO.csproj
+		SccProjectTopLevelParentUniqueName18 = GestaoMateriais.sln
+		SccProjectName18 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CadastroFaturamento.DTO
+		SccLocalPath18 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.DTO
+		SccProjectUniqueName19 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.Interface\\HospitalAnaCosta.Services.CadastroFaturamento.Interface.csproj
+		SccProjectTopLevelParentUniqueName19 = GestaoMateriais.sln
+		SccProjectName19 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CadastroFaturamento.Interface
+		SccLocalPath19 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.Interface
+		SccProjectUniqueName20 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.Model\\HospitalAnaCosta.Services.CadastroFaturamento.Model.csproj
+		SccProjectTopLevelParentUniqueName20 = GestaoMateriais.sln
+		SccProjectName20 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CadastroFaturamento.Model
+		SccLocalPath20 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CadastroFaturamento.Model
+		SccProjectUniqueName21 = ..\\..\\..\\Framework\u0020e\u0020Ferramentas\\Framework\\HacFramework\\HacFramework.csproj
+		SccProjectTopLevelParentUniqueName21 = GestaoMateriais.sln
+		SccProjectName21 = ../../../Framework\u0020e\u0020Ferramentas/Framework/HacFramework
+		SccLocalPath21 = ..\\..\\..\\Framework\u0020e\u0020Ferramentas\\Framework\\HacFramework
+		SccProjectUniqueName22 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Control\\HospitalAnaCosta.Services.BeneficiarioACS.Control.csproj
+		SccProjectTopLevelParentUniqueName22 = GestaoMateriais.sln
+		SccProjectName22 = ../BeneficiarioACS/HospitalAnaCosta.Services.BeneficiarioACS.Control
+		SccLocalPath22 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Control
+		SccProjectUniqueName23 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.DTO\\HospitalAnaCosta.Services.BeneficiarioACS.DTO.csproj
+		SccProjectTopLevelParentUniqueName23 = GestaoMateriais.sln
+		SccProjectName23 = ../BeneficiarioACS/HospitalAnaCosta.Services.BeneficiarioACS.DTO
+		SccLocalPath23 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.DTO
+		SccProjectUniqueName24 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Interface\\HospitalAnaCosta.Services.BeneficiarioACS.Interface.csproj
+		SccProjectTopLevelParentUniqueName24 = GestaoMateriais.sln
+		SccProjectName24 = ../BeneficiarioACS/HospitalAnaCosta.Services.BeneficiarioACS.Interface
+		SccLocalPath24 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Interface
+		SccProjectUniqueName25 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Model\\HospitalAnaCosta.Services.BeneficiarioACS.Model.csproj
+		SccProjectTopLevelParentUniqueName25 = GestaoMateriais.sln
+		SccProjectName25 = ../BeneficiarioACS/HospitalAnaCosta.Services.BeneficiarioACS.Model
+		SccLocalPath25 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Model
+		SccProjectUniqueName26 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Remoting\\HospitalAnaCosta.Services.BeneficiarioACS.Remoting.csproj
+		SccProjectTopLevelParentUniqueName26 = GestaoMateriais.sln
+		SccProjectName26 = ../BeneficiarioACS/HospitalAnaCosta.Services.BeneficiarioACS.Remoting
+		SccLocalPath26 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.Remoting
+		SccProjectUniqueName27 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.View\\HospitalAnaCosta.Services.BeneficiarioACS.View.csproj
+		SccProjectTopLevelParentUniqueName27 = GestaoMateriais.sln
+		SccProjectName27 = ../BeneficiarioACS/HospitalAnaCosta.Services.BeneficiarioACS.View
+		SccLocalPath27 = ..\\BeneficiarioACS\\HospitalAnaCosta.Services.BeneficiarioACS.View
+		SccProjectUniqueName28 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Control\\Cadastro.Control.csproj
+		SccProjectTopLevelParentUniqueName28 = GestaoMateriais.sln
+		SccProjectName28 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.Control
+		SccLocalPath28 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Control
+		SccProjectUniqueName29 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.DTO\\Cadastro.DTO.csproj
+		SccProjectTopLevelParentUniqueName29 = GestaoMateriais.sln
+		SccProjectName29 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.DTO
+		SccLocalPath29 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.DTO
+		SccProjectUniqueName30 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Interface\\Cadastro.Interface.csproj
+		SccProjectTopLevelParentUniqueName30 = GestaoMateriais.sln
+		SccProjectName30 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.Interface
+		SccLocalPath30 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Interface
+		SccProjectUniqueName31 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Model\\Cadastro.Model.csproj
+		SccProjectTopLevelParentUniqueName31 = GestaoMateriais.sln
+		SccProjectName31 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.Model
+		SccLocalPath31 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Model
+		SccProjectUniqueName32 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.Control\\HospitalAnaCosta.Services.CalculoFaturamento.Control.csproj
+		SccProjectTopLevelParentUniqueName32 = GestaoMateriais.sln
+		SccProjectName32 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CalculoFaturamento.Control
+		SccLocalPath32 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.Control
+		SccProjectUniqueName33 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.DTO\\HospitalAnaCosta.Services.CalculoFaturamento.DTO.csproj
+		SccProjectTopLevelParentUniqueName33 = GestaoMateriais.sln
+		SccProjectName33 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CalculoFaturamento.DTO
+		SccLocalPath33 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.DTO
+		SccProjectUniqueName34 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.Interface\\HospitalAnaCosta.Services.CalculoFaturamento.Interface.csproj
+		SccProjectTopLevelParentUniqueName34 = GestaoMateriais.sln
+		SccProjectName34 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CalculoFaturamento.Interface
+		SccLocalPath34 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.Interface
+		SccProjectUniqueName35 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.Model\\HospitalAnaCosta.Services.CalculoFaturamento.Model.csproj
+		SccProjectTopLevelParentUniqueName35 = GestaoMateriais.sln
+		SccProjectName35 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CalculoFaturamento.Model
+		SccLocalPath35 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.Model
+		SccProjectUniqueName36 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.View\\HospitalAnaCosta.Services.CalculoFaturamento.View.csproj
+		SccProjectTopLevelParentUniqueName36 = GestaoMateriais.sln
+		SccProjectName36 = ../../../SGS_FATURAMENTO/Fontes/HospitalAnaCosta.Services.CalculoFaturamento.View
+		SccLocalPath36 = ..\\..\\..\\SGS_FATURAMENTO\\Fontes\\HospitalAnaCosta.Services.CalculoFaturamento.View
+		SccProjectUniqueName37 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.Control\\HospitalAnaCosta.Services.Produto.Control.csproj
+		SccProjectTopLevelParentUniqueName37 = GestaoMateriais.sln
+		SccProjectName37 = ../../../cadastro/Fontes/ProdutoService/HospitalAnaCosta.Services.Produto.Control
+		SccLocalPath37 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.Control
+		SccProjectUniqueName38 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.DTO\\HospitalAnaCosta.Services.Produto.DTO.csproj
+		SccProjectTopLevelParentUniqueName38 = GestaoMateriais.sln
+		SccProjectName38 = ../../../cadastro/Fontes/ProdutoService/HospitalAnaCosta.Services.Produto.DTO
+		SccLocalPath38 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.DTO
+		SccProjectUniqueName39 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.Model\\HospitalAnaCosta.Services.Produto.Model.csproj
+		SccProjectTopLevelParentUniqueName39 = GestaoMateriais.sln
+		SccProjectName39 = ../../../cadastro/Fontes/ProdutoService/HospitalAnaCosta.Services.Produto.Model
+		SccLocalPath39 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.Model
+		SccProjectUniqueName40 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.Interface\\HospitalAnaCosta.Services.Produto.Interface.csproj
+		SccProjectTopLevelParentUniqueName40 = GestaoMateriais.sln
+		SccProjectName40 = ../../../cadastro/Fontes/ProdutoService/HospitalAnaCosta.Services.Produto.Interface
+		SccLocalPath40 = ..\\..\\..\\cadastro\\Fontes\\ProdutoService\\HospitalAnaCosta.Services.Produto.Interface
+		SccProjectUniqueName41 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.Control\\HospitalAnaCosta.SGS.Internacao.Control.csproj
+		SccProjectTopLevelParentUniqueName41 = GestaoMateriais.sln
+		SccProjectName41 = ../../../SGS_INTERNACAO/Fontes/HospitalAnaCosta.SGS.Internacao.Control
+		SccLocalPath41 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.Control
+		SccProjectUniqueName42 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.DTO\\HospitalAnaCosta.SGS.Internacao.DTO.csproj
+		SccProjectTopLevelParentUniqueName42 = GestaoMateriais.sln
+		SccProjectName42 = ../../../SGS_INTERNACAO/Fontes/HospitalAnaCosta.SGS.Internacao.DTO
+		SccLocalPath42 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.DTO
+		SccProjectUniqueName43 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.Interface\\HospitalAnaCosta.SGS.Internacao.Interface.csproj
+		SccProjectTopLevelParentUniqueName43 = GestaoMateriais.sln
+		SccProjectName43 = ../../../SGS_INTERNACAO/Fontes/HospitalAnaCosta.SGS.Internacao.Interface
+		SccLocalPath43 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.Interface
+		SccProjectUniqueName44 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.Model\\HospitalAnaCosta.SGS.Internacao.Model.csproj
+		SccProjectTopLevelParentUniqueName44 = GestaoMateriais.sln
+		SccProjectName44 = ../../../SGS_INTERNACAO/Fontes/HospitalAnaCosta.SGS.Internacao.Model
+		SccLocalPath44 = ..\\..\\..\\SGS_INTERNACAO\\Fontes\\HospitalAnaCosta.SGS.Internacao.Model
+		SccProjectUniqueName45 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.Control\\AtendimentoSADT.Control.csproj
+		SccProjectTopLevelParentUniqueName45 = GestaoMateriais.sln
+		SccProjectName45 = ../../../SGS/Fontes/SOA/AtendimentoSADT/AtendimentoSADT.Control
+		SccLocalPath45 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.Control
+		SccProjectUniqueName46 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.DTO\\AtendimentoSADT.DTO.csproj
+		SccProjectTopLevelParentUniqueName46 = GestaoMateriais.sln
+		SccProjectName46 = ../../../SGS/Fontes/SOA/AtendimentoSADT/AtendimentoSADT.DTO
+		SccLocalPath46 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.DTO
+		SccProjectUniqueName47 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.Interface\\AtendimentoSADT.Interface.csproj
+		SccProjectTopLevelParentUniqueName47 = GestaoMateriais.sln
+		SccProjectName47 = ../../../SGS/Fontes/SOA/AtendimentoSADT/AtendimentoSADT.Interface
+		SccLocalPath47 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.Interface
+		SccProjectUniqueName48 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.Model\\AtendimentoSADT.Model.csproj
+		SccProjectTopLevelParentUniqueName48 = GestaoMateriais.sln
+		SccProjectName48 = ../../../SGS/Fontes/SOA/AtendimentoSADT/AtendimentoSADT.Model
+		SccLocalPath48 = ..\\..\\..\\SGS\\Fontes\\SOA\\AtendimentoSADT\\AtendimentoSADT.Model
+		SccProjectUniqueName49 = GestaoInstall\\GestaoInstall.vdproj
+		SccProjectName49 = GestaoInstall
+		SccLocalPath49 = GestaoInstall
+		SccProjectUniqueName50 = ..\\..\\..\\Framework\u0020e\u0020Ferramentas\\BD\\BD.dbp
+		SccProjectTopLevelParentUniqueName50 = GestaoMateriais.sln
+		SccProjectName50 = ../../../Framework\u0020e\u0020Ferramentas/BD
+		SccLocalPath50 = ..\\..\\..\\Framework\u0020e\u0020Ferramentas\\BD
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61AC207B-D0DD-40F2-924B-0E3E2F0C6A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61AC207B-D0DD-40F2-924B-0E3E2F0C6A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61AC207B-D0DD-40F2-924B-0E3E2F0C6A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61AC207B-D0DD-40F2-924B-0E3E2F0C6A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58E97D43-4E12-43DE-9CE0-2C1332DC21F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58E97D43-4E12-43DE-9CE0-2C1332DC21F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58E97D43-4E12-43DE-9CE0-2C1332DC21F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C20B269-28CB-4C21-B27D-9AE069A78EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C20B269-28CB-4C21-B27D-9AE069A78EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C20B269-28CB-4C21-B27D-9AE069A78EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060B9E73-2223-4276-9629-3A6028482065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060B9E73-2223-4276-9629-3A6028482065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060B9E73-2223-4276-9629-3A6028482065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DEDA17-091A-4AAC-9704-9F2C5F791BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DEDA17-091A-4AAC-9704-9F2C5F791BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DEDA17-091A-4AAC-9704-9F2C5F791BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FF0381-0E77-40F0-8499-911BC2024B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FF0381-0E77-40F0-8499-911BC2024B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FF0381-0E77-40F0-8499-911BC2024B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B99F59C0-67B1-44B6-A329-7B6126BEC18F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B99F59C0-67B1-44B6-A329-7B6126BEC18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B99F59C0-67B1-44B6-A329-7B6126BEC18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B99F59C0-67B1-44B6-A329-7B6126BEC18F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99461475-0C79-46E1-8B75-B05D2A16F3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99461475-0C79-46E1-8B75-B05D2A16F3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99461475-0C79-46E1-8B75-B05D2A16F3E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C14071F-5124-4365-B715-0D3192FB2D26}.Debug|Any CPU.ActiveCfg = DebugLocal
+		{2C14071F-5124-4365-B715-0D3192FB2D26}.Release|Any CPU.ActiveCfg = Production
+		{2C14071F-5124-4365-B715-0D3192FB2D26}.Release|Any CPU.Build.0 = Production
+		{2C14071F-5124-4365-B715-0D3192FB2D26}.Release|Any CPU.Deploy.0 = Production
+		{897DD029-D0D9-49A4-94A5-39BEF8A9D3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897DD029-D0D9-49A4-94A5-39BEF8A9D3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897DD029-D0D9-49A4-94A5-39BEF8A9D3E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D0FE017-4DCE-467C-82E4-0366C999D1AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D0FE017-4DCE-467C-82E4-0366C999D1AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D0FE017-4DCE-467C-82E4-0366C999D1AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48F6B13D-D05D-47F0-80A3-F48BAA6E111C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48F6B13D-D05D-47F0-80A3-F48BAA6E111C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48F6B13D-D05D-47F0-80A3-F48BAA6E111C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC939F6-4203-4CBE-A717-0BAA71B963B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC939F6-4203-4CBE-A717-0BAA71B963B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC939F6-4203-4CBE-A717-0BAA71B963B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D69262-33D3-4844-ADD4-3E9173544EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534393D7-3923-4264-B3D0-E09B1D189FD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02EEB720-3105-46E1-98DC-876B247F8096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4E7BD11-4707-4025-AF0C-677607C9DB06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4E7BD11-4707-4025-AF0C-677607C9DB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4E7BD11-4707-4025-AF0C-677607C9DB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4E7BD11-4707-4025-AF0C-677607C9DB06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA36C013-280E-4582-8DB9-FBB3BECEC4C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA36C013-280E-4582-8DB9-FBB3BECEC4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA36C013-280E-4582-8DB9-FBB3BECEC4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA36C013-280E-4582-8DB9-FBB3BECEC4C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA121C36-6EF8-4EC4-87EB-AEA494D6B9A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA121C36-6EF8-4EC4-87EB-AEA494D6B9A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA121C36-6EF8-4EC4-87EB-AEA494D6B9A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA121C36-6EF8-4EC4-87EB-AEA494D6B9A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95EDF8B5-8E4D-4FE3-8281-9B1D84B961C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95EDF8B5-8E4D-4FE3-8281-9B1D84B961C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95EDF8B5-8E4D-4FE3-8281-9B1D84B961C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95EDF8B5-8E4D-4FE3-8281-9B1D84B961C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF19DF9C-B597-40FA-9E69-265481F6E342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF19DF9C-B597-40FA-9E69-265481F6E342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF19DF9C-B597-40FA-9E69-265481F6E342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF19DF9C-B597-40FA-9E69-265481F6E342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3622C64-EEB4-4CA8-8185-0947C38544E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3622C64-EEB4-4CA8-8185-0947C38544E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3622C64-EEB4-4CA8-8185-0947C38544E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3622C64-EEB4-4CA8-8185-0947C38544E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7EED64-6338-4A21-9434-370765968478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7EED64-6338-4A21-9434-370765968478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7EED64-6338-4A21-9434-370765968478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7EED64-6338-4A21-9434-370765968478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0EC7FF-D81D-4C87-ACD3-E7AB6A23E1AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0EC7FF-D81D-4C87-ACD3-E7AB6A23E1AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0EC7FF-D81D-4C87-ACD3-E7AB6A23E1AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0EC7FF-D81D-4C87-ACD3-E7AB6A23E1AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5312FC09-7081-44AD-B774-5C41AFC2CDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5312FC09-7081-44AD-B774-5C41AFC2CDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5312FC09-7081-44AD-B774-5C41AFC2CDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5312FC09-7081-44AD-B774-5C41AFC2CDEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A364A320-963D-46FC-88CE-B16CB0C93401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A364A320-963D-46FC-88CE-B16CB0C93401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A364A320-963D-46FC-88CE-B16CB0C93401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A364A320-963D-46FC-88CE-B16CB0C93401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6069739B-100C-4A78-A942-2B7BE1CDAF21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6069739B-100C-4A78-A942-2B7BE1CDAF21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6069739B-100C-4A78-A942-2B7BE1CDAF21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6069739B-100C-4A78-A942-2B7BE1CDAF21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B17FBA-C5BD-4219-902A-705B57299211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B17FBA-C5BD-4219-902A-705B57299211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B17FBA-C5BD-4219-902A-705B57299211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B17FBA-C5BD-4219-902A-705B57299211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2FCB15E-3000-4C48-9251-B717B6D54B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2FCB15E-3000-4C48-9251-B717B6D54B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2FCB15E-3000-4C48-9251-B717B6D54B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2FCB15E-3000-4C48-9251-B717B6D54B09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3848580F-E9F8-42D4-BB1C-EBB4034317C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3848580F-E9F8-42D4-BB1C-EBB4034317C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3848580F-E9F8-42D4-BB1C-EBB4034317C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3848580F-E9F8-42D4-BB1C-EBB4034317C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11CF1609-0F0A-4D7B-B223-1FD45929A11F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11CF1609-0F0A-4D7B-B223-1FD45929A11F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11CF1609-0F0A-4D7B-B223-1FD45929A11F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11CF1609-0F0A-4D7B-B223-1FD45929A11F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD0FD6C-F62B-48AE-9B88-E81607D3B808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD0FD6C-F62B-48AE-9B88-E81607D3B808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD0FD6C-F62B-48AE-9B88-E81607D3B808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD0FD6C-F62B-48AE-9B88-E81607D3B808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC161394-81BB-437E-A2A9-9AF9951B5AB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC161394-81BB-437E-A2A9-9AF9951B5AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC161394-81BB-437E-A2A9-9AF9951B5AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC161394-81BB-437E-A2A9-9AF9951B5AB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E19C1A-5C75-49DE-8D7F-D02CDBCED963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E19C1A-5C75-49DE-8D7F-D02CDBCED963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E19C1A-5C75-49DE-8D7F-D02CDBCED963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E19C1A-5C75-49DE-8D7F-D02CDBCED963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{155C5BD3-D93D-4082-A31A-093E804628C2}.Debug|Any CPU.ActiveCfg = Debug
+		{155C5BD3-D93D-4082-A31A-093E804628C2}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{58E97D43-4E12-43DE-9CE0-2C1332DC21F3} = {533452FB-0B6A-4592-904D-3D5F5556DF30}
+		{6C20B269-28CB-4C21-B27D-9AE069A78EA7} = {533452FB-0B6A-4592-904D-3D5F5556DF30}
+		{060B9E73-2223-4276-9629-3A6028482065} = {533452FB-0B6A-4592-904D-3D5F5556DF30}
+		{54DEDA17-091A-4AAC-9704-9F2C5F791BFB} = {533452FB-0B6A-4592-904D-3D5F5556DF30}
+		{D1FF0381-0E77-40F0-8499-911BC2024B75} = {533452FB-0B6A-4592-904D-3D5F5556DF30}
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D} = {7289D3C3-16A5-4AA6-A973-3DBA60692CC6}
+		{5C06877D-97D6-462C-91DA-AD166A7794FA} = {7289D3C3-16A5-4AA6-A973-3DBA60692CC6}
+		{F91F151E-76E2-4F53-AF84-D470714F071A} = {7289D3C3-16A5-4AA6-A973-3DBA60692CC6}
+		{937EBE97-553E-4B38-8E70-25EB22525597} = {7289D3C3-16A5-4AA6-A973-3DBA60692CC6}
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA} = {7289D3C3-16A5-4AA6-A973-3DBA60692CC6}
+		{897DD029-D0D9-49A4-94A5-39BEF8A9D3E8} = {725C7E02-33B1-43B2-B4DD-68BD8CF15768}
+		{8D0FE017-4DCE-467C-82E4-0366C999D1AD} = {725C7E02-33B1-43B2-B4DD-68BD8CF15768}
+		{48F6B13D-D05D-47F0-80A3-F48BAA6E111C} = {725C7E02-33B1-43B2-B4DD-68BD8CF15768}
+		{ADC939F6-4203-4CBE-A717-0BAA71B963B8} = {725C7E02-33B1-43B2-B4DD-68BD8CF15768}
+		{B854A30A-D2E3-4628-A029-1C1E28FAE17B} = {3D6F67C8-C2E8-4A8A-A7FE-E7080F91DB8D}
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34} = {EFAD65D1-043D-48AD-956A-5F91B5C845FE}
+		{08B39BE6-A494-43AA-AE3B-B18EC7DDAB9B} = {0A12889E-3E08-4860-959D-15C211E7ED5C}
+		{6FE3DCA5-2194-4261-8A1D-51E029D316E1} = {0A12889E-3E08-4860-959D-15C211E7ED5C}
+		{34D69262-33D3-4844-ADD4-3E9173544EAF} = {0A12889E-3E08-4860-959D-15C211E7ED5C}
+		{534393D7-3923-4264-B3D0-E09B1D189FD1} = {0A12889E-3E08-4860-959D-15C211E7ED5C}
+		{F278F32C-2FFE-452A-95F4-8FF9AA17253C} = {0A12889E-3E08-4860-959D-15C211E7ED5C}
+		{02EEB720-3105-46E1-98DC-876B247F8096} = {0A12889E-3E08-4860-959D-15C211E7ED5C}
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D} = {3E4A3046-8500-4081-97FC-0D2EE5C28FA8}
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1} = {3E4A3046-8500-4081-97FC-0D2EE5C28FA8}
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9} = {3E4A3046-8500-4081-97FC-0D2EE5C28FA8}
+		{A4E7BD11-4707-4025-AF0C-677607C9DB06} = {3E4A3046-8500-4081-97FC-0D2EE5C28FA8}
+		{DA36C013-280E-4582-8DB9-FBB3BECEC4C3} = {50528FDB-10A8-4F7B-B0B1-14B39DFA9751}
+		{EA121C36-6EF8-4EC4-87EB-AEA494D6B9A8} = {50528FDB-10A8-4F7B-B0B1-14B39DFA9751}
+		{95EDF8B5-8E4D-4FE3-8281-9B1D84B961C2} = {50528FDB-10A8-4F7B-B0B1-14B39DFA9751}
+		{AF19DF9C-B597-40FA-9E69-265481F6E342} = {50528FDB-10A8-4F7B-B0B1-14B39DFA9751}
+		{F3622C64-EEB4-4CA8-8185-0947C38544E0} = {50528FDB-10A8-4F7B-B0B1-14B39DFA9751}
+		{4A7EED64-6338-4A21-9434-370765968478} = {8CBC6810-D149-47D3-BF60-8A63FCA6C784}
+		{3E0EC7FF-D81D-4C87-ACD3-E7AB6A23E1AC} = {8CBC6810-D149-47D3-BF60-8A63FCA6C784}
+		{5312FC09-7081-44AD-B774-5C41AFC2CDEA} = {8CBC6810-D149-47D3-BF60-8A63FCA6C784}
+		{A364A320-963D-46FC-88CE-B16CB0C93401} = {8CBC6810-D149-47D3-BF60-8A63FCA6C784}
+		{6069739B-100C-4A78-A942-2B7BE1CDAF21} = {02CBDC27-0EB8-48A0-B87D-3CEDB1D5E37E}
+		{C3B17FBA-C5BD-4219-902A-705B57299211} = {02CBDC27-0EB8-48A0-B87D-3CEDB1D5E37E}
+		{E2FCB15E-3000-4C48-9251-B717B6D54B09} = {02CBDC27-0EB8-48A0-B87D-3CEDB1D5E37E}
+		{3848580F-E9F8-42D4-BB1C-EBB4034317C5} = {02CBDC27-0EB8-48A0-B87D-3CEDB1D5E37E}
+		{11CF1609-0F0A-4D7B-B223-1FD45929A11F} = {3EF06A27-8137-46DC-9BCD-A4FD45D982D3}
+		{0FD0FD6C-F62B-48AE-9B88-E81607D3B808} = {3EF06A27-8137-46DC-9BCD-A4FD45D982D3}
+		{AC161394-81BB-437E-A2A9-9AF9951B5AB1} = {3EF06A27-8137-46DC-9BCD-A4FD45D982D3}
+		{33E19C1A-5C75-49DE-8D7F-D02CDBCED963} = {3EF06A27-8137-46DC-9BCD-A4FD45D982D3}
+	EndGlobalSection
+EndGlobal

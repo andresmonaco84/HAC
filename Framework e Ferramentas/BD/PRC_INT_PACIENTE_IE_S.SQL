@@ -1,0 +1,64 @@
+create procedure PRC_INT_PACIENTE_IE_S
+  (
+     pATD_ATE_ID IN TB_ATD_ATE_ATENDIMENTO.ATD_ATE_ID%TYPE,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_INT_PACIENTE_IE_S
+  *
+  *    Data Criacao:   03/09/2009            Por: Fabiola Lopes
+  *    Data Alteracao:                       Por:
+  *
+  *    Func?o:
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+
+SELECT ATD.ATD_ATE_DT_ATENDIMENTO,
+       ATD.ATD_ATE_HR_ATENDIMENTO,
+       INA.ATD_INA_DT_ALTA_ADM,
+       INA.ATD_INA_HR_ALTA_ADM,
+       DECODE(INA.ATD_INA_DT_ALTA_ADM,
+              NULL,
+              TRUNC(SYSDATE) - ATD.ATD_ATE_DT_ATENDIMENTO,
+              INA.ATD_INA_DT_ALTA_ADM - ATD.ATD_ATE_DT_ATENDIMENTO) DIAS_INTERNACAO,
+       PES.CAD_PES_NM_PESSOA,
+       DECODE(ATD.ATD_ATE_FL_CARATER_SOLIC,
+              'E',
+              'ELETIVA',
+              'U',
+              'URGENCIA/EMERGENCIA') ATD_ATE_FL_CARATER_SOLIC,
+       AIC.TIS_TIN_CD_INTERNACAO,
+       TIN.TIS_TIN_DS_INTERNACAO,
+       ATD.ATD_ATE_ID,
+       PAC.CAD_CNV_ID_CONVENIO,
+       PAC.CAD_PLA_ID_PLANO,
+       PES.CAD_PES_TP_SEXO,
+       PAC.CAD_PAC_NR_PRONTUARIO,
+       PAC.CAD_PAC_ID_PACIENTE,
+       ATD.CAD_PRO_ID_PROF_EXEC,
+       ATD.TIS_CBO_CD_CBOS
+
+  FROM TB_ATD_ATE_ATENDIMENTO   ATD,
+       TB_ATD_INA_INT_ALTA      INA,
+       TB_CAD_PAC_PACIENTE      PAC,
+       TB_CAD_PES_PESSOA        PES,
+       TB_ASS_PAT_PACIEATEND    PAT,
+       TB_ATD_AIC_ATE_INT_COMPL AIC,
+       TB_TIS_TIN_TP_INTERNACAO TIN
+ WHERE ATD.ATD_ATE_ID = pATD_ATE_ID
+   AND INA.ATD_ATE_ID(+) = ATD.ATD_ATE_ID
+   AND ATD.ATD_ATE_TP_PACIENTE IN ('I', 'E')
+   AND ATD.ATD_ATE_DT_ATENDIMENTO = PAT.ASS_PAT_DT_ENTRADA
+   AND ATD.ATD_ATE_HR_ATENDIMENTO = PAT.ASS_PAT_HR_ENTRADA
+   AND ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+   AND PAC.CAD_PAC_ID_PACIENTE = PAT.CAD_PAC_ID_PACIENTE
+   AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+   AND ATD.ATD_ATE_ID = AIC.ATD_ATE_ID
+   AND TIN.TIS_TIN_CD_INTERNACAO = AIC.TIS_TIN_CD_INTERNACAO;
+   io_cursor := v_cursor;
+
+end PRC_INT_PACIENTE_IE_S;

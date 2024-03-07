@@ -1,0 +1,3 @@
+alter table TB_REP_PGM_PAGTO_MEDICO add CAD_PRD_ID_COBRADO NUMBER(10);
+comment on column TB_REP_PGM_PAGTO_MEDICO.CAD_PRD_ID_COBRADO
+  is 'IdtProdutoCobrado';

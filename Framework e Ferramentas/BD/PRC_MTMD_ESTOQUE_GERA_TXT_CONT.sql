@@ -1,0 +1,395 @@
+CREATE OR REPLACE PROCEDURE PRC_MTMD_ESTOQUE_GERA_TXT_CONT (
+ pCAD_MTMD_FILIAL_ID IN TB_MTMD_ESTOQUE_LOCAL.CAD_MTMD_FILIAL_ID%TYPE,
+ pMTMD_MOV_MES IN TB_MTMD_MOV_ESTOQUE_MES.MTMD_MOV_MES%type DEFAULT NULL,
+ pMTMD_MOV_ANO IN TB_MTMD_MOV_ESTOQUE_MES.MTMD_MOV_ANO%type DEFAULT NULL,
+ io_cursor                     OUT PKG_CURSOR.t_cursor
+)IS
+  v_cursor PKG_CURSOR.t_cursor;
+/********************************************************************
+*    Procedure: PRC_MTMD_ESTOQUE_GERA_TXT_CONT
+*
+*    Data Criacao:    18/04/2011   Por: Andre Souza Monaco
+*    Data Alterac?o: 20/08/2013   Por: Andre Souza Monaco
+*         Alterac?o: Substituic?o da tabela do Legado p/ do SGS (TB_CAD_UNI_UNIDADE)
+*
+*    Funcao:  RETORNAR INFORMAC?ES PARA GERAR ARQ. TXT DA CONTABILIDADE
+*******************************************************************/
+BEGIN
+   OPEN v_cursor FOR
+   SELECT SUM(NVL(A.VALOR,0)) VALOR,
+           LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+           RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+           RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+           RPAD(' ',20)||
+           RPAD( ' ',20)||
+           LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+           LPAD('110',8)||
+           RPAD(' ',186)||
+           LPAD(TO_CHAR((SELECT SUBSTR(PSU.CAD_PES_NR_CNPJ_CPF, 11, 2)
+                           FROM TB_CAD_UNI_UNIDADE     UNI,
+                                TB_CAD_PES_PESSOA      PSU
+                          WHERE UNI.CAD_UNI_ID_UNIDADE = U.CAD_UNI_ID_UNIDADE
+                            AND UNI.CAD_PES_ID_PESSOA = PSU.CAD_PES_ID_PESSOA), '009') , 10) ||
+           RPAD(A.CD_CCUSTO,25)||
+           RPAD(' ',8)||
+           LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+       , TB_CAD_UNI_UNIDADE U
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) =  pMTMD_MOV_MES
+          AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+          AND A.TIPO_BAIXA = 'T'
+          AND A.IND_TIPO_BAIXA = 'N'
+          AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+          AND NVL(A.VALOR,0) != 0
+          AND A.CODCLADESAMB <> 6
+          AND A.CODCLADESAMB = U.CAD_UNI_CD_UNID_HOSPITALAR
+    GROUP BY U.CAD_UNI_ID_UNIDADE, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(' ' , 20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('110',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'T'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+           AND A.CODCLADESAMB <> 6
+    GROUP BY A.CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('173',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA  IN ( 'B' ,  'V',  'Q',  'A' )
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY A.CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20)  , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('395',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA  IN ('BI')
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY A.CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20)  , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD( ' ',20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('396',8)||
+            RPAD(' ',186)||
+            LPAD( '001' , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'EI'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD( ' ',20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('396',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'EI'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('423',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA  IN ('BC')
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = 1
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY A.CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20)  , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD( ' ',20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('424',8)||
+            RPAD(' ',186)||
+            LPAD( '001' , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'EC' 
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = 1
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD( ' ',20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('424',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'EC'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = 1
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('111',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND   TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND  A.TIPO_BAIXA = 'DT'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) ,A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD( ' ',20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('083',8)||
+            RPAD(' ',186)||
+            LPAD( '001' , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'D'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD( ' ',20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('083',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'D'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('1228',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'E'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+           AND NVL(A.VALOR,0) != 0
+    GROUP BY  CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+              RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('1231',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'DE'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS =  pCAD_MTMD_FILIAL_ID
+    AND NVL(A.VALOR,0) != 0
+    GROUP BY CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('1229',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+           AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+           AND A.TIPO_BAIXA = 'DE'
+           AND A.IND_TIPO_BAIXA = 'N'
+           AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+    AND NVL(A.VALOR,0) != 0
+    GROUP BY CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20) , A.CD_CCUSTO
+    UNION ALL
+    SELECT SUM(NVL(A.VALOR,0)) VALOR,
+            LPAD(TO_CHAR(A.MESANO,'DDMMYY' ) ,6)||
+            RPAD(TO_CHAR(A.MESANO, 'DDMMYY' ) ,8)||
+            RPAD(SUBSTR(CODCONTA_DEB,1,20),20)||
+            RPAD(SUBSTR(CODCONTA_CRED,1,20),20)||
+            RPAD( ' ',20)||
+            LPAD(TO_CHAR(SUM(NVL(A.VALOR,0)), '00000000000000.00'), 18) ||
+            LPAD('1230',8)||
+            RPAD(' ',186)||
+            LPAD( TO_CHAR(CODFILIAL, '009' ) , 10) ||
+            RPAD(A.CD_CCUSTO,25)||
+            RPAD(' ',8)||
+            LPAD('0.00',18) TXT_GERAR
+    FROM ALM_RESUMO_MOVIMENTO_CTB  A
+    WHERE TO_NUMBER(TO_CHAR(MESANO,'MM' )) = pMTMD_MOV_MES
+         AND TO_NUMBER(TO_CHAR(MESANO,'YYYY')) = pMTMD_MOV_ANO
+         AND A.TIPO_BAIXA = 'E'
+         AND A.IND_TIPO_BAIXA = 'N'
+         AND A.CODHOS = pCAD_MTMD_FILIAL_ID
+    AND NVL(A.VALOR,0) != 0
+    GROUP BY CODFILIAL, MESANO, TIPO_BAIXA, A.CODUNIHOS,
+             RPAD(SUBSTR(CODCONTA_DEB,1,20),20), RPAD(SUBSTR(CODCONTA_CRED,1,20),20), A.CD_CCUSTO;
+    io_cursor := v_cursor;
+END PRC_MTMD_ESTOQUE_GERA_TXT_CONT;

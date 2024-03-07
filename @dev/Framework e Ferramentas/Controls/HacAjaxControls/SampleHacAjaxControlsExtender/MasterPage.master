@@ -1,0 +1,54 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<%@ Register Assembly="HacControlsExtender" Namespace="HacControlsExtender" TagPrefix="cc2" %>
+<%@ Register Assembly="HacAjaxControlsExtender" Namespace="HacAjaxControlsExtender" TagPrefix="cc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+    <link rel="stylesheet" href="css/StyleSheet.css" type="text/css" />
+    <script language="javascript" type="text/javascript">       
+     
+</script>
+</head>
+<body onload="carregarPagina()">
+    <form id="form1" runat="server">
+        
+
+<div id="carregando" style="width:98%">
+        <div class="updateProgressBoxAguarde" style="width:98%">
+            <div id="pnlPopup" class="progress">
+	
+                <div class="container">
+                    <div class="headerProgress">Aguarde...</div>
+                    <div class="bodyProgress">
+                        <img src="images/activity.gif" />
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+    <div>
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True">
+        </asp:ScriptManager>
+        <asp:Label ID="Label1" runat="server" Font-Names="Comic Sans MS" Text="Master Page"></asp:Label>
+        <hr />
+        <br />
+        <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+        </asp:contentplaceholder>
+        <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="50">
+        <ProgressTemplate>
+        <div class="updateProgressInnerDiv">
+        </div>
+        <div class="updateProgressBoxAguarde">
+            <img src="images/testeAguarde.gif" />
+        </div>
+        </ProgressTemplate>
+        </asp:UpdateProgress>
+        <cc2:UpdateProgressOverlayExtender ID="UpdateProgressOverlayExtender1" runat="server" TargetControlID="UpdateProgress1" CssClass="updateProgress" OverlayType="Browser" />
+        
+    </div>
+    </form>
+</body>
+</html>

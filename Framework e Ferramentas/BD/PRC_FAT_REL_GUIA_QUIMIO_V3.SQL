@@ -1,0 +1,186 @@
+CREATE OR REPLACE PROCEDURE "PRC_FAT_REL_GUIA_QUIMIO_V3" (
+      pNR_ATENDIMENTO IN TSS_SOLIC_QUIMIO_SGS_V3.NR_ATENDIMENTO%TYPE DEFAULT NULL,
+      pDT_SOLIC_MEDICAMENTO IN TSS_SOLIC_QUIMIO_SGS_V3.DT_SOLIC_MEDICAMENTO%TYPE DEFAULT NULL,
+
+     IO_CURSOR OUT PKG_CURSOR.T_CURSOR
+     --,TESTE OUT LONG
+  )
+  IS
+  /********************************************************************
+  *    PROCEDURE: PRC_FAT_REL_GUIA_QUIMIO
+  *
+  *    DATA CRIACAO: 16/06/2015  POR: PEDRO
+  *    ALTERAC?O:
+  *
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+begin   
+OPEN v_cursor FOR
+
+SELECT 
+      AAA.CD_CONVENIO,
+      AAA.DS_CONVENIO,
+      AAA.NR_PRONTUARIO,
+     
+      NVL(AAA.DT_SOLIC_MEDICAMENTO,GAMBI.DT_SOLIC_MEDICAMENTO) DT_SOLIC_MEDICAMENTO,
+      AAA.DT_VALIDADE,
+      NVL(AAA.NR_ATENDIMENTO,GAMBI.NR_ATENDIMENTO) NR_ATENDIMENTO,
+      AAA.DT_ATENDIMENTO,
+      
+      AAA.CD_REGISTRO_ANS ,
+      AAA.NR_GUIA,
+      AAA.NR_GUIA_PRINCIPAL,
+      AAA.CD_SENHA,
+      AAA.DT_AUTORIZACAO,
+      AAA.NR_GUIA_OPERADORA,
+--DADOS DO BENEFICIARIO      
+      AAA.CAD_PLA_CD_PLANO_HAC,
+      AAA.NR_CARTEIRA_BENEF,
+      AAA.NM_BENEF,     
+      AAA.NR_PESO,
+      AAA.NR_ALTURA,
+      AAA.NR_SUPERFICIE_CORP,
+      AAA.IDADE,
+      AAA.CD_SEXO,
+--DADOS DO SOLICITANTE          
+      AAA.NM_PROF_SOL,      
+      AAA.TEL_PROF_SOL,
+      AAA.EMAIL_PROF_SOL,
+--DIAGNOSTICO ONCOLOGICO      
+      AAA.DT_DIAGNOSTICO,
+      AAA.CD_CID10_PRINC,
+      AAA.CD_CID10_2,
+      AAA.CD_CID10_3,
+      AAA.CD_CID10_4,
+      AAA.CD_ESTADIAMENTO,
+      AAA.CD_TP_QUIMIO,
+      AAA.CD_FINALIDADE,
+      AAA.CD_ECOG,
+      AAA.PLANO_TERAPEUTICO,      
+      AAA.DIAG_CITO_HISTO_PATOL,
+      AAA.INFORMA_RELEVANTE,
+
+--DADOS DA EXECUC?O / PROCEDIMENTOS E EXAMES REALIZADOS
+      NVL(NVL(AAA.SEQ_PROC_REAL,GAMBI.SEQ_PROC_REAL),1) SEQ_PROC_REAL,
+      AAA.DT_PREVISTA_ADMIN,
+      AAA.CD_TABELA,
+      AAA.CD_MEDICAMENTO,
+      AAA.DS_MEDICAMENTO,
+      AAA.NR_DOSE_MEDICAMENTO,
+      AAA.CD_VIA_ADMINISTRATIVA,
+      AAA.QTD_FREQUENCIA_DIARIA,
+
+--TRATAMENTOS ANTERIORES  
+      AAA.CIRURGIA,
+      AAA.DT_REAL_CIR,
+      AAA.AREA_IRRADIADA,
+      AAA.DT_APL_ULTIMA_RADIO,
+      
+--OBSERVACAO / JUSTIFICATIVA
+      AAA.DS_OBSERVACAO,      
+      AAA.NR_CICLO_PREVISTO,
+      AAA.NR_CICLO_ATUAL,
+      AAA.NR_INTERVALO_CICLO
+      
+     
+
+FROM 
+        (
+        SELECT DISTINCT 
+              S.CD_CONVENIO,
+              S.DS_CONVENIO,
+              S.NR_PRONTUARIO,
+             
+              S.DT_SOLIC_MEDICAMENTO,
+              S.DT_VALIDADE,
+              S.NR_ATENDIMENTO,
+              S.DT_ATENDIMENTO,
+              
+              S.CD_REGISTRO_ANS ,
+              S.NR_GUIA,
+              S.NR_GUIA_PRINCIPAL,
+              S.CD_SENHA,
+              S.DT_AUTORIZACAO,
+              S.NR_GUIA_OPERADORA,
+        --DADOS DO BENEFICIARIO    
+              S.cad_pla_cd_plano_hac,  
+              S.NR_CARTEIRA_BENEF,
+              S.NM_BENEF,     
+              S.NR_PESO,
+              S.NR_ALTURA,
+              S.NR_SUPERFICIE_CORP,
+              S.IDADE,
+              S.CD_SEXO,
+        --DADOS DO SOLICITANTE          
+              S.NM_PROF_SOL,      
+              S.TEL_PROF_SOL,
+              S.EMAIL_PROF_SOL,
+        --DIAGNOSTICO ONCOLOGICO      
+              S.DT_DIAGNOSTICO,
+              S.CD_CID10_PRINC,
+              S.CD_CID10_2,
+              S.CD_CID10_3,
+              S.CD_CID10_4,
+              S.CD_ESTADIAMENTO,
+              S.CD_TP_QUIMIO,
+              S.CD_FINALIDADE,
+              S.CD_ECOG,
+              S.PLANO_TERAPEUTICO,      
+              S.DIAG_CITO_HISTO_PATOL,
+              S.INFORMA_RELEVANTE,
+
+        --DADOS DA EXECUC?O / PROCEDIMENTOS E EXAMES REALIZADOS
+              TO_NUMBER(P.SEQ_PROC_REAL) SEQ_PROC_REAL,
+              P.DT_PREVISTA_ADMIN,
+              P.CD_TABELA,
+              P.CD_MEDICAMENTO,
+              P.DS_MEDICAMENTO,
+              P.NR_DOSE_MEDICAMENTO,
+              P.CD_VIA_ADMINISTRATIVA,
+              P.QTD_FREQUENCIA_DIARIA,
+
+        --TRATAMENTOS ANTERIORES  
+              S.CIRURGIA,
+              S.DT_REAL_CIR,
+              S.AREA_IRRADIADA,
+              S.DT_APL_ULTIMA_RADIO,
+              
+        --OBSERVACAO / JUSTIFICATIVA
+              S.DS_OBSERVACAO,      
+              S.NR_CICLO_PREVISTO,
+              S.NR_CICLO_ATUAL,
+              S.NR_INTERVALO_CICLO
+              
+                  
+        FROM  TSS_SOLIC_QUIMIO_SGS_V3         S
+
+        LEFT JOIN TSS_SOLIC_QUIMIO_PROC_SGS_V3     P    ON  P.NR_ATENDIMENTO       = S.NR_ATENDIMENTO
+                                                        AND P.DT_SOLIC_MEDICAMENTO = S.DT_SOLIC_MEDICAMENTO
+      
+        WHERE S.NR_ATENDIMENTO = pNR_ATENDIMENTO
+          AND (pDT_SOLIC_MEDICAMENTO IS NULL OR S.DT_SOLIC_MEDICAMENTO = pDT_SOLIC_MEDICAMENTO)
+                     
+       ) AAA
+FULL JOIN (SELECT S.NR_ATENDIMENTO, S.DT_SOLIC_MEDICAMENTO, A.SEQ_PROC_REAL  FROM TSS_SOLIC_QUIMIO_SGS_V3  S
+          LEFT JOIN (SELECT 1 SEQ_PROC_REAL FROM DUAL UNION 
+                    SELECT 2 SEQ_PROC_REAL FROM DUAL UNION
+                    SELECT 3 SEQ_PROC_REAL FROM DUAL UNION
+                    SELECT 4 SEQ_PROC_REAL FROM DUAL UNION
+                    SELECT 5 SEQ_PROC_REAL FROM DUAL UNION
+                    SELECT 6 SEQ_PROC_REAL FROM DUAL UNION
+                    SELECT 7 SEQ_PROC_REAL FROM DUAL UNION
+                    SELECT 8 SEQ_PROC_REAL FROM DUAL ) A ON 1=1
+          WHERE S.NR_ATENDIMENTO       = pNR_ATENDIMENTO
+            AND (pDT_SOLIC_MEDICAMENTO IS NULL OR S.DT_SOLIC_MEDICAMENTO = pDT_SOLIC_MEDICAMENTO)
+     --  || V_WHERE || '           
+          ) GAMBI ON GAMBI.SEQ_PROC_REAL         = NVL(AAA.SEQ_PROC_REAL,1)
+                AND GAMBI.NR_ATENDIMENTO       = AAA.NR_ATENDIMENTO
+                AND GAMBI.DT_SOLIC_MEDICAMENTO = AAA.DT_SOLIC_MEDICAMENTO
+
+                
+ORDER BY  AAA.NR_ATENDIMENTO,AAA.DT_SOLIC_MEDICAMENTO,   NVL(AAA.SEQ_PROC_REAL,GAMBI.SEQ_PROC_REAL)
+  ;
+
+IO_CURSOR := V_CURSOR;
+  END PRC_FAT_REL_GUIA_QUIMIO_V3;

@@ -1,0 +1,96 @@
+ create or replace procedure PRC_CAD_PRD_PRODUTO_ZERADOS
+(
+     pCAD_PRD_ID IN TB_CAD_PRD_PRODUTO.CAD_PRD_ID%type DEFAULT NULL,
+     pTIS_MED_CD_TABELAMEDICA in TB_CAD_PRD_PRODUTO.TIS_MED_CD_TABELAMEDICA%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+ v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+select prd.cad_prd_id,
+       prd.cad_prd_cd_codigo,
+       prd.cad_prd_cd_gprexa,
+       prd.cad_prd_ds_descricao,
+       prd.seg_usu_id_usuario,
+       prd.cad_prd_dt_ultima_atualizacao,
+       prd.cad_prd_fl_status,
+       prd.cad_prd_nm_mnemonico,
+       prd.aux_epp_cd_especproc,
+       prd.aux_gpc_cd_grupoproc,
+       prd.cad_prd_ds_resumida,
+       prd.cad_prd_tp_produto,
+       prd.tis_med_cd_tabelamedica,
+       prd.cad_prd_fl_utilizaagend_ok,
+       prd.cad_prd_id_produtotabela,
+       prd.cad_prd_fl_contrastado,
+       prd.cad_tap_tp_atributo,
+       prd.cad_tih_tp_indice_hosp,
+       prd.cad_prd_qt_indice_hosp,
+       prd.cad_prd_qt_auxiliar,
+       prd.cad_prd_pc_doppler,
+       prd.cad_prd_tp_porte,
+       prd.cad_dt_inicio_vigencia,
+       prd.cad_prd_qt_incidencia,
+       prd.cad_prd_qt_m2_filme,
+       prd.cad_prd_qt_custo_oper,
+       prd.cad_prd_qt_honorario,
+       prd.cad_prd_tp_sexo_permitido,
+       prd.cad_prd_fl_cobra_hextra,
+       prd.tis_tac_cd_tipo_acomodacao,
+       prd.cad_prd_fl_permite_retorno,
+       prd.cad_prd_cd_nat_despesa_tiss,
+       prd.cad_prd_vl_produto,
+       prd.cad_prd_pc_hac,
+       prd.cad_umc_cd_medida_consumo,
+       prd.cad_prd_nm_fantasia,
+       prd.cad_prd_fl_fracionado,
+       prd.cad_prd_pc_acrescimo,
+       prd.cad_prd_vl_venda,
+       prd.cad_prd_vl_customedio,
+       prd.cad_prd_vl_custo,
+       prd.cad_prd_qt_minima,
+       prd.cad_prd_qt_maxima,
+       prd.cad_apm_id_matmed,
+       prd.cad_prd_qt_apr_matmed,
+       prd.cad_prd_fl_isento_cobranca,
+       prd.cad_prd_fl_estoque_acs,
+       prd.cad_prd_pc_desconto,
+       prd.cad_prd_fl_kit,
+       prd.cad_prd_cd_barra,
+       prd.cad_prd_fl_alto_custo,
+       prd.cad_prd_vl_unitario,
+       prd.cad_cme_classif_med,
+       prd.cad_prd_fl_usorestritomed,
+       prd.cad_prd_vl_matmed_fabrica,
+       prd.cad_prd_fl_matespecial,
+       prd.cad_cmm_cd_caracmatmed,
+       prd.cad_prd_vl_matmed_vend_fra,
+       prd.cad_prd_vl_matmed_fabr_fra,
+       prd.cad_prd_id_produto_matmed,
+       prd.cad_prd_cd_fabr_matmed,
+       prd.cad_prd_nm_fabr_matmed,
+       prd.cad_prd_tp_embalag_matmed,
+       prd.cad_prd_cd_tabela_matmed,
+       prd.cad_prd_cd_tab_apre_matmed,
+       prd.cad_prd_nm_tab_apre_matmed,
+       prd.cad_prd_fl_mat_consignado,
+       prd.cad_prd_cd_codigo_amb92,
+       prd.cad_prd_fl_notafiscalmatmed,
+       prd.cad_prd_tp_porte_cbhpm,
+       prd.cad_prd_tp_porte_sala,
+       prd.cad_prd_fl_cirurgia,
+       prd.cad_prd_fl_lanca_diaria,
+       prd.cad_prd_fl_cobrapchmaco,
+       prd.cad_prd_pc_porte_cbhpm,
+       med.tis_med_ds_tabelamedica,
+       prd.tis_gpp_cd_grau_part_prof       
+  from tb_cad_prd_produto prd, tb_tis_med_tabelamedica med
+  where (prd.cad_prd_cd_tabela_matmed is null)
+  and   prd.cad_prd_fl_status = 'A'
+  and   prd.cad_prd_fl_notafiscalmatmed = 'S'
+  and   prd.tis_med_cd_tabelamedica = med.tis_med_cd_tabelamedica
+  and	prd.tis_med_cd_tabelamedica = pTIS_MED_CD_TABELAMEDICA
+  and   (pCAD_PRD_ID is null or prd.cad_prd_id = pCAD_PRD_ID);
+  io_cursor := v_cursor;
+end PRC_CAD_PRD_PRODUTO_ZERADOS;

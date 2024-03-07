@@ -1,0 +1,72 @@
+create or replace procedure PRC_INT_ATD_INA_INT_ALTA_I
+  (
+     pNewIdt OUT integer,
+     pATD_ATE_ID IN TB_ATD_INA_INT_ALTA.ATD_ATE_ID%type default NULL,
+     pATD_INA_DT_ALTA_CLINICA IN TB_ATD_INA_INT_ALTA.ATD_INA_DT_ALTA_CLINICA%type,
+     pATD_INA_DT_ALTA_ADM IN TB_ATD_INA_INT_ALTA.ATD_INA_DT_ALTA_ADM%type,
+     pATD_INA_HR_ALTA_ADM IN TB_ATD_INA_INT_ALTA.ATD_INA_HR_ALTA_ADM%type,
+     pTIS_MSI_CD_MOTIVOSAIDAINT IN TB_ATD_INA_INT_ALTA.TIS_MSI_CD_MOTIVOSAIDAINT%type,
+     pATD_INA_DT_ULTIMA_ATUALIZACAO IN TB_ATD_INA_INT_ALTA.ATD_INA_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_ATD_INA_INT_ALTA.SEG_USU_ID_USUARIO%type,
+     pATD_INA_HR_ALTA_CLINICA IN TB_ATD_INA_INT_ALTA.ATD_INA_HR_ALTA_CLINICA%type,
+     pCAD_PRO_ID_PROFISSIONAL IN TB_ATD_INA_INT_ALTA.CAD_PRO_ID_PROFISSIONAL%type,
+     pTIS_CBO_CD_CBOS IN TB_ATD_INA_INT_ALTA.TIS_CBO_CD_CBOS%type default NULL,
+     pSEG_USU_ID_USUARIO_ALTA IN TB_ATD_INA_INT_ALTA.SEG_USU_ID_USUARIO_ALTA%type default NULL,
+     pATD_INA_DS_OBSERVACAO IN TB_ATD_INA_INT_ALTA.ATD_INA_DS_OBSERVACAO%type default NULL,
+
+     pATD_INA_CD_MOTIVO_PERM_LEITO IN TB_ATD_INA_INT_ALTA.ATD_INA_CD_MOTIVO_PERM_LEITO%type default NULL,
+     pATD_INA_DS_RECEITUARIO IN TB_ATD_INA_INT_ALTA.ATD_INA_DS_RECEITUARIO%TYPE DEFAULT NULL
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_INT_ATD_INA_INT_ALTA_I
+  *
+  *    Data Criacao:   data da  criac?o   Por: Nome do Analista
+  *    Data Alteracao:  data da alterac?o  Por: Nome do Analista
+  *
+  *    Funcao: Descric?o da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+    lIdtRetorno integer;
+  begin
+    SELECT SEQ_ATD_INA_01.NextVal INTO lIdtRetorno FROM DUAL;
+    INSERT INTO TB_ATD_INA_INT_ALTA
+    (
+       ATD_ATE_ID,
+       ATD_INA_DT_ALTA_CLINICA,
+       ATD_INA_DT_ALTA_ADM,
+       ATD_INA_HR_ALTA_ADM,
+       TIS_MSI_CD_MOTIVOSAIDAINT,
+       ATD_INA_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ATD_INA_HR_ALTA_CLINICA,
+       CAD_PRO_ID_PROFISSIONAL,
+       TIS_CBO_CD_CBOS,
+       ATD_INA_ID,
+       SEG_USU_ID_USUARIO_ALTA,
+       ATD_INA_DS_OBSERVACAO,
+
+       ATD_INA_CD_MOTIVO_PERM_LEITO,
+       ATD_INA_DS_RECEITUARIO
+    )
+    VALUES
+    (
+       pATD_ATE_ID,
+       trunc(pATD_INA_DT_ALTA_CLINICA),
+       trunc(pATD_INA_DT_ALTA_ADM),
+       pATD_INA_HR_ALTA_ADM,
+       pTIS_MSI_CD_MOTIVOSAIDAINT,
+       pATD_INA_DT_ULTIMA_ATUALIZACAO,
+       pSEG_USU_ID_USUARIO,
+       pATD_INA_HR_ALTA_CLINICA,
+       pCAD_PRO_ID_PROFISSIONAL,
+       pTIS_CBO_CD_CBOS,
+       lIdtRetorno,
+       pSEG_USU_ID_USUARIO_ALTA,
+       pATD_INA_DS_OBSERVACAO,
+
+       pATD_INA_CD_MOTIVO_PERM_LEITO,
+       pATD_INA_DS_RECEITUARIO
+    );
+    pNewIdt := lIdtRetorno;
+  end PRC_INT_ATD_INA_INT_ALTA_I;

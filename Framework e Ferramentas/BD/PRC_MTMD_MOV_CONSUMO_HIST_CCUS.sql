@@ -1,0 +1,125 @@
+CREATE OR REPLACE PROCEDURE PRC_MTMD_MOV_CONSUMO_HIST_CCUS
+  (
+   pCAD_UNI_ID_UNIDADE           IN TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type,
+   pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type,
+   pCAD_SET_ID                   IN TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type,
+   pATD_ATE_ID                   IN TB_MTMD_MOV_MOVIMENTACAO.ATD_ATE_ID%type default NULL,
+   pATD_ATE_TP_PACIENTE          IN TB_MTMD_MOV_MOVIMENTACAO.ATD_ATE_TP_PACIENTE%type default NULL,
+   pMTMD_MOV_DATA                IN TB_MTMD_MOV_MOVIMENTACAO.MTMD_MOV_DATA%type DEFAULT NULL,   
+   pMTMD_MOV_DATA_ATE            IN TB_MTMD_MOV_MOVIMENTACAO.MTMD_MOV_DATA%type DEFAULT NULL,  
+   pCAD_MTMD_FILIAL_ID           IN TB_MTMD_MOV_MOVIMENTACAO.CAD_MTMD_FILIAL_ID%type DEFAULT NULL, 
+   pTIS_MED_CD_TABELAMEDICA      IN TB_CAD_MTMD_MAT_MED.TIS_MED_CD_TABELAMEDICA%type DEFAULT NULL,
+   pMTMD_ID_TP_CCUSTO            IN TB_MTMD_MOV_CCUSTO.mtmd_id_tp_ccusto%TYPE DEFAULT NULL,
+   pBNF_MUN_CD_IBGE              IN TB_BNF_HOMECARE.BNF_MUN_CD_IBGE%TYPE DEFAULT NULL,
+   io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+    /************************************************************************************
+  *    Procedure: PRC_MTMD_MOV_CONSUMO_HIST_CCUS
+  *
+  *    Data Criacao: 05/06/2009        Por: Ricardo Costa
+  *    Data Alteracao: 25/01/2010     Por: Ricardo Costa
+  *    Alterac?o: Adicionar parametro ID estoque da baixa
+  *    Data Alteracao: 15/04/2010     Por: Andre S. Monaco
+  *    Alterac?o: Adicionei parametro pBNF_MUN_CD_IBGE para relatorio de HOMECARE
+  *    Data Alterac?o: 28/09/2011   Por: Andre Souza Monaco
+  *         Alterac?o: Estava buscano preco unitario ao inves do preco medio
+  *    Data Alteracao:	25/11/2011  Por: Andre Souza Monaco
+  *         Alteracao:	Coloquei a query no padr?o de string dinamica
+  *    Data Alteracao:	12/09/2016  Por: Andre Souza Monaco
+  *         Alteracao:	Add. CAD_MTMD_FL_MAV e retirada da tb antiga do HomeCare
+  *
+  *    Funcao: LISTA MOVIMENTAC?O DE BAIXA NO ESTOQUE PARA CONSUMO DE CENTRO DE CUSTO
+  *
+  *************************************************************************************/
+  /********************************************************************
+   27 - MANUTENC?O
+   28 - HOMECARE
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  vMTMD_MOV_DATA DATE;
+  vUNIDADE_ESTOQUE  TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type;
+  vLOCAL_ESTOQUE    TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type;
+  vSETOR_ESTOQUE    TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+  begin  
+    -- BUSCA SETOR DE ESTOQUE ONDE A BAIXA E REALIZADA    
+    IF ( pATD_ATE_TP_PACIENTE = 'H' ) THEN
+       -- SE FOR HOMECARE SEMPRE VAI SER DO CENTRAL
+      vUNIDADE_ESTOQUE  := 244; -- SANTOS
+      vLOCAL_ESTOQUE    := 33;  -- ADMNISTRATIVO
+      vSETOR_ESTOQUE    := 29;  -- ALMOXARIFADO
+    ELSE
+       BEGIN    
+         SELECT CCUSTO.cad_uni_id_unidade, 
+                CCUSTO.cad_lat_id_local_atendimento,
+                CCUSTO.cad_set_id
+         INTO   vUNIDADE_ESTOQUE,
+                vLOCAL_ESTOQUE,
+                vSETOR_ESTOQUE
+         FROM TB_MTMD_MOV_CCUSTO CCUSTO
+         WHERE CCUSTO.mtmd_id_tp_ccusto = pMTMD_ID_TP_CCUSTO;
+       EXCEPTION WHEN OTHERS THEN
+          RAISE_APPLICATION_ERROR(-20000,' ERRO BUSCANDO ESTOQUE CENTRO CUSTO '||sqlerrm);
+       END;
+    END IF;
+    IF (pMTMD_MOV_DATA IS NULL AND pMTMD_MOV_DATA_ATE IS NULL) THEN
+       vMTMD_MOV_DATA := TRUNC(SYSDATE);
+    ELSIF (NOT pMTMD_MOV_DATA IS NULL AND pMTMD_MOV_DATA_ATE IS NULL) THEN
+       vMTMD_MOV_DATA := TRUNC(pMTMD_MOV_DATA);    
+    END IF;
+    V_WHERE := NULL;
+    IF pTIS_MED_CD_TABELAMEDICA IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MTMD.TIS_MED_CD_TABELAMEDICA = ' || CHR(39) || pTIS_MED_CD_TABELAMEDICA || CHR(39); END IF;
+    IF pCAD_MTMD_FILIAL_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MOV.CAD_MTMD_FILIAL_ID = ' || pCAD_MTMD_FILIAL_ID; END IF;
+    IF pCAD_SET_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MOV.CAD_SET_ID = ' || pCAD_SET_ID; END IF;
+    IF pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MOV.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || pCAD_LAT_ID_LOCAL_ATENDIMENTO; END IF;
+    IF pCAD_UNI_ID_UNIDADE IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MOV.CAD_UNI_ID_UNIDADE = ' || pCAD_UNI_ID_UNIDADE; END IF;
+    IF pATD_ATE_TP_PACIENTE IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MOV.ATD_ATE_TP_PACIENTE = ' || CHR(39) || pATD_ATE_TP_PACIENTE || CHR(39); END IF;
+    IF pATD_ATE_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND MOV.ATD_ATE_ID = ' || pATD_ATE_ID; END IF;
+    --IF pBNF_MUN_CD_IBGE IS NOT NULL THEN V_WHERE:= V_WHERE || ' BNF MOV.BNF_MUN_CD_IBGE = ' || CHR(39) || pBNF_MUN_CD_IBGE || CHR(39); END IF;
+    IF vMTMD_MOV_DATA IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND TRUNC(MOV.MTMD_MOV_DATA) >= ' || CHR(39) || TRUNC(vMTMD_MOV_DATA) || CHR(39); END IF;
+    IF pMTMD_MOV_DATA_ATE IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND TRUNC(MOV.MTMD_MOV_DATA) BETWEEN ' || CHR(39) || TRUNC(pMTMD_MOV_DATA) || CHR(39) || ' AND '  || CHR(39) || TRUNC(pMTMD_MOV_DATA_ATE) || CHR(39); END IF;
+    -- FILTRA MOVIMENTOS DO ESTOQUE QUE FOI RETIRADO O PRODUTO
+    V_WHERE:= V_WHERE || ' AND REFER.CAD_UNI_ID_UNIDADE = ' || vUNIDADE_ESTOQUE;
+    V_WHERE:= V_WHERE || ' AND REFER.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || vLOCAL_ESTOQUE;
+    V_WHERE:= V_WHERE || ' AND REFER.CAD_SET_ID = ' || vSETOR_ESTOQUE;
+    V_WHERE:= V_WHERE || ' ORDER BY MOV.MTMD_MOV_DATA';
+    V_SELECT := '
+    SELECT MOV.MTMD_MOV_ID,
+             MOV.CAD_MTMD_FILIAL_ID,
+             MOV.CAD_MTMD_ID,
+             MOV.MTMD_MOV_DATA,             
+             MOV.MTMD_REQ_ID REQ,
+             MOV.MTMD_REQ_ID,
+             MOV.MTMD_MOV_QTDE,
+             MOV.ATD_ATE_ID,
+             MOV.MTMD_MOV_ESTOQUE_ATUAL,
+             MOV.CAD_SET_ID,
+             MOV.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+             MOV.CAD_UNI_ID_UNIDADE,
+             MOV.MTMD_MOV_ID_REF,
+             MTMD.CAD_MTMD_NOMEFANTASIA,
+             MTMD.CAD_MTMD_CODMNE,
+             MTMD.CAD_MTMD_UNID_VENDA_DS,
+             MTMD.CAD_MTMD_UNID_COMPRA_DS,
+             FNC_MTMD_PRECO_MEDIO(MOV.CAD_MTMD_ID, MOV.CAD_MTMD_FILIAL_ID) VALOR_UNITARIO,
+             FNC_MTMD_PRECO_MEDIO(MOV.CAD_MTMD_ID, MOV.CAD_MTMD_FILIAL_ID)*MOV.MTMD_MOV_QTDE VALOR_TOTAL,
+             MTMD.CAD_MTMD_FL_MAV,
+             MOV.MTMD_COD_LOTE, 
+             (SELECT MTMD_NUM_LOTE
+               FROM TB_MTMD_LOTEST_LOTE_ESTOQUE LL
+              WHERE LL.CAD_MTMD_FILIAL_ID = 1 AND
+                    LL.CAD_MTMD_ID   = MOV.CAD_MTMD_ID AND
+                    LL.MTMD_COD_LOTE = MOV.MTMD_COD_LOTE AND ROWNUM = 1) MTMD_NUM_LOTE
+      FROM TB_MTMD_MOV_MOVIMENTACAO MOV,
+           TB_CAD_MTMD_MAT_MED      MTMD,
+           TB_MTMD_MOV_MOVIMENTACAO REFER
+      WHERE MTMD.CAD_MTMD_ID                  = MOV.CAD_MTMD_ID
+      AND   MOV.CAD_MTMD_TPMOV_ID             = 2
+      AND   MOV.CAD_MTMD_SUBTP_ID             IN (27,28) -- 19-BAIXA DO ESTOQUE
+      AND   REFER.MTMD_MOV_ID_REF             = MOV.MTMD_MOV_ID ';
+      OPEN v_cursor FOR
+      V_SELECT || V_WHERE;
+      io_cursor := v_cursor;
+END PRC_MTMD_MOV_CONSUMO_HIST_CCUS;

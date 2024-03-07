@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SgsHomolog">
+  <ConnectionProperties>
+    <Extension>ORACLE</Extension>
+    <ConnectString>Data Source=DESENV;Unicode=True</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>42c71dc0-8308-428c-aef8-420dfbea71f6</DataSourceID>
+</RptDataSource>

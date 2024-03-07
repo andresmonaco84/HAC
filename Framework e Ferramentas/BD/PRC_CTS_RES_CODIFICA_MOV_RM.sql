@@ -1,0 +1,396 @@
+CREATE OR REPLACE PROCEDURE PRC_CTS_RES_CODIFICA_MOV_RM
+------codifica_mov_rm
+(
+    P_MESFAT  IN TB_CTS_MOV_MOVIMENTACAO_RM.CTS_MOV_RM_MES%TYPE,
+    P_ANOFAT  IN TB_CTS_MOV_MOVIMENTACAO_RM.CTS_MOV_RM_ANO%TYPE
+)
+IS
+/********************************************************************
+*
+*    PROCEDURE: PRC_CTS_RES_CODIFICA_MOV_RM
+*    DATA:13/08/2013          POR: Neide
+*
+*********************************************************************/
+BEGIN
+DECLARE
+----------
+----
+BEGIN
+--
+DECLARE
+--------
+CURSOR ATU IS
+----
+SELECT MV.CTS_MOV_RM_ID,
+       MV.CTS_MOV_RM_MES,
+       MV.CTS_MOV_RM_ANO,
+       MV.CAD_CCR_ID CAD_CCR_ID_MOV ,
+       CEC.CAD_CEC_CD_CCUSTO,
+       CASE
+        --- DIARIA  CCIRURGICO  W.LUIS E CUBATAO JOGAR NO SADT
+     WHEN MV.CAD_UNI_ID_UNIDADE = 301 AND PLC.CAD_TAP_TP_ATRIBUTO='DIA' AND ASS.CAD_CEC_CD_GRUPOCCUSTO = 13 THEN
+        'EXA'
+     WHEN MV.CAD_UNI_ID_UNIDADE = 246 AND PLC.CAD_TAP_TP_ATRIBUTO='DIA' AND ASS.CAD_CEC_CD_GRUPOCCUSTO = 13 THEN
+        'EXA'
+     WHEN MV.CAD_UNI_ID_UNIDADE = 245 AND PLC.CAD_TAP_TP_ATRIBUTO='EXA' AND ASS.CAD_CEC_CD_GRUPOCCUSTO = 14 THEN
+        NULL
+     WHEN ASS.CAD_CEC_CD_GRUPOCCUSTO = 20 THEN
+        NULL
+      ELSE
+         PLC.CAD_TAP_TP_ATRIBUTO
+       END CAD_TAP_TP_ATRIBUTO ,
+        MV.CTS_MOV_RM_VL_SALDO,
+       ASS.CAD_CCR_ID,
+     CASE
+     WHEN MV.CAD_UNI_ID_UNIDADE = 245 AND PLC.CAD_TAP_TP_ATRIBUTO='EXA' AND ASS.CAD_CEC_CD_GRUPOCCUSTO = 14 THEN
+        'I'
+     ELSE
+       ASS.ASS_TIPO_CONTA
+     END ASS_TIPO_CONTA ,
+       ASS.CAD_CEC_CD_GRUPOCCUSTO , CCR.CAD_CCR_CD_CONTA,  CCR.CAD_CCR_DS_DESCRICAO
+ FROM TB_ASS_CTS_PLC_CCR_CONTAS  ASS,
+            TB_CAD_CTS_PLC_PLANO_CONTAS PLC,
+            TB_CTS_MOV_MOVIMENTACAO_RM MV,
+            TB_CAD_CEC_CENTRO_CUSTO CEC ,
+            TB_CAD_CCR_CCONTA_RM CCR
+ WHERE  ASS.ASS_CTS_PLC_CCR_FL_STATUS = 'A'
+    AND ASS.CAD_CTS_PLC_ID = PLC.CAD_CTS_PLC_ID
+    AND ASS.CAD_CCR_ID = MV.CAD_CCR_ID
+    AND MV.CAD_CEC_ID_CCUSTO = CEC.CAD_CEC_ID_CCUSTO
+    AND CEC.CAD_CEC_CD_GRUPOCCUSTO = ASS.CAD_CEC_CD_GRUPOCCUSTO  --- QDO TEM GRUPO CC PREENCHIDO
+    AND MV.CTS_MOV_RM_MES = P_MESFAT
+    AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+    AND MV.CAD_CCR_ID = CCR.CAD_CCR_ID
+UNION ALL
+SELECT MV.CTS_MOV_RM_ID,
+       MV.CTS_MOV_RM_MES,
+       MV.CTS_MOV_RM_ANO,
+       MV.CAD_CCR_ID       CAD_CCR_ID_MOV ,
+       CEC.CAD_CEC_CD_CCUSTO,
+---
+----
+----  correto    'XXX'  CAD_TAP_TP_ATRIBUTO   ,
+ --- a para julho/2013 deixar tudo na indireta utilizando o percentual da receita total com diaria
+     null   CAD_TAP_TP_ATRIBUTO   ,
+---
+---
+       MV.CTS_MOV_RM_VL_SALDO,
+       NULL    CAD_CCR_ID,
+       'I'     ASS_TIPO_CONTA,
+       NULL    CAD_CEC_CD_GRUPOCCUSTO , CCR.CAD_CCR_CD_CONTA,  CCR.CAD_CCR_DS_DESCRICAO
+ FROM   TB_CTS_MOV_MOVIMENTACAO_RM MV,
+        TB_CAD_CCR_CCONTA_RM    RM ,
+        TB_CAD_CEC_CENTRO_CUSTO CEC,
+        TB_CAD_CCR_CCONTA_RM CCR
+ WHERE  MV.CAD_CEC_ID_CCUSTO = CEC.CAD_CEC_ID_CCUSTO
+    AND MV.CTS_MOV_RM_MES = P_MESFAT
+    AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+    AND MV.CAD_CCR_ID = RM.CAD_CCR_ID
+    AND RM.CAD_CCR_CD_CONTA LIKE '4%'
+    AND RM.CAD_CCR_CD_CONTA LIKE '4.1.01.003%' --- TODO CUSTO DE MAO DE OBRA
+    AND TO_NUMBER(SUBSTR(CEC.CAD_CEC_CD_CCUSTO,1,2 )) IN ( 15, 17 )
+    AND MV.CAD_CCR_ID = CCR.CAD_CCR_ID
+UNION ALL
+SELECT MV.CTS_MOV_RM_ID,
+       MV.CTS_MOV_RM_MES,
+       MV.CTS_MOV_RM_ANO,
+       MV.CAD_CCR_ID       CAD_CCR_ID_MOV ,
+       CEC.CAD_CEC_CD_CCUSTO,
+       NULL   ,
+       MV.CTS_MOV_RM_VL_SALDO,
+       NULL    CAD_CCR_ID,
+       'I'     ASS_TIPO_CONTA,
+       NULL    CAD_CEC_CD_GRUPOCCUSTO , CCR.CAD_CCR_CD_CONTA,  CCR.CAD_CCR_DS_DESCRICAO
+ FROM   TB_CTS_MOV_MOVIMENTACAO_RM MV,
+        TB_CAD_CCR_CCONTA_RM    RM ,
+        TB_CAD_CEC_CENTRO_CUSTO CEC,
+        TB_CAD_CCR_CCONTA_RM CCR
+WHERE  NVL(MV.CAD_CEC_ID_CCUSTO, 224) = CEC.CAD_CEC_ID_CCUSTO
+    AND MV.CTS_MOV_RM_MES = P_MESFAT
+    AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+    AND MV.CAD_CCR_ID = RM.CAD_CCR_ID
+    AND RM.CAD_CCR_CD_CONTA LIKE '4%'
+    AND (   RM.CAD_CCR_CD_CONTA LIKE '4.1.01.004%' --- GASTOS GERAIS
+         OR RM.CAD_CCR_CD_CONTA LIKE '4.1.02.001%' --- GASTOS GERAIS PRODUCAO E SERVICOS
+         OR RM.CAD_CCR_CD_CONTA LIKE '4.2%'        --- DESPESA ADMINISTRATIVAS
+         OR RM.CAD_CCR_CD_CONTA LIKE '4.3%'        --- DESPESA NAO OPERACIONAL
+         OR TO_NUMBER(SUBSTR(CEC.CAD_CEC_CD_CCUSTO,1,2 )) = 19 --- CCUSTO APOIO OPERCIONAL
+         OR RM.CAD_CCR_CD_CONTA LIKE '4.1.01.001.0001.004'   --- SERVICOS TECNICOS
+         OR RM.CAD_CCR_CD_CONTA LIKE '4.1.01.001.0001.005'   --- Prov.de Serv.Profissionais Contratados
+)
+    AND MV.CAD_CCR_ID = CCR.CAD_CCR_ID
+    ---- TEM MATMED COMO C.CUSTO 19.27.05 QUEN TEM QUE FICAR COMO DIRETO
+    AND  MV.CAD_CCR_ID  NOT IN ( 118, 119, 120, 121,122, 123, 124, 125,126,127,128,129,130 )
+----
+UNION ALL
+---
+--- GEN ALIMENTICIOS , OLEO,IMPRESSOS,  CONSUMO DIVERSOS
+---
+SELECT MV.CTS_MOV_RM_ID,
+       MV.CTS_MOV_RM_MES,
+       MV.CTS_MOV_RM_ANO,
+       MV.CAD_CCR_ID       CAD_CCR_ID_MOV ,
+       CEC.CAD_CEC_CD_CCUSTO,
+       NULL   ,
+       MV.CTS_MOV_RM_VL_SALDO,
+       NULL    CAD_CCR_ID,
+       'I'     ASS_TIPO_CONTA,
+       NULL    CAD_CEC_CD_GRUPOCCUSTO , CCR.CAD_CCR_CD_CONTA,  CCR.CAD_CCR_DS_DESCRICAO
+ FROM   TB_CTS_MOV_MOVIMENTACAO_RM MV,
+        TB_CAD_CCR_CCONTA_RM    RM ,
+        TB_CAD_CEC_CENTRO_CUSTO CEC,
+        TB_CAD_CCR_CCONTA_RM CCR
+ WHERE  NVL(MV.CAD_CEC_ID_CCUSTO, 224) = CEC.CAD_CEC_ID_CCUSTO
+    AND MV.CTS_MOV_RM_MES = P_MESFAT
+    AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+    AND MV.CAD_CCR_ID = RM.CAD_CCR_ID
+    AND RM.CAD_CCR_CD_CONTA LIKE '4%'
+    AND  MV.CAD_CCR_ID   IN ( 121, 123 , 124, 125, 126, 127, 128)
+    AND MV.CAD_CCR_ID = CCR.CAD_CCR_ID
+----
+UNION ALL
+---
+---  PARA HM, EXAME, TAXAS
+---
+SELECT MV.CTS_MOV_RM_ID,
+       MV.CTS_MOV_RM_MES,
+       MV.CTS_MOV_RM_ANO,
+       MV.CAD_CCR_ID           CAD_CCR_ID_MOV ,
+       CEC.CAD_CEC_CD_CCUSTO,
+       PLC.CAD_TAP_TP_ATRIBUTO ,
+       MV.CTS_MOV_RM_VL_SALDO,
+       ASS.CAD_CCR_ID,
+       ASS.ASS_TIPO_CONTA,
+       ASS.CAD_CEC_CD_GRUPOCCUSTO, CCR.CAD_CCR_CD_CONTA,  CCR.CAD_CCR_DS_DESCRICAO
+ FROM TB_ASS_CTS_PLC_CCR_CONTAS  ASS,
+            TB_CAD_CTS_PLC_PLANO_CONTAS PLC,
+            TB_CTS_MOV_MOVIMENTACAO_RM MV,
+            TB_CAD_CEC_CENTRO_CUSTO CEC,
+            TB_CAD_CCR_CCONTA_RM CCR
+ WHERE ASS.ASS_CTS_PLC_CCR_FL_STATUS = 'A'
+    AND ASS.CAD_CTS_PLC_ID         = PLC.CAD_CTS_PLC_ID
+    AND ASS.CAD_CCR_ID            = MV.CAD_CCR_ID
+    AND MV.CAD_CEC_ID_CCUSTO      = CEC.CAD_CEC_ID_CCUSTO
+    AND MV.CAD_CEC_ID_CCUSTO        IS NOT NULL
+    AND ASS.CAD_CEC_CD_GRUPOCCUSTO  IS NULL
+    AND MV.CTS_MOV_RM_MES = P_MESFAT
+    AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+    AND MV.CAD_CCR_ID = CCR.CAD_CCR_ID
+ORDER BY  4, 5;
+------
+--
+--
+ BEGIN
+     --- LIMPAR CAMPOS PARA ATUALIZAR
+     UPDATE TB_CTS_MOV_MOVIMENTACAO_RM MV
+     SET MV.CAD_TAP_TP_ATRIBUTO = NULL ,
+         MV.ASS_TIPO_CONTA = NULL ,
+         MV.CAD_CTS_PLC_ID =  NULL
+     WHERE MV.CTS_MOV_RM_MES = P_MESFAT
+     AND MV.CTS_MOV_RM_ANO = P_ANOFAT;
+     ---
+     COMMIT;
+ ---
+ ---
+ FOR A IN ATU LOOP
+ ---      DBMS_OUTPUT.PUT_LINE( TO_CHAR( A.CTS_MOV_RM_ID )    );
+       UPDATE TB_CTS_MOV_MOVIMENTACAO_RM MV
+       SET MV.CAD_TAP_TP_ATRIBUTO = A.CAD_TAP_TP_ATRIBUTO,
+             MV.ASS_TIPO_CONTA    = A.ASS_TIPO_CONTA
+       WHERE MV.CTS_MOV_RM_ID  = A.CTS_MOV_RM_ID ;
+ END LOOP;
+       COMMIT;
+ END;
+---
+-------
+-------
+-----
+---- 23/04/2013
+--- INICIO DA CODIFICACAO PARA HM DE CLINICA
+BEGIN
+DECLARE
+CURSOR ATU IS
+SELECT  -- CODIFICA HM PARA DIRECIONAR PARA CLINICA CORRETA
+DECODE( CLC.CAD_CLC_CT_EMPRESA, NULL,  55 ,
+                                'SC',  53 ,
+                                'ES',  54 ,
+                                'CE',  56   ) CAD_CTS_PLC_ID ,
+ MV.CTS_MOV_RM_ID,
+ MV.CODCFO,
+ MV.CTS_MOV_RM_MES      ,
+ MV.CTS_MOV_RM_ANO      ,
+ MV.CAD_CEC_ID_CCUSTO   , CEC.CAD_CEC_CD_CCUSTO ,
+ MV.CAD_UNI_ID_UNIDADE  ,
+ MV.CAD_TAP_TP_ATRIBUTO ,
+ MV.ASS_TIPO_CONTA
+ FROM TB_CTS_MOV_MOVIMENTACAO_RM MV,
+     TB_CAD_CEC_CENTRO_CUSTO CEC,
+     TB_CAD_PES_PESSOA PES,
+     TB_CAD_CLC_CLINICA_CREDENCIADA CLC
+WHERE MV.CAD_TAP_TP_ATRIBUTO = 'HM'
+  AND MV.CAD_CCR_ID = 112  ---- HONORARIO MEDICO
+  AND MV.CTS_MOV_RM_MES = P_MESFAT
+  AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+  AND MV.CAD_CEC_ID_CCUSTO = CEC.CAD_CEC_ID_CCUSTO
+  AND MV.CODCFO = PES.CODCFO(+)
+  AND PES.CAD_PES_ID_PESSOA = CLC.CAD_PES_ID_PESSOA(+)  ;
+BEGIN
+FOR A IN ATU LOOP
+--
+UPDATE TB_CTS_MOV_MOVIMENTACAO_RM MV
+SET MV.CAD_CTS_PLC_ID = A.CAD_CTS_PLC_ID
+WHERE MV.CTS_MOV_RM_ID = A.CTS_MOV_RM_ID;
+--
+END LOOP;
+COMMIT;
+END;
+END;
+----- FIM DO CODIGO DA CLINICA PARA HM
+---- FIM 23/04/2013
+---------------------------------------------------------------------------
+----
+---- QUANDO FOR DESPESA INDIRETA E TEM RECEITA TROCAR PARA DIRETA
+---- COMPARAR MES, ANO, HOSPITAL, CCUSTO DO PROCEDIMENTO, ATRIBUTO DA RECEITA
+----
+BEGIN
+DECLARE
+CURSOR ATU IS
+SELECT
+MV.CTS_MOV_RM_ID,
+CEC.CAD_CEC_CD_GRUPOCCUSTO,
+DECODE (CEC.CAD_CEC_CD_GRUPOCCUSTO , 11,'DIA' ,
+                                     12,'DIA' ,
+                                     13,'DIA' ,
+                                     14,'EXA'  ) CAD_TAP_TP_ATRIBUTO_DISTRIBUIR,
+'D' ASS_TIPO_CONTA_DISTRIBUIR,
+CEC.CAD_CEC_DS_CCUSTO, CCR.CAD_CCR_DS_DESCRICAO,
+MV.CTS_MOV_RM_VL_SALDO, MV.CAD_UNI_ID_UNIDADE
+FROM TB_CTS_MOV_MOVIMENTACAO_RM MV ,
+  TB_CAD_CEC_CENTRO_CUSTO CEC
+, TB_CAD_CCR_CCONTA_RM CCR
+WHERE MV.CTS_MOV_RM_MES = P_MESFAT
+  AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+  AND MV.ASS_TIPO_CONTA = 'I'
+  AND MV.CAD_CEC_ID_CCUSTO = CEC.CAD_CEC_ID_CCUSTO
+  AND MV.CAD_CCR_ID = CCR.CAD_CCR_ID
+  AND CCR.CAD_CCR_CD_CONTA LIKE '4%'
+  AND CEC.CAD_CEC_CD_GRUPOCCUSTO NOT IN ( 15, 17)
+  AND MV.CAD_CCR_ID NOT IN ( 121,  --- GENEROS ALIMENTICIOS
+                             123,  ---OLEO E COMBUSTIVEL
+                             124,  ---COPA COZINHA
+                             125,  ---ROUPARIA
+                             126,  --- IMPRESSOS
+                             127,  ---MATERIAL DE HIGIENE
+                             128,  --- CONSUMO DIVERSOS
+                             213,  ---Taxa de Direitos Autorias
+                             221,  ---Quebras e Perdas de Estoques
+                             223,  ---Tarifa 2º Via Cartão VR/VA
+                             227,  ---Correios e Malotes
+                             262,  ---Manutenção, Conservação e Reparos
+                             467,  ---Contribuição a Entidade de Classe
+                             536,  --- Baixas de Imobilizado - Reavaliado
+                             537 ) --- Baixas de Imobilizado
+AND EXISTS ( SELECT 'E' FROM TB_CTS_RES_RESULTADO_CUSTOS RES
+                WHERE RES.CTS_RES_MES = MV.CTS_MOV_RM_MES
+                  AND RES.CTS_RES_ANO = MV.CTS_MOV_RM_ANO
+                  AND RES.CAD_UNI_ID_UNIDADE = MV.CAD_UNI_ID_UNIDADE
+                  AND RES.CAD_CEC_ID_CC_PROCEDIMENTO = MV.CAD_CEC_ID_CCUSTO
+                  AND RES.CAD_TAP_TP_ATRIBUTO = DECODE( CEC.CAD_CEC_CD_GRUPOCCUSTO , 11,'DIA' ,  12,'DIA' , 13,'DIA', 14,'EXA' )  )
+ORDER BY 1;
+BEGIN
+FOR A IN ATU LOOP
+       UPDATE TB_CTS_MOV_MOVIMENTACAO_RM MV
+       SET MV.CAD_TAP_TP_ATRIBUTO = A.CAD_TAP_TP_ATRIBUTO_DISTRIBUIR,
+             MV.ASS_TIPO_CONTA    = A.ASS_TIPO_CONTA_DISTRIBUIR
+       WHERE MV.CTS_MOV_RM_ID  = A.CTS_MOV_RM_ID ;
+END LOOP;
+COMMIT;
+END; --- FIM DA TROCA DE DESPESA INDIRETA PARA DIRETA
+END;
+---****************************************************************************************
+---
+---
+---
+BEGIN
+-- INICIO DA TROCA DA DIRETA PARA INDIRETA
+--- QUANDO NAO EXISTE RECEITA DIRETA AJUSTAR DESPESA DIRETA PARA INDIRETA
+--- 118 DROGAS E MEDICAMENTOS
+--- 120 GASES MEDICINAIS
+--- 122 MATERIAL DE CONSUMO MEDICO HOSPITALAR
+--- 130 PROTESE ORTESE SINTESE
+DECLARE
+CURSOR ATU IS
+SELECT MV.CTS_MOV_RM_ID,
+MV.CAD_UNI_ID_UNIDADE,
+MV.CAD_CCR_ID , DECODE (MV.CAD_CCR_ID ,118, 215 ,
+                                       120, 141 ,
+                                       122, 186 ,
+                                       130, 193 ) COD_RES , MV.CTS_MOV_RM_VL_SALDO
+FROM TB_CTS_MOV_MOVIMENTACAO_RM MV,
+     TB_CAD_CCR_CCONTA_RM R
+WHERE MV.CTS_MOV_RM_MES = P_MESFAT
+  AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+  AND R.CAD_CCR_CD_CONTA LIKE '4%'
+  AND MV.CAD_CCR_ID = R.CAD_CCR_ID
+  AND MV.CAD_CCR_ID IN ( 118, 120, 122, 130 )
+  AND NOT EXISTS ( SELECT * FROM TB_CTS_RES_RESULTADO_CUSTOS RES
+                 WHERE RES.CTS_RES_MES = MV.CTS_MOV_RM_MES
+                 AND RES.CTS_RES_ANO = MV.CTS_MOV_RM_ANO
+                 AND RES.CAD_UNI_ID_UNIDADE = MV.CAD_UNI_ID_UNIDADE
+                 AND RES.CAD_CTS_PLC_ID = DECODE (MV.CAD_CCR_ID ,118, 215 , 120, 141 ,  122, 186 , 130 , 193 )
+                 AND NVL(RES.CTS_RES_VL_RECEITA_DIRETA,0) <> 0 )
+UNION ALL
+--- qdo nao tem receita e esta como despesa direta ( D ) incluido em 20/09/2013
+select mv.cts_mov_rm_id,
+mv.cad_uni_id_unidade,
+mv.cad_ccr_id , NULL  cod_res , mv.cts_mov_rm_vl_saldo
+from tb_cts_mov_movimentacao_rm mv,
+     tb_cad_ccr_cconta_rm r
+where mv.cts_mov_rm_mes = p_mesfat
+  and mv.cts_mov_rm_ano = p_anofat
+  and r.cad_ccr_cd_conta like '4%'
+  and mv.cad_ccr_id = r.cad_ccr_id
+  and MV.CAD_CCR_ID NOT IN ( 118, 120, 122, 130 )
+  and not exists ( select * from tb_cts_res_resultado_custos res
+                 where res.cts_res_mes          = mv.cts_mov_rm_mes
+                 and res.cts_res_ano            = mv.cts_mov_rm_ano
+                 and res.cad_uni_id_unidade     = mv.cad_uni_id_unidade
+                 and res.cad_tap_tp_atributo    = mv.cad_tap_tp_atributo
+                 and nvl(res.cts_res_vl_receita_direta,0) <> 0 )
+  and mv.ass_tipo_conta  = 'D'
+ORDER BY 1;
+BEGIN
+FOR A IN ATU LOOP
+    UPDATE TB_CTS_MOV_MOVIMENTACAO_RM MV
+    SET MV.ASS_TIPO_CONTA  = 'I' ,
+        MV.CAD_TAP_TP_ATRIBUTO = NULL
+    WHERE MV.CTS_MOV_RM_ID  = A.CTS_MOV_RM_ID ;
+END LOOP;
+--
+   COMMIT;
+--
+END;  ---- FIM DA TROCA DA DIRETA PARA INDIRETA
+---********************************************************
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+---
+--- FORCANDO DESPESA DE HOME CARE PARA DIRETA DE DIARIA
+--- PARA DEMOSNTRAR NO CODIGO 13- DIARIA DE HOME CARE
+---
+    UPDATE TB_CTS_MOV_MOVIMENTACAO_RM MV
+    SET MV.ASS_TIPO_CONTA  = 'D',
+        MV.CAD_TAP_TP_ATRIBUTO = 'DIA'
+    WHERE MV.CTS_MOV_RM_MES = P_MESFAT
+      AND MV.CTS_MOV_RM_ANO = P_ANOFAT
+      AND MV.CAD_CEC_ID_CCUSTO = 151 --- INTERMACAO DOMICILIAR
+      AND MV.CAD_CCR_ID NOT IN ( 118, --MEDIC
+                                 122, --- MATERIAL
+                                 126, --- IMPRESSOS
+                                 127 ); --- MATERIAL HIGIENE
+     COMMIT;
+----
+---- FIM DO HOME CARE
+END;
+---
+END;
+END PRC_CTS_RES_CODIFICA_MOV_RM;

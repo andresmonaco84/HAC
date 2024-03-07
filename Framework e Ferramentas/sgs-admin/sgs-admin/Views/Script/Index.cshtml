@@ -1,0 +1,46 @@
+﻿@model sgs_admin.Models.Script
+
+<script type="text/javascript">
+    $(function () {
+        $("#AtendimentoNovo").focus();
+    });
+</script>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Transferência de Prontuario</h2>
+
+@*@using (Html.BeginForm("TransferirProntuario", "Script"))*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false)
+
+    <fieldset>
+        <legend>Mensagem</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AtendimentoNovo)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.AtendimentoNovo, new { style = "width: 100px;" })
+        </div>       
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AtendimentoAntigo)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.AtendimentoAntigo, new { style = "width: 100px;" })
+        </div>
+        <p>
+            <input type="submit" value="Salvar" />
+        </p>       
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>

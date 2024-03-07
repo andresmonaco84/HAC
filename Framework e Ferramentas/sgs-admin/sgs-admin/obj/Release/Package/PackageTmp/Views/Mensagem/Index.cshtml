@@ -1,0 +1,92 @@
+﻿@using System.Globalization
+@*@model IEnumerable<sgs_admin.Models.Mensagem>*@
+@*@model sgs_admin.Models.MensagemViewModel*@
+
+
+@model PagedList.IPagedList<sgs_admin.Models.Mensagem>
+@using PagedList.Mvc
+
+<h2>Cadastro de Mensagens de Aviso da TI</h2>
+
+<p title="Adicionar">
+    <a href="@Url.Action("Create")"><img class="borderIcon" src="~/Images/imgAdd2.png" /></a>
+</p>
+<table>
+    <tr>
+        <th>
+            Inicio
+        </th>
+        <th>
+            Fim
+        </th>
+        <th>
+            Sistema
+        </th>
+        <th>
+            Texto
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Modulo
+        </th>
+        <th></th>
+    </tr>
+    
+    @*@foreach (var item in Model.Excluidas)*@
+    @foreach (var item in Model)
+    {
+        @*<tr title="@item.Texto">*@
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Inicio)*@
+                @item.Inicio.ToString("dd/MM/yyyy HH:mm")
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Fim)*@
+                @item.Fim.ToString("dd/MM/yyyy HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sistema)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Texto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modulo)
+            </td>
+            @*<td>*@
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id })*@
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            @*</td>*@
+            
+            <td title="Alterar">
+                @if (item.Fim > DateTime.Now)
+                {
+                    <a href="@Url.Action("Edit", new {id = item.Id})"><img class="borderIcon" src="~/Images/imgEdit.png" /></a>
+                }
+                else
+                {
+                    <img class="borderIcon" src="~/Images/imgCancel.png"/>
+                }
+
+            </td>
+
+            <td title="Excluir">
+                <a href="@Url.Action("Delete", new { id = item.Id })"><img class="borderIcon" src="~/Images/imgDelete.png" /></a>
+            </td>
+
+        </tr>
+        
+        
+    }
+
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+@ViewBag.Fabiola

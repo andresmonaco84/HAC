@@ -1,0 +1,108 @@
+CREATE OR REPLACE PROCEDURE "PRC_MTMD_CONSUMOS_MENSAIS"
+  (
+     pQtdMesesAnteriores INTEGER, -- Quantidade de meses anteriores a serem pesquisados
+     pCAD_MTMD_ID IN TB_MTMD_MOV_MOVIMENTACAO.CAD_MTMD_ID%type,
+     --pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type DEFAULT NULL,
+     --pCAD_UNI_ID_UNIDADE IN TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+     --pCAD_SET_ID IN TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type DEFAULT NULL,
+     pCAD_MTMD_FILIAL_ID IN TB_MTMD_MOV_MOVIMENTACAO.CAD_MTMD_FILIAL_ID%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_MTMD_CONSUMOS_MENSAIS
+  *
+  *    Data Criacao: 	data da  criação   Por: André Souza Monaco
+  *    Data Alteracao:	data da alteração  Por: André Souza Monaco
+  *
+  *    Funcao: Traz os consumos dos últimos N meses
+  *
+  *******************************************************************/
+	contador INTEGER := 1;
+  strQuery VARCHAR2(30000) := '';
+  v_cursor PKG_CURSOR.t_cursor;
+  nFilial NUMBER;
+  dDataIni1 DATE;
+  dDataFim1 DATE;
+  dDataIni2 DATE;
+  dDataFim2 DATE;  
+  dDataIni3 DATE;    
+  dDataFim3 DATE;      
+  begin
+     nFilial := FNC_MTMD_RETORNA_FILIAL( pCAD_MTMD_ID, pCAD_MTMD_FILIAL_ID, NULL );
+    -- Campo MTMD_MOV_DATA = Mês Ref.
+    -- Campo MTMD_MOV_QTDE = Consumo referente ao mês
+    -- SÓ RETRONA CONSUMO DOS 3 ULTIMOS MESES, NÃO INCLUINDO MES ATUAL
+      dDataIni1 := TO_DATE('01'||TO_CHAR(ADD_MONTHS(SYSDATE,-3),'MMYYYY'),'DDMMYYYY');
+      dDataFim1 := LAST_DAY(ADD_MONTHS(SYSDATE,-3));
+      
+      dDataIni2 := TO_DATE('01'||TO_CHAR(ADD_MONTHS(SYSDATE,-2),'MMYYYY'),'DDMMYYYY');
+      dDataFim2 := LAST_DAY(ADD_MONTHS(SYSDATE,-2));
+
+      dDataIni3 := TO_DATE('01'||TO_CHAR(ADD_MONTHS(SYSDATE,-1),'MMYYYY'),'DDMMYYYY');
+      dDataFim3 := LAST_DAY(ADD_MONTHS(SYSDATE,-1));
+       OPEN v_cursor FOR
+       /*
+       SELECT TO_CHAR(MTMD_MOV_DATA,'MM/YYYY'), NVL(SUM(MTMD_MOV_QTDE),0) MTMD_MOV_QTDE 
+       FROM SGS.TB_MTMD_MOV_MOVIMENTACAO MOVIMENTO
+       WHERE MOVIMENTO.CAD_MTMD_TPMOV_ID  = 2  -- SAIDA
+       AND   MOVIMENTO.CAD_MTMD_SUBTP_ID  IN (6,18,11) -- 6=PERDA, 11=CONSUMO PAC. 18=CONSUMO NAO FATURADO
+       AND   MOVIMENTO.MTMD_MOV_DATA BETWEEN dDataIni1 AND dDataFim3
+       AND   MOVIMENTO.CAD_MTMD_ID        = 1975
+       AND   MOVIMENTO.CAD_MTMD_FILIAL_ID = 1
+       GROUP BY TO_CHAR(MTMD_MOV_DATA,'MM/YYYY');
+       */
+       
+       SELECT NVL(SUM(MTMD_MOV_QTDE),0) MTMD_MOV_QTDE 
+       FROM TB_MTMD_MOV_MOVIMENTACAO MOVIMENTO
+       WHERE MOVIMENTO.CAD_MTMD_TPMOV_ID  = 2  -- SAIDA
+       AND   MOVIMENTO.CAD_MTMD_SUBTP_ID  IN (6,18,11) -- 6=PERDA, 11=CONSUMO PAC. 18=CONSUMO NAO FATURADO
+       AND   MOVIMENTO.MTMD_MOV_DATA BETWEEN dDataIni1 AND dDataFim1 
+       AND   MOVIMENTO.CAD_MTMD_ID        = pCAD_MTMD_ID
+       AND   MOVIMENTO.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID
+       UNION ALL
+       SELECT NVL(SUM(MTMD_MOV_QTDE),0) MTMD_MOV_QTDE 
+       FROM TB_MTMD_MOV_MOVIMENTACAO MOVIMENTO
+       WHERE MOVIMENTO.CAD_MTMD_TPMOV_ID  = 2  -- SAIDA
+       AND   MOVIMENTO.CAD_MTMD_SUBTP_ID  IN (6,18,11) -- 6=PERDA, 11=CONSUMO PAC. 18=CONSUMO NAO FATURADO
+       AND   MOVIMENTO.MTMD_MOV_DATA BETWEEN dDataIni2 AND dDataFim2 
+       AND   MOVIMENTO.CAD_MTMD_ID        = pCAD_MTMD_ID
+       AND   MOVIMENTO.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID
+       UNION ALL
+       SELECT NVL(SUM(MTMD_MOV_QTDE),0) MTMD_MOV_QTDE 
+       FROM TB_MTMD_MOV_MOVIMENTACAO MOVIMENTO
+       WHERE MOVIMENTO.CAD_MTMD_TPMOV_ID  = 2  -- SAIDA
+       AND   MOVIMENTO.CAD_MTMD_SUBTP_ID  IN (6,18,11) -- 6=PERDA, 11=CONSUMO PAC. 18=CONSUMO NAO FATURADO
+       AND   MOVIMENTO.MTMD_MOV_DATA BETWEEN dDataIni3 AND dDataFim3 
+       AND   MOVIMENTO.CAD_MTMD_ID        = pCAD_MTMD_ID
+       AND   MOVIMENTO.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID;
+
+
+/*    
+    FOR contador IN 1 .. pQtdMesesAnteriores LOOP
+
+      IF (Length(strQuery) > 0) THEN
+         strQuery := strQuery || ' UNION ALL ';
+      END IF;
+
+      strQuery := strQuery || 
+      'SELECT TO_DATE((''01'' || TO_CHAR(ADD_MONTHS(SYSDATE,-' || contador ||'),''MMYYYY'')),''DD/MM/YYYY'') MTMD_MOV_DATA,
+               NVL(SUM(MTMD_MOV_QTDE),0) MTMD_MOV_QTDE 
+       FROM TB_MTMD_MOV_MOVIMENTACAO MOVIMENTO
+       WHERE MOVIMENTO.CAD_MTMD_TPMOV_ID  = 2  -- SAIDA
+       -- AND   MOVIMENTO.CAD_MTMD_SUBTP_ID  = 11 -- CONSUMO PACIENTE
+       AND   MOVIMENTO.CAD_MTMD_SUBTP_ID  NOT IN (14) -- MOV. FRACIONADO
+       AND   TO_CHAR(MOVIMENTO.MTMD_MOV_DATA,''MMYYYY'') = TO_CHAR(ADD_MONTHS(SYSDATE,-' || contador ||'),''MMYYYY'')
+       AND   MOVIMENTO.CAD_MTMD_ID        = ' || pCAD_MTMD_ID || '
+       AND   MOVIMENTO.CAD_MTMD_FILIAL_ID = ' || pCAD_MTMD_FILIAL_ID || '';
+
+    END LOOP;
+
+    strQuery := strQuery || ' ORDER BY MTMD_MOV_DATA';
+
+    OPEN v_cursor FOR strQuery;
+*/    
+    io_cursor := v_cursor;
+
+  end PRC_MTMD_CONSUMOS_MENSAIS;
+ 

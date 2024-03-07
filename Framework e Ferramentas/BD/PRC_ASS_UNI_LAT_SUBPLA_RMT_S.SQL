@@ -1,0 +1,47 @@
+  --PRC_ASS_UNI_LAT_SUBPLA_RMT_S
+  create or replace procedure PRC_ASS_UNI_LAT_SUBPLA_RMT_S 
+  (
+     pASS_USP_ID IN TB_ASS_USP_UNI_LAT_SUB_PLANO.ASS_USP_ID%type DEFAULT NULL,
+     pCAD_UNI_ID_UNIDADE IN TB_ASS_USP_UNI_LAT_SUB_PLANO.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_ASS_USP_UNI_LAT_SUB_PLANO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type DEFAULT NULL,
+     pCAD_SPL_ID IN TB_ASS_USP_UNI_LAT_SUB_PLANO.CAD_SPL_ID%type DEFAULT NULL,
+     pASS_USP_FL_STATUS IN TB_ASS_USP_UNI_LAT_SUB_PLANO.ASS_USP_FL_STATUS%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_ASS_USP_UNI_LAT_SUB_PLANO.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pASS_USP_DT_ULTIMA_ATUALIZACAO IN TB_ASS_USP_UNI_LAT_SUB_PLANO.ASS_USP_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pCAD_PLA_ID_PLANO IN TB_ASS_USP_UNI_LAT_SUB_PLANO.CAD_PLA_ID_PLANO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_ASS_UNI_LAT_SUBPLA_RMT_S
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+       ASS_USP_ID,
+       CAD_UNI_ID_UNIDADE,
+       CAD_LAT_ID_LOCAL_ATENDIMENTO,
+       CAD_SPL_ID,
+       ASS_USP_FL_STATUS,
+       SEG_USU_ID_USUARIO,
+       ASS_USP_DT_ULTIMA_ATUALIZACAO,
+       CAD_PLA_ID_PLANO
+    FROM TB_ASS_USP_UNI_LAT_SUB_PLANO
+    WHERE
+        (pASS_USP_ID is null OR ASS_USP_ID = pASS_USP_ID) AND 
+        (pCAD_UNI_ID_UNIDADE is null OR CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE) AND 
+        (pCAD_LAT_ID_LOCAL_ATENDIMENTO is null OR CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO) AND 
+        (pCAD_SPL_ID is null OR CAD_SPL_ID = pCAD_SPL_ID) AND 
+        (pASS_USP_FL_STATUS is null OR ASS_USP_FL_STATUS = pASS_USP_FL_STATUS) AND 
+        (pSEG_USU_ID_USUARIO is null OR SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO) AND 
+        (pASS_USP_DT_ULTIMA_ATUALIZACAO is null OR ASS_USP_DT_ULTIMA_ATUALIZACAO = pASS_USP_DT_ULTIMA_ATUALIZACAO) AND 
+        (pCAD_PLA_ID_PLANO is null OR CAD_PLA_ID_PLANO = pCAD_PLA_ID_PLANO);          
+    io_cursor := v_cursor;
+  end PRC_ASS_UNI_LAT_SUBPLA_RMT_S;

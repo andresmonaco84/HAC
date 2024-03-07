@@ -1,0 +1,5 @@
+-- Add/modify columns 
+alter table TB_ATD_INA_INT_ALTA add atd_ina_ds_observacao varchar2(100);
+-- Add comments to the columns 
+comment on column TB_ATD_INA_INT_ALTA.atd_ina_ds_observacao
+  is 'ObservacaoSaida';

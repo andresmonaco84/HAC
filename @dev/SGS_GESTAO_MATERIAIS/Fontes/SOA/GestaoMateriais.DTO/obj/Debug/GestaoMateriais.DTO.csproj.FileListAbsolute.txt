@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Debug\GestaoMateriais\GestaoMateriais.DTO.dll
+C:\TFS\SGS\@dev\DLL\_Debug\GestaoMateriais\GestaoMateriais.DTO.pdb
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.DTO\obj\Debug\GestaoMateriais.DTO.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.DTO\obj\Debug\GestaoMateriais.DTO.dll
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.DTO\obj\Debug\GestaoMateriais.DTO.pdb

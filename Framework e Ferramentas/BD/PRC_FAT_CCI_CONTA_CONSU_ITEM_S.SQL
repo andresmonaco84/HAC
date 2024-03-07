@@ -1,0 +1,118 @@
+CREATE OR REPLACE PROCEDURE PRC_FAT_CCI_CONTA_CONSU_ITEM_S
+(
+     pFAT_CCI_ID IN TB_FAT_CCI_CONTA_CONSU_ITEM.FAT_CCI_ID%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+)
+is
+/********************************************************************
+*    Procedure: PRC_FAT_CCI_CONTA_CONSU_ITEM_S
+*
+*    Data Criacao:  data da  criação   Por: Nome do Analista
+*    Data Alteracao: data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+SELECT
+       FAT_CCI_ID,
+       FAT_MCC_ID,
+       FAT_CCP_ID,
+       FAT_COC_ID,
+       CAD_TAP_TP_ATRIBUTO,
+       CAD_PRD_ID,
+       CAD_TIH_TP_INDICE_HOSP,
+       FAT_CCI_QT_INDICE,
+       FAT_CCI_VL_INDICE,
+       FAT_CCI_VL_PRODUTO,
+       FAT_CCI_VL_UNITARIO,
+       FAT_CCI_DT_INICIO_CONSUMO,
+       FAT_CCI_HR_INICIO_CONSUMO,
+       FAT_CCI_DT_FIM_CONSUMO,
+       FAT_CCI_HR_FIM_CONSUMO,
+       FAT_CCI_VL_FATURADO,
+       FAT_CCI_QT_CONSUMO,
+       FAT_CCI_PC_ACRESCIMO,
+       FAT_CCI_PC_DESCONTO,
+       null FAT_CCI_FL_FATURADO,
+       FAT_CCI_TP_DESTINO_ITEM,
+       CAD_PRO_ID_PROFISSIONAL,
+       TIS_GPP_CD_GRAU_PART_PROF,
+       FAT_CCI_PC_GRAU_PART_PROF,
+       TIS_TVA_CD_VIAACESSO,
+       TIS_TTP_CD_TPTECNICA,
+       FAT_CCI_FL_SIMULTANEA,
+       FAT_CCI_FL_BILATERAL,
+       FAT_CCI_VL_CUSTOMEDIO,
+       FAT_CCI_FL_FRACIONADO,
+       FAT_CCI_QT_FRACIONADA,
+       FAT_CCI_PC_DOPPLER,
+       TIS_CPR_CD_CONSELHOPROF,
+       CAD_PSO_CD_CONSELHO,
+       CAD_PSO_SG_UF_CONSELHO,
+       FAT_FL_PROCED_PRINCIPAL,
+       FAT_FL_PENDENTE_AUTORIZA,
+       FAT_CCI_FL_UTILIZAVIDEO,
+       FAT_CCI_FL_STATUS,
+       FAT_CCI_TP_PORTEANESTESICO,
+       FAT_CCI_VL_PORTEANESTESICO,
+       SEG_USU_ID_USUARIO,
+       FAT_CCI_DT_ULTIMA_ATUALIZACAO,
+       FAT_CCI_QT_M2FILME,
+       FAT_CCI_VL_M2FILME,
+       FAT_CCI_PC_TABELA_ACRESCIMO,
+       FAT_CCI_VL_CALCULADO,
+       FAT_CCI_PC_HORARIO,
+       FAT_CCI_CD_GUIA,
+       FAT_CCI_CD_SENHA,
+       CAD_MPF_ID,
+       CAD_APM_ID_MATMED,
+       FAT_CCI_VL_MATMED_FABRICA,
+       ATD_ATE_ID,
+       CAD_UMC_CD_MEDIDA_CONSUMO,
+       CAD_NFM_ID,
+       ASS_USC_ID,
+       CAD_MAA_ID,
+       CAD_PAC_ID_PACIENTE,
+       FAT_CCI_TP_CREDENCIA_PROF,
+       FAT_CCI_CD_CLINICA_PROF,
+       ATS_APL_ID,
+       FAT_CCI_FL_EQUIPE_DIFERENTE,
+       FAT_CCI_PC_ACOMODACAO_HM,
+       FAT_CCI_ID_PRINCIPAL,
+       FAT_CCI_FL_PACOTE,
+       FAT_CCI_VL_ACRESCIMO,
+       FAT_CCI_VL_DESCONTO,
+       CAD_PRD_ID_COBRADO,
+       FAT_CCI_PC_TABELA_DESCONTO,
+       FAT_CCI_VL_PRE_CALCULADO,
+       CAD_CEC_ID_CCUSTO,
+       CAD_CAC_ID_CLASSCONTABIL,
+       FAT_CCI_FL_KITPRA,
+       FAT_CCI_QT_CONS_AUD,
+       FAT_CCI_QT_CONS_ANT,
+       FAT_CCI_VL_UNITARIO_ANT,
+       FAT_CCI_VL_UNITARIO_AUD,
+       FAT_CCI_MES_FECHAMENTO,
+       FAT_CCI_ANO_FECHAMENTO,
+       SEG_USU_ID_USUARIO_CRIACAO,
+       FAT_CCI_DT_CRIACAO,
+       FAT_CCI_FL_IMPORTADO_REPASSE,
+       CAD_UNI_ID_UNIDADE,
+       CAD_LAT_ID_LOCAL_ATENDIMENTO,
+       ATD_ATE_TP_PACIENTE,
+       CAD_CNV_ID_CONVENIO,
+       CAD_CLC_ID,
+       CAD_CPR_TP_CREDENCIA_PROF,
+       FAT_CCI_PC_REPASSE,
+       FAT_CCI_NR_AUT_FUNC_EMP_NF,
+       TIS_CBO_CD_CBOS,
+       FAT_CCI_PC_MED_RESTRITO
+FROM TB_FAT_CCI_CONTA_CONSU_ITEM
+WHERE
+        FAT_CCI_ID = pFAT_CCI_ID;
+io_cursor := v_cursor;
+end PRC_FAT_CCI_CONTA_CONSU_ITEM_S;
+ 

@@ -1,0 +1,28 @@
+CREATE OR REPLACE PROCEDURE "PRC_FAT_CCI_RMV_PEND_CID"
+
+IS
+
+BEGIN
+  FOR TEMP IN (SELECT CCI.FAT_CCI_ID
+                 FROM TB_ATD_ATE_ATENDIMENTO      ATD,
+                      TB_FAT_CCI_CONTA_CONSU_ITEM CCI
+                WHERE ATD.ATD_ATE_TP_PACIENTE IN ('A', 'U')
+                  AND ATD.TIS_TAT_CD_TPATENDIMENTO = 4
+                  AND ATD.ATD_ATE_FL_RETORNO_OK = 'N'
+                  AND ATD.CAD_CID_CD_CID10 IS NOT NULL
+                  AND ATD.ATD_ATE_FL_STATUS = 'A'
+                  AND CCI.FAT_CCP_ID IS NULL
+                  AND CCI.FAT_CCI_FL_STATUS = 'A'
+                  AND CCI.ATD_ATE_ID = ATD.ATD_ATE_ID
+                  AND CCI.CAD_MPF_ID = 241
+                  AND (ATD.ATD_ATE_FL_LIBERA_EMISSAO IS NULL OR
+                      ATD.ATD_ATE_FL_LIBERA_EMISSAO = 'N')
+                  AND CCI.CAD_TAP_TP_ATRIBUTO IN ('HM')) LOOP
+    BEGIN
+      update TB_FAT_CCI_CONTA_CONSU_ITEM CCI
+         SET CCI.CAD_MPF_ID = NULL
+       WHERE CCI.FAT_CCI_ID = TEMP.FAT_CCI_ID;
+    END;
+  END LOOP COMMIT;
+END PRC_FAT_CCI_RMV_PEND_CID;
+ 

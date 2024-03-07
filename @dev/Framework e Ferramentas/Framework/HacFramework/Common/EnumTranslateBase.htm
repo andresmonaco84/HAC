@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Como usar EnumTranslateBase</title>
+	</head>
+	<body>
+	<b>Projeto Model</b><br />
+	-Criar uma classe chamada EnumTranslate e herdar de EnumTranslateBase conforme exemplo.<br />
+	-Criar um arquivo de recurso chamado EnumTranslate.resx<br />
+	-Neste arquivo de recurso devem ser cadastrados todos os enums utilizados pelo projeto Model<br />
+	Ex:<br />
+	<pre>
+	Name                        Value
+	UsuarioStatusEnum_A         Ativo
+	UsuarioStatusEnum_I         Inativo
+	UsuarioStatusEnum_N         Não Cadastrado
+    
+	ou
+	
+	FuncionarioSexoEnum_1       Masculino
+	FuncinoarioSexoEnum_2       Feminino
+	</pre>
+	<br />
+	Perceba que posso utilizar valores Char ou Inteiro nos enums utilizados.<br />
+	Exemplo de utilização:<br />
+	<pre style="background-color:Gainsboro">
+    List<EnumKeyText> lstEnumKeyText = EnumTranslate.TranslateEnumValuesInt(typeof(UsuarioVO.StatusEnum), true);
+    cboStatus.DataSource = lstEnumKeyText;
+    cboStatus.DataTextField = "Text";
+    cboStatus.DataValueField = "Key";
+    cboStatus.DataBind();
+
+    cboSexo.DataSource = EnumTranslate.TranslateEnumValuesChar(typeof(FuncionarioVO.SexoEnum), true);
+    cboSexo.DataTextField = "Text";
+    cboSexo.DataValueField = "Key";
+    cboSexo.DataBind();            	
+	</pre>
+	O último parâmetro dos métodos: TranslateEnumValuesInt ou TranslateEnumValuesChar serve para 
+	indicar se deve ser adicionado um item vazio no retorno da coleção.
+	
+	<pre style="background-color:Gainsboro">
+    using System;
+    using System.Resources;
+    using System.Globalization;
+    using System.Threading;
+    using System.Reflection;
+    using System.Collections.Generic;
+    using HospitalAnaCosta.Framework;
+
+    /// <summary>
+    /// Summary description for EnumTranslate
+    /// </summary>
+    public class EnumTranslate : EnumTranslateBase
+    {
+        public static string TranslateValueInt(Type type, int keyValue)
+        {
+            return EnumTranslateBase.GetTranslateValueInt(type, keyValue, GetResourceManager());
+        }
+
+        public static string TranslateValueChar(Type type, char keyValue)
+        {
+            return EnumTranslateBase.GetTranslateValueChar(type, keyValue, GetResourceManager());
+        }
+
+        public static List<EnumKeyText> TranslateEnumValuesInt(Type type, bool firstEmpty)
+        {
+            return EnumTranslateBase.GetTranslateEnumValuesInt(type, GetResourceManager(), firstEmpty);
+        }
+
+        public static List<EnumKeyText> TranslateEnumValuesChar(Type type, bool firstEmpty)
+        {
+            return EnumTranslateBase.GetTranslateEnumValuesChar(type, GetResourceManager(), firstEmpty);
+        }
+
+        private static ResourceManager GetResourceManager()
+        {
+            return new ResourceManager(typeof(EnumTranslate));
+        }
+    }
+
+    public class EnumListBuilder : EnumListBuilderBase
+    {
+        public EnumListBuilder(Type type) : base(type) { }
+
+        public override List<EnumKeyText> GetList()
+        {
+            return EnumTranslate.TranslateEnumValuesInt(this._type, false);
+        }
+    }
+	
+	</pre>
+	</body>
+</html>

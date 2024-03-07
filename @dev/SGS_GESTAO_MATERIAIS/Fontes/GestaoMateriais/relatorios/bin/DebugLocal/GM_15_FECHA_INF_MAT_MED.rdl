@@ -1,0 +1,2185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="table2">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>2.84cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.52cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.6cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.6cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.6cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.6cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.48cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.5cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Unidade2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!REL_RFM_DS_ITEM.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>=IIf(Fields!REL_RFM_TP_ITEM.Value="C" OR InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"),"Bold","Normal")</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes13">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_1.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "", "None","Solid")</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes14">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_2.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>10</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_3.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>9</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_4.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_5.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes18">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_6.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes19">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_7.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes20">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_8.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes21">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_9.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes22">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_10.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes23">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_11.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Mes24">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MES_12.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                          <Width>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Width>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                          <Width>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Width>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TOTAL_ANO_ANTERIOR.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TOTAL_PER_ANO_ANT.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TOTAL_ANO_ATUAL.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TOTAL">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TOTAL.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "N2", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>TOTAL</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR (Fields!REL_RFM_TP_ITEM.Value = "C" OR InStr(CStr(Fields!REL_RFM_DS_ITEM.Value), "NDICE")), "",
+Fields!TOTAL.Value/12)</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value).ToUpper(), "NDICE"), "", "N0")</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>=IIF(InStr(CStr(Fields!REL_RFM_DS_ITEM.Value), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>=IIF(Fields!REL_RFM_DS_ITEM.Value = "" OR InStr(CStr(Fields!REL_RFM_DS_ITEM.Value), "NDICE"), "None", "Default")</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>=IIF(Fields!REL_RFM_DS_ITEM.Value = "" OR InStr(CStr(Fields!REL_RFM_DS_ITEM.Value), "NDICE") OR Fields!REL_RFM_TP_ITEM.Value = "C", "None", "Default")</Style>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="REL_RFM_AGRUPAMENTO_ID2">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!REL_RFM_AGRUPAMENTO_ID.Value</GroupExpression>
+                </GroupExpressions>
+                <PageBreak>
+                  <BreakLocation>Between</BreakLocation>
+                </PageBreak>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!REL_RFM_AGRUPAMENTO_ID.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="table1_Details_Group2">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <FixedColumnHeaders>true</FixedColumnHeaders>
+        <DataSetName>DataSet1</DataSetName>
+        <Height>0.5cm</Height>
+        <Width>28.52cm</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <TopBorder>
+            <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+          </TopBorder>
+          <BottomBorder>
+            <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+          </BottomBorder>
+          <LeftBorder>
+            <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+          </LeftBorder>
+          <RightBorder>
+            <Style>=IIf(Fields!REL_RFM_DS_ITEM.Value = "" OR Fields!REL_RFM_TP_ITEM.Value = "C", "None","Solid")</Style>
+          </RightBorder>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>0.73938cm</Height>
+    <Style />
+  </Body>
+  <Width>28.6375cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>4.81149cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Image Name="image1">
+          <Source>Embedded</Source>
+          <Value>img_login_sgs</Value>
+          <Sizing>Fit</Sizing>
+          <Left>0.4cm</Left>
+          <Height>1.9cm</Height>
+          <Width>8.7cm</Width>
+          <Style />
+        </Image>
+        <Textbox Name="textbox4">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Informações sobre Materiais e Medicamentos HAC-ACS</Value>
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <TextDecoration>Underline</TextDecoration>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox4</rd:DefaultName>
+          <Top>2cm</Top>
+          <Left>0.3cm</Left>
+          <Height>0.5cm</Height>
+          <Width>27.47771cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox17">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Período: " + Parameters!mes1.Value + " à " + Parameters!mes12.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>2.7cm</Top>
+          <Left>0.4cm</Left>
+          <Height>0.5cm</Height>
+          <Width>27.37771cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Line Name="line1">
+          <Top>2.6cm</Top>
+          <Left>0.2cm</Left>
+          <Height>0cm</Height>
+          <Width>27.57771cm</Width>
+          <ZIndex>3</ZIndex>
+          <Visibility>
+            <Hidden>true</Hidden>
+          </Visibility>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+        <Textbox Name="Textbox31">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes1.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>2.8725cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox32">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes2.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>4.3425cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox33">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes3.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>5.8525cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>6</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox34">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes4.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>7.3325cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>7</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox35">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes5.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>8.8125cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>8</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox36">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes6.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>10.2625cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>9</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox37">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes7.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>11.7825cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>10</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox38">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes8.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>13.2625cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>11</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox39">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes9.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>14.7325cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>12</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox40">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes10.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>16.2225cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>13</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox41">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes11.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>17.6825cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>14</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox42">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!mes12.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>19.1625cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.42cm</Width>
+          <ZIndex>15</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox43">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value EvaluationMode="Constant">12 MESES</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>25.4cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.64cm</Width>
+          <ZIndex>16</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <RightBorder>
+              <Style>Solid</Style>
+            </RightBorder>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox44">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value EvaluationMode="Constant">MÉDIA 12 MESES</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>26.9925cm</Left>
+          <Height>0.74111cm</Height>
+          <Width>1.645cm</Width>
+          <ZIndex>17</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox45">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="1-12/" + CStr(Parameters!PREL_RFM_ANO_FECHAMENTO.Value-1)</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>20.6425cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.52cm</Width>
+          <ZIndex>18</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <LeftBorder>
+              <Style>Solid</Style>
+            </LeftBorder>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox46">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="1-" + CStr(Parameters!PREL_RFM_MES_FECHAMENTO.Value) + "/" + CStr(Parameters!PREL_RFM_ANO_FECHAMENTO.Value-1)</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>22.23cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.52cm</Width>
+          <ZIndex>19</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox47">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="1-" + CStr(Parameters!PREL_RFM_MES_FECHAMENTO.Value) + "/" + CStr(Parameters!PREL_RFM_ANO_FECHAMENTO.Value)</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.98cm</Top>
+          <Left>23.82cm</Left>
+          <Height>0.8001cm</Height>
+          <Width>1.52cm</Width>
+          <ZIndex>20</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox48">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>TOTAIS</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox31</rd:DefaultName>
+          <Top>3.6349cm</Top>
+          <Left>20.6425cm</Left>
+          <Height>0.49389cm</Height>
+          <Width>6.3975cm</Width>
+          <ZIndex>21</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <TopBorder>
+              <Style>Solid</Style>
+            </TopBorder>
+            <LeftBorder>
+              <Style>Solid</Style>
+            </LeftBorder>
+            <RightBorder>
+              <Style>Solid</Style>
+            </RightBorder>
+            <VerticalAlign>Bottom</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>0.9cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox56">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Data/Hora: " + format(Globals!ExecutionTime, "dd/MM/yyyy HH:mm")  </Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.4cm</Top>
+          <Left>0.2cm</Left>
+          <Height>0.5cm</Height>
+          <Width>6.3cm</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox6">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="PÁGINA: " + Cstr(Globals!PageNumber) + "/" + Cstr(Globals!TotalPages)</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.4cm</Top>
+          <Left>23.0275cm</Left>
+          <Height>0.5cm</Height>
+          <Width>4.4cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox11">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Usuário: " + Parameters!USUARIO.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox11</rd:DefaultName>
+          <Top>0.4cm</Top>
+          <Left>11.94cm</Left>
+          <Height>0.5cm</Height>
+          <Width>5.7cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageFooter>
+    <PageHeight>21cm</PageHeight>
+    <PageWidth>29cm</PageWidth>
+    <InteractiveHeight>29.7cm</InteractiveHeight>
+    <InteractiveWidth>21cm</InteractiveWidth>
+    <LeftMargin>0.1cm</LeftMargin>
+    <RightMargin>0.1cm</RightMargin>
+    <TopMargin>1cm</TopMargin>
+    <BottomMargin>1cm</BottomMargin>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SgsProducao">
+      <DataSourceReference>SgsProducao</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>0b518243-0bb3-4783-b9e9-622500a25075</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SgsProducao</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="PREL_RFM_ANO_FECHAMENTO">
+            <Value>=Parameters!PREL_RFM_ANO_FECHAMENTO.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="PREL_RFM_MES_FECHAMENTO">
+            <Value>=Parameters!PREL_RFM_MES_FECHAMENTO.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>prc_rel_rfm_resu_fat_mtmd_r</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="REL_RFM_DS_ITEM">
+          <DataField>REL_RFM_DS_ITEM</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="REL_RFM_TP_ITEM">
+          <DataField>REL_RFM_TP_ITEM</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MES_1">
+          <DataField>MES_1</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_2">
+          <DataField>MES_2</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_3">
+          <DataField>MES_3</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_4">
+          <DataField>MES_4</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_5">
+          <DataField>MES_5</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_6">
+          <DataField>MES_6</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_7">
+          <DataField>MES_7</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_8">
+          <DataField>MES_8</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_9">
+          <DataField>MES_9</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_10">
+          <DataField>MES_10</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_11">
+          <DataField>MES_11</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MES_12">
+          <DataField>MES_12</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TOTAL_ANO_ANTERIOR">
+          <DataField>TOTAL_ANO_ANTERIOR</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="TOTAL_PER_ANO_ANT">
+          <DataField>TOTAL_PER_ANO_ANT</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="TOTAL_ANO_ATUAL">
+          <DataField>TOTAL_ANO_ATUAL</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="TOTAL">
+          <DataField>TOTAL</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="REL_RFM_AGRUPAMENTO_ID">
+          <DataField>REL_RFM_AGRUPAMENTO_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="USUARIO">
+      <DataType>String</DataType>
+      <Prompt>USUARIO</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes1">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes2">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes2</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes5">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes5</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes6">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes6</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes7">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes7</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes8">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes8</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes9">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes9</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes10">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes10</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes11">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes11</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="mes12">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>mes12</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PREL_RFM_ANO_FECHAMENTO">
+      <DataType>Integer</DataType>
+      <Prompt>PREL_RFM_ANO_FECHAMENTO</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PREL_RFM_MES_FECHAMENTO">
+      <DataType>Integer</DataType>
+      <Prompt>PREL_RFM_MES_FECHAMENTO</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <EmbeddedImages>
+    <EmbeddedImage Name="img_login_sgs">
+      <MIMEType>image/gif</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>pt-BR</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>184a4e3c-8467-43c8-ba68-0b90dbb1d0b2</rd:ReportID>
+</Report>

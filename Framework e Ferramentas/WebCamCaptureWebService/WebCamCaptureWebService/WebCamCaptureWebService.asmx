@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="WebCamCaptureWebService.asmx.cs" Class="WebCamCaptureWebService.WebCamCaptureWebService" %>

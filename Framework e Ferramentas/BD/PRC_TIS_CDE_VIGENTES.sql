@@ -1,0 +1,41 @@
+create or replace procedure PRC_TIS_CDE_VIGENTES
+  (
+     pTIS_CDE_CD_CODIGO_DESPESA IN TB_TIS_CDE_CODIGO_DESPESA.TIS_CDE_CD_CODIGO_DESPESA%type DEFAULT NULL,
+     pTIS_CDE_DS_DESCRICAO_DESPESA IN TB_TIS_CDE_CODIGO_DESPESA.TIS_CDE_DS_DESCRICAO_DESPESA%type DEFAULT NULL,
+     pTIS_CBE_DT_INI_VIGENCIA IN TB_TIS_CDE_CODIGO_DESPESA.TIS_CBE_DT_INI_VIGENCIA%type DEFAULT NULL,
+     pTIS_CBE_DT_FIM_VIGENCIA IN TB_TIS_CDE_CODIGO_DESPESA.TIS_CBE_DT_FIM_VIGENCIA%type DEFAULT NULL,
+     pTIS_CBE_FL_STATUS IN TB_TIS_CDE_CODIGO_DESPESA.TIS_CBE_FL_STATUS%type DEFAULT NULL,
+     pTIS_CBE_DT_ULTIMA_ATUALIZACAO IN TB_TIS_CDE_CODIGO_DESPESA.TIS_CBE_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_TIS_CDE_CODIGO_DESPESA.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_TIS_CDE_VIGENTES
+  *
+  *    Data Criacao:   07/12/2009  Por: Pedro
+  *    Data Alteracao:  data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+   SELECT
+       TIS_CDE_CD_CODIGO_DESPESA,
+       TIS_CDE_DS_DESCRICAO_DESPESA,
+       TIS_CBE_DT_INI_VIGENCIA,
+       TIS_CBE_DT_FIM_VIGENCIA,
+       TIS_CBE_FL_STATUS,
+       TIS_CBE_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO
+    FROM TB_TIS_CDE_CODIGO_DESPESA
+    WHERE
+    (TRUNC(TIS_CBE_DT_INI_VIGENCIA) <= SYSDATE) AND
+     (TIS_CBE_DT_FIM_VIGENCIA is null OR (TRUNC(TIS_CBE_DT_FIM_VIGENCIA) >= SYSDATE)) AND
+        (pTIS_CDE_CD_CODIGO_DESPESA is null OR TIS_CDE_CD_CODIGO_DESPESA = pTIS_CDE_CD_CODIGO_DESPESA) AND
+        (TIS_CBE_FL_STATUS = 'A') ;
+    io_cursor := v_cursor;
+  end PRC_TIS_CDE_VIGENTES;
+

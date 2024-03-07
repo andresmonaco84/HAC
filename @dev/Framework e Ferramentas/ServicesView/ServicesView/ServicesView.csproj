@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F46A0E8A-B783-4AED-86C0-B2C811BF3225}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ServicesView</RootNamespace>
+    <AssemblyName>ServicesView</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\DLL\_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HacFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLL\_Debug\Cobranca\HacFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="HacFramework.Communication.Remoting, Version=1.0.0.0, Culture=neutral, PublicKeyToken=deb3523d55e09a28, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\HacFramework.Communication.Remoting.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonServicesView.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Interface\Cadastro.Interface.csproj">
+      <Project>{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}</Project>
+      <Name>Cadastro.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\cadastro\Fontes\ProdutoService\HospitalAnaCosta.Services.Produto.Interface\HospitalAnaCosta.Services.Produto.Interface.csproj">
+      <Project>{a364a320-963d-46fc-88ce-b16cb0c93401}</Project>
+      <Name>HospitalAnaCosta.Services.Produto.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Seguranca\Fontes\SegurancaHac\HospitalAnaCosta.Services.Seguranca.Interface\HospitalAnaCosta.Services.Seguranca.Interface.csproj">
+      <Project>{4c997f85-58f8-4674-bbbd-75dad6821102}</Project>
+      <Name>HospitalAnaCosta.Services.Seguranca.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SGS\Fontes\SADT.Interface\SADT.Interface.csproj">
+      <Project>{e2842a94-2edc-426a-a323-506709213848}</Project>
+      <Name>SADT.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.CadastroFaturamento.Interface\HospitalAnaCosta.Services.CadastroFaturamento.Interface.csproj">
+      <Project>{48F6B13D-D05D-47F0-80A3-F48BAA6E111C}</Project>
+      <Name>HospitalAnaCosta.Services.CadastroFaturamento.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SGS_FATURAMENTO\Fontes\HospitalAnaCosta.Services.Email.Interface\HospitalAnaCosta.Services.Email.Interface.csproj">
+      <Project>{4735a539-48cf-4a44-adc0-da4a947cb29a}</Project>
+      <Name>HospitalAnaCosta.Services.Email.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SGS_INTERNACAO\Fontes\HospitalAnaCosta.SGS.Internacao.Interface\HospitalAnaCosta.SGS.Internacao.Interface.csproj">
+      <Project>{e2fcb15e-3000-4c48-9251-b717b6d54b09}</Project>
+      <Name>HospitalAnaCosta.SGS.Internacao.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,56 @@
+--PRC_COB_BPC_BANCO_PAGTO_CONV_I
+create or replace procedure PRC_COB_BPC_BANCO_PAGTO_CONV_I
+(
+     pCOB_BPC_ID IN TB_COB_BPC_BANCO_PAGTO_CONV.COB_BPC_ID%type,
+     pASS_CNU_ID IN TB_COB_BPC_BANCO_PAGTO_CONV.ASS_CNU_ID%type,
+     pASS_BCT_ID IN TB_COB_BPC_BANCO_PAGTO_CONV.ASS_BCT_ID%type,
+     pCOB_BPC_DT_INI_VIGENCIA IN TB_COB_BPC_BANCO_PAGTO_CONV.COB_BPC_DT_INI_VIGENCIA%type,
+     pCOB_BPC_DT_FIM_VIGENCIA IN TB_COB_BPC_BANCO_PAGTO_CONV.COB_BPC_DT_FIM_VIGENCIA%type default NULL,
+     pCOB_BPC_DT_CRIACAO IN TB_COB_BPC_BANCO_PAGTO_CONV.COB_BPC_DT_CRIACAO%type,
+     pSEG_USU_ID_USUARIO_CRIACAO IN TB_COB_BPC_BANCO_PAGTO_CONV.SEG_USU_ID_USUARIO_CRIACAO%type,
+     pCOB_BPC_DT_ULTIMA_ATUALIZACAO IN TB_COB_BPC_BANCO_PAGTO_CONV.COB_BPC_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO_ATUALIZ IN TB_COB_BPC_BANCO_PAGTO_CONV.SEG_USU_ID_USUARIO_ATUALIZ%type	
+) 
+is
+/********************************************************************
+*    Procedure: PRC_COB_BPC_BANCO_PAGTO_CONV_I
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/  
+	   nrSEQ NUMBER;
+
+  begin
+
+       SELECT seq_cob_bpc_01.NEXTVAL INTO nrSEQ FROM DUAL;
+	    
+INSERT INTO TB_COB_BPC_BANCO_PAGTO_CONV
+(
+       COB_BPC_ID,
+       ASS_CNU_ID,
+       ASS_BCT_ID,
+       COB_BPC_DT_INI_VIGENCIA,
+       COB_BPC_DT_FIM_VIGENCIA,
+       COB_BPC_DT_CRIACAO,
+       SEG_USU_ID_USUARIO_CRIACAO,
+       COB_BPC_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO_ATUALIZ
+)
+VALUES
+(
+	     nrSEQ,
+	     pASS_CNU_ID,
+	     pASS_BCT_ID,
+	     pCOB_BPC_DT_INI_VIGENCIA,
+	     pCOB_BPC_DT_FIM_VIGENCIA,
+	     pCOB_BPC_DT_CRIACAO,
+	     pSEG_USU_ID_USUARIO_CRIACAO,
+	     pCOB_BPC_DT_ULTIMA_ATUALIZACAO,
+	     pSEG_USU_ID_USUARIO_ATUALIZ
+);
+	
+end PRC_COB_BPC_BANCO_PAGTO_CONV_I;
+/

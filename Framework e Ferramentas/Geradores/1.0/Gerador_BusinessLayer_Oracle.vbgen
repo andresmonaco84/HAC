@@ -1,0 +1,353 @@
+﻿##|TYPE Template
+##|UNIQUEID a5fb853d-85d4-4c3d-af27-6185d4194531
+##|TITLE Gerador de BusinessLayer Oracle
+##|NAMESPACE C# - Visual Studio 2005
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|COMMENTS_BEGIN
+Use o Gerador de BusinessLayer para gerar classes com os métodos básicos: Incluir, Excluir, Alterar, Obter e Listar. Selecione multiplas tabelas e gere todas as suas classes Business em um click!
+##|COMMENTS_END
+##|GUI_ENGINE Microsoft Script
+##|GUI_LANGUAGE VBScript
+##|GUI_BEGIN
+Dim cmbDatabases
+Dim lstTables
+Dim chk
+
+Sub setup()
+
+	If Not input.Contains("lstTables") Or Not input.Contains("txtPath") Then
+
+		ui.Title = "Gerador de BusinessLayer."
+		ui.Width  = 330
+		ui.Height = 530
+
+		' Grab default output path
+		Dim sOutputPath
+		sOutputPath = ""
+		If input.Contains("defaultOutputPath") Then 
+			sOutputPath = input.Item("defaultOutputPath")
+		End If
+
+		ui.AddLabel "lblPath", "Caminho de saída: ",  "Selecione o caminho de saída."
+		ui.AddTextBox "txtPath", sOutputPath, "Selecione o caminho de saída."
+		ui.AddFilePicker "btnPath", "Seleciona o Caminho", "Seleciona o caminho de saída.", "txtPath", true
+
+		ui.AddLabel "lblNamespaceEntidade", "Namespace das Entidades: ",  "Namespace das entidades."
+		ui.AddTextBox "txtNamespaceEntidade", "HospitalAnaCosta.SGS.Model", "Informe o Namespace das entidades."			
+
+		ui.AddLabel "lblNamespaceData", "Namespace DataLayer: ",  "Namespace da DataLayer."
+		ui.AddTextBox "txtNamespaceData", "HospitalAnaCosta.SGS.Data", "Informe o Namespace da DataLayer."			
+
+		ui.AddLabel "lblNamespace", "Namespace BusinessLayer: ",  "Namespace da BusinessLayer."
+		ui.AddTextBox "txtNamespace", "HospitalAnaCosta.SGS.Business", "Informe o Namespace da BusinessLayer."			
+
+		' List Databases in a ComboBox
+		ui.AddLabel "lblDatabases", "Selecione o Database:", "Selecione o Database abaixo."
+		Set cmbDatabases = ui.AddComboBox("cmbDatabase", "Selecione o Database.")
+
+		' List Tables in a listbox
+		ui.AddLabel "lblTables", "Selecione as tabelas:", "Selecione as tabelas abaixo."
+		Set lstTables = ui.AddListBox ("lstTables", "Selecione as tabelas:")
+		'lstTables.IsMultiSelect = false
+		lstTables.Height = 120
+		
+		' Attach the onchange event to the cmbDatabases control.
+		setupDatabaseDropdown cmbDatabases
+		
+		ui.ShowGUI = true
+	Else 
+		ui.ShowGUI = false
+	End if
+
+End Sub
+
+Sub setupDatabaseDropdown(cmbDatabases)
+	cmbDatabases.BindData MyMeta.Databases
+	
+	If Not MyMeta.DefaultDatabase Is Nothing Then
+		cmbDatabases.SelectedValue = MyMeta.DefaultDatabase.Name
+		bindTables cmbDatabases.SelectedValue
+	End If
+	
+	cmbDatabases.AttachEvent "onchange", "cmbDatabases_onchange"
+End Sub
+
+Sub bindTables(sDatabase)
+	Set db = MyMeta.Databases(sDatabase)
+	lstTables.BindData(db.Tables)
+End Sub
+
+' Event Handler
+Sub cmbDatabases_onchange(control)
+	Set cmbDatabases = ui.item("cmbDatabase")
+	bindTables cmbDatabases.SelectedText
+End Sub
+##|GUI_END
+##|BODY_MODE Markup
+##|BODY_ENGINE Microsoft Script
+##|BODY_LANGUAGE VBScript
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%
+'------------------------------------------------------------------------------
+' Gerador_BusinessLayer.vbgen
+' Data de Criação : 15/12/2005
+' Autor: Carlos Eduardo Pereira de Araujo
+'
+' Última Alteração: 25/01/2007
+'------------------------------------------------------------------------------
+
+Dim bFirst
+Dim name
+Dim alias
+Dim objTable
+Dim objColumn
+Dim tableNames
+Dim language
+Dim databaseName
+Dim database
+Dim namespace
+Dim namespaceEntidade
+Dim namespaceData
+Dim bOtherColumns
+
+Dim IDbCommand
+Dim IDataParameter
+Dim ParameterPrefix
+Dim entidade
+Dim entidadeNegocio
+Dim dataLayer
+
+' Grab the namespace
+namespace = input.Item("txtNamespace")
+
+' Grab the namespace Entidade
+namespaceEntidade = input.Item("txtNamespaceEntidade")
+
+' Grab the namespace DataLayer
+namespaceData = input.Item("txtNamespaceData")
+
+' Grab the choices the user made in our UI Script (see Interface Code tab)
+Set tableNames = input.Item("lstTables")
+
+databaseName  = input.Item("cmbDatabase")
+Set database = MyMeta.Databases(databaseName)
+
+' Loop through the tables the user selected and generate the business entities
+For intLp = 0 To tableNames.Count - 1
+
+	Set objTable = database.Tables(tablenames.item(intLp))	
+	bOtherColumns = (objTable.Columns.Count > objTable.PrimaryKeys.Count)
+
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+' Now we have the table that we desire to build a Business Object From, let us begin.
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+entidadeNegocio = objTable.description & "VO"
+dataLayer = objTable.description & "Data" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using HospitalAnaCosta.Framework;
+using <%= TrimSpaces(namespaceEntidade)%>;
+using <%= TrimSpaces(namespaceData)%>;
+
+namespace <%= TrimSpaces(namespace) %>
+{
+	public class <%= objTable.description%>Business
+	{
+		private <%=dataLayer%> dao<%=objTable.description%> = null;
+
+		#region "Construtor"
+		public <%= objTable.description & "Business" %>()
+        {
+			dao<%=objTable.description%> = new <%=dataLayer%>();
+        }
+		#endregion
+
+        /// <summary>
+        /// Listar todos os registros
+        /// </summary>
+		public List<%= "<" & entidadeNegocio & ">" %> Listar()
+		{	
+			return dao<%=objTable.description%>.Listar();
+		}
+
+        /// <summary>
+        /// Obtém o registro
+        /// </summary>
+        /// <returns><%= entidadeNegocio%></returns>				
+		<%
+		bFirst = true		
+		output.write "public " & entidadeNegocio & " Obter("
+		For Each objColumn in objTable.PrimaryKeys
+
+			If Not bFirst Then
+				output.write ", "
+			End If
+			output.write objColumn.LanguageType & " " & objColumn.description 
+
+			bFirst = false
+		Next
+		output.write ")"
+		%> 				
+		{	
+<%			output.tabLevel = 3			
+			bFirst = true
+			output.autoTab "return dao" & objTable.description & ".Obter("
+			For Each objColumn in objTable.PrimaryKeys
+	
+				If Not bFirst Then
+					output.write ", "
+				End If
+				output.write objColumn.description
+	
+				bFirst = false
+			Next
+			output.write ");"
+					
+		}%>
+		}
+
+        /// <summary>
+        /// Excluir o registro
+        /// </summary>        
+		<%
+		bFirst = true		
+		output.write "public void Excluir("
+		For Each objColumn in objTable.PrimaryKeys
+
+			If Not bFirst Then
+				output.write ", "
+			End If
+			output.write objColumn.LanguageType & " " & objColumn.description
+
+			bFirst = false
+		Next
+		output.write ")"
+		%> 				
+		{
+<%			output.tabLevel = 3			
+			bFirst = true
+			output.autoTab "dao" + objTable.description & ".Excluir("
+			For Each objColumn in objTable.PrimaryKeys
+	
+				If Not bFirst Then
+					output.write ", "
+				End If
+				output.write objColumn.description
+	
+				bFirst = false
+			Next
+			output.write ");"
+					
+		}%>
+		}
+
+        /// <summary>
+        /// Alterar o registro
+        /// </summary>			
+		public void Alterar(<%= entidadeNegocio & " en" & entidadeNegocio%>)
+		{
+			dao<%=objTable.description%>.Alterar(en<%=entidadeNegocio%>);
+		}
+
+        /// <summary>
+        /// Incluir o registro
+        /// </summary>			
+		public void Incluir(<%= entidadeNegocio & " en" & entidadeNegocio%>)
+		{
+			dao<%=objTable.description%>.Incluir(en<%=entidadeNegocio%>);
+		}
+
+        /// <summary>
+        /// Grava o registro verificando automaticamente se é inclusão ou alteração
+        /// </summary>			
+		public void Gravar(<%= entidadeNegocio & " en" & entidadeNegocio%>)
+		{	
+<%			output.tabLevel = 3			
+			bFirst = true
+			For Each objColumn in objTable.PrimaryKeys
+
+				nomePropriedade = objColumn.description
+				'alias = GetAlias(objColumn)						
+
+				If Not bFirst Then
+					output.write "&& "
+				Else
+					output.autoTab "if ( "
+				End If
+				output.write "en" & entidadeNegocio & "." & nomePropriedade & " == null "					
+				bFirst = false
+			Next
+			output.writeLn ")"
+			output.autoTabLn "	dao" + objTable.description + ".Incluir(en" & entidadeNegocio & ");"
+			output.autoTabLn "else "
+			output.autoTab "	dao" + objTable.description + ".Alterar(en" & entidadeNegocio & ");" %>			
+		}
+	}
+}
+<% 
+	' Save the output file for this Table
+	Dim filename
+	filename = input.item("txtPath")
+
+	Dim length
+	Dim pos
+	lenth = Len(filename)
+	pos = InStrRev(filename, "\") 
+
+	If Not pos = lenth Then
+		filename = filename & "\"
+	End If
+
+	filename = filename & objTable.description & "Business.cs"
+
+	output.save filename, false
+	buffer = buffer & output.text
+	output.clear
+Next '  tableName
+	
+	output.write buffer
+ %>
+
+<% 
+'===========================================================================
+' These are support routines called by the above scirpt
+'===========================================================================
+Function GetAlias(objColumn)
+	Dim alias
+	alias = TrimSpaces(objColumn.Alias)
+	GetAlias = UCase(Left(alias, 1)) & Right(alias, Len(alias) -1)
+End Function
+
+Function GetName(objColumn)
+	Dim name
+	name = objColumn.Name
+	GetName = UCase(Left(name, 1)) & Right(name, Len(name) -1)
+End Function
+
+Function TrimSpaces(str)
+
+	Dim tname
+	Dim name
+	Dim char
+	Dim l
+
+	name = ""
+	tname = str
+	l = Len(tname)
+
+	For j = 1 To l
+		char = Mid(tname, j, 1)
+		If Not char = " " Then
+			name = name & char
+		End If
+	Next
+
+	TrimSpaces = name
+End Function
+%>
+##|BODY_END

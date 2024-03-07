@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Release\Seguranca\Seguranca.Model.dll
+C:\TFS\SGS\@dev\DLL\_Release\Seguranca\Seguranca.Model.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Model\obj\Release\Seguranca.Model.dll
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Model\obj\Release\Seguranca.Model.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Model\obj\Release\Seguranca.Model.csprojResolveAssemblyReference.cache

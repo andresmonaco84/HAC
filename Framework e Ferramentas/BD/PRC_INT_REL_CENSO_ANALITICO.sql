@@ -1,0 +1,1039 @@
+create or replace procedure PRC_INT_REL_CENSO_ANALITICO
+(pCAD_UNI_ID_UNIDADE           IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%TYPE,
+pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_CAD_LAT_LOCAL_ATENDIMENTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%TYPE,
+pCAD_SET_ID                   IN TB_CAD_SET_SETOR.CAD_SET_ID%TYPE DEFAULT NULL,
+PATD_ATE_DT_ATENDIMENTO_INI   IN TB_ATD_ATE_ATENDIMENTO.ATD_ATE_DT_ATENDIMENTO%TYPE,
+ pCAD_CNV_ID_CONVENIO IN TB_CAD_CNV_CONVENIO.CAD_CNV_ID_CONVENIO%TYPE DEFAULT NULL,
+io_cursor                     OUT PKG_CURSOR.t_cursor) is
+  /********************************************************************
+  *    Procedure: PRC_INT_REL_CENSO_ANALITICO
+  *
+  *    Alterac?o: tipo de acomod
+  *    Data Alteracao:29/05/2014   Por: pedro
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+begin
+  OPEN v_cursor FOR
+    SELECT CASE
+             WHEN (IML.ATD_IML_DT_ENTRADA = ATD.ATD_ATE_DT_ATENDIMENTO AND
+                  IML.ATD_IML_HR_ENTRADA = ATD.ATD_ATE_HR_ATENDIMENTO) OR
+                  ((ORIGEM.CAD_SET_CD_SETOR in ('ADM', 'CECI') OR ORIGEM.CAD_SET_ID IN (5,140)) AND
+                  (ORIGEM.ATD_DT_ENTRADA = ATD.ATD_ATE_DT_ATENDIMENTO) AND
+                  (ORIGEM.ATD_HR_ENTRADA = ATD.ATD_ATE_HR_ATENDIMENTO) AND
+                  (SETOR.CAD_SET_CD_SETOR = DESTINO.CAD_SET_CD_SETOR) AND
+                  (IML.ATD_IML_DT_ENTRADA BETWEEN
+                  PATD_ATE_DT_ATENDIMENTO_INI AND
+                  PATD_ATE_DT_ATENDIMENTO_INI + 1)) THEN
+              '0' --INT
+           end ORDEM,
+           'INTERNACOES' TITULO,
+           NVL(ROUND(PATD_ATE_DT_ATENDIMENTO_INI -
+                     ATD.ATD_ATE_DT_ATENDIMENTO),
+               0) PERMANENCIA,
+           IML.ATD_IML_ID,
+           atd.atd_ate_id,
+           IML.ATD_IML_DT_ENTRADA,
+           IML.ATD_IML_HR_ENTRADA,
+           IML.ATD_IML_DT_SAIDA,
+           IML.ATD_IML_HR_SAIDA,
+           ATD.ATD_ATE_DT_ATENDIMENTO,
+           ATD.ATD_ATE_HR_ATENDIMENTO,
+
+           SETOR.CAD_SET_ID,
+           SETOR.CAD_SET_DS_SETOR SETOR,
+           ORIGEM.CAD_SET_CD_SETOR SETOR_ORIGEM,
+           DESTINO.CAD_SET_CD_SETOR SETOR_DESTINO,
+           DECODE(TAC.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO,
+           DECODE(TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO_AUT,
+           NULL QTD_INT_NO_DIA,
+           NULL QTD_INT_VINDOS_DIA_ANTERIOR,
+           NULL QTD_INT_TRANSFERIDOS,
+           NULL QTD_SAIDAS_OBITO,
+           NULL QTD_SAIDAS,
+           NULL LEITOS_VAGOS,
+           NULL QTD_MOV_ENVIADAS,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           UNI.CAD_UNI_DS_UNIDADE UNIDADE,
+           LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+           PAC.CAD_PAC_CD_CREDENCIAL,
+           PAC.CAD_PAC_NR_PRONTUARIO,
+           PES.CAD_PES_NR_RG,
+           PES.CAD_PES_NM_PESSOA PACIENTE,
+           PES.CAD_PES_DT_NASCIMENTO,
+           PES.CAD_PES_TP_SEXO,
+           DECODE(AIC.ATD_AIC_TP_SITUACAO_PAC,
+                  'I',
+                  'INTERNADO',
+                  'A',
+                  'ALTA') ATD_AIC_TP_SITUACAO_PAC,
+           CNV.CAD_CNV_CD_HAC_PRESTADOR,
+           PLA.CAD_PLA_CD_PLANO_HAC,
+           MSI.TIS_MSI_CD_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_DS_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_CD_TIPOALTA,
+           PRO.CAD_PRO_NM_NOME PROFISSIONAL,
+           PRO.CAD_PRO_NR_CONSELHO,
+           IGE_BNF.GER
+      FROM TB_ATD_ATE_ATENDIMENTO ATD
+      JOIN TB_CAD_PAC_PACIENTE    PAC        ON PAC.CAD_PAC_ID_PACIENTE =           FNC_BUSCAR_PACIENTE_ATUAL(ATD.ATD_ATE_ID)
+      JOIN TB_CAD_PES_PESSOA      PES        ON PES.CAD_PES_ID_PESSOA = PAC.CAD_PES_ID_PESSOA
+      JOIN TB_CAD_CNV_CONVENIO    CNV        ON CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+      JOIN TB_CAD_PLA_PLANO       PLA        ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+      JOIN TB_ATD_IML_INT_MOV_LEITO IML        ON IML.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC      ON TAC.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMODACAO
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT  ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMOD_AUT
+      LEFT JOIN (SELECT IML2.ATD_ATE_ID,
+                        IML2.ATD_IML_DT_ENTRADA ATD_DT_ENTRADA,
+                        IML2.ATD_IML_HR_ENTRADA ATD_HR_ENTRADA,
+                        IML2.ATD_IML_DT_SAIDA   ATD_DT_SAIDA,
+                        IML2.ATD_IML_HR_SAIDA   ATD_HR_SAIDA,
+                        SETOR2.CAD_SET_CD_SETOR CAD_SET_CD_SETOR,
+                        SETOR2.CAD_SET_ID       CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML2
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE2
+                     ON QLE2.CAD_QLE_ID = IML2.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD2
+                     ON ATD2.ATD_ATE_ID = IML2.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR2
+                     ON SETOR2.CAD_SET_ID = QLE2.CAD_SET_ID
+                  WHERE (IML2.ATD_IML_FL_STATUS = 'A')
+                    AND (IML2.ATD_IML_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+                       --                    AND (SETOR2.CAD_SET_CD_SETOR NOT IN ('ALAD')) --comentado para resolver a task 103pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                    AND (ATD2.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD2.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD2.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                 --COMENTADO PARA RESOLVER TASK 6586
+                 /*                 UNION
+                 SELECT IMS2.ATD_ATE_ID,
+                        IMS2.ATD_IMS_DT_SAIDA   ATD_DT_SAIDA,
+                        IMS2.ATD_IMS_HR_SAIDA   ATD_HR_SAIDA,
+                        IMS2.ATD_IMS_DT_ENTRADA ATD_DT_ENTRADA,
+                        IMS2.ATD_IMS_HR_ENTRADA ATD_HR_ENTRADA,
+                        SETOR3.CAD_SET_CD_SETOR CAD_SET_CD_SETOR
+                   FROM TB_ATD_IMS_INT_MOV_SETOR IMS2
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD3
+                     ON ATD3.ATD_ATE_ID = IMS2.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR3
+                     ON SETOR3.CAD_SET_ID = IMS2.CAD_SET_ID_SETOR
+                  WHERE (IMS2.ATD_IMS_FL_STATUS = 'A')
+                    AND (IMS2.ATD_IMS_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD3.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD3.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD3.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)*/
+                 UNION
+                 SELECT IMS.ATD_ATE_ID,
+                        IMS.ATD_IMS_DT_ENTRADA  ATD_DT_ENTRADA,
+                        IMS.ATD_IMS_HR_ENTRADA  ATD_HR_ENTRADA,
+                        IMS.ATD_IMS_DT_SAIDA    ATD_DT_SAIDA,
+                        IMS.ATD_IMS_HR_SAIDA    ATD_HR_SAIDA,
+                        SETOR4.CAD_SET_CD_SETOR CAD_SET_CD_SETOR,
+                        SETOR4.CAD_SET_ID       CAD_SET_ID
+                   FROM TB_ATD_IMS_INT_MOV_SETOR IMS
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD4
+                     ON ATD4.ATD_ATE_ID = IMS.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR4
+                     ON SETOR4.CAD_SET_ID = IMS.CAD_SET_ID_SETOR
+                  WHERE IMS.ATD_IMS_FL_STATUS = 'A'
+                    AND SETOR4.CAD_SET_ID = IMS.CAD_SET_ID_SETOR
+                    AND SETOR4.CAD_SET_CD_SETOR IN ('ADM', 'CECI')
+                    AND IMS.ATD_IMS_DT_ENTRADA = PATD_ATE_DT_ATENDIMENTO_INI
+                    AND IMS.ATD_IMS_DT_ENTRADA = ATD4.ATD_ATE_DT_ATENDIMENTO
+                    AND IMS.ATD_IMS_HR_ENTRADA = ATD4.ATD_ATE_HR_ATENDIMENTO
+                    AND (ATD4.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD4.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD4.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                  ORDER BY 1, 2, 3, 4, 5, 6) ORIGEM
+        ON ORIGEM.ATD_ATE_ID = IML.ATD_ATE_ID
+      LEFT JOIN (SELECT IML3.ATD_ATE_ID,
+                        IML3.ATD_IML_DT_ENTRADA ATD_DT_ENTRADA,
+                        IML3.ATD_IML_HR_ENTRADA ATD_HR_ENTRADA,
+                        IML3.ATD_IML_DT_SAIDA   ATD_DT_SAIDA,
+                        IML3.ATD_IML_HR_SAIDA   ATD_HR_SAIDA,
+                        SETOR3.CAD_SET_CD_SETOR,
+                        SETOR3.CAD_SET_ID       CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML3
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE3
+                     ON QLE3.CAD_QLE_ID = IML3.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD3
+                     ON ATD3.ATD_ATE_ID = IML3.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR3
+                     ON SETOR3.CAD_SET_ID = QLE3.CAD_SET_ID
+                  WHERE (IML3.ATD_IML_FL_STATUS = 'A')
+                    AND (IML3.ATD_IML_DT_ENTRADA =
+                        PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD3.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD3.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD3.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                    AND IML3.ATD_IML_ID =
+                        FNC_INT_PRIM_MOV_QUARTO_LEITO(ATD3.ATD_ATE_ID)
+                 UNION
+                 SELECT IML4.ATD_ATE_ID,
+                        IML4.ATD_IML_DT_ENTRADA ATD_DT_ENTRADA,
+                        IML4.ATD_IML_HR_ENTRADA ATD_HR_ENTRADA,
+                        IML4.ATD_IML_DT_SAIDA   ATD_DT_SAIDA,
+                        IML4.ATD_IML_HR_SAIDA   ATD_HR_SAIDA,
+                        SETOR5.CAD_SET_CD_SETOR CAD_SET_CD_SETOR,
+                        SETOR5.CAD_SET_ID       CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML4
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE4
+                     ON QLE4.CAD_QLE_ID = IML4.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD4
+                     ON ATD4.ATD_ATE_ID = IML4.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR5
+                     ON SETOR5.CAD_SET_ID = QLE4.CAD_SET_ID
+                  WHERE (IML4.ATD_IML_FL_STATUS = 'A')
+                    AND (IML4.ATD_IML_DT_ENTRADA =
+                        PATD_ATE_DT_ATENDIMENTO_INI + 1)
+                    AND (ATD4.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD4.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD4.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                    AND IML4.ATD_IML_ID =
+                        FNC_INT_PRIM_MOV_QUARTO_LEITO(ATD4.ATD_ATE_ID)
+                    AND EXISTS
+                  (SELECT IMS.ATD_ATE_ID,
+                                IMS.ATD_IMS_DT_ENTRADA,
+                                IMS.ATD_IMS_HR_ENTRADA,
+                                IMS.ATD_IMS_DT_SAIDA,
+                                IMS.ATD_IMS_HR_SAIDA,
+                                IMS.CAD_SET_ID_SETOR
+                           FROM TB_ATD_IMS_INT_MOV_SETOR IMS
+                           JOIN TB_CAD_SET_SETOR SETOR4
+                             ON SETOR4.CAD_SET_ID = IMS.CAD_SET_ID_SETOR
+                          WHERE IMS.ATD_ATE_ID = IML4.ATD_ATE_ID
+                            AND IMS.ATD_IMS_FL_STATUS = 'A'
+                            AND IMS.ATD_IMS_DT_SAIDA =
+                                IML4.ATD_IML_DT_ENTRADA
+                            AND IMS.ATD_IMS_HR_SAIDA =
+                                IML4.ATD_IML_HR_ENTRADA
+                            AND SETOR4.CAD_SET_ID = IMS.CAD_SET_ID_SETOR
+                            AND SETOR4.CAD_SET_CD_SETOR IN ('ADM', 'CECI')
+                            AND IMS.ATD_IMS_DT_ENTRADA =
+                                PATD_ATE_DT_ATENDIMENTO_INI
+                            AND IMS.ATD_IMS_DT_ENTRADA =
+                                ATD4.ATD_ATE_DT_ATENDIMENTO
+                            AND IMS.ATD_IMS_HR_ENTRADA =
+                                ATD4.ATD_ATE_HR_ATENDIMENTO)
+                  ORDER BY 1, 2, 3, 4, 5, 6) DESTINO
+        ON DESTINO.ATD_ATE_ID = IML.ATD_ATE_ID
+      JOIN TB_ATD_AIC_ATE_INT_COMPL AIC        ON AIC.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_CAD_QLE_QUARTO_LEITO QLE        ON QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+      JOIN TB_CAD_UNI_UNIDADE UNI        ON UNI.CAD_UNI_ID_UNIDADE = ATD.CAD_UNI_ID_UNIDADE
+      JOIN TB_CAD_LAT_LOCAL_ATENDIMENTO LAT        ON LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO =           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO
+      JOIN TB_CAD_SET_SETOR SETOR        ON SETOR.CAD_SET_ID = QLE.CAD_SET_ID
+      JOIN TB_CAD_PRO_PROFISSIONAL PRO        ON PRO.CAD_PRO_ID_PROFISSIONAL = ATD.CAD_PRO_ID_PROF_EXEC
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA        ON INA.ATD_ATE_ID = ATD.ATD_ATE_ID
+      LEFT JOIN TB_TIS_MSI_MOTIVO_SAIDA_INT MSI        ON MSI.TIS_MSI_CD_MOTIVOSAIDAINT = INA.TIS_MSI_CD_MOTIVOSAIDAINT
+      LEFT JOIN (SELECT PAC.CAD_PAC_ID_PACIENTE,                        DECODE(FNC_VERIFICA_INSGER(BNF.CODCON,
+                                                   BNF.CODEST,
+                                                   BNF.CODBEN,
+                                                   BNF.CODSEQBEN),
+                               0,
+                               '',
+                               1,
+                               'I.GER',
+                               2,
+                               'I.GER',                               
+                               4,
+                               'A.ALTA') GER,
+                        aic.atd_ate_id ATD_ATE_ID
+                   FROM TB_CAD_PAC_PACIENTE PAC
+                   JOIN TB_CAD_PLA_PLANO PLA
+                     ON PAC.CAD_PLA_ID_PLANO = PLA.CAD_PLA_ID_PLANO
+                   JOIN BNF_BENEFICIARIO BNF
+                     ON TO_CHAR(BNF.CODCON) =
+                        TO_CHAR(PLA.CAD_PLA_CD_PLANO_HAC)
+                    AND BNF.CODEST =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 0, 3))
+                    AND BNF.CODBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 4, 7))
+                    AND BNF.CODSEQBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 11, 2))
+                   JOIN BNF_SITUACAO_BENEF BNF_SIT
+                     ON BNF_SIT.CODSITBEN = BNF.CODSITBEN
+                   JOIN TB_ASS_PAT_PACIEATEND PAT
+                     ON PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+                   JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+                     ON AIC.ATD_ATE_ID = PAT.ATD_ATE_ID
+                  WHERE pac.CAD_CNV_ID_CONVENIO = 281
+                    AND length(pac.CAD_PAC_CD_CREDENCIAL) = 12) IGE_BNF
+        ON IGE_BNF.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND IGE_BNF.ATD_ATE_ID = ATD.ATD_ATE_ID
+     WHERE (((IML.ATD_IML_DT_ENTRADA = PATD_ATE_DT_ATENDIMENTO_INI) AND --SE A INTERNACAO FOI DIRETO NO QUARTO/LEITO
+           (IML.ATD_IML_DT_ENTRADA = ATD.ATD_ATE_DT_ATENDIMENTO) AND
+           (IML.ATD_IML_HR_ENTRADA = ATD.ATD_ATE_HR_ATENDIMENTO) AND
+           (SETOR.CAD_SET_ID = DESTINO.CAD_SET_ID) AND
+           (((ORIGEM.ATD_DT_ENTRADA = ATD.ATD_ATE_DT_ATENDIMENTO) AND
+           (ORIGEM.ATD_HR_ENTRADA = ATD.ATD_ATE_HR_ATENDIMENTO)) OR
+           (ORIGEM.CAD_SET_ID IS NULL))) OR
+           ((ORIGEM.CAD_SET_CD_SETOR in ('ADM', 'CECI') OR ORIGEM.CAD_SET_ID IN (5,140)) AND -- SE PRIMEIRO FOI PARA ADM OU CC OU ALAD E EM SEGUIDA PARA QL
+           (ORIGEM.ATD_DT_ENTRADA = ATD.ATD_ATE_DT_ATENDIMENTO) AND
+           (ORIGEM.ATD_HR_ENTRADA = ATD.ATD_ATE_HR_ATENDIMENTO) AND
+           (ORIGEM.ATD_DT_SAIDA = IML.ATD_IML_DT_ENTRADA) AND
+           (ORIGEM.ATD_HR_SAIDA = IML.ATD_IML_HR_ENTRADA) AND
+           (ORIGEM.CAD_SET_ID != DESTINO.CAD_SET_ID) AND
+           (SETOR.CAD_SET_ID = DESTINO.CAD_SET_ID) AND
+           (IML.ATD_IML_DT_ENTRADA BETWEEN PATD_ATE_DT_ATENDIMENTO_INI AND
+           PATD_ATE_DT_ATENDIMENTO_INI + 1)) OR
+           ((ORIGEM.CAD_SET_CD_SETOR in ('ADM', 'CECI') OR ORIGEM.CAD_SET_ID IN (5,140)) AND --SE EXISTIRAM VARIAS MOV SETOR ANTES DA PRIMEIRA MOV QL
+           (ORIGEM.ATD_DT_ENTRADA = ATD.ATD_ATE_DT_ATENDIMENTO) AND
+           (ORIGEM.ATD_HR_ENTRADA = ATD.ATD_ATE_HR_ATENDIMENTO) AND
+           (DESTINO.ATD_DT_ENTRADA = IML.ATD_IML_DT_ENTRADA) AND
+           (DESTINO.ATD_HR_ENTRADA = IML.ATD_IML_HR_ENTRADA) AND
+           ((DESTINO.ATD_DT_SAIDA = IML.ATD_IML_DT_SAIDA) AND
+           (DESTINO.ATD_HR_SAIDA = IML.ATD_IML_HR_SAIDA) OR
+           (DESTINO.ATD_DT_SAIDA IS NULL) AND
+           (DESTINO.ATD_HR_SAIDA IS NULL)) AND
+           (DESTINO.CAD_SET_ID = SETOR.CAD_SET_ID) AND
+           (ORIGEM.CAD_SET_ID != DESTINO.CAD_SET_ID) AND
+           (ORIGEM.CAD_SET_ID != SETOR.CAD_SET_ID) AND
+           (IML.ATD_IML_DT_ENTRADA BETWEEN PATD_ATE_DT_ATENDIMENTO_INI AND
+           PATD_ATE_DT_ATENDIMENTO_INI + 1)))
+       AND (ATD.ATD_ATE_FL_STATUS = 'A')
+       AND (pCAD_UNI_ID_UNIDADE IS NULL OR           ATD.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+       AND (pCAD_CNV_ID_CONVENIO IS NULL OR PAC.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+       AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO =           pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+       AND (pCAD_SET_ID IS NULL OR SETOR.CAD_SET_ID = pCAD_SET_ID)
+       AND (SETOR.CAD_SET_ID = DESTINO.CAD_SET_ID)
+       AND (SETOR.CAD_SET_ID NOT IN (5,140))
+       AND (IML.ATD_IML_FL_STATUS = 'A')
+    UNION
+    SELECT CASE
+             WHEN ((IML.ATD_IML_DT_SAIDA = INA.ATD_INA_DT_ALTA_ADM) AND
+                  (IML.ATD_IML_HR_SAIDA = INA.ATD_INA_HR_ALTA_ADM) OR
+                  (DESTINO.CAD_SET_ID IN (5,140) AND
+                  IML.ATD_IML_DT_SAIDA = INA.ATD_INA_DT_ALTA_ADM)) THEN
+              '1' --SAI
+           end ORDEM,
+           'SAIDAS' TITULO,
+           NVL(ROUND(PATD_ATE_DT_ATENDIMENTO_INI -
+                     ATD.ATD_ATE_DT_ATENDIMENTO),
+               0) PERMANENCIA,
+           IML.ATD_IML_ID,
+           atd.atd_ate_id,
+           IML.ATD_IML_DT_ENTRADA,
+           IML.ATD_IML_HR_ENTRADA,
+           IML.ATD_IML_DT_SAIDA,
+           IML.ATD_IML_HR_SAIDA,
+           ATD.ATD_ATE_DT_ATENDIMENTO,
+           ATD.ATD_ATE_HR_ATENDIMENTO,
+
+           SETOR.CAD_SET_ID,
+           SETOR.CAD_SET_DS_SETOR SETOR,
+           ORIGEM.CAD_SET_CD_SETOR SETOR_ORIGEM,
+           DESTINO.CAD_SET_CD_SETOR SETOR_DESTINO,
+           DECODE(TAC.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO,
+           DECODE(TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO_AUT,
+          NULL QTD_INT_NO_DIA,
+           NULL QTD_INT_VINDOS_DIA_ANTERIOR,
+           NULL QTD_INT_TRANSFERIDOS,
+           NULL QTD_SAIDAS_OBITO,
+           NULL QTD_SAIDAS,
+           NULL LEITOS_VAGOS,
+           NULL QTD_MOV_ENVIADAS,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           UNI.CAD_UNI_DS_UNIDADE UNIDADE,
+           LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+           PAC.CAD_PAC_CD_CREDENCIAL,
+           PAC.CAD_PAC_NR_PRONTUARIO,
+           PES.CAD_PES_NR_RG,
+           PES.CAD_PES_NM_PESSOA PACIENTE,
+           PES.CAD_PES_DT_NASCIMENTO,
+           PES.CAD_PES_TP_SEXO,
+           DECODE(AIC.ATD_AIC_TP_SITUACAO_PAC,
+                  'I',
+                  'INTERNADO',
+                  'A',
+                  'ALTA') ATD_AIC_TP_SITUACAO_PAC,
+           CNV.CAD_CNV_CD_HAC_PRESTADOR,
+           PLA.CAD_PLA_CD_PLANO_HAC,
+           MSI.TIS_MSI_CD_MOTIVOSAIDAINT,
+           CASE
+             WHEN MSI.TIS_MSI_CD_TIPOALTA = '4' THEN
+              'OBITO'
+             ELSE
+              MSI.TIS_MSI_DS_MOTIVOSAIDAINT
+           END TIS_MSI_DS_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_CD_TIPOALTA,
+           PRO.CAD_PRO_NM_NOME PROFISSIONAL,
+           PRO.CAD_PRO_NR_CONSELHO,
+           IGE_BNF.GER
+      FROM TB_ATD_ATE_ATENDIMENTO ATD
+      JOIN TB_CAD_PAC_PACIENTE PAC
+        ON PAC.CAD_PAC_ID_PACIENTE =
+           FNC_BUSCAR_PACIENTE_ATUAL(ATD.ATD_ATE_ID)
+      JOIN TB_CAD_PES_PESSOA PES
+        ON PES.CAD_PES_ID_PESSOA = PAC.CAD_PES_ID_PESSOA
+      JOIN TB_CAD_CNV_CONVENIO CNV
+        ON CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+      JOIN TB_CAD_PLA_PLANO PLA
+        ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+      JOIN TB_ATD_IML_INT_MOV_LEITO IML
+        ON IML.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC      ON TAC.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMODACAO
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT  ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMOD_AUT
+      LEFT JOIN (SELECT IML2.ATD_ATE_ID,
+                        IML2.ATD_IML_DT_SAIDA,
+                        IML2.ATD_IML_HR_SAIDA,
+                        IML2.ATD_IML_DT_ENTRADA,
+                        IML2.ATD_IML_HR_ENTRADA,
+                        SETOR2.CAD_SET_CD_SETOR,
+                        SETOR2.CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML2
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE2
+                     ON QLE2.CAD_QLE_ID = IML2.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD2
+                     ON ATD2.ATD_ATE_ID = IML2.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR2
+                     ON SETOR2.CAD_SET_ID = QLE2.CAD_SET_ID
+                  WHERE (IML2.ATD_IML_FL_STATUS = 'A')
+                    AND (IML2.ATD_IML_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD2.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD2.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD2.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                  ORDER BY IML2.ATD_ATE_ID,
+                           IML2.ATD_IML_DT_SAIDA,
+                           IML2.ATD_IML_HR_SAIDA,
+                           IML2.ATD_IML_DT_ENTRADA,
+                           IML2.ATD_IML_HR_ENTRADA,
+                           SETOR2.CAD_SET_CD_SETOR,
+                           SETOR2.CAD_SET_ID) ORIGEM
+        ON ORIGEM.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND ORIGEM.ATD_IML_DT_SAIDA <= IML.ATD_IML_DT_ENTRADA
+       AND ORIGEM.ATD_IML_HR_SAIDA = IML.ATD_IML_HR_ENTRADA
+      LEFT JOIN (SELECT IML3.ATD_ATE_ID,
+                        IML3.ATD_IML_DT_SAIDA,
+                        IML3.ATD_IML_HR_SAIDA,
+                        IML3.ATD_IML_DT_ENTRADA,
+                        IML3.ATD_IML_HR_ENTRADA,
+                        SETOR3.CAD_SET_CD_SETOR,
+                        SETOR3.CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML3
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE3
+                     ON QLE3.CAD_QLE_ID = IML3.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD3
+                     ON ATD3.ATD_ATE_ID = IML3.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR3
+                     ON SETOR3.CAD_SET_ID = QLE3.CAD_SET_ID
+                  WHERE (IML3.ATD_IML_FL_STATUS = 'A')
+                    AND (IML3.ATD_IML_DT_ENTRADA =
+                        PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD3.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD3.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD3.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                  ORDER BY IML3.ATD_ATE_ID,
+                           IML3.ATD_IML_DT_SAIDA,
+                           IML3.ATD_IML_HR_SAIDA,
+                           IML3.ATD_IML_DT_ENTRADA,
+                           IML3.ATD_IML_HR_ENTRADA,
+                           SETOR3.CAD_SET_CD_SETOR,
+                           SETOR3.CAD_SET_ID) DESTINO
+        ON DESTINO.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND (DESTINO.ATD_IML_DT_SAIDA IS NULL OR
+           DESTINO.ATD_IML_DT_SAIDA >= IML.ATD_IML_DT_ENTRADA)
+       AND DESTINO.ATD_IML_HR_ENTRADA = IML.ATD_IML_HR_SAIDA
+      JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+        ON AIC.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_CAD_QLE_QUARTO_LEITO QLE
+        ON QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+      JOIN TB_CAD_UNI_UNIDADE UNI
+        ON UNI.CAD_UNI_ID_UNIDADE = ATD.CAD_UNI_ID_UNIDADE
+      JOIN TB_CAD_LAT_LOCAL_ATENDIMENTO LAT
+        ON LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO
+      JOIN TB_CAD_SET_SETOR SETOR
+        ON SETOR.CAD_SET_ID = QLE.CAD_SET_ID
+      JOIN TB_CAD_PRO_PROFISSIONAL PRO
+        ON PRO.CAD_PRO_ID_PROFISSIONAL = ATD.CAD_PRO_ID_PROF_EXEC
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA
+        ON INA.ATD_ATE_ID = ATD.ATD_ATE_ID
+      LEFT JOIN TB_TIS_MSI_MOTIVO_SAIDA_INT MSI
+        ON MSI.TIS_MSI_CD_MOTIVOSAIDAINT = INA.TIS_MSI_CD_MOTIVOSAIDAINT
+      LEFT JOIN (SELECT PAC.CAD_PAC_ID_PACIENTE,
+                        DECODE(FNC_VERIFICA_INSGER(BNF.CODCON,
+                                                   BNF.CODEST,
+                                                   BNF.CODBEN,
+                                                   BNF.CODSEQBEN),
+                               0,
+                               '',
+                               1,
+                               'I.GER',
+                               2,
+                               'I.GER',                               
+                               4,
+                               'A.ALTA') GER,
+                        aic.ATD_ATE_ID ATD_ATE_ID
+                   FROM TB_CAD_PAC_PACIENTE PAC
+                   JOIN TB_CAD_PLA_PLANO PLA
+                     ON PAC.CAD_PLA_ID_PLANO = PLA.CAD_PLA_ID_PLANO
+                   JOIN BNF_BENEFICIARIO BNF
+                     ON TO_CHAR(BNF.CODCON) =
+                        TO_CHAR(PLA.CAD_PLA_CD_PLANO_HAC)
+                    AND BNF.CODEST =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 0, 3))
+                    AND BNF.CODBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 4, 7))
+                    AND BNF.CODSEQBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 11, 2))
+                   JOIN BNF_SITUACAO_BENEF BNF_SIT
+                     ON BNF_SIT.CODSITBEN = BNF.CODSITBEN
+                   JOIN TB_ASS_PAT_PACIEATEND PAT
+                     ON PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+                   JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+                     ON AIC.ATD_ATE_ID = PAT.ATD_ATE_ID
+                  WHERE pac.CAD_CNV_ID_CONVENIO = 281
+                    AND length(PAC.CAD_PAC_CD_CREDENCIAL) = 12) IGE_BNF
+        ON IGE_BNF.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND IGE_BNF.ATD_ATE_ID = ATD.ATD_ATE_ID
+     WHERE (IML.ATD_IML_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+       AND (ATD.ATD_ATE_FL_STATUS = 'A')
+       AND (IML.ATD_IML_FL_STATUS = 'A')
+       AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+           ATD.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+       AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+           pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+       AND (pCAD_SET_ID IS NULL OR SETOR.CAD_SET_ID = pCAD_SET_ID)
+       AND (pCAD_CNV_ID_CONVENIO IS NULL OR PAC.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+       AND (SETOR.CAD_SET_ID NOT IN (5,140))
+       AND (((IML.ATD_IML_DT_SAIDA = INA.ATD_INA_DT_ALTA_ADM) AND
+           (IML.ATD_IML_HR_SAIDA = INA.ATD_INA_HR_ALTA_ADM)) OR
+           (DESTINO.CAD_SET_ID IN (5,140) AND
+           IML.ATD_IML_DT_SAIDA = INA.ATD_INA_DT_ALTA_ADM))
+    UNION
+    SELECT '2' ORDEM, --ORIGEM
+           'MOVIMENTACOES RECEBIDAS' TITULO,
+           NVL(ROUND(PATD_ATE_DT_ATENDIMENTO_INI -
+                     ATD.ATD_ATE_DT_ATENDIMENTO),
+               0) PERMANENCIA,
+           IML.ATD_IML_ID,
+           atd.atd_ate_id,
+           IML.ATD_IML_DT_ENTRADA,
+           IML.ATD_IML_HR_ENTRADA,
+           IML.ATD_IML_DT_SAIDA,
+           IML.ATD_IML_HR_SAIDA,
+           ATD.ATD_ATE_DT_ATENDIMENTO,
+           ATD.ATD_ATE_HR_ATENDIMENTO,
+
+           SETOR.CAD_SET_ID,
+           SETOR.CAD_SET_DS_SETOR SETOR,
+           ORIGEM.CAD_SET_CD_SETOR SETOR_ORIGEM,
+           DESTINO.CAD_SET_CD_SETOR SETOR_DESTINO,
+           DECODE(TAC.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO,
+           DECODE(TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO_AUT,
+          NULL QTD_INT_NO_DIA,
+           NULL QTD_INT_VINDOS_DIA_ANTERIOR,
+           NULL QTD_INT_TRANSFERIDOS,
+           NULL QTD_SAIDAS_OBITO,
+           NULL QTD_SAIDAS,
+           NULL LEITOS_VAGOS,
+           NULL QTD_MOV_ENVIADAS,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           UNI.CAD_UNI_DS_UNIDADE UNIDADE,
+           LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+           PAC.CAD_PAC_CD_CREDENCIAL,
+           PAC.CAD_PAC_NR_PRONTUARIO,
+           PES.CAD_PES_NR_RG,
+           PES.CAD_PES_NM_PESSOA PACIENTE,
+           PES.CAD_PES_DT_NASCIMENTO,
+           PES.CAD_PES_TP_SEXO,
+           DECODE(AIC.ATD_AIC_TP_SITUACAO_PAC,
+                  'I',
+                  'INTERNADO',
+                  'A',
+                  'ALTA') ATD_AIC_TP_SITUACAO_PAC,
+           CNV.CAD_CNV_CD_HAC_PRESTADOR,
+           PLA.CAD_PLA_CD_PLANO_HAC,
+           MSI.TIS_MSI_CD_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_DS_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_CD_TIPOALTA,
+           PRO.CAD_PRO_NM_NOME PROFISSIONAL,
+           PRO.CAD_PRO_NR_CONSELHO,
+           IGE_BNF.GER
+      FROM TB_ATD_ATE_ATENDIMENTO ATD
+      JOIN TB_CAD_PAC_PACIENTE PAC
+        ON PAC.CAD_PAC_ID_PACIENTE =
+           FNC_BUSCAR_PACIENTE_ATUAL(ATD.ATD_ATE_ID)
+      JOIN TB_CAD_PES_PESSOA PES
+        ON PES.CAD_PES_ID_PESSOA = PAC.CAD_PES_ID_PESSOA
+      JOIN TB_CAD_CNV_CONVENIO CNV
+        ON CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+      JOIN TB_CAD_PLA_PLANO PLA
+        ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+      JOIN TB_ATD_IML_INT_MOV_LEITO IML
+        ON IML.ATD_ATE_ID = ATD.ATD_ATE_ID
+     JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC      ON TAC.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMODACAO
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT  ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMOD_AUT
+      LEFT JOIN (SELECT IML2.ATD_ATE_ID,
+                        IML2.ATD_IML_DT_SAIDA,
+                        IML2.ATD_IML_HR_SAIDA,
+                        IML2.ATD_IML_DT_ENTRADA,
+                        IML2.ATD_IML_HR_ENTRADA,
+                        SETOR2.CAD_SET_CD_SETOR,
+                        SETOR2.CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML2
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE2
+                     ON QLE2.CAD_QLE_ID = IML2.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD2
+                     ON ATD2.ATD_ATE_ID = IML2.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR2
+                     ON SETOR2.CAD_SET_ID = QLE2.CAD_SET_ID
+                  WHERE (IML2.ATD_IML_FL_STATUS = 'A')
+                    AND (IML2.ATD_IML_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD2.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD2.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD2.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+--                    AND SETOR2.CAD_SET_ID NOT IN (5,140) --comentado na task 50862
+                  ORDER BY IML2.ATD_ATE_ID,
+                           IML2.ATD_IML_DT_SAIDA,
+                           IML2.ATD_IML_HR_SAIDA,
+                           IML2.ATD_IML_DT_ENTRADA,
+                           IML2.ATD_IML_HR_ENTRADA,
+                           SETOR2.CAD_SET_CD_SETOR,
+                           SETOR2.CAD_SET_ID) ORIGEM
+        ON ORIGEM.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND ORIGEM.ATD_IML_DT_SAIDA <= IML.ATD_IML_DT_ENTRADA
+       AND ORIGEM.ATD_IML_HR_SAIDA = IML.ATD_IML_HR_ENTRADA
+      LEFT JOIN (SELECT IML3.ATD_ATE_ID,
+                        IML3.ATD_IML_DT_SAIDA,
+                        IML3.ATD_IML_HR_SAIDA,
+                        IML3.ATD_IML_DT_ENTRADA,
+                        IML3.ATD_IML_HR_ENTRADA,
+                        SETOR3.CAD_SET_CD_SETOR,
+                        SETOR3.CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML3
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE3
+                     ON QLE3.CAD_QLE_ID = IML3.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD3
+                     ON ATD3.ATD_ATE_ID = IML3.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR3
+                     ON SETOR3.CAD_SET_ID = QLE3.CAD_SET_ID
+                  WHERE (IML3.ATD_IML_FL_STATUS = 'A')
+                    AND (IML3.ATD_IML_DT_ENTRADA =
+                        PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD3.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD3.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD3.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                  ORDER BY IML3.ATD_ATE_ID,
+                           IML3.ATD_IML_DT_SAIDA,
+                           IML3.ATD_IML_HR_SAIDA,
+                           IML3.ATD_IML_DT_ENTRADA,
+                           IML3.ATD_IML_HR_ENTRADA,
+                           SETOR3.CAD_SET_CD_SETOR,
+                           SETOR3.CAD_SET_ID) DESTINO
+        ON DESTINO.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND (DESTINO.ATD_IML_DT_SAIDA IS NULL OR
+           DESTINO.ATD_IML_DT_SAIDA >= IML.ATD_IML_DT_ENTRADA)
+       AND DESTINO.ATD_IML_HR_ENTRADA = IML.ATD_IML_HR_SAIDA
+     JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+        ON AIC.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_CAD_QLE_QUARTO_LEITO QLE
+        ON QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+      JOIN TB_CAD_UNI_UNIDADE UNI
+        ON UNI.CAD_UNI_ID_UNIDADE = ATD.CAD_UNI_ID_UNIDADE
+      JOIN TB_CAD_LAT_LOCAL_ATENDIMENTO LAT
+        ON LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO
+      JOIN TB_CAD_SET_SETOR SETOR
+        ON SETOR.CAD_SET_ID = QLE.CAD_SET_ID
+      JOIN TB_CAD_PRO_PROFISSIONAL PRO
+        ON PRO.CAD_PRO_ID_PROFISSIONAL = ATD.CAD_PRO_ID_PROF_EXEC
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA
+        ON INA.ATD_ATE_ID = ATD.ATD_ATE_ID
+      LEFT JOIN TB_TIS_MSI_MOTIVO_SAIDA_INT MSI
+        ON MSI.TIS_MSI_CD_MOTIVOSAIDAINT = INA.TIS_MSI_CD_MOTIVOSAIDAINT
+      LEFT JOIN (SELECT PAC.CAD_PAC_ID_PACIENTE,
+                        DECODE(FNC_VERIFICA_INSGER(BNF.CODCON,
+                                                   BNF.CODEST,
+                                                   BNF.CODBEN,
+                                                   BNF.CODSEQBEN),
+                               0,
+                               '',
+                               1,
+                               'I.GER',
+                               2,
+                               'I.GER',                               
+                               4,
+                               'A.ALTA') GER,
+                        aic.ATD_ATE_ID ATD_ATE_ID
+                   FROM TB_CAD_PAC_PACIENTE PAC
+                   JOIN TB_CAD_PLA_PLANO PLA
+                     ON PAC.CAD_PLA_ID_PLANO = PLA.CAD_PLA_ID_PLANO
+                   JOIN BNF_BENEFICIARIO BNF
+                     ON TO_CHAR(BNF.CODCON) =
+                        TO_CHAR(PLA.CAD_PLA_CD_PLANO_HAC)
+                    AND BNF.CODEST =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 0, 3))
+                    AND BNF.CODBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 4, 7))
+                    AND BNF.CODSEQBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 11, 2))
+                   JOIN BNF_SITUACAO_BENEF BNF_SIT
+                     ON BNF_SIT.CODSITBEN = BNF.CODSITBEN
+                   JOIN TB_ASS_PAT_PACIEATEND PAT
+                     ON PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+                   JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+                     ON AIC.ATD_ATE_ID = PAT.ATD_ATE_ID
+                  WHERE pac.CAD_CNV_ID_CONVENIO = 281
+                    AND length(PAC.CAD_PAC_CD_CREDENCIAL) = 12) IGE_BNF
+        ON IGE_BNF.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND IGE_BNF.ATD_ATE_ID = ATD.ATD_ATE_ID
+     WHERE (IML.ATD_IML_DT_ENTRADA = PATD_ATE_DT_ATENDIMENTO_INI)
+       AND (ATD.ATD_ATE_FL_STATUS = 'A')
+       AND (IML.ATD_IML_FL_STATUS = 'A')
+       AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+           ATD.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+       AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+           pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+       AND (pCAD_SET_ID IS NULL OR SETOR.CAD_SET_ID = pCAD_SET_ID)
+                  AND (pCAD_CNV_ID_CONVENIO IS NULL OR PAC.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+       AND (SETOR.CAD_SET_ID NOT IN (5,140))
+       AND (ORIGEM.CAD_SET_CD_SETOR IS NOT NULL)
+       AND SETOR.CAD_SET_CD_SETOR != ORIGEM.CAD_SET_CD_SETOR
+    UNION
+    SELECT '3' ORDEM, --DESTINO
+           'MOVIMENTACOES ENVIADAS' TITULO,
+           NVL(ROUND(PATD_ATE_DT_ATENDIMENTO_INI -
+                     ATD.ATD_ATE_DT_ATENDIMENTO),
+               0) PERMANENCIA,
+           IML.ATD_IML_ID,
+           atd.atd_ate_id,
+           IML.ATD_IML_DT_ENTRADA,
+           IML.ATD_IML_HR_ENTRADA,
+           IML.ATD_IML_DT_SAIDA,
+           IML.ATD_IML_HR_SAIDA,
+           ATD.ATD_ATE_DT_ATENDIMENTO,
+           ATD.ATD_ATE_HR_ATENDIMENTO,
+
+           SETOR.CAD_SET_ID,
+           SETOR.CAD_SET_DS_SETOR SETOR,
+           ORIGEM.CAD_SET_CD_SETOR SETOR_ORIGEM,
+           DESTINO.CAD_SET_CD_SETOR SETOR_DESTINO,
+           DECODE(TAC.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO,
+           DECODE(TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO_AUT,
+         NULL QTD_INT_NO_DIA,
+           NULL QTD_INT_VINDOS_DIA_ANTERIOR,
+           NULL QTD_INT_TRANSFERIDOS,
+           NULL QTD_SAIDAS_OBITO,
+           NULL QTD_SAIDAS,
+           NULL LEITOS_VAGOS,
+           NULL QTD_MOV_ENVIADAS,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           UNI.CAD_UNI_DS_UNIDADE UNIDADE,
+           LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+           PAC.CAD_PAC_CD_CREDENCIAL,
+           PAC.CAD_PAC_NR_PRONTUARIO,
+           PES.CAD_PES_NR_RG,
+           PES.CAD_PES_NM_PESSOA PACIENTE,
+           PES.CAD_PES_DT_NASCIMENTO,
+           PES.CAD_PES_TP_SEXO,
+           DECODE(AIC.ATD_AIC_TP_SITUACAO_PAC,
+                  'I',
+                  'INTERNADO',
+                  'A',
+                  'ALTA') ATD_AIC_TP_SITUACAO_PAC,
+           CNV.CAD_CNV_CD_HAC_PRESTADOR,
+           PLA.CAD_PLA_CD_PLANO_HAC,
+           MSI.TIS_MSI_CD_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_DS_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_CD_TIPOALTA,
+           PRO.CAD_PRO_NM_NOME PROFISSIONAL,
+           PRO.CAD_PRO_NR_CONSELHO,
+           IGE_BNF.GER
+      FROM TB_ATD_ATE_ATENDIMENTO ATD
+      JOIN TB_CAD_PAC_PACIENTE PAC
+        ON PAC.CAD_PAC_ID_PACIENTE =
+           FNC_BUSCAR_PACIENTE_ATUAL(ATD.ATD_ATE_ID)
+      JOIN TB_CAD_PES_PESSOA PES
+        ON PES.CAD_PES_ID_PESSOA = PAC.CAD_PES_ID_PESSOA
+      JOIN TB_CAD_CNV_CONVENIO CNV
+        ON CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+      JOIN TB_CAD_PLA_PLANO PLA
+        ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+      JOIN TB_ATD_IML_INT_MOV_LEITO IML
+        ON IML.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC      ON TAC.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMODACAO
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT  ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMOD_AUT
+      LEFT JOIN (SELECT IML2.ATD_ATE_ID,
+                        IML2.ATD_IML_DT_SAIDA,
+                        IML2.ATD_IML_HR_SAIDA,
+                        IML2.ATD_IML_DT_ENTRADA,
+                        IML2.ATD_IML_HR_ENTRADA,
+                        SETOR2.CAD_SET_CD_SETOR,
+                        SETOR2.CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML2
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE2
+                     ON QLE2.CAD_QLE_ID = IML2.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD2
+                     ON ATD2.ATD_ATE_ID = IML2.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR2
+                     ON SETOR2.CAD_SET_ID = QLE2.CAD_SET_ID
+                  WHERE (IML2.ATD_IML_FL_STATUS = 'A')
+                    AND (IML2.ATD_IML_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD2.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD2.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD2.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                  ORDER BY IML2.ATD_ATE_ID,
+                           IML2.ATD_IML_DT_SAIDA,
+                           IML2.ATD_IML_HR_SAIDA,
+                           IML2.ATD_IML_DT_ENTRADA,
+                           IML2.ATD_IML_HR_ENTRADA,
+                           SETOR2.CAD_SET_CD_SETOR,
+                           SETOR2.CAD_SET_ID) ORIGEM
+        ON ORIGEM.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND ORIGEM.ATD_IML_DT_SAIDA <= IML.ATD_IML_DT_ENTRADA
+       AND ORIGEM.ATD_IML_HR_SAIDA = IML.ATD_IML_HR_ENTRADA
+      LEFT JOIN (SELECT IML3.ATD_ATE_ID,
+                        IML3.ATD_IML_DT_SAIDA,
+                        IML3.ATD_IML_HR_SAIDA,
+                        IML3.ATD_IML_DT_ENTRADA,
+                        IML3.ATD_IML_HR_ENTRADA,
+                        SETOR3.CAD_SET_CD_SETOR,
+                        SETOR3.CAD_SET_ID
+                   FROM TB_ATD_IML_INT_MOV_LEITO IML3
+                   JOIN TB_CAD_QLE_QUARTO_LEITO QLE3
+                     ON QLE3.CAD_QLE_ID = IML3.CAD_CAD_QLE_ID
+                   JOIN TB_ATD_ATE_ATENDIMENTO ATD3
+                     ON ATD3.ATD_ATE_ID = IML3.ATD_ATE_ID
+                   JOIN TB_CAD_SET_SETOR SETOR3
+                     ON SETOR3.CAD_SET_ID = QLE3.CAD_SET_ID
+                  WHERE (IML3.ATD_IML_FL_STATUS = 'A')
+                    AND (IML3.ATD_IML_DT_ENTRADA =
+                        PATD_ATE_DT_ATENDIMENTO_INI)
+                    AND (ATD3.ATD_ATE_FL_STATUS = 'A')
+                    AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+                        ATD3.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                    AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+                        ATD3.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+                        pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+                    AND SETOR3.CAD_SET_ID NOT IN (5,140)
+                  ORDER BY IML3.ATD_ATE_ID,
+                           IML3.ATD_IML_DT_SAIDA,
+                           IML3.ATD_IML_HR_SAIDA,
+                           IML3.ATD_IML_DT_ENTRADA,
+                           IML3.ATD_IML_HR_ENTRADA,
+                           SETOR3.CAD_SET_CD_SETOR,
+                           SETOR3.CAD_SET_ID) DESTINO
+        ON DESTINO.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND (DESTINO.ATD_IML_DT_SAIDA IS NULL OR
+           DESTINO.ATD_IML_DT_SAIDA >= IML.ATD_IML_DT_ENTRADA)
+       AND DESTINO.ATD_IML_HR_ENTRADA = IML.ATD_IML_HR_SAIDA
+      JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+        ON AIC.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_CAD_QLE_QUARTO_LEITO QLE
+        ON QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+      JOIN TB_CAD_UNI_UNIDADE UNI
+        ON UNI.CAD_UNI_ID_UNIDADE = ATD.CAD_UNI_ID_UNIDADE
+      JOIN TB_CAD_LAT_LOCAL_ATENDIMENTO LAT
+        ON LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO
+      JOIN TB_CAD_SET_SETOR SETOR
+        ON SETOR.CAD_SET_ID = QLE.CAD_SET_ID
+      JOIN TB_CAD_PRO_PROFISSIONAL PRO
+        ON PRO.CAD_PRO_ID_PROFISSIONAL = ATD.CAD_PRO_ID_PROF_EXEC
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA
+        ON INA.ATD_ATE_ID = ATD.ATD_ATE_ID
+      LEFT JOIN TB_TIS_MSI_MOTIVO_SAIDA_INT MSI
+        ON MSI.TIS_MSI_CD_MOTIVOSAIDAINT = INA.TIS_MSI_CD_MOTIVOSAIDAINT
+      LEFT JOIN (SELECT PAC.CAD_PAC_ID_PACIENTE,
+                        DECODE(FNC_VERIFICA_INSGER(BNF.CODCON,
+                                                   BNF.CODEST,
+                                                   BNF.CODBEN,
+                                                   BNF.CODSEQBEN),
+                               0,
+                               '',
+                               1,
+                               'I.GER',
+                               2,
+                               'I.GER',                               
+                               4,
+                               'A.ALTA') GER,
+                        aic.ATD_ATE_ID ATD_ATE_ID
+                   FROM TB_CAD_PAC_PACIENTE PAC
+                   JOIN TB_CAD_PLA_PLANO PLA
+                     ON PAC.CAD_PLA_ID_PLANO = PLA.CAD_PLA_ID_PLANO
+                   JOIN BNF_BENEFICIARIO BNF
+                     ON TO_CHAR(BNF.CODCON) =
+                        TO_CHAR(PLA.CAD_PLA_CD_PLANO_HAC)
+                    AND BNF.CODEST =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 0, 3))
+                    AND BNF.CODBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 4, 7))
+                    AND BNF.CODSEQBEN =
+                        TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 11, 2))
+                   JOIN BNF_SITUACAO_BENEF BNF_SIT
+                     ON BNF_SIT.CODSITBEN = BNF.CODSITBEN
+                   JOIN TB_ASS_PAT_PACIEATEND PAT
+                     ON PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+                   JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+                     ON AIC.ATD_ATE_ID = PAT.ATD_ATE_ID
+                  WHERE pac.CAD_CNV_ID_CONVENIO = 281
+                    AND length(PAC.CAD_PAC_CD_CREDENCIAL) = 12) IGE_BNF
+        ON IGE_BNF.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND IGE_BNF.ATD_ATE_ID = ATD.ATD_ATE_ID
+     WHERE (IML.ATD_IML_DT_SAIDA = PATD_ATE_DT_ATENDIMENTO_INI)
+       AND (ATD.ATD_ATE_FL_STATUS = 'A')
+       AND (IML.ATD_IML_FL_STATUS = 'A')
+       AND (pCAD_UNI_ID_UNIDADE IS NULL OR
+           ATD.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+       AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR
+           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO =
+           pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+       AND (pCAD_SET_ID IS NULL OR SETOR.CAD_SET_ID = pCAD_SET_ID)
+                         AND (pCAD_CNV_ID_CONVENIO IS NULL OR PAC.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+       AND (SETOR.CAD_SET_ID NOT IN (5,140))
+       AND (DESTINO.CAD_SET_CD_SETOR IS NOT NULL)
+       AND (SETOR.CAD_SET_CD_SETOR != DESTINO.CAD_SET_CD_SETOR)
+    UNION ALL
+    SELECT '4' ORDEM, --DESTINO
+           'PACIENTES A 0 HORA' TITULO,
+           NVL(ROUND(PATD_ATE_DT_ATENDIMENTO_INI -
+                     ATD.ATD_ATE_DT_ATENDIMENTO),
+               0) PERMANENCIA,
+           IML.ATD_IML_ID,
+           atd.atd_ate_id,
+           IML.ATD_IML_DT_ENTRADA,
+           IML.ATD_IML_HR_ENTRADA,
+           IML.ATD_IML_DT_SAIDA,
+           IML.ATD_IML_HR_SAIDA,
+           ATD.ATD_ATE_DT_ATENDIMENTO,
+           ATD.ATD_ATE_HR_ATENDIMENTO,
+
+           SETOR.CAD_SET_ID,
+           SETOR.CAD_SET_DS_SETOR SETOR,
+           NULL SETOR_ORIGEM,
+           NULL SETOR_DESTINO,
+           DECODE(TAC.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO,
+           DECODE(TAC_AUT.TIS_TAC_DS_TIPO_ACOMODACAO,'ENFERMARIA','ENF','APARTAMENTO LUXO','APT L','APARTAMENTO SIMPLES','APT S','HOSPITAL DIA','HD','UTI ADULTO','UTI A','UTI PEDIATRICA','UTI P','UTI NEO-NATAL','UTI NN') TIS_TAC_DS_TIPO_ACOMODACAO_AUT,
+           NULL QTD_INT_NO_DIA,
+           NULL QTD_INT_VINDOS_DIA_ANTERIOR,
+           NULL QTD_INT_TRANSFERIDOS,
+           NULL QTD_SAIDAS_OBITO,
+           NULL QTD_SAIDAS,
+           NULL LEITOS_VAGOS,
+           NULL QTD_MOV_ENVIADAS,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           UNI.CAD_UNI_DS_UNIDADE UNIDADE,
+           LAT.CAD_LAT_DS_LOCAL_ATENDIMENTO,
+           PAC.CAD_PAC_CD_CREDENCIAL,
+           PAC.CAD_PAC_NR_PRONTUARIO,
+           PES.CAD_PES_NR_RG,
+           PES.CAD_PES_NM_PESSOA PACIENTE,
+           PES.CAD_PES_DT_NASCIMENTO,
+           PES.CAD_PES_TP_SEXO,
+           DECODE(AIC.ATD_AIC_TP_SITUACAO_PAC,
+                  'I',
+                  'INTERNADO',
+                  'A',
+                  'ALTA') ATD_AIC_TP_SITUACAO_PAC,
+           CNV.CAD_CNV_CD_HAC_PRESTADOR,
+           PLA.CAD_PLA_CD_PLANO_HAC,
+           MSI.TIS_MSI_CD_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_DS_MOTIVOSAIDAINT,
+           MSI.TIS_MSI_CD_TIPOALTA,
+           PRO.CAD_PRO_NM_NOME PROFISSIONAL,
+           PRO.CAD_PRO_NR_CONSELHO,
+           IGE_BNF.GER
+      FROM TB_ATD_ATE_ATENDIMENTO ATD
+      JOIN TB_ASS_PAT_PACIEATEND PAT        ON PAT.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_CAD_PAC_PACIENTE PAC        ON PAC.CAD_PAC_ID_PACIENTE = PAT.CAD_PAC_ID_PACIENTE
+       AND PAT.CAD_PAC_ID_PACIENTE =           fnc_buscar_paciente_atual(ATD.ATD_ATE_ID)
+      JOIN TB_CAD_PES_PESSOA PES        ON PES.CAD_PES_ID_PESSOA = PAC.CAD_PES_ID_PESSOA
+      JOIN TB_CAD_CNV_CONVENIO CNV        ON CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+      JOIN TB_CAD_PLA_PLANO PLA        ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+      JOIN TB_ATD_IML_INT_MOV_LEITO IML        ON IML.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_ATD_AIC_ATE_INT_COMPL AIC        ON AIC.ATD_ATE_ID = ATD.ATD_ATE_ID
+      JOIN TB_CAD_QLE_QUARTO_LEITO QLE        ON QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+      JOIN TB_CAD_UNI_UNIDADE UNI        ON UNI.CAD_UNI_ID_UNIDADE = ATD.CAD_UNI_ID_UNIDADE
+      JOIN TB_CAD_LAT_LOCAL_ATENDIMENTO LAT        ON LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO =           ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO
+      JOIN TB_CAD_SET_SETOR SETOR        ON SETOR.CAD_SET_ID = QLE.CAD_SET_ID
+      JOIN TB_CAD_PRO_PROFISSIONAL PRO        ON PRO.CAD_PRO_ID_PROFISSIONAL = ATD.CAD_PRO_ID_PROF_EXEC
+      LEFT JOIN TB_ATD_INA_INT_ALTA INA        ON INA.ATD_ATE_ID = ATD.ATD_ATE_ID
+      LEFT JOIN TB_TIS_MSI_MOTIVO_SAIDA_INT MSI        ON MSI.TIS_MSI_CD_MOTIVOSAIDAINT = INA.TIS_MSI_CD_MOTIVOSAIDAINT
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC      ON TAC.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMODACAO
+      JOIN TB_TIS_TAC_TIPO_ACOMODACAO TAC_AUT  ON TAC_AUT.TIS_TAC_CD_TIPO_ACOMODACAO = IML.TIS_TAC_CD_TIPO_ACOMOD_AUT
+      LEFT JOIN (SELECT PAC.CAD_PAC_ID_PACIENTE,
+                        DECODE(FNC_VERIFICA_INSGER(BNF.CODCON,
+                                                   BNF.CODEST,
+                                                   BNF.CODBEN,
+                                                   BNF.CODSEQBEN),
+                               0,
+                               '',
+                               1,
+                               'I.GER',
+                               2,
+                               'I.GER',                               
+                               4,
+                               'A.ALTA') GER,
+                        aic.ATD_ATE_ID ATD_ATE_ID
+                   FROM TB_CAD_PAC_PACIENTE PAC
+                   JOIN TB_CAD_PLA_PLANO PLA ON PAC.CAD_PLA_ID_PLANO = PLA.CAD_PLA_ID_PLANO
+                   JOIN BNF_BENEFICIARIO BNF
+                     ON TO_CHAR(BNF.CODCON) = TO_CHAR(PLA.CAD_PLA_CD_PLANO_HAC)
+                    AND BNF.CODEST = TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 0, 3))
+                    AND BNF.CODBEN = TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 4, 7))
+                    AND BNF.CODSEQBEN = TO_NUMBER(SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL, 11, 2))
+                   JOIN BNF_SITUACAO_BENEF BNF_SIT ON BNF_SIT.CODSITBEN = BNF.CODSITBEN
+                   JOIN TB_ASS_PAT_PACIEATEND PAT ON PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+                   JOIN TB_ATD_AIC_ATE_INT_COMPL AIC ON AIC.ATD_ATE_ID = PAT.ATD_ATE_ID
+                  WHERE pac.CAD_CNV_ID_CONVENIO = 281
+                    AND length(PAC.CAD_PAC_CD_CREDENCIAL) = 12) IGE_BNF
+        ON IGE_BNF.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND IGE_BNF.ATD_ATE_ID = ATD.ATD_ATE_ID
+     WHERE (ATD.ATD_ATE_FL_STATUS = 'A')
+       AND (IML.ATD_IML_FL_STATUS = 'A')
+       AND (pCAD_UNI_ID_UNIDADE IS NULL OR ATD.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+       AND (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR ATD.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+       AND (pCAD_SET_ID IS NULL OR SETOR.CAD_SET_ID = pCAD_SET_ID)
+                  AND (pCAD_CNV_ID_CONVENIO IS NULL OR PAC.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+       AND (SETOR.CAD_SET_ID NOT IN (5,140))
+       AND (IML.ATD_IML_DT_ENTRADA <= PATD_ATE_DT_ATENDIMENTO_INI OR
+           (ATD.ATD_ATE_DT_ATENDIMENTO = PATD_ATE_DT_ATENDIMENTO_INI AND
+           IML.ATD_IML_ID = FNC_INT_PRIM_MOV_QUARTO_LEITO(ATD.ATD_ATE_ID) AND
+           IML.ATD_IML_DT_ENTRADA = PATD_ATE_DT_ATENDIMENTO_INI + 1 AND
+           SETOR.CAD_SET_ID = QLE.CAD_SET_ID))
+       AND (IML.ATD_IML_DT_SAIDA IS NULL OR IML.ATD_IML_DT_SAIDA > PATD_ATE_DT_ATENDIMENTO_INI)
+    /* AND  (FNC_JUNTAR_DATA_HORA(PATD_ATE_DT_ATENDIMENTO_INI+1, 0) BETWEEN FNC_JUNTAR_DATA_HORA(IML.ATD_IML_DT_ENTRADA, IML.ATD_IML_HR_ENTRADA) AND
+    FNC_JUNTAR_DATA_HORA(IML.ATD_IML_DT_SAIDA, IML.ATD_IML_HR_SAIDA)
+    OR
+    FNC_JUNTAR_DATA_HORA(PATD_ATE_DT_ATENDIMENTO_INI+1, 0) >= FNC_JUNTAR_DATA_HORA(IML.ATD_IML_DT_ENTRADA, IML.ATD_IML_HR_ENTRADA) AND
+    IML.ATD_IML_DT_SAIDA IS NULL
+    )*/
+     order by 13, 1, 4;
+  io_cursor := v_cursor;
+end PRC_INT_REL_CENSO_ANALITICO;

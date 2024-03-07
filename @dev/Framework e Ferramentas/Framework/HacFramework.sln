@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HacFramework", "HacFramework\HacFramework.csproj", "{9E19E9AC-7B48-4EF1-9B18-65286F023F34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HacFramework.Communication.Remoting", "HacFramework.Communication.Remoting\HacFramework.Communication.Remoting.csproj", "{B5539314-4BF6-4D58-A7D8-BC36C98B25B0}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/sgs
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HacFramework\\HacFramework.csproj
+		SccProjectName1 = HacFramework
+		SccLocalPath1 = HacFramework
+		SccProjectUniqueName2 = HacFramework.Communication.Remoting\\HacFramework.Communication.Remoting.csproj
+		SccProjectName2 = HacFramework.Communication.Remoting
+		SccLocalPath2 = HacFramework.Communication.Remoting
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E19E9AC-7B48-4EF1-9B18-65286F023F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5539314-4BF6-4D58-A7D8-BC36C98B25B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5539314-4BF6-4D58-A7D8-BC36C98B25B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5539314-4BF6-4D58-A7D8-BC36C98B25B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5539314-4BF6-4D58-A7D8-BC36C98B25B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,66 @@
+﻿@using System.Globalization
+@model sgs_admin.Models.ClinicaAtendimento
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<fieldset>
+    <div class="editor-label">
+    </div>
+    <div class="editor-field">
+        <input type="number" id="txtCodigo" width="80" />
+        @*<input type="text" id="txtClinica" width="300" />*@
+        <input type="button" onclick="listarClinica();" value="Pesquisar" />
+    </div>
+    <div>
+        @Html.ActionLink("Voltar", "Index")
+    </div>
+</fieldset>
+
+
+@*<table>
+    <tr>
+        <b>
+            <th width="120px" height="10" padding="0px">
+                Id
+            </th>
+            <th width="120px" height="10" padding="0px">
+                Código
+            </th>
+            <th width="120px" height="10" padding="0px">
+                Clínica
+            </th>
+        </b>
+    </tr>
+
+    
+    <tr>
+        <td width="120px" height="10" padding="0px">
+            @Html.DisplayFor(modelItem => Model.Idt)
+        </td>
+        <td width="120px" height="10" padding="0px">
+            @Html.DisplayFor(modelItem => Model.Codigo)
+        </td>
+        <td width="120px" height="10" padding="0px">
+            @Html.DisplayFor(modelItem => Model.Clinica)
+        </td>
+    </tr>
+
+</table>*@
+
+
+<script>
+    function listarClinica() {
+        var url = '@Url.Action("ListarClinica", "ClinicaAtendimento", null)/?codigo=' + $('#txtCodigo').val();
+        window.location.href = url;
+    }
+
+    @*function buscarClinica() {
+        var url = '@Url.Action("BuscarClinica", "ClinicaAtendimento", null)/?clinica=' + $('#txtClinica').val();
+        window.location.href = url;
+    }*@
+</script>

@@ -1,0 +1,62 @@
+CREATE OR REPLACE PROCEDURE PRC_MTMD_MOTIVO_PERDA_R
+(
+ pCAD_LAT_ID_LOCAL_ATENDIMENTO IN  TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type,
+ pCAD_UNI_ID_UNIDADE           IN  TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type,
+ pCAD_SET_ID                   IN  TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type,
+ pCAD_MTMD_FILIAL_ID           IN  TB_MTMD_MOV_MOVIMENTACAO.CAD_MTMD_FILIAL_ID%type,
+ pMTMD_DATA_INI                IN  DATE,
+ pMTMD_DATA_FIM                IN  DATE,
+ pIDs_MOTIVO                   VARCHAR default NULL,
+ io_cursor                     OUT PKG_CURSOR.t_cursor
+) IS 
+v_cursor PKG_CURSOR.t_cursor;
+V_WHERE       varchar2(5000);
+V_SELECT      varchar2(5000);
+BEGIN 
+  
+  IF pCAD_UNI_ID_UNIDADE IS NOT NULL THEN V_WHERE := V_WHERE || ' AND MOVI.CAD_UNI_ID_UNIDADE = ' || pCAD_UNI_ID_UNIDADE; END IF;
+  IF pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN V_WHERE := V_WHERE || ' AND MOVI.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || pCAD_LAT_ID_LOCAL_ATENDIMENTO; END IF;
+  IF pCAD_SET_ID IS NOT NULL THEN V_WHERE := V_WHERE || ' AND MOVI.CAD_SET_ID = ' || pCAD_SET_ID; END IF;
+  IF pIDs_MOTIVO IS NOT NULL THEN V_WHERE := V_WHERE || ' AND MOTI.MTMD_ID_MOTIVO IN (' || pIDs_MOTIVO || ')'; END IF;
+  
+  V_WHERE := V_WHERE || ' AND MOVI.CAD_MTMD_FILIAL_ID = ' || pCAD_MTMD_FILIAL_ID;
+  V_WHERE := V_WHERE || ' AND MOVI.MTMD_MOV_DATA >= ''' || TRUNC(pMTMD_DATA_INI) || '''';
+  V_WHERE := V_WHERE || ' AND TRUNC(MOVI.MTMD_MOV_DATA) <= ''' || TRUNC(pMTMD_DATA_FIM) || '''';
+  V_WHERE := V_WHERE || ' ORDER BY MOVI.MTMD_MOV_DATA, MOVI.CAD_SET_ID, MTMD.CAD_MTMD_ID';   
+   
+  V_SELECT := 'SELECT TO_CHAR(MOVI.MTMD_MOV_DATA,'' DD/MM/YYYY HH24:MI:SS '') MTMD_MOV_DATA, 
+                     UNID.CAD_UNI_DS_UNIDADE||'' ''||SETOR.CAD_SET_DS_SETOR  UNIDADE,
+                     MTMD.CAD_MTMD_NOMEFANTASIA,
+                     MOVI.CAD_MTMD_FILIAL_ID,
+                     MOVI.MTMD_MOV_QTDE,
+                     NVL(MOVI.MTMD_CUSTO_MEDIO,0) MTMD_CUSTO_MEDIO,
+                     (MOVI.MTMD_MOV_QTDE * NVL(MOVI.MTMD_CUSTO_MEDIO,0)) TOTAL,       
+                     USU.SEG_USU_DS_NOME,       
+                     COMP.MTMD_MOV_USU_RELATADO,
+                     COMP.MTMD_MOV_OBS,
+                     MOTI.MTMD_DS_MOTIVO
+              FROM TB_MTMD_MOV_MOVIMENTACAO MOVI,
+                   TB_CAD_MTMD_MAT_MED      MTMD,
+                   TB_CAD_SET_SETOR         SETOR,
+                   TB_CAD_UNI_UNIDADE       UNID,
+                   TB_MTMD_MOV_COMPLEMENTO  COMP,
+                   TB_SEG_USU_USUARIO       USU,
+                   TB_MTMD_MOTIVO_PERDA     MOTI
+              WHERE MOVI.CAD_MTMD_TPMOV_ID             = 2 -- SAIDA
+              AND   MOVI.CAD_MTMD_SUBTP_ID             = 6 -- PERDA
+              AND   MTMD.CAD_MTMD_ID                   = MOVI.CAD_MTMD_ID
+              AND   SETOR.CAD_SET_ID                   = MOVI.CAD_SET_ID
+              AND   SETOR.CAD_LAT_ID_LOCAL_ATENDIMENTO = MOVI.CAD_LAT_ID_LOCAL_ATENDIMENTO
+              AND   SETOR.CAD_UNI_ID_UNIDADE           = MOVI.CAD_UNI_ID_UNIDADE
+              AND   UNID.CAD_UNI_ID_UNIDADE            = SETOR.CAD_UNI_ID_UNIDADE
+              AND   COMP.MTMD_MOV_ID(+)                = MOVI.MTMD_MOV_ID
+              AND   USU.SEG_USU_ID_USUARIO             = MOVI.SEG_USU_ID_USUARIO
+              AND   MOTI.MTMD_ID_MOTIVO(+)             = COMP.MTMD_ID_MOTIVO';
+              
+   OPEN v_cursor FOR
+   V_SELECT || V_WHERE;
+   io_cursor := v_cursor;
+   
+END PRC_MTMD_MOTIVO_PERDA_R;
+
+ 

@@ -1,0 +1,426 @@
+﻿##|TYPE Template
+##|UNIQUEID aab88a65-e4f7-4a39-9755-fc75db1e6152
+##|TITLE Gerador de DataLayer Oracle
+##|NAMESPACE 
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE Microsoft Script
+##|GUI_LANGUAGE VBScript
+##|GUI_BEGIN
+Dim cmbDatabases
+Dim lstTables
+Dim chk
+
+Sub setup()
+
+	If Not input.Contains("lstTables") Or Not input.Contains("txtPath") Then
+
+		ui.Title = "Gerador de DataLayer (Oracle)."
+		ui.Width  = 340
+		ui.Height = 575
+
+		' Grab default output path
+		Dim sOutputPath
+		sOutputPath = ""
+		If input.Contains("defaultOutputPath") Then 
+			sOutputPath = "C:\Geracao\Model"
+		End If
+
+		ui.AddLabel "lblPath", "Caminho de saída: ",  "Selecione o caminho de saída."
+		ui.AddTextBox "txtPath", sOutputPath, "Selecione o caminho de saída."
+		ui.AddFilePicker "btnPath", "Seleciona o Caminho", "Seleciona o caminho de saída.", "txtPath", true
+
+		ui.AddLabel "lblNamespaceEntidade", "Namespace das Entidades: ",  "Namespace do Data Transfer Object."
+		ui.AddTextBox "txtNamespaceDTO", "HospitalAnaCosta.Services.CadastroFaturamento.DTO", "Informe o Namespace do DTO."			
+
+		ui.AddLabel "lblNamespace", "Namespace DataLayer: ",  "Informe o Namespace da camada de Dados."
+		ui.AddTextBox "txtNamespace", "HospitalAnaCosta.Services.CadastroFaturamento.Model", "Namespace da camada de dados."			
+
+		'ui.AddLabel "lblPackage", "Package: ",  "Informe o nome da package."
+		'ui.AddTextBox "txtPackageNome", "PKG_" , ""
+
+		ui.AddLabel "lblPrefixo", "Prefixo da procedure: ",  "Informe o prefixo da procedure (não obrigatório)."
+		ui.AddTextBox "txtPrefixo", "PRC_" , ""
+
+		ui.AddLabel "lblPrefixoParametro", "Prefixo do Parâmetro: ",  "Caracter identificador do parâmetro do banco."
+		ui.AddTextBox "txtPrefixoParametro", "p", ""			
+
+		' List Databases in a ComboBox
+		ui.AddLabel "lblDatabases", "Selecione o Database:", "Selecione o Database abaixo."
+		Set cmbDatabases = ui.AddComboBox("cmbDatabase", "Selecione o Database.")
+
+		' List Tables in a listbox
+		ui.AddLabel "lblTables", "Selecione as tabelas:", "Selecione as tabelas abaixo."
+		Set lstTables = ui.AddListBox ("lstTables", "Selecione as tabelas:")
+		'lstTables.IsMultiSelect = false
+		lstTables.Height = 120
+
+		'Indica se campo inteiro como chave primaria deve utilizar select max na procedure para identity
+		'Set utilizaAutoIncremento = ui.AddCheckBox("ckUtilizaAutoIncremento", "Utiliza AutoIncremento para campo Inteiro?", false, "Se chave do tipo inteiro, deseja utilizar autoincremento caso campo não seja Identity?")
+		'Set databaseDefault = ui.AddCheckBox("ckDataBaseDefault", "Database default?", true, "Se não for default, o construtor do método DataBaseFactory.CreateDatabase informará a instância correspondente")
+		
+		' Attach the onchange event to the cmbDatabases control.
+		setupDatabaseDropdown cmbDatabases
+
+		'Posiciona a combo de database e seleciona as tables
+		cmbDatabases.SelectedValue = "SGS"
+		cmbDatabases_onchange(cmbDatabases)
+		
+		ui.ShowGUI = true
+	Else 
+		ui.ShowGUI = false
+	End if
+
+End Sub
+
+Sub setupDatabaseDropdown(cmbDatabases)
+	cmbDatabases.BindData MyMeta.Databases
+	
+	If Not MyMeta.DefaultDatabase Is Nothing Then
+		cmbDatabases.SelectedValue = MyMeta.DefaultDatabase.Name
+		bindTables cmbDatabases.SelectedValue
+	End If
+	
+	cmbDatabases.AttachEvent "onchange", "cmbDatabases_onchange"
+End Sub
+
+Sub bindTables(sDatabase)
+	Set db = MyMeta.Databases(sDatabase)
+	lstTables.BindData(db.Tables)
+End Sub
+
+' Event Handler
+Sub cmbDatabases_onchange(control)
+	Set cmbDatabases = ui.item("cmbDatabase")
+	bindTables cmbDatabases.SelectedText
+End Sub
+##|GUI_END
+##|BODY_MODE Markup
+##|BODY_ENGINE Microsoft Script
+##|BODY_LANGUAGE VBScript
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%
+'------------------------------------------------------------------------------
+' Gerador_DataLayer_Oracle.vbgen
+' Data de Criação : 18/03/2008
+' Autor: Bruno Alvares da Costa
+'
+' OBSERVAÇÕES IMPORTANTES:
+' Configurar: Default settings
+' -Alterar DbTarget para DbType
+' -Alterar Language para C#
+'
+' Última Alteração: 25/01/2007
+'------------------------------------------------------------------------------
+Dim bFirst
+Dim name
+Dim alias
+Dim objTable
+Dim objColumn
+Dim tableNames
+Dim language
+Dim databaseName
+Dim database
+Dim namespace
+Dim namespaceEntidade
+Dim prefixoParametro
+Dim props
+Dim bOtherColumns
+Dim strPrefixoProcedure
+
+Dim nomeTabela
+Dim nomeProcedure
+
+prefix = input.Item("prefix")
+chkDatabaseDefault = input.Item("ckDataBaseDefault")
+chkUtilizaAutoIncrementoCampoInteiro = input.Item("ckUtilizaAutoIncremento")
+
+' Prefixo da procedure
+strPrefixoProcedure = ucase(input.Item("txtPrefixo"))
+
+' Recupera o caracter Prefixo do Parametro
+prefixoParametro = input.Item("txtPrefixoParametro")
+
+' Grab the namespace
+namespace = input.Item("txtNamespace")
+
+' Grab the namespace Entidade
+namespaceDTO = input.Item("txtNamespaceDTO")
+
+' Grab the choices the user made in our UI Script (see Interface Code tab)
+Set tableNames = input.Item("lstTables")
+
+databaseName  = input.Item("cmbDatabase")
+Set database = MyMeta.Databases(databaseName)
+
+' Loop through the tables the user selected and generate the business entities
+For intLp = 0 To tableNames.Count - 1
+
+For Each objTabelaCombo in tableNames
+
+	Set objTable = database.Tables(objTabelaCombo)
+	Set props = objTable.Properties
+	
+	bOtherColumns = (objTable.Columns.Count > objTable.PrimaryKeys.Count)
+	nomeClasse = objTable.description	
+	nomeTabela = Ucase(TrimSpaces(objTable.Alias))
+	nomeProcedure = GetNomeProcedure(nomeTabela)
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+' Now we have the table that we desire to build a Business Object From, let us begin.
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+entidadeNegocio = nomeClasse & "DTO"
+entidadeDataTable = nomeClasse & "DataTable"
+
+dim bPossuiSequence
+dim strPropNameSequence
+bPossuiSequence = false
+strPropNameSequence = "SEQ:I:" + ucase(objTable.name)
+For Each objColumn in objTable.Columns					
+	If props.ContainsKey(strPropNameSequence) Then					
+		bPossuiSequence = true
+		exit for
+	End If
+Next
+%>
+using System;
+using System.Text;
+using System.Data;
+using HospitalAnaCosta.Framework.Data;
+using System.Data.Common;
+using <%= TrimSpaces(namespaceDTO)%>;
+
+namespace <%= TrimSpaces(namespace) %>
+{
+    public partial class <%= nomeClasse%> : Entity
+    {			
+		/// <summary>
+        /// Listar todos os registros
+        /// </summary>
+        public <%= entidadeDataTable%> Listar(<%= entidadeNegocio%> dto)
+        {            
+			#region "Parametros"
+            DbParameterCollection param = Connection.CreateDataParameterCollection();            
+			
+			//Parametro Cursor
+            param.Add(Connection.CreateParameterCursor());
+<%
+			For Each objColumn in objTable.Columns
+				name = "p"&UCase(objColumn.name)%>
+			//Parametro <%=name%>
+			param.Add(Connection.CreateParameter("<%=name%>", dto.<%=objColumn.description%>.DBValue, ParameterDirection.Input, dto.<%=objColumn.description%>.DbType));
+<%			Next
+%>			#endregion	
+			
+			<%= entidadeDataTable%> result = new <%= entidadeDataTable%>();
+			string query = "<%=nomeProcedure%>_L";
+			
+			//Executa o procedimento
+			Connection.RecordSet(query, ref param, result, CommandType.StoredProcedure);
+			
+			return result;
+		}
+
+		/// <summary>
+        /// Listar o registro utilizando PK
+        /// </summary>
+        public <%= entidadeNegocio%> Pesquisar(<%= entidadeNegocio%> dto)
+        {            
+			#region "Parametros"
+            DbParameterCollection param = Connection.CreateDataParameterCollection();            
+			
+			//Parametro Cursor
+            param.Add(Connection.CreateParameterCursor());
+			<%For Each objColumn in objTable.PrimaryKeys
+				name = "p"&UCase(objColumn.name)
+			%>
+			// Parametro <%=name%>
+			param.Add(Connection.CreateParameter("<%=name%>", dto.<%=objColumn.description%>.DBValue, ParameterDirection.Input, dto.<%=objColumn.description%>.DbType));
+			<%Next%>
+			
+			#endregion	
+			
+			<%= entidadeDataTable%> result = new <%= entidadeDataTable%>();
+			string query = "<%=nomeProcedure%>_S";
+			
+			//Executa o procedimento
+			Connection.RecordSet(query, ref param, result, CommandType.StoredProcedure);
+			
+            if (result.Rows.Count > 0)
+                return result.TypedRow(0);
+            else
+                return null;
+		}
+
+		
+		/// <summary>
+        /// Exclui o registro
+        /// </summary>        
+
+		public void Excluir(<%= entidadeNegocio%> dto)
+		{
+  		    #region "Parametros"            
+			DbParameterCollection param = Connection.CreateDataParameterCollection();            		
+			<%For Each objColumn in objTable.PrimaryKeys
+				name = "p"&UCase(objColumn.name)
+			%>
+			// Parametro <%=name%>
+			param.Add(Connection.CreateParameter("<%=name%>", dto.<%=objColumn.description%>.DBValue, ParameterDirection.Input, dto.<%=objColumn.description%>.DbType));
+			<%Next%>
+		
+   	       #endregion				
+			//Executa o procedimento
+            
+			string query = "<%=nomeProcedure%>_D";
+			
+			Connection.ExecuteCommand(query, ref param, CommandType.StoredProcedure);
+		}
+		
+		/// <summary>
+        /// Altera o registro
+        /// </summary>			
+		public void Alterar(<%= entidadeNegocio%> dto)
+		{	
+			#region "Parametros"            
+			DbParameterCollection param = Connection.CreateDataParameterCollection();			
+			<%
+			For Each objColumn in objTable.Columns
+				name = "p"&UCase(objColumn.name)%>
+			//Parametro <%=name%>
+			param.Add(Connection.CreateParameter("<%=name%>", dto.<%=objColumn.description%>.DBValue, ParameterDirection.Input, dto.<%=objColumn.description%>.DbType));
+			<% Next%>
+			#endregion	
+
+			string query = "<%=nomeProcedure%>_U";
+			
+			Connection.ExecuteCommand(query, ref param, CommandType.StoredProcedure);
+		}
+		
+		/// <summary>
+        /// Inclui o registro
+        /// </summary>			
+		public void Incluir(<%= entidadeNegocio%> dto)
+		{			
+			string query = "<%=nomeProcedure%>_I";
+
+			#region "Parametros"            
+			DbParameterCollection param = Connection.CreateDataParameterCollection();			
+<%          if (bPossuiSequence) then%>			
+			//Parametro Sequence			
+            param.Add(Connection.CreateParameterSequence());
+<%          end if%>			
+			<%
+			For Each objColumn in objTable.Columns
+				name = "p"&UCase(objColumn.name)%>
+			//Parametro <%=name%>
+			param.Add(Connection.CreateParameter("<%=name%>", dto.<%=objColumn.description%>.DBValue, ParameterDirection.Input, dto.<%=objColumn.description%>.DbType));
+			<% Next%>
+			#endregion	
+
+			// Executa o Procedimento
+			Connection.ExecuteCommand(query, ref param, CommandType.StoredProcedure);						
+<%          if (bPossuiSequence) then%>				
+			//Recupera o valor da Sequence utilizado na procedure     
+   	        <%For Each objColumn in objTable.PrimaryKeys%>
+						
+    		   dto.<%=objColumn.description%>.Value = Int32.Parse(param["pNewIdt"].Value.ToString());
+			<%Next%>
+<%         end if%>
+		}	
+	}
+}
+<% 
+	' Save the output file for this Table
+	Dim filename
+	filename = input.item("txtPath")
+
+	Dim length
+	Dim pos
+	lenth = Len(filename)
+	pos = InStrRev(filename, "\") 
+
+	If Not pos = lenth Then
+		filename = filename & "\"
+	End If
+
+	filename = filename & objTable.description & ".cs"
+
+	output.save filename, false
+	buffer = buffer & output.text
+	output.clear
+Next '  tableName
+Next	
+	output.write buffer
+%>
+
+<%
+Function TrimSpaces(str)
+
+	Dim tname
+	Dim name
+	Dim char
+	Dim l
+
+	name = ""
+	tname = str
+	l = Len(tname)
+
+	For j = 1 To l
+		char = Mid(tname, j, 1)
+		If Not char = " " Then
+			name = name & char
+		End If
+	Next
+
+	TrimSpaces = name
+End Function
+
+Function GetNomeProcedure(nomeTabela)
+	dim nomeProcedure 
+	nomeProcedure = ucase(nomeTabela)
+	nomeProcedure = strPrefixoProcedure + mid(nomeTabela,4)
+	GetNomeProcedure = nomeProcedure
+End Function
+
+Function GetName(str)
+	Dim name
+	name = lcase(str)
+	GetName = UCase(Left(name, 1)) & Right(name, Len(name) -1)
+End Function
+
+Function VerificaTipoColunaNull(objColumn)		
+	Select Case objColumn.LanguageType
+		Case "long", "decimal", "double", "int", "bool", "DateTime", "short"
+			VerificaTipoColunaNull = objColumn.LanguageType & "?"
+		Case Else
+			VerificaTipoColunaNull = objColumn.LanguageType
+	End Select	
+End Function
+
+Function VerificaTipoColuna(objColumn)	
+	
+	Select Case objColumn.LanguageType
+		Case "string"
+			VerificaTipoColuna = "GetAsString"
+		Case "long"
+			VerificaTipoColuna = "GetAsLong"
+		Case "short"
+			VerificaTipoColuna = "GetAsShort"
+		Case "decimal"
+			VerificaTipoColuna = "GetAsDecimal"
+		Case "double"
+			VerificaTipoColuna = "GetAsDouble"
+		Case "bool"
+			VerificaTipoColuna = "GetAsBoolean"
+		Case "int"
+			VerificaTipoColuna = "GetAsInt"
+		Case "DateTime"
+			VerificaTipoColuna = "GetAsDateTime"
+			
+	End Select	
+End Function
+
+%>
+##|BODY_END

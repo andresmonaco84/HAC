@@ -1,0 +1,72 @@
+create or replace procedure PRC_ATD_IMS_INT_MOV_SETOR_I
+(
+     pNewIdt OUT integer,
+     pATD_ATE_ID IN TB_ATD_IMS_INT_MOV_SETOR.ATD_ATE_ID%type,
+     pATD_IMS_DT_ENTRADA IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_DT_ENTRADA%type,
+     pATD_IMS_HR_ENTRADA IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_HR_ENTRADA%type,
+     pATD_IMS_DT_SAIDA IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_DT_SAIDA%type default NULL,
+     pATD_IMS_HR_SAIDA IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_HR_SAIDA%type default NULL,
+     pCAD_SET_ID_SETOR IN TB_ATD_IMS_INT_MOV_SETOR.CAD_SET_ID_SETOR%type,
+     pATD_IMS_DT_ULTIMA_ATUALIZACAO IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_ATD_IMS_INT_MOV_SETOR.SEG_USU_ID_USUARIO%type,
+     pATD_IMS_DS_OBSERVACAO IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_DS_OBSERVACAO%type default NULL,
+     pATD_IMS_ID IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_ID%type default NULL,
+     pATD_IMS_FL_STATUS IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_FL_STATUS%type default NULL,
+     pTIS_TAC_CD_TIPO_ACOMOD_AUT IN TB_ATD_IMS_INT_MOV_SETOR.TIS_TAC_CD_TIPO_ACOMOD_AUT%TYPE DEFAULT NULL,
+     pATD_IMS_DT_INI_ACOMOD_AUT IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_DT_INI_ACOMOD_AUT%TYPE DEFAULT NULL,
+     pATD_IMS_HR_INI_ACOMOD_AUT IN TB_ATD_IMS_INT_MOV_SETOR.ATD_IMS_HR_INI_ACOMOD_AUT%TYPE DEFAULT NULL
+) 
+is
+/********************************************************************
+*    Procedure: PRC_ATD_IMS_INT_MOV_SETOR_I
+* 
+*    Data Criacao: 	  data da  criação     Por: Nome do Analista
+*    Data Alteracao:  data da alteração    Por: Nome do Analista
+*    Data Alteracao:  14/05/2011           Por: Fabiola Lopes
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*    Alteracao: Inclusão dos campos TIS_TAC_CD_TIPO_ACOMOD_AUT, ATD_IMS_DT_INI_ACOMOD_AUT e ATD_IMS_HR_INI_ACOMOD_AUT
+*
+*******************************************************************/  
+    lIdtRetorno integer;
+	  
+begin
+    SELECT SEQ_ATD_IMS_01.NextVal INTO lIdtRetorno FROM DUAL;
+	    
+INSERT INTO TB_ATD_IMS_INT_MOV_SETOR
+(
+       ATD_ATE_ID,
+       ATD_IMS_DT_ENTRADA,
+       ATD_IMS_HR_ENTRADA,
+       ATD_IMS_DT_SAIDA,
+       ATD_IMS_HR_SAIDA,
+       CAD_SET_ID_SETOR,
+       ATD_IMS_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ATD_IMS_DS_OBSERVACAO,
+       ATD_IMS_ID,
+       ATD_IMS_FL_STATUS,
+       TIS_TAC_CD_TIPO_ACOMOD_AUT,
+       ATD_IMS_DT_INI_ACOMOD_AUT,
+       ATD_IMS_HR_INI_ACOMOD_AUT
+)
+VALUES
+(
+	     pATD_ATE_ID,
+	     pATD_IMS_DT_ENTRADA,
+	     pATD_IMS_HR_ENTRADA,
+	     pATD_IMS_DT_SAIDA,
+	     pATD_IMS_HR_SAIDA,
+	     pCAD_SET_ID_SETOR,
+	     pATD_IMS_DT_ULTIMA_ATUALIZACAO,
+	     pSEG_USU_ID_USUARIO,
+	     pATD_IMS_DS_OBSERVACAO,      
+	     lIdtRetorno,
+	     pATD_IMS_FL_STATUS,
+         pTIS_TAC_CD_TIPO_ACOMOD_AUT,
+         pATD_IMS_DT_INI_ACOMOD_AUT,
+         pATD_IMS_HR_INI_ACOMOD_AUT
+);
+    pNewIdt := lIdtRetorno;	
+end PRC_ATD_IMS_INT_MOV_SETOR_I;

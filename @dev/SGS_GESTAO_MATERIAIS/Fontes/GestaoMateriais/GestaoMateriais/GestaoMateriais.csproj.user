@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>\\iishac01.anacosta.com.br\Instalar\GestaoSuprimentos\|\\devhac05.anacosta.com.br\GestaoSuprimentos\|\\10.104.156.28\Instalar\GestaoSuprimentos\|\\devhac05.anacosta.com.br\Instalar\GestaoSuprimentos\|\\iishac01.anacosta.com.br\instalar\GestaoSuprimentos\</PublishUrlHistory>
+    <InstallUrlHistory>http://iishac01.anacosta.com.br/Instalar/GestaoSuprimentos/|http://devhac05.anacosta.com.br/GestaoSuprimentos/|http://10.104.156.28/Instalar/GestaoSuprimentos/|http://devhac05/GestaoSuprimentos//GestaoSuprimentos/|http://iishac01.anacosta.com.br/instalar/GestaoSuprimentos/</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory>http://iishac01.anacosta.com.br/Instalar/GestaoSuprimentos/|http://devhac05.anacosta.com.br/GestaoSuprimentos/|http://10.104.156.28/Instalar/GestaoSuprimentos/|http://devhac06.anacosta.com.br/GestaoSuprimentos/|http://devhac05/GestaoSuprimentos/</UpdateUrlHistory>
+    <BootstrapperUrlHistory>http://devhac02/GestaoMateriais</BootstrapperUrlHistory>
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>

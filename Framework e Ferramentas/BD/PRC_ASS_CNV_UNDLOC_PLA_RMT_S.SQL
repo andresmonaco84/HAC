@@ -1,0 +1,47 @@
+  --PRC_ASS_CNV_UNDLOC_PLA_RMT_S
+  create or replace procedure PRC_ASS_CNV_UNDLOC_PLA_RMT_S 
+  (
+     pASS_CLP_ID IN TB_ASS_CLP_CNV_UND_LOC_PLANO.ASS_CLP_ID%type DEFAULT NULL,
+     pASS_CUL_ID IN TB_ASS_CLP_CNV_UND_LOC_PLANO.ASS_CUL_ID%type DEFAULT NULL,
+     pASS_CLP_DT_INI_VIGENCIA IN TB_ASS_CLP_CNV_UND_LOC_PLANO.ASS_CLP_DT_INI_VIGENCIA%type DEFAULT NULL,
+     pASS_CLP_DT_FIM_VIGENCIA IN TB_ASS_CLP_CNV_UND_LOC_PLANO.ASS_CLP_DT_FIM_VIGENCIA%type DEFAULT NULL,
+     pCAD_PLA_ID_PLANO IN TB_ASS_CLP_CNV_UND_LOC_PLANO.CAD_PLA_ID_PLANO%type DEFAULT NULL,
+     pASS_CLP_DT_ULTIMA_ATUALIZACAO IN TB_ASS_CLP_CNV_UND_LOC_PLANO.ASS_CLP_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_ASS_CLP_CNV_UND_LOC_PLANO.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pASS_CLP_FL_BLOQUEIA_UNI_OK IN TB_ASS_CLP_CNV_UND_LOC_PLANO.ASS_CLP_FL_BLOQUEIA_UNIDADE_OK%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_ASS_CNV_UNDLOC_PLA_RMT_S
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+       ASS_CLP_ID,
+       ASS_CUL_ID,
+       ASS_CLP_DT_INI_VIGENCIA,
+       ASS_CLP_DT_FIM_VIGENCIA,
+       CAD_PLA_ID_PLANO,
+       ASS_CLP_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ASS_CLP_FL_BLOQUEIA_UNIDADE_OK
+    FROM TB_ASS_CLP_CNV_UND_LOC_PLANO
+    WHERE
+        (pASS_CLP_ID is null OR ASS_CLP_ID = pASS_CLP_ID) AND 
+        (pASS_CUL_ID is null OR ASS_CUL_ID = pASS_CUL_ID) AND 
+        (pASS_CLP_DT_INI_VIGENCIA is null OR ASS_CLP_DT_INI_VIGENCIA = pASS_CLP_DT_INI_VIGENCIA) AND 
+        (pASS_CLP_DT_FIM_VIGENCIA is null OR ASS_CLP_DT_FIM_VIGENCIA = pASS_CLP_DT_FIM_VIGENCIA) AND 
+        (pCAD_PLA_ID_PLANO is null OR CAD_PLA_ID_PLANO = pCAD_PLA_ID_PLANO) AND 
+        (pASS_CLP_DT_ULTIMA_ATUALIZACAO is null OR ASS_CLP_DT_ULTIMA_ATUALIZACAO = pASS_CLP_DT_ULTIMA_ATUALIZACAO) AND 
+        (pSEG_USU_ID_USUARIO is null OR SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO) AND 
+        (pASS_CLP_FL_BLOQUEIA_UNI_OK is null OR ASS_CLP_FL_BLOQUEIA_UNIDADE_OK = pASS_CLP_FL_BLOQUEIA_UNI_OK);          
+    io_cursor := v_cursor;
+  end PRC_ASS_CNV_UNDLOC_PLA_RMT_S;

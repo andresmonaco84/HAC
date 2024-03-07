@@ -1,0 +1,56 @@
+create or replace procedure PRC_TIS_TAC_TIPO_ACOMODACAO_I
+  (
+     pTIS_TAC_CD_TIPO_ACOMODACAO IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_CD_TIPO_ACOMODACAO%type,
+     pTIS_TAC_DS_TIPO_ACOMODACAO IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_DS_TIPO_ACOMODACAO%type,
+     pTIS_TAC_PC_ACOMODACAO_HM  IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_PC_ACOMODACAO_HM%type default null,
+     --pTIS_TAC_DT_ULTIMA_ATUALIZACAO IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO   IN TB_TIS_TAC_TIPO_ACOMODACAO.SEG_USU_ID_USUARIO%type,
+     pTIS_TAC_FL_PERM_DIF_CLASSE IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_FL_PERM_DIF_CLASSE%type,
+     pTIS_TAC_FL_UTILIZA_REPASSE IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_FL_UTILIZA_REPASSE%type,
+     pTIS_TAC_FL_STATUS    IN TB_TIS_TAC_TIPO_ACOMODACAO.TIS_TAC_FL_STATUS%type
+
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_TIS_TAC_TIPO_ACOMODACAO_I
+  *
+  *    Data Criacao:  12/04/2007   Por: Cristiane Gomes da Silva
+  *    Data Alteracao: 02/05/2007   Por: Cristiane Gomes da Silva
+  *
+  *    Data Alteração: 25/05/2007   Por:Silmara
+  *    Alteração:Foi alterado os parâmetros para gravar em maiúsculo
+  *    Funcao: Inclui Tipo de Acomodação - TISS
+  *
+  *******************************************************************/
+
+  begin
+
+    INSERT INTO TB_TIS_TAC_TIPO_ACOMODACAO
+    (
+       TIS_TAC_CD_TIPO_ACOMODACAO,
+       TIS_TAC_DS_TIPO_ACOMODACAO,
+       TIS_TAC_PC_ACOMODACAO_HM,
+       TIS_TAC_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       TIS_TAC_FL_PERM_DIF_CLASSE,
+       TIS_TAC_FL_UTILIZA_REPASSE,
+       TIS_TAC_FL_STATUS,
+       TIS_TAC_DT_CRIACAO,
+       SEG_USU_ID_USUARIO_CRIACAO 
+    )
+    VALUES
+    (
+      pTIS_TAC_CD_TIPO_ACOMODACAO,
+      UPPER(pTIS_TAC_DS_TIPO_ACOMODACAO),
+      pTIS_TAC_PC_ACOMODACAO_HM,
+      SYSDATE,
+      pSEG_USU_ID_USUARIO,
+      pTIS_TAC_FL_PERM_DIF_CLASSE,
+      pTIS_TAC_FL_UTILIZA_REPASSE,
+      pTIS_TAC_FL_STATUS,
+      SYSDATE,
+      pSEG_USU_ID_USUARIO
+    );
+
+  end PRC_TIS_TAC_TIPO_ACOMODACAO_I;
+ 

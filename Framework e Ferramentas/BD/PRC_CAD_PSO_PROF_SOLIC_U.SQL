@@ -1,0 +1,34 @@
+  --PRC_CAD_PSO_PROF_SOLIC_U
+  create or replace procedure PRC_CAD_PSO_PROF_SOLIC_U
+  (
+     pTIS_CPR_CD_CONSELHOPROF IN TB_CAD_PSO_PROF_SOLICITANTE.TIS_CPR_CD_CONSELHOPROF%type,
+     pCAD_PSO_CD_CONSELHO IN TB_CAD_PSO_PROF_SOLICITANTE.CAD_PSO_CD_CONSELHO%type,
+     pCAD_PSO_SG_UF_CONSELHO IN TB_CAD_PSO_PROF_SOLICITANTE.CAD_PSO_SG_UF_CONSELHO%type,
+     pCAD_PSO_FL_ATIVO_OK IN TB_CAD_PSO_PROF_SOLICITANTE.CAD_PSO_FL_ATIVO_OK%type,
+     pCAD_PSO_NM_PROFISSIONAL IN TB_CAD_PSO_PROF_SOLICITANTE.CAD_PSO_NM_PROFISSIONAL%type,
+     pCAD_PSO_DT_ULTIMA_ATUALIZACAO IN TB_CAD_PSO_PROF_SOLICITANTE.CAD_PSO_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_CAD_PSO_PROF_SOLICITANTE.SEG_USU_ID_USUARIO%type
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_CAD_PSO_PROF_SOLIC_U
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/  
+  begin
+    UPDATE TB_CAD_PSO_PROF_SOLICITANTE
+    SET	   
+        CAD_PSO_FL_ATIVO_OK = pCAD_PSO_FL_ATIVO_OK,
+        CAD_PSO_NM_PROFISSIONAL = pCAD_PSO_NM_PROFISSIONAL,
+        CAD_PSO_DT_ULTIMA_ATUALIZACAO = pCAD_PSO_DT_ULTIMA_ATUALIZACAO,
+        SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO 
+    WHERE
+        CAD_PSO_CD_CONSELHO = pCAD_PSO_CD_CONSELHO
+    AND CAD_PSO_SG_UF_CONSELHO = pCAD_PSO_SG_UF_CONSELHO
+    AND TIS_CPR_CD_CONSELHOPROF = pTIS_CPR_CD_CONSELHOPROF;	
+  end PRC_CAD_PSO_PROF_SOLIC_U;
+

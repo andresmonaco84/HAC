@@ -1,0 +1,61 @@
+﻿@model Dictionary<string, string>
+@{
+    ViewBag.Title = "Update service files";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h2>sgs-admin</h2>
+                
+            </hgroup>
+            <p>
+                <pre>@ViewBag.ErrorMessage</pre>
+            </p>
+        </div>
+    </section>
+}
+<script>
+    function setPath(path) {
+        $('#updatePath').val(path);
+    }
+</script>
+
+<h2>@ViewBag.Message</h2>
+
+@using (Html.BeginForm())
+{
+    if (ViewBag.ServicePath != null)
+    {
+        <span>Target path:</span>
+        <br/>
+        <input type="text" name="servicePath" id="servicePath" class="targetPathText updatePathText" readonly="readonly" value="@ViewBag.ServicePath"/>
+        <br/>
+        <span>Source path:</span>
+        <br/>
+        <input type="text" name="updatePath" id="updatePath" class="updatePathText"/>
+        <br />
+        <input type="submit" value="Update Files"/>
+    }
+    else
+    {
+            <h2 class="error">Service path not found on web.config for @ViewBag.ServiceName</h2>
+    }
+
+
+}
+
+@if (Model.Count > 0)
+{
+    <span class="last-updates">Last updates:</span>    
+    foreach (var item in Model)
+    {
+    <br/><a href="#updatePath" onclick="javascript:setPath('@item.Value')">@item.Key</a>
+    }
+}
+
+
+
+
+
+

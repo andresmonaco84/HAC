@@ -1,0 +1,46 @@
+  
+--PRC_CAD_REP_BCP_BASE_CALCULO_L
+create or replace procedure PRC_CAD_REP_BCP_BASE_CALCULO_L 
+(
+     pCAD_REP_TP_BASE_CALCULO IN TB_CAD_REP_BCP_BASE_CALCULO.CAD_REP_TP_BASE_CALCULO%type DEFAULT NULL,
+     pREP_BCP_DS_BASE_CALCULO IN TB_CAD_REP_BCP_BASE_CALCULO.REP_BCP_DS_BASE_CALCULO%type DEFAULT NULL,
+     pREP_BCP_DS_CAMPO IN TB_CAD_REP_BCP_BASE_CALCULO.REP_BCP_DS_CAMPO%type DEFAULT NULL,
+     pREP_BCP_NM_CONTROLE IN TB_CAD_REP_BCP_BASE_CALCULO.REP_BCP_NM_CONTROLE%type DEFAULT NULL,
+     pREP_BCP_FL_ATIVO_OK IN TB_CAD_REP_BCP_BASE_CALCULO.REP_BCP_FL_ATIVO_OK%type DEFAULT NULL,     
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_REP_BCP_BASE_CALCULO_L
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pCAD_REP_TP_BASE_CALCULO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_REP_TP_BASE_CALCULO = ' || CHR(39) || pCAD_REP_TP_BASE_CALCULO || CHR(39); END IF;
+IF pREP_BCP_DS_BASE_CALCULO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND REP_BCP_DS_BASE_CALCULO = ' || CHR(39) || pREP_BCP_DS_BASE_CALCULO || CHR(39); END IF;
+IF pREP_BCP_DS_CAMPO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND REP_BCP_DS_CAMPO = ' || CHR(39) || pREP_BCP_DS_CAMPO || CHR(39); END IF;
+IF pREP_BCP_NM_CONTROLE IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND REP_BCP_NM_CONTROLE = ' || CHR(39) || pREP_BCP_NM_CONTROLE || CHR(39); END IF;
+IF pREP_BCP_FL_ATIVO_OK IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND REP_BCP_FL_ATIVO_OK = ' || CHR(39) || pREP_BCP_FL_ATIVO_OK || CHR(39); END IF;
+ 
+   V_SELECT := '
+SELECT	
+       CAD_REP_TP_BASE_CALCULO,
+       REP_BCP_DS_BASE_CALCULO,
+       REP_BCP_DS_CAMPO,
+       REP_BCP_NM_CONTROLE,
+       REP_BCP_FL_ATIVO_OK       
+FROM TB_CAD_REP_BCP_BASE_CALCULO
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_CAD_REP_BCP_BASE_CALCULO_L;

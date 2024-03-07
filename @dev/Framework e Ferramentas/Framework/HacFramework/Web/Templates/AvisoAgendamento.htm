@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Aviso de Agendamento</title>
+<style type="text/css">
+        #total 
+        {
+          position: relative;
+          left: 0%;
+          
+          margin: 0 0 0 0;
+          height:auto;
+          background:#FFFFFF;
+          font-size:10pt;
+          font-family:Verdana,Arial;
+        }
+        #total span
+        {
+            font-weight:bold;
+            color:green;
+        }
+        #total p
+        {
+            margin-top:8px;
+        }
+        .titulo
+        {
+            font-size: 13pt;
+            color: green;
+            font-family: Arial;
+        }
+        #total .subtitulo
+        {
+            font-size: 7pt;
+            font-family: Arial;
+            font-weight:normal;
+            margin-left:13px;
+            color:#000000;
+
+        }        
+        #divAviso span
+        {
+            color:#000000;
+            font-weight:bold;
+            font-size:9pt;
+        }
+    </style>
+</head>
+<body>
+<div id="total">
+<span>Hospital Ana Costa: CONFIRMAÇÃO DE AGENDA DE CONSULTA
+</span>
+<p>
+Caro beneficiário,  @@NOMEBENEFICIARIO@@
+    <br />	
+	É com satisfação que informamos que sua consulta foi marcada para:
+	</p>
+    <div id="divAviso" >
+    <span>Data: </span>@@DATA@@<br />
+    <span>Hora: </span>@@HORA@@<br />
+    <span>Unidade: </span>@@UNIDADE@@<br/>
+    <span>Endereço da Unidade: </span>@@ENDERECO@@<br />
+    <span>Local de Atendimento: </span>@@LOCALATENDIMENTO@@<br />
+    <span>Andar: </span>@@ANDAR@@<br />
+    <span>Médico: </span>@@MEDICO@@<br />
+    <span>Especialidade: </span>@@ESPECIALIDADE@@<br /> 
+    </div>
+    <p> No caso de sua eventual falta, pedimos nos avisar antecipadamente, 
+     ligando para 3476-8000
+    </p>
+    <p>
+    Atenciosamente, 
+</p>
+<span class="titulo">
+Hospital Ana Costa
+</span>
+<br />
+<span class="subtitulo">
+Sua saúde em boas mãos</span>
+</div>
+</body>
+</html>

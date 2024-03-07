@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Release\HacFramework.dll
+C:\TFS\SGS\@dev\DLL\_Release\HacFramework.pdb
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework\obj\Release\HacFramework.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework\obj\Release\HacFramework.dll
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework\obj\Release\HacFramework.pdb

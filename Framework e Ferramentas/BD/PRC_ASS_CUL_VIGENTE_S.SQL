@@ -1,0 +1,39 @@
+create or replace procedure PRC_ASS_CUL_VIGENTE_S
+  (
+     pASS_CUL_ID IN TB_ASS_CUL_CONV_UNI_LOCATEND.ASS_CUL_ID%type DEFAULT NULL,
+     pCAD_CNV_ID_CONVENIO IN TB_ASS_CNU_CONVENIO_UNIDADE.CAD_CNV_ID_CONVENIO%type DEFAULT NULL,
+     pASS_CNU_ID IN TB_ASS_CNU_CONVENIO_UNIDADE.ASS_CNU_ID%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_ASS_CUL_VIGENTE_S
+  *
+  *    Data Criacao:   24/05/2013  Por: PEDRO
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT
+       CUL.ASS_CUL_ID,
+       CUL.ASS_CUL_DT_INI_VIGENCIA,
+       CUL.ASS_CUL_DS_MOTIVO_FIM_VIGENCIA,
+       CUL.ASS_CUL_DT_ULTIMA_ATUALIZACAO,
+       CUL.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+       CUL.ASS_CUL_DT_FIM_VIGENCIA,
+       CUL.SEG_USU_ID_USUARIO,
+       CUL.ASS_CNU_ID
+    FROM TB_ASS_CUL_CONV_UNI_LOCATEND CUL,
+         TB_ASS_CNU_CONVENIO_UNIDADE CNU
+   WHERE CNU.ASS_CNU_ID = CUL.ASS_CNU_ID
+     AND (CUL.ASS_CUL_DT_FIM_VIGENCIA IS NULL OR trunc(CUL.ASS_CUL_DT_FIM_VIGENCIA) >= trunc(SYSDATE) +1)
+     AND (CNU.ASS_CNU_DT_FIM_VIGENCIA IS NULL OR trunc(CNU.ASS_CNU_DT_FIM_VIGENCIA) >= trunc(SYSDATE) +1)
+     AND (pASS_CUL_ID is null OR CUL.ASS_CUL_ID = pASS_CUL_ID)
+     AND (pCAD_CNV_ID_CONVENIO is null OR CNU.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+    AND  (pASS_CNU_ID is null OR CUL.ASS_CNU_ID = pASS_CNU_ID)
+
+    ORDER BY CUL.ASS_CUL_DT_INI_VIGENCIA DESC, CUL.ASS_CUL_DT_FIM_VIGENCIA DESC;
+
+    io_cursor := v_cursor;
+  end PRC_ASS_CUL_VIGENTE_S;

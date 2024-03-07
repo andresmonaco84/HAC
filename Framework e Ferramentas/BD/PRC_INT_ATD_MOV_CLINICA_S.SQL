@@ -1,0 +1,53 @@
+  --PRC_INT_ATD_MOV_CLINICA_S
+  create or replace procedure PRC_INT_ATD_MOV_CLINICA_S 
+  (
+     pATD_ATE_ID IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_ATE_ID%type DEFAULT NULL,
+     pATD_IMC_DT_ENTRADA IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_DT_ENTRADA%type DEFAULT NULL,
+     pATD_IMC_HR_ENTRADA IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_HR_ENTRADA%type DEFAULT NULL,
+     pATD_IMC_DT_SAIDA IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_DT_SAIDA%type DEFAULT NULL,
+     pCAD_CLC_ID IN TB_ATD_IMC_INT_MOV_CLINICA.CAD_CLC_ID%type DEFAULT NULL,
+     pATD_IMC_DT_ULTIMA_ATUALIZACAO IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_ATD_IMC_INT_MOV_CLINICA.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pATD_IMC_DS_OBSERVACAO IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_DS_OBSERVACAO%type DEFAULT NULL,
+     pATD_IMC_HR_SAIDA IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_HR_SAIDA%type DEFAULT NULL,
+     pATD_IMC_ID IN TB_ATD_IMC_INT_MOV_CLINICA.ATD_IMC_ID%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_INT_ATD_MOV_CLINICA_S
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+       ATD_ATE_ID,
+       ATD_IMC_DT_ENTRADA,
+       ATD_IMC_HR_ENTRADA,
+       ATD_IMC_DT_SAIDA,
+       CAD_CLC_ID,
+       ATD_IMC_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ATD_IMC_DS_OBSERVACAO,
+       ATD_IMC_HR_SAIDA,
+       ATD_IMC_ID
+    FROM TB_ATD_IMC_INT_MOV_CLINICA
+    WHERE
+        (pATD_ATE_ID is null OR ATD_ATE_ID = pATD_ATE_ID) AND 
+        (pATD_IMC_DT_ENTRADA is null OR ATD_IMC_DT_ENTRADA = pATD_IMC_DT_ENTRADA) AND 
+        (pATD_IMC_HR_ENTRADA is null OR ATD_IMC_HR_ENTRADA = pATD_IMC_HR_ENTRADA) AND 
+        (pATD_IMC_DT_SAIDA is null OR ATD_IMC_DT_SAIDA = pATD_IMC_DT_SAIDA) AND 
+        (pCAD_CLC_ID is null OR CAD_CLC_ID = pCAD_CLC_ID) AND 
+        (pATD_IMC_DT_ULTIMA_ATUALIZACAO is null OR ATD_IMC_DT_ULTIMA_ATUALIZACAO = pATD_IMC_DT_ULTIMA_ATUALIZACAO) AND 
+        (pSEG_USU_ID_USUARIO is null OR SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO) AND 
+        (pATD_IMC_DS_OBSERVACAO is null OR ATD_IMC_DS_OBSERVACAO = pATD_IMC_DS_OBSERVACAO) AND 
+        (pATD_IMC_HR_SAIDA is null OR ATD_IMC_HR_SAIDA = pATD_IMC_HR_SAIDA) AND 
+        (pATD_IMC_ID is null OR ATD_IMC_ID = pATD_IMC_ID);          
+    io_cursor := v_cursor;
+  end PRC_INT_ATD_MOV_CLINICA_S;

@@ -1,0 +1,45 @@
+ 
+--PRC_CAD_FER_FERIADO_RMT_L
+create or replace procedure PRC_CAD_FER_FERIADO_RMT_L 
+(
+     pCAD_FER_ID_FERIADO IN TB_CAD_FER_FERIADO.CAD_FER_ID_FERIADO%type DEFAULT NULL,
+     pCAD_UNI_ID_UNIDADE IN TB_CAD_FER_FERIADO.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+     pCAD_FER_DT_FERIADO IN TB_CAD_FER_FERIADO.CAD_FER_DT_FERIADO%type DEFAULT NULL,
+     pCAD_FER_TP_FERIADO IN TB_CAD_FER_FERIADO.CAD_FER_TP_FERIADO%type DEFAULT NULL,
+     pCAD_FER_DS_FERIADO IN TB_CAD_FER_FERIADO.CAD_FER_DS_FERIADO%type DEFAULT NULL,
+     pCAD_FER_DT_ULTIMA_ATUALIZACAO IN TB_CAD_FER_FERIADO.CAD_FER_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_CAD_FER_FERIADO.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_FER_FERIADO_RMT_L
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+SELECT	
+       CAD_FER_ID_FERIADO,
+       CAD_UNI_ID_UNIDADE,
+       CAD_FER_DT_FERIADO,
+       CAD_FER_TP_FERIADO,
+       CAD_FER_DS_FERIADO,
+       CAD_FER_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO
+FROM TB_CAD_FER_FERIADO
+WHERE
+        (pCAD_FER_ID_FERIADO is null OR CAD_FER_ID_FERIADO = pCAD_FER_ID_FERIADO) AND 
+        (pCAD_UNI_ID_UNIDADE is null OR CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE) AND 
+        (pCAD_FER_DT_FERIADO is null OR CAD_FER_DT_FERIADO = pCAD_FER_DT_FERIADO) AND 
+        (pCAD_FER_TP_FERIADO is null OR CAD_FER_TP_FERIADO = pCAD_FER_TP_FERIADO) AND 
+        (pCAD_FER_DS_FERIADO is null OR CAD_FER_DS_FERIADO = pCAD_FER_DS_FERIADO) AND 
+        (pCAD_FER_DT_ULTIMA_ATUALIZACAO is null OR CAD_FER_DT_ULTIMA_ATUALIZACAO = pCAD_FER_DT_ULTIMA_ATUALIZACAO) AND 
+        (pSEG_USU_ID_USUARIO is null OR SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO);          
+io_cursor := v_cursor;
+end PRC_CAD_FER_FERIADO_RMT_L;

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SgsProducao">
+  <ConnectionProperties>
+    <Extension>ORACLE</Extension>
+    <ConnectString>Data Source=odaprod;Min Pool Size=5;Unicode=True</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>62200e1d-a9e8-491d-82fd-a6cbf2a328e7</DataSourceID>
+</RptDataSource>

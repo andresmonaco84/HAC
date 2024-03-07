@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.ReportViewer.WinForms</id>
+    <version>1.0.0</version>
+    <authors>marcus.relva</authors>
+    <owners>marcus.relva</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Microsoft.ReportViewer.WinForms</description>
+    <summary>Microsoft.ReportViewer.WinForms</summary>
+    <releaseNotes>Microsoft.ReportViewer.WinForms</releaseNotes>
+  </metadata>
+</package>

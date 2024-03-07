@@ -1,0 +1,58 @@
+﻿@model dynamic
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h2>sgs-admin</h2>
+            </hgroup>
+            <p>
+                <pre>@ViewBag.ErrorMessage</pre>
+            </p>
+        </div>
+    </section>
+}
+<h2>Oracle</h2>
+
+
+@if (Model == null)
+{
+    <span class="service-status">Not connected to Oracle</span>
+}
+else
+{
+    foreach (var item in Model)
+    {
+    <h3>Locks on @item.Key</h3>
+        if (item.Value.Count == 0)
+        {
+    <span class="service-status">No locks detected</span>
+    <hr />
+        }
+        else
+        {
+            foreach (var row in item.Value)
+            {
+                var sid = "";
+                var serial = "";
+                foreach (var col in row)
+                {
+    <strong>@col.Key</strong><span> - @col.Value.ToString()</span><br />
+                    if (col.Key == "SID")
+                    {
+                        sid = col.Value.ToString();
+                    }
+                    if (col.Key == "SERIAL#")
+                    {
+                        serial = col.Value.ToString();
+                    }
+                }
+            
+    <input class="Running" type="button" value="Kill Session" onclick="document.location.href='@Url.Action("Kill", new { database = item.Key, sid, serial })    '"/> 
+    <hr />
+            }
+        }
+
+    }
+
+}
+

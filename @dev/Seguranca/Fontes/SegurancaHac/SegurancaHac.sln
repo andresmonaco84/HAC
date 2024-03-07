@@ -1,0 +1,190 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Seguranca.Control", "HospitalAnaCosta.Services.Seguranca.Control\HospitalAnaCosta.Services.Seguranca.Control.csproj", "{15F00A22-611D-4BDD-991A-9217D14BF2CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Seguranca.DTO", "HospitalAnaCosta.Services.Seguranca.DTO\HospitalAnaCosta.Services.Seguranca.DTO.csproj", "{83D8AF55-3438-41B8-8915-F4540743439A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Seguranca.Interface", "HospitalAnaCosta.Services.Seguranca.Interface\HospitalAnaCosta.Services.Seguranca.Interface.csproj", "{4C997F85-58F8-4674-BBBD-75DAD6821102}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83D8AF55-3438-41B8-8915-F4540743439A} = {83D8AF55-3438-41B8-8915-F4540743439A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Seguranca.Model", "HospitalAnaCosta.Services.Seguranca.Model\HospitalAnaCosta.Services.Seguranca.Model.csproj", "{5F1C88F8-3754-4129-A06B-FFF59CB18A01}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83D8AF55-3438-41B8-8915-F4540743439A} = {83D8AF55-3438-41B8-8915-F4540743439A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Seguranca.Remoting", "HospitalAnaCosta.Services.Seguranca.Remoting\HospitalAnaCosta.Services.Seguranca.Remoting.csproj", "{3AD73E60-C180-4110-98D1-87219BB8A098}"
+	ProjectSection(ProjectDependencies) = postProject
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC} = {15F00A22-611D-4BDD-991A-9217D14BF2CC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalAnaCosta.Services.Seguranca.View", "HospitalAnaCosta.Services.Seguranca.View\HospitalAnaCosta.Services.Seguranca.View.csproj", "{6F4DC9E9-0712-40B4-9B02-FD819355E238}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3AD73E60-C180-4110-98D1-87219BB8A098} = {3AD73E60-C180-4110-98D1-87219BB8A098}
+	EndProjectSection
+EndProject
+Project("{4F174C21-8C12-11D0-8340-0000F80270F8}") = "HospitalAnaCosta.Services.Seguranca.Database", "HospitalAnaCosta.Services.Seguranca.Database\HospitalAnaCosta.Services.Seguranca.Database.dbp", "{5CA09F74-1827-4BF2-9CE1-B2DB64F70809}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SegurancaHac", "SegurancaHac", "{14579DC7-8708-4800-86B7-3410CC6D4623}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cadastro", "Cadastro", "{5406A624-C79F-4732-8ABF-BEB822AD4C8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.Control", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Control\Cadastro.Control.csproj", "{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.DTO", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.DTO\Cadastro.DTO.csproj", "{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro.Interface", "..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Interface\Cadastro.Interface.csproj", "{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 11
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/sgs
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HospitalAnaCosta.Services.Seguranca.Control\\HospitalAnaCosta.Services.Seguranca.Control.csproj
+		SccProjectTopLevelParentUniqueName1 = SegurancaHac.sln
+		SccProjectName1 = HospitalAnaCosta.Services.Seguranca.Control
+		SccLocalPath1 = HospitalAnaCosta.Services.Seguranca.Control
+		SccProjectUniqueName2 = HospitalAnaCosta.Services.Seguranca.DTO\\HospitalAnaCosta.Services.Seguranca.DTO.csproj
+		SccProjectTopLevelParentUniqueName2 = SegurancaHac.sln
+		SccProjectName2 = HospitalAnaCosta.Services.Seguranca.DTO
+		SccLocalPath2 = HospitalAnaCosta.Services.Seguranca.DTO
+		SccProjectUniqueName3 = HospitalAnaCosta.Services.Seguranca.Interface\\HospitalAnaCosta.Services.Seguranca.Interface.csproj
+		SccProjectTopLevelParentUniqueName3 = SegurancaHac.sln
+		SccProjectName3 = HospitalAnaCosta.Services.Seguranca.Interface
+		SccLocalPath3 = HospitalAnaCosta.Services.Seguranca.Interface
+		SccProjectUniqueName4 = HospitalAnaCosta.Services.Seguranca.Model\\HospitalAnaCosta.Services.Seguranca.Model.csproj
+		SccProjectTopLevelParentUniqueName4 = SegurancaHac.sln
+		SccProjectName4 = HospitalAnaCosta.Services.Seguranca.Model
+		SccLocalPath4 = HospitalAnaCosta.Services.Seguranca.Model
+		SccProjectUniqueName5 = HospitalAnaCosta.Services.Seguranca.Remoting\\HospitalAnaCosta.Services.Seguranca.Remoting.csproj
+		SccProjectTopLevelParentUniqueName5 = SegurancaHac.sln
+		SccProjectName5 = HospitalAnaCosta.Services.Seguranca.Remoting
+		SccLocalPath5 = HospitalAnaCosta.Services.Seguranca.Remoting
+		SccProjectUniqueName6 = HospitalAnaCosta.Services.Seguranca.View\\HospitalAnaCosta.Services.Seguranca.View.csproj
+		SccProjectTopLevelParentUniqueName6 = SegurancaHac.sln
+		SccProjectName6 = HospitalAnaCosta.Services.Seguranca.View
+		SccLocalPath6 = HospitalAnaCosta.Services.Seguranca.View
+		SccProjectUniqueName7 = HospitalAnaCosta.Services.Seguranca.Database\\HospitalAnaCosta.Services.Seguranca.Database.dbp
+		SccProjectTopLevelParentUniqueName7 = SegurancaHac.sln
+		SccProjectName7 = HospitalAnaCosta.Services.Seguranca.Database
+		SccLocalPath7 = HospitalAnaCosta.Services.Seguranca.Database
+		SccProjectUniqueName8 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Control\\Cadastro.Control.csproj
+		SccProjectTopLevelParentUniqueName8 = SegurancaHac.sln
+		SccProjectName8 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.Control
+		SccLocalPath8 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Control
+		SccProjectUniqueName9 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.DTO\\Cadastro.DTO.csproj
+		SccProjectTopLevelParentUniqueName9 = SegurancaHac.sln
+		SccProjectName9 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.DTO
+		SccLocalPath9 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.DTO
+		SccProjectUniqueName10 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Interface\\Cadastro.Interface.csproj
+		SccProjectTopLevelParentUniqueName10 = SegurancaHac.sln
+		SccProjectName10 = ../../../cadastro/Fontes/Cadastro/SOA/Cadastro.Interface
+		SccLocalPath10 = ..\\..\\..\\cadastro\\Fontes\\Cadastro\\SOA\\Cadastro.Interface
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		desenv|Any CPU = desenv|Any CPU
+		devhac05|Any CPU = devhac05|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D8AF55-3438-41B8-8915-F4540743439A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C997F85-58F8-4674-BBBD-75DAD6821102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.desenv|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.desenv|Any CPU.Build.0 = Debug|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.devhac05|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.devhac05|Any CPU.Build.0 = Debug|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AD73E60-C180-4110-98D1-87219BB8A098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.desenv|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.desenv|Any CPU.Build.0 = Debug|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.devhac05|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.devhac05|Any CPU.Build.0 = Debug|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.desenv|Any CPU.ActiveCfg = desenv|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.desenv|Any CPU.Build.0 = desenv|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.devhac05|Any CPU.ActiveCfg = devhac05|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.devhac05|Any CPU.Build.0 = devhac05|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{83D8AF55-3438-41B8-8915-F4540743439A} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{4C997F85-58F8-4674-BBBD-75DAD6821102} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{5F1C88F8-3754-4129-A06B-FFF59CB18A01} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{3AD73E60-C180-4110-98D1-87219BB8A098} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{6F4DC9E9-0712-40B4-9B02-FD819355E238} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{5CA09F74-1827-4BF2-9CE1-B2DB64F70809} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{15F00A22-611D-4BDD-991A-9217D14BF2CC} = {14579DC7-8708-4800-86B7-3410CC6D4623}
+		{B984A28E-3E7D-4A30-9332-FD2D9AD0019D} = {5406A624-C79F-4732-8ABF-BEB822AD4C8E}
+		{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1} = {5406A624-C79F-4732-8ABF-BEB822AD4C8E}
+		{A6998BE4-A444-4FC2-807D-CDAE77A77BD9} = {5406A624-C79F-4732-8ABF-BEB822AD4C8E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,47 @@
+  --PRC_TIS_CBO_CBOS_RMT_S
+  create or replace procedure PRC_TIS_CBO_CBOS_RMT_S 
+  (
+     pTIS_CBO_CD_CBOS IN TB_TIS_CBO_CBOS.TIS_CBO_CD_CBOS%type DEFAULT NULL,
+     pTIS_CBO_DS_CBOS IN TB_TIS_CBO_CBOS.TIS_CBO_DS_CBOS%type DEFAULT NULL,
+     pTIS_CBO_FL_STATUS_ENCAMINHA IN TB_TIS_CBO_CBOS.TIS_CBO_FL_STATUS_ENCAMINHA%type DEFAULT NULL,
+     pTIS_CBO_CD_CBOS_HAC IN TB_TIS_CBO_CBOS.TIS_CBO_CD_CBOS_HAC%type DEFAULT NULL,
+     pTIS_CBO_DS_CBOS_HAC IN TB_TIS_CBO_CBOS.TIS_CBO_DS_CBOS_HAC%type DEFAULT NULL,
+     pTIS_CBO_FL_QTD_ATE_LIMITADA IN TB_TIS_CBO_CBOS.TIS_CBO_FL_QTD_ATE_LIMITADA%type DEFAULT NULL,
+     pTIS_CBO_QT_ATEND_PERM_ANO IN TB_TIS_CBO_CBOS.TIS_CBO_QT_ATEND_PERM_ANO%type DEFAULT NULL,
+     pTIS_CBO_VL_IDADE_LIMITE_ESP IN TB_TIS_CBO_CBOS.TIS_CBO_VL_IDADE_LIMITE_ESP%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_TIS_CBO_CBOS_RMT_S
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+       TIS_CBO_CD_CBOS,
+       TIS_CBO_DS_CBOS,
+       TIS_CBO_FL_STATUS_ENCAMINHA,
+       TIS_CBO_CD_CBOS_HAC,
+       TIS_CBO_DS_CBOS_HAC,
+       TIS_CBO_FL_QTD_ATE_LIMITADA,
+       TIS_CBO_QT_ATEND_PERM_ANO,
+       TIS_CBO_VL_IDADE_LIMITE_ESP
+    FROM TB_TIS_CBO_CBOS
+    WHERE
+        (pTIS_CBO_CD_CBOS is null OR TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS) AND 
+        (pTIS_CBO_DS_CBOS is null OR TIS_CBO_DS_CBOS = pTIS_CBO_DS_CBOS) AND 
+        (pTIS_CBO_FL_STATUS_ENCAMINHA is null OR TIS_CBO_FL_STATUS_ENCAMINHA = pTIS_CBO_FL_STATUS_ENCAMINHA) AND 
+        (pTIS_CBO_CD_CBOS_HAC is null OR TIS_CBO_CD_CBOS_HAC = pTIS_CBO_CD_CBOS_HAC) AND 
+        (pTIS_CBO_DS_CBOS_HAC is null OR TIS_CBO_DS_CBOS_HAC = pTIS_CBO_DS_CBOS_HAC) AND 
+        (pTIS_CBO_FL_QTD_ATE_LIMITADA is null OR TIS_CBO_FL_QTD_ATE_LIMITADA = pTIS_CBO_FL_QTD_ATE_LIMITADA) AND 
+        (pTIS_CBO_QT_ATEND_PERM_ANO is null OR TIS_CBO_QT_ATEND_PERM_ANO = pTIS_CBO_QT_ATEND_PERM_ANO) AND 
+        (pTIS_CBO_VL_IDADE_LIMITE_ESP is null OR TIS_CBO_VL_IDADE_LIMITE_ESP = pTIS_CBO_VL_IDADE_LIMITE_ESP);          
+    io_cursor := v_cursor;
+  end PRC_TIS_CBO_CBOS_RMT_S;

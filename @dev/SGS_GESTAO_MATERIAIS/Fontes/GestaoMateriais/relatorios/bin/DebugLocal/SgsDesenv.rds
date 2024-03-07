@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SgsDesenv">
+  <ConnectionProperties>
+    <Extension>ORACLE</Extension>
+    <ConnectString>Data Source=DESENV</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>34642bb7-78ab-4397-b0d1-2ce329a5adac</DataSourceID>
+</RptDataSource>

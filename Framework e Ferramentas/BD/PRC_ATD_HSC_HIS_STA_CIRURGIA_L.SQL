@@ -1,0 +1,51 @@
+--PRC_ATD_HSC_HIS_STA_CIRURGIA_L
+create or replace procedure PRC_ATD_HSC_HIS_STA_CIRURGIA_L 
+(
+     pATD_HSC_ID IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_HSC_ID%type DEFAULT NULL,
+     pATD_CIR_ID IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_CIR_ID%type DEFAULT NULL,
+     pATD_HSC_FL_STATUS IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_HSC_FL_STATUS%type DEFAULT NULL,
+     pATD_HSC_DT_INICIO IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_HSC_DT_INICIO%type DEFAULT NULL,
+     pATD_HSC_HR_INICIO IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_HSC_HR_INICIO%type DEFAULT NULL,
+     pATD_HSC_DT_FIM IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_HSC_DT_FIM%type DEFAULT NULL,
+     pATD_HSC_HR_FIM IN TB_ATD_HSC_HIST_STA_CIRURGIA.ATD_HSC_HR_FIM%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_ATD_HSC_HIS_STA_CIRURGIA_L
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pATD_HSC_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_HSC_ID = ' || pATD_HSC_ID; END IF;
+IF pATD_CIR_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_CIR_ID = ' || pATD_CIR_ID; END IF;
+IF pATD_HSC_FL_STATUS IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_HSC_FL_STATUS = ' || pATD_HSC_FL_STATUS; END IF;
+IF pATD_HSC_DT_INICIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_HSC_DT_INICIO = ' || CHR(39) || pATD_HSC_DT_INICIO || CHR(39); END IF;
+IF pATD_HSC_HR_INICIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_HSC_HR_INICIO = ' || pATD_HSC_HR_INICIO; END IF;
+IF pATD_HSC_DT_FIM IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_HSC_DT_FIM = ' || CHR(39) || pATD_HSC_DT_FIM || CHR(39); END IF;
+IF pATD_HSC_HR_FIM IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATD_HSC_HR_FIM = ' || pATD_HSC_HR_FIM; END IF;
+ 
+   V_SELECT := '
+SELECT	
+       ATD_HSC_ID,
+       ATD_CIR_ID,
+       ATD_HSC_FL_STATUS,
+       ATD_HSC_DT_INICIO,
+       ATD_HSC_HR_INICIO,
+       ATD_HSC_DT_FIM,
+       ATD_HSC_HR_FIM
+FROM TB_ATD_HSC_HIST_STA_CIRURGIA
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_ATD_HSC_HIS_STA_CIRURGIA_L;

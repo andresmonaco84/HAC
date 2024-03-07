@@ -1,0 +1,26 @@
+create or replace procedure PRC_CAD_MTMD_CCONTAB_GRUPO_D
+(
+     pCAD_MTMD_COD_COLIGADA IN TB_CAD_MTMD_CCONTAB_GRUPO.CAD_MTMD_COD_COLIGADA%type,
+     pCAD_MTMD_DT_INI_VIG IN TB_CAD_MTMD_CCONTAB_GRUPO.CAD_MTMD_DT_INI_VIG%type,
+     pCAD_MTMD_GRUPO_ID IN TB_CAD_MTMD_CCONTAB_GRUPO.CAD_MTMD_GRUPO_ID%type,
+     pCAD_MTMD_TIPO_MOV IN TB_CAD_MTMD_CCONTAB_GRUPO.CAD_MTMD_TIPO_MOV%type,
+     pCAD_SET_ID IN TB_CAD_MTMD_CCONTAB_GRUPO.CAD_SET_ID%type
+)
+is
+/********************************************************************
+*    Procedure: PRC_CAD_MTMD_CCONTAB_GRUPO_D
+*
+*    Data Criacao: 	31/01/2012   Por: André S. Monaco
+*
+*    Funcao: Deleta conta do grupo
+*
+*******************************************************************/
+begin
+DELETE TB_CAD_MTMD_CCONTAB_GRUPO
+WHERE
+        CAD_MTMD_COD_COLIGADA = pCAD_MTMD_COD_COLIGADA
+    AND CAD_MTMD_DT_INI_VIG = pCAD_MTMD_DT_INI_VIG
+    AND CAD_MTMD_GRUPO_ID = pCAD_MTMD_GRUPO_ID
+    AND CAD_MTMD_TIPO_MOV = pCAD_MTMD_TIPO_MOV
+    AND CAD_SET_ID = pCAD_SET_ID;
+end PRC_CAD_MTMD_CCONTAB_GRUPO_D;

@@ -1,0 +1,136 @@
+CREATE OR REPLACE PROCEDURE PRC_MTMD_SALDO_SETOR_R
+(
+  pCAD_UNI_ID_UNIDADE IN TB_MTMD_ESTOQUE_LOCAL.CAD_UNI_ID_UNIDADE%type,
+  pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_MTMD_ESTOQUE_LOCAL.CAD_LAT_ID_LOCAL_ATENDIMENTO%type,
+  pCAD_SET_ID IN TB_MTMD_ESTOQUE_LOCAL.CAD_SET_ID%type,
+  pCAD_MTMD_FILIAL_ID IN TB_MTMD_ESTOQUE_LOCAL.CAD_MTMD_FILIAL_ID%type,
+  pCAD_MTMD_GRUPO_ID IN TB_CAD_MTMD_MAT_MED.CAD_MTMD_GRUPO_ID%type DEFAULT NULL,
+  pCAD_MTMD_SUBGRUPO_ID IN TB_CAD_MTMD_MAT_MED.CAD_MTMD_SUBGRUPO_ID%type DEFAULT NULL,
+  pTIS_MED_CD_TABELAMEDICA IN TB_CAD_MTMD_MAT_MED.TIS_MED_CD_TABELAMEDICA%type DEFAULT NULL,
+  pCAD_MTMD_FL_PADRAO IN TB_CAD_MTMD_MAT_MED.CAD_MTMD_FL_PADRAO%type DEFAULT NULL,
+  pAGRUPA_SIMILAR_MED IN NUMBER DEFAULT NULL, --0 ou 1
+  pORDENAR_ENDERECO IN NUMBER DEFAULT NULL, --0 ou 1
+  io_cursor OUT PKG_CURSOR.t_cursor
+)
+IS
+
+ /********************************************************************
+  *    Procedure: PRC_MTMD_SALDO_SETOR_R
+  *
+  *    Data Criacao:   09/02/2010    Por: Andre Souza Monaco
+  *    Data Altera??o: 18/11/2014    Por: Andre Souza Monaco
+  *         Altera??o: Adicao de pAGRUPA_SIMILAR_MED
+  *    Data Altera??o: 26/11/2015    Por: Andre Souza Monaco
+  *         Altera??o: Adicao de pORDENAR_ENDERECO
+  *    Data Altera??o: 17/10/2018    Por: Andre Souza Monaco
+  *         Altera??o: Ordenar CAD_MTMD_ENDERECO_ALMOX_ACS
+  *                    quando Centro Cirurgico
+  *
+  *    Funcao: Query de relatorio de saldos em estoque por setor
+  *******************************************************************/
+ vUNIDADE_ESTOQUE_CONSUMO   TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type;
+ vLOCAL_ESTOQUE_CONSUMO     TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type;
+ vSETOR_ESTOQUE_CONSUMO     TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type;
+ cID_FARMACIA               CONSTANT NUMBER := 2592;
+ v_cursor PKG_CURSOR.t_cursor;
+BEGIN
+    PRC_MTMD_ESTOQUE_DE_CONSUMO(  pCAD_UNI_ID_UNIDADE,
+                                  pCAD_LAT_ID_LOCAL_ATENDIMENTO,
+                                  pCAD_SET_ID,
+                                  pCAD_MTMD_FILIAL_ID,
+                                  vUNIDADE_ESTOQUE_CONSUMO,
+                                  vLOCAL_ESTOQUE_CONSUMO,
+                                  vSETOR_ESTOQUE_CONSUMO
+                                 );
+    IF (NVL(pAGRUPA_SIMILAR_MED, 0) = 0) THEN
+      OPEN v_cursor FOR
+      SELECT ROWNUM, TB.* FROM
+      (SELECT
+             PROD.CAD_MTMD_ID,
+             PROD.CAD_MTMD_CODMNE,
+             FNC_MTMD_SOUNDALIKE(PROD.CAD_MTMD_NOMEFANTASIA,PROD.CAD_MTMD_GRUPO_ID) || DECODE(PROD.CAD_MTMD_FL_FRACIONA, 1, ' *') CAD_MTMD_NOMEFANTASIA,
+             PROD.TIS_MED_CD_TABELAMEDICA,
+             PROD.CAD_MTMD_UNID_CONTROLE_DS,
+             PROD.CAD_MTMD_UNID_VENDA_DS,
+             EST.MTMD_ESTLOC_QTDE,
+             FNC_MTMD_PRECO_MEDIO (EST.CAD_MTMD_ID, EST.CAD_MTMD_FILIAL_ID) PRECO_MEDIO_ATUAL,
+             PROD.CAD_MTMD_GRUPO_ID,
+             PROD.CAD_MTMD_SUBGRUPO_ID,
+             PROD.CAD_MTMD_FL_PADRAO,
+             DECODE(EST.CAD_SET_ID, cID_FARMACIA, PROD.CAD_MTMD_ENDERECO_ALMOX_ACS, PROD.CAD_MTMD_ENDERECO_ALMOX_HAC) CAD_MTMD_ENDERECO_ALMOX --Campo CAD_MTMD_ENDERECO_ALMOX_ACS usado para Farmacia Central
+        FROM TB_MTMD_ESTOQUE_LOCAL EST,
+             TB_CAD_MTMD_MAT_MED PROD
+       WHERE EST.CAD_MTMD_ID = PROD.CAD_MTMD_ID AND
+             EST.CAD_UNI_ID_UNIDADE = vUNIDADE_ESTOQUE_CONSUMO AND
+             EST.CAD_LAT_ID_LOCAL_ATENDIMENTO = vLOCAL_ESTOQUE_CONSUMO AND
+             EST.CAD_SET_ID = vSETOR_ESTOQUE_CONSUMO AND
+             EST.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID AND
+             --PROD.CAD_MTMD_GRUPO_ID != 61 AND --NAO TRAZER PROT/ORT/SINT
+             PROD.CAD_MTMD_FL_ATIVO = 1 AND
+             (pCAD_MTMD_GRUPO_ID is null OR PROD.CAD_MTMD_GRUPO_ID = pCAD_MTMD_GRUPO_ID) AND
+             (pCAD_MTMD_SUBGRUPO_ID is null OR PROD.CAD_MTMD_SUBGRUPO_ID = pCAD_MTMD_SUBGRUPO_ID) AND
+             (pTIS_MED_CD_TABELAMEDICA is null OR PROD.TIS_MED_CD_TABELAMEDICA = pTIS_MED_CD_TABELAMEDICA) AND
+             (pCAD_MTMD_FL_PADRAO is null OR PROD.CAD_MTMD_FL_PADRAO = pCAD_MTMD_FL_PADRAO) AND
+             (EST.MTMD_ESTLOC_QTDE > 0 OR --CONTEM SALDO EM FECHAMENTO NOS ULTIMOS 6 MESES
+              PROD.CAD_MTMD_ID IN (SELECT DISTINCT CAD_MTMD_ID
+                                     FROM TB_MTMD_MOV_ESTOQUE_DIA
+                                    WHERE MTMD_MOV_DATA >= SYSDATE-300
+                                      AND CAD_MTMD_FILIAL_ID = 1 --HAC
+                                      AND CAD_MTMD_GRUPO_ID != 61 --NAO TRAZER PROT/ORT/SINT
+                                      AND CAD_MTMD_ID        = EST.CAD_MTMD_ID
+                                      AND CAD_MTMD_SUBTP_ID  IN (0,1)
+                                      AND (MTMD_SALDO_ATUAL > 0 OR MTMD_QTDE_ENTRADA > 0)))
+      ORDER BY DECODE(NVL(pORDENAR_ENDERECO, 0), 1, DECODE(EST.CAD_SET_ID, cID_FARMACIA, PROD.CAD_MTMD_ENDERECO_ALMOX_ACS, PROD.CAD_MTMD_ENDERECO_ALMOX_HAC), 0), PROD.CAD_MTMD_NOMEFANTASIA) TB;
+    ELSIF (NVL(pAGRUPA_SIMILAR_MED, 0) = 1) THEN
+      OPEN v_cursor FOR
+      SELECT ROWNUM, TB.* FROM
+      (SELECT
+              NVL((SELECT CAD_MTMD_NOMEFANTASIA
+                     FROM TB_CAD_MTMD_MAT_MED
+                    WHERE CAD_MTMD_ID = (SELECT CAD_MTMD_ID FROM TB_MTMD_ESTOQUE_LOCAL L
+                                          WHERE ROWNUM = 1 AND NVL(L.MTMD_PEDPAD_QTDE,0) > 0 AND
+                                                L.CAD_MTMD_FILIAL_ID = EST.CAD_MTMD_FILIAL_ID AND
+                                                L.CAD_UNI_ID_UNIDADE = EST.CAD_UNI_ID_UNIDADE AND
+                                                L.CAD_LAT_ID_LOCAL_ATENDIMENTO = EST.CAD_LAT_ID_LOCAL_ATENDIMENTO AND
+                                                L.CAD_SET_ID = EST.CAD_SET_ID AND
+                                                FNC_MTMD_PRINCIPIO_ATIVO (L.CAD_MTMD_ID) != 0 AND
+                                                FNC_MTMD_PRINCIPIO_ATIVO (L.CAD_MTMD_ID) = FNC_MTMD_PRINCIPIO_ATIVO (PROD.CAD_MTMD_ID))
+              ),PROD.CAD_MTMD_NOMEFANTASIA) || DECODE(PROD.CAD_MTMD_FL_FRACIONA, 1, ' *') PRODUTO_PRINCIPAL,
+              FNC_MTMD_SOUNDALIKE(PROD.CAD_MTMD_NOMEFANTASIA,PROD.CAD_MTMD_GRUPO_ID) || DECODE(PROD.CAD_MTMD_FL_FRACIONA, 1, ' *') CAD_MTMD_NOMEFANTASIA,
+              PROD.CAD_MTMD_ID,
+              PROD.CAD_MTMD_CODMNE,
+              PROD.TIS_MED_CD_TABELAMEDICA,
+              PROD.CAD_MTMD_UNID_CONTROLE_DS,
+              PROD.CAD_MTMD_UNID_VENDA_DS,
+              EST.MTMD_ESTLOC_QTDE,
+              FNC_MTMD_PRECO_MEDIO (EST.CAD_MTMD_ID, EST.CAD_MTMD_FILIAL_ID) PRECO_MEDIO_ATUAL,
+              PROD.CAD_MTMD_GRUPO_ID,
+              PROD.CAD_MTMD_SUBGRUPO_ID,
+              PROD.CAD_MTMD_FL_PADRAO,
+              DECODE(EST.CAD_SET_ID, cID_FARMACIA, PROD.CAD_MTMD_ENDERECO_ALMOX_ACS, PROD.CAD_MTMD_ENDERECO_ALMOX_HAC) CAD_MTMD_ENDERECO_ALMOX --Campo CAD_MTMD_ENDERECO_ALMOX_ACS usado para Farmacia Central
+       FROM TB_MTMD_ESTOQUE_LOCAL EST,
+            TB_CAD_MTMD_MAT_MED PROD
+      WHERE EST.CAD_MTMD_ID = PROD.CAD_MTMD_ID AND
+            EST.CAD_UNI_ID_UNIDADE = vUNIDADE_ESTOQUE_CONSUMO AND
+            EST.CAD_LAT_ID_LOCAL_ATENDIMENTO = vLOCAL_ESTOQUE_CONSUMO AND
+            EST.CAD_SET_ID = vSETOR_ESTOQUE_CONSUMO AND
+            EST.CAD_MTMD_FILIAL_ID = pCAD_MTMD_FILIAL_ID AND
+            PROD.CAD_MTMD_GRUPO_ID != 61 AND --NAO TRAZER PROT/ORT/SINT
+            PROD.CAD_MTMD_FL_ATIVO = 1 AND
+            (pCAD_MTMD_FL_PADRAO is null OR PROD.CAD_MTMD_FL_PADRAO = pCAD_MTMD_FL_PADRAO) AND
+            (PROD.CAD_MTMD_GRUPO_ID = 1 OR PROD.TIS_MED_CD_TABELAMEDICA = '96')
+            ORDER BY DECODE(NVL(pORDENAR_ENDERECO, 0), 1, DECODE(EST.CAD_SET_ID, cID_FARMACIA, PROD.CAD_MTMD_ENDERECO_ALMOX_ACS, PROD.CAD_MTMD_ENDERECO_ALMOX_HAC), 0),
+                     NVL((SELECT CAD_MTMD_NOMEFANTASIA
+                            FROM TB_CAD_MTMD_MAT_MED
+                           WHERE CAD_MTMD_ID = (SELECT CAD_MTMD_ID FROM TB_MTMD_ESTOQUE_LOCAL L
+                                                 WHERE ROWNUM = 1 AND NVL(L.MTMD_PEDPAD_QTDE,0) > 0 AND
+                                                       L.CAD_MTMD_FILIAL_ID = EST.CAD_MTMD_FILIAL_ID AND
+                                                       L.CAD_UNI_ID_UNIDADE = EST.CAD_UNI_ID_UNIDADE AND
+                                                       L.CAD_LAT_ID_LOCAL_ATENDIMENTO = EST.CAD_LAT_ID_LOCAL_ATENDIMENTO AND
+                                                       L.CAD_SET_ID = EST.CAD_SET_ID AND
+                                                       FNC_MTMD_PRINCIPIO_ATIVO (L.CAD_MTMD_ID) != 0 AND
+                                                       FNC_MTMD_PRINCIPIO_ATIVO (L.CAD_MTMD_ID) = FNC_MTMD_PRINCIPIO_ATIVO (PROD.CAD_MTMD_ID))
+              ),PROD.CAD_MTMD_NOMEFANTASIA), DECODE(NVL(MTMD_PEDPAD_QTDE,0),0,TRIM(PROD.CAD_MTMD_NOMEFANTASIA),' '||PROD.CAD_MTMD_NOMEFANTASIA)) TB;
+    END IF;
+    io_cursor := v_cursor;
+END;

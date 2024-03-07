@@ -1,0 +1,57 @@
+ create or replace procedure PRC_BNF_HOMECARE_END_INC_S
+  (
+     pBNF_COD_PLANO IN TB_BNF_HOMECARE.BNF_COD_PLANO%type DEFAULT NULL,
+     pBNF_LOJA_ID IN TB_BNF_HOMECARE.BNF_LOJA_ID%type DEFAULT NULL,
+     pBNF_BEN_ID IN TB_BNF_HOMECARE.BNF_BEN_ID%type DEFAULT NULL,
+     pBNF_COD_SEQ IN TB_BNF_HOMECARE.BNF_COD_SEQ%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_BNF_HOMECARE_S
+  * 
+  *    Data Criacao: 	data da  criação   Por: André Souza Monaco
+  *
+  *    Funcao: Retorna o endereço do SGS a ser incluido p/ o homecare  
+  *            do beneficiário do plano
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT 
+      END.TIS_TLG_CD_TPLOGRADOURO BNF_TIPO_LOGRADOURO,
+      END.CAD_END_NM_LOGRADOURO   BNF_ENDERECO,
+      END.CAD_END_DS_NUMERO BNF_NUMERO,
+      END.CAD_END_SG_UF BNF_UF,
+      END.AUX_MUN_CD_IBGE BNF_MUN_CD_IBGE,
+      END.CAD_END_NM_BAIRRO BNF_BAIRRO,
+      END.CAD_END_CD_CEP BNF_CEP,
+      TEL.CAD_TEL_NR_NUM_TEL BNF_TELEFONE,
+      END.CAD_END_DS_COMPLEMENTO BNF_COMP
+    FROM 
+      TB_CAD_PES_PESSOA PES,             
+      TB_CAD_END_ENDERECO END,
+      TB_CAD_TEL_TELEFONE TEL,
+      TB_ASS_PTE_PESSOA_TELEFONE PTE,
+      TB_ASS_PEE_PESSOA_ENDERECO PEE, 
+      TB_CAD_PLA_PLANO PLA ,
+      TB_CAD_PAC_PACIENTE PAC, 
+      BENEFICIARIO.BNF_BENEFICIARIO BNF            
+    WHERE PES.CAD_PES_ID_PESSOA=PTE.CAD_PES_ID_PESSOA
+          AND PTE.CAD_TEL_ID_TELEFONE=TEL.CAD_TEL_ID_TELEFONE
+          AND PEE.CAD_PES_ID_PESSOA=PES.CAD_PES_ID_PESSOA
+          AND PEE.CAD_END_ID_ENDERECO=END.CAD_END_ID_ENDERECO
+          AND PLA.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+          AND PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+          AND PES.CAD_PES_ID_PESSOA = PAC.CAD_PES_ID_PESSOA
+          AND BNF.CODCON = PLA.CAD_PLA_CD_PLANO 
+          AND    LPAD(TO_CHAR(BNF.CODEST),3,'0') = (SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL,0,3))
+          AND    LPAD(TO_CHAR(BNF.CODBEN),7,'0') = (SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL,4,7))
+          AND    LPAD(TO_CHAR(BNF.CODSEQBEN),2,'0') = (SUBSTR(PAC.CAD_PAC_CD_CREDENCIAL,11,2))
+          AND    BNF.CODCON = pBNF_COD_PLANO
+          AND    BNF.CODEST = pBNF_LOJA_ID
+          AND    BNF.CODBEN = pBNF_BEN_ID
+          AND    BNF.CODSEQBEN= pBNF_COD_SEQ
+          AND    ROWNUM = 1;
+    io_cursor := v_cursor;
+  end PRC_BNF_HOMECARE_END_INC_S;

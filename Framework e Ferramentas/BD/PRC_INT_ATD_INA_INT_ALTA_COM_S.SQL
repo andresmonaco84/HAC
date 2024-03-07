@@ -1,0 +1,207 @@
+CREATE OR REPLACE PROCEDURE "PRC_INT_ATD_INA_INT_ALTA_COM_S"
+(
+       pATD_ATE_ID IN TB_ATD_ATE_ATENDIMENTO.ATD_ATE_ID%TYPE,
+       IO_CURSOR   OUT PKG_CURSOR.T_CURSOR
+) IS
+  /********************************************************************
+  *    Procedure: PRC_INT_ATD_INA_INT_ALTA_COM_S
+  *
+  *    Data Criacao:   data da  criação   Por: Nome do Analista
+  *    Data Alteracao: 20/05/2010  Por: Marcus Relva
+  *    Data Alteracao: 05/10/2010  Por: Fabiola Lopes
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *    Alteracao: Retorno da Clinica
+  *
+  *******************************************************************/
+  V_CURSOR PKG_CURSOR.T_CURSOR;
+  SAIDA NUMBER ;
+BEGIN
+  SAIDA:=0;
+  SELECT COUNT(*) INTO SAIDA FROM TB_ATD_INA_INT_ALTA INA WHERE INA.ATD_ATE_ID = pATD_ATE_ID;
+  IF SAIDA = 0 THEN
+  OPEN V_CURSOR FOR
+SELECT PES.CAD_PES_NM_PESSOA,
+           UNI.CAD_UNI_ID_UNIDADE,
+           UNI.CAD_UNI_DS_UNIDADE,
+           QLE.CAD_QLE_NR_QUARTO,
+           QLE.CAD_QLE_NR_LEITO,
+           IML.ATD_IML_ID,
+           QLE.CAD_QLE_ID,
+           NULL ATD_IMS_ID,
+           NULL CAD_SET_DS_SETOR,
+           NULL ATD_IMC_ID,
+           NULL CAD_CLC_DS_RESUMIDA
+      FROM TB_ATD_ATE_ATENDIMENTO   ATD,
+           TB_ASS_PAT_PACIEATEND    PAT,
+           TB_CAD_PAC_PACIENTE      PAC,
+           TB_CAD_PES_PESSOA        PES,
+           TB_CAD_UNI_UNIDADE       UNI,
+           TB_ATD_IML_INT_MOV_LEITO IML,
+           TB_CAD_QLE_QUARTO_LEITO  QLE
+     WHERE ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+       AND PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+       AND ATD.ATD_ATE_TP_PACIENTE = 'I'
+       AND IML.ATD_IML_FL_STATUS = 'A'
+       AND ATD.ATD_ATE_ID = pATD_ATE_ID
+       AND ATD.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+       AND ATD.ATD_ATE_ID = IML.ATD_ATE_ID
+       AND IML.CAD_CAD_QLE_ID = QLE.CAD_QLE_ID
+       AND IML.ATD_IML_DT_SAIDA IS NULL
+    UNION ALL
+    SELECT PES.CAD_PES_NM_PESSOA,
+           UNI.CAD_UNI_ID_UNIDADE,
+           UNI.CAD_UNI_DS_UNIDADE,
+           NULL CAD_QLE_NR_QUARTO,
+           NULL CAD_QLE_NR_LEITO,
+           NULL ATD_IML_ID,
+           NULL CAD_QLE_ID,
+           IMS.ATD_IMS_ID,
+           STR.CAD_SET_DS_SETOR,
+           NULL ATD_IMC_ID,
+           NULL CAD_CLC_DS_RESUMIDA
+      FROM TB_ATD_ATE_ATENDIMENTO   ATD,
+           TB_ASS_PAT_PACIEATEND    PAT,
+           TB_CAD_PAC_PACIENTE      PAC,
+           TB_CAD_PES_PESSOA        PES,
+           TB_CAD_UNI_UNIDADE       UNI,
+           TB_ATD_IMS_INT_MOV_SETOR IMS,
+           TB_CAD_SET_SETOR         STR
+     WHERE ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+       AND PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+       AND IMS.ATD_ATE_ID = ATD.ATD_ATE_ID
+       AND IMS.CAD_SET_ID_SETOR = STR.CAD_SET_ID
+       AND ATD.ATD_ATE_TP_PACIENTE = 'I'
+       AND IMS.ATD_IMS_FL_STATUS = 'A'
+       AND ATD.ATD_ATE_ID = pATD_ATE_ID
+       AND ATD.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+       AND IMS.ATD_IMS_DT_SAIDA IS NULL
+    UNION ALL
+    SELECT PES.CAD_PES_NM_PESSOA,
+           UNI.CAD_UNI_ID_UNIDADE,
+           UNI.CAD_UNI_DS_UNIDADE,
+           NULL CAD_QLE_NR_QUARTO,
+           NULL CAD_QLE_NR_LEITO,
+           NULL ATD_IML_ID,
+           NULL CAD_QLE_ID,
+           NULL ATD_IMS_ID,
+           NULL CAD_SET_DS_SETOR,
+           IMC.ATD_IMC_ID ATD_IMC_ID,
+           CLI.CAD_CLC_DS_RESUMIDA CAD_CLC_DS_RESUMIDA
+      FROM TB_ATD_ATE_ATENDIMENTO         ATD,
+           TB_ASS_PAT_PACIEATEND          PAT,
+           TB_CAD_PAC_PACIENTE            PAC,
+           TB_CAD_PES_PESSOA              PES,
+           TB_CAD_UNI_UNIDADE             UNI,
+           TB_ATD_IMC_INT_MOV_CLINICA     IMC,
+           TB_CAD_CLC_CLINICA_CREDENCIADA CLI
+     WHERE ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+       AND PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+       AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+       AND IMC.ATD_ATE_ID = ATD.ATD_ATE_ID
+       AND IMC.CAD_CLC_ID = CLI.CAD_CLC_ID
+       AND ATD.ATD_ATE_TP_PACIENTE = 'I'
+       AND ATD.ATD_ATE_ID = pATD_ATE_ID
+       AND ATD.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+       AND IMC.ATD_IMC_DT_SAIDA IS NULL;
+       IO_CURSOR := V_CURSOR;
+  ELSE
+       OPEN V_CURSOR FOR
+          SELECT PES.CAD_PES_NM_PESSOA,
+                 UNI.CAD_UNI_ID_UNIDADE,
+                 UNI.CAD_UNI_DS_UNIDADE,
+                 QLE.CAD_QLE_NR_QUARTO,
+                 QLE.CAD_QLE_NR_LEITO,
+                 IML.ATD_IML_ID,
+                 QLE.CAD_QLE_ID,
+                 NULL ATD_IMS_ID,
+                 NULL CAD_SET_DS_SETOR,
+                 NULL ATD_IMC_ID,
+                 NULL CAD_CLC_DS_RESUMIDA
+            FROM TB_ATD_ATE_ATENDIMENTO   ATD,
+                 TB_ASS_PAT_PACIEATEND    PAT,
+                 TB_CAD_PAC_PACIENTE      PAC,
+                 TB_CAD_PES_PESSOA        PES,
+                 TB_CAD_UNI_UNIDADE       UNI,
+                 TB_ATD_IML_INT_MOV_LEITO IML,
+                 TB_CAD_QLE_QUARTO_LEITO  QLE,
+                 TB_ATD_INA_INT_ALTA      INA
+           WHERE ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+             AND PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+             AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+             AND ATD.ATD_ATE_TP_PACIENTE = 'I'
+             AND IML.ATD_IML_FL_STATUS = 'A'
+             AND ATD.ATD_ATE_ID = pATD_ATE_ID
+             AND ATD.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+             AND ATD.ATD_ATE_ID = IML.ATD_ATE_ID
+             AND IML.CAD_CAD_QLE_ID = QLE.CAD_QLE_ID
+             AND IML.ATD_ATE_ID = INA.ATD_ATE_ID
+			 AND (IML.ATD_IML_DT_SAIDA IS NULL OR FNC_JUNTAR_DATA_HORA(IML.ATD_IML_DT_SAIDA, IML.ATD_IML_HR_SAIDA) = FNC_JUNTAR_DATA_HORA(INA.ATD_INA_DT_ALTA_ADM, INA.ATD_INA_HR_ALTA_ADM))
+    UNION ALL
+       SELECT PES.CAD_PES_NM_PESSOA,
+                 UNI.CAD_UNI_ID_UNIDADE,
+                 UNI.CAD_UNI_DS_UNIDADE,
+                 NULL CAD_QLE_NR_QUARTO,
+                 NULL CAD_QLE_NR_LEITO,
+                 NULL ATD_IML_ID,
+                 NULL CAD_QLE_ID,
+                 IMS.ATD_IMS_ID,
+                 STR.CAD_SET_DS_SETOR,
+                 NULL ATD_IMC_ID,
+                 NULL CAD_CLC_DS_RESUMIDA
+            FROM TB_ATD_ATE_ATENDIMENTO   ATD,
+                 TB_ASS_PAT_PACIEATEND    PAT,
+                 TB_CAD_PAC_PACIENTE      PAC,
+                 TB_CAD_PES_PESSOA        PES,
+                 TB_CAD_UNI_UNIDADE       UNI,
+                 TB_ATD_IMS_INT_MOV_SETOR IMS,
+                 TB_CAD_SET_SETOR         STR,
+                 TB_ATD_INA_INT_ALTA      INA
+           WHERE ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+             AND PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+             AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+             AND IMS.ATD_ATE_ID = ATD.ATD_ATE_ID
+             AND IMS.CAD_SET_ID_SETOR = STR.CAD_SET_ID
+             AND ATD.ATD_ATE_TP_PACIENTE = 'I'
+             AND IMS.ATD_IMS_FL_STATUS = 'A'
+             AND ATD.ATD_ATE_ID = pATD_ATE_ID
+             AND ATD.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+             AND IMS.ATD_ATE_ID = INA.ATD_ATE_ID
+			 AND IMS.ATD_IMS_DT_SAIDA IS NULL
+             AND (IMS.ATD_IMS_DT_SAIDA IS NULL OR FNC_JUNTAR_DATA_HORA(IMS.ATD_IMS_DT_SAIDA, IMS.ATD_IMS_HR_SAIDA) = FNC_JUNTAR_DATA_HORA(INA.ATD_INA_DT_ALTA_ADM, INA.ATD_INA_HR_ALTA_ADM))
+    UNION ALL
+       SELECT PES.CAD_PES_NM_PESSOA,
+                     UNI.CAD_UNI_ID_UNIDADE,
+                     UNI.CAD_UNI_DS_UNIDADE,
+                     NULL CAD_QLE_NR_QUARTO,
+                     NULL CAD_QLE_NR_LEITO,
+                     NULL ATD_IML_ID,
+                     NULL CAD_QLE_ID,
+                     NULL ATD_IMS_ID,
+                     NULL CAD_SET_DS_SETOR,
+                     IMC.ATD_IMC_ID ATD_IMC_ID,
+                     CLI.CAD_CLC_DS_RESUMIDA CAD_CLC_DS_RESUMIDA
+                FROM TB_ATD_ATE_ATENDIMENTO         ATD,
+                     TB_ASS_PAT_PACIEATEND          PAT,
+                     TB_CAD_PAC_PACIENTE            PAC,
+                     TB_CAD_PES_PESSOA              PES,
+                     TB_CAD_UNI_UNIDADE             UNI,
+                     TB_ATD_IMC_INT_MOV_CLINICA     IMC,
+                     TB_CAD_CLC_CLINICA_CREDENCIADA CLI,
+                     TB_ATD_INA_INT_ALTA      INA
+               WHERE ATD.ATD_ATE_ID = PAT.ATD_ATE_ID
+                 AND PAT.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+                 AND PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+                 AND IMC.ATD_ATE_ID = ATD.ATD_ATE_ID
+                 AND IMC.CAD_CLC_ID = CLI.CAD_CLC_ID
+                 AND ATD.ATD_ATE_TP_PACIENTE = 'I'
+                 AND ATD.ATD_ATE_ID = pATD_ATE_ID
+                 AND ATD.CAD_UNI_ID_UNIDADE = UNI.CAD_UNI_ID_UNIDADE
+                 AND IMC.ATD_ATE_ID = INA.ATD_ATE_ID
+				 AND (IMC.ATD_IMC_DT_SAIDA IS NULL OR FNC_JUNTAR_DATA_HORA(IMC.ATD_IMC_DT_SAIDA, IMC.ATD_IMC_HR_SAIDA) = FNC_JUNTAR_DATA_HORA(INA.ATD_INA_DT_ALTA_ADM, INA.ATD_INA_HR_ALTA_ADM));
+				 
+        IO_CURSOR := V_CURSOR;
+END IF;
+END PRC_INT_ATD_INA_INT_ALTA_COM_S;

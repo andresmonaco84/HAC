@@ -1,0 +1,48 @@
+--PRC_CAD_CTX_COMPOSICAO_TAXA_S
+create or replace procedure PRC_CAD_CTX_COMPOSICAO_TAXA_S 
+(
+     pCAD_CTX_ID IN TB_CAD_CTX_COMPOSICAO_TAXA.CAD_CTX_ID%type DEFAULT NULL,
+     pCAD_PRD_ID_TX IN TB_CAD_CTX_COMPOSICAO_TAXA.CAD_PRD_ID_TX%type DEFAULT NULL,
+     pCAD_PRD_ID IN TB_CAD_CTX_COMPOSICAO_TAXA.CAD_PRD_ID%type DEFAULT NULL,
+     pCAD_CTX_DT_ULTIMA_ATUALIZACAO IN TB_CAD_CTX_COMPOSICAO_TAXA.CAD_CTX_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_CAD_CTX_COMPOSICAO_TAXA.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pCAD_CTX_FL_STATUS IN TB_CAD_CTX_COMPOSICAO_TAXA.CAD_CTX_FL_STATUS%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_CTX_COMPOSICAO_TAXA_S
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pCAD_CTX_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_CTX_ID = ' || pCAD_CTX_ID; END IF;
+IF pCAD_PRD_ID_TX IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_PRD_ID_TX = ' || pCAD_PRD_ID_TX; END IF;
+IF pCAD_PRD_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_PRD_ID = ' || pCAD_PRD_ID; END IF;
+IF pCAD_CTX_DT_ULTIMA_ATUALIZACAO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_CTX_DT_ULTIMA_ATUALIZACAO = ' || CHR(39) || pCAD_CTX_DT_ULTIMA_ATUALIZACAO || CHR(39); END IF;
+IF pSEG_USU_ID_USUARIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_USU_ID_USUARIO = ' || pSEG_USU_ID_USUARIO; END IF;
+IF pCAD_CTX_FL_STATUS IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_CTX_FL_STATUS = ' || CHR(39) || pCAD_CTX_FL_STATUS || CHR(39); END IF;
+ 
+   V_SELECT := '
+SELECT	
+       CAD_CTX_ID,
+       CAD_PRD_ID_TX,
+       CAD_PRD_ID,
+       CAD_CTX_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       CAD_CTX_FL_STATUS
+FROM TB_CAD_CTX_COMPOSICAO_TAXA
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_CAD_CTX_COMPOSICAO_TAXA_S;

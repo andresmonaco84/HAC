@@ -1,0 +1,67 @@
+CREATE OR REPLACE PROCEDURE "PRC_FAT_LNF_LOTE_CTA_PAR_NF_SL"
+(
+     pATD_ATE_ID             TB_ATD_ATE_ATENDIMENTO.ATD_ATE_ID%TYPE DEFAULT NULL,
+     pFAT_COC_ID             TB_FAT_CCP_CONTA_CONS_PARC.FAT_COC_ID%TYPE DEFAULT NULL,
+     pFAT_CCP_ID             TB_FAT_CCP_CONTA_CONS_PARC.FAT_CCP_ID%TYPE DEFAULT NULL,
+     pCAD_PAC_ID_PACIENTE    TB_FAT_CCP_CONTA_CONS_PARC.CAD_PAC_ID_PACIENTE%TYPE DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+)
+is
+/********************************************************************
+*    Procedure: PRC_FAT_LNF_LOTE_CTA_PAR_NF_SL
+*
+*    Data Criacao:   data da  cria??o   Por: Nome do Analista
+*    Data Alteracao:  data da altera??o  Por: Nome do Analista
+*
+*    Funcao: Descri??o da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+SELECT ATD.ATD_ATE_TP_PACIENTE,
+       CCP.FAT_CCP_ID,
+       CCP.FAT_CCP_MES_FAT,
+       CCP.FAT_CCP_ANO_FAT,
+       CCI.CAD_TAP_TP_ATRIBUTO,
+       SUM(CCI.FAT_CCI_VL_PRODUTO) FAT_CCI_VL_PRODUTO,
+       SUM(CCI.FAT_CCI_VL_FATURADO) FAT_CCI_VL_FATURADO,
+       CCP.FAT_COC_ID,
+       LNF.FAT_LNF_ID,
+    ATD.CAD_UNI_ID_UNIDADE
+  FROM TB_FAT_LNF_LOTE_CTA_PARC_NF LNF,
+       TB_FAT_CCI_CONTA_CONSU_ITEM CCI,
+       TB_FAT_CCP_CONTA_CONS_PARC  CCP,
+       TB_ATD_ATE_ATENDIMENTO      ATD
+
+ WHERE
+       ATD.ATD_ATE_ID = pATD_ATE_ID
+   AND CCP.FAT_COC_ID = pFAT_COC_ID
+   AND CCP.FAT_CCP_ID = pFAT_CCP_ID
+   AND CCP.CAD_PAC_ID_PACIENTE = pCAD_PAC_ID_PACIENTE
+
+   AND LNF.FAT_LNF_ID = CCP.FAT_LNF_ID
+
+   AND CCP.ATD_ATE_ID = ATD.ATD_ATE_ID
+
+   AND CCI.FAT_CCP_ID = CCP.FAT_CCP_ID
+   AND CCI.ATD_ATE_ID = ATD.ATD_ATE_ID
+   AND CCI.CAD_PAC_ID_PACIENTE = CCP.CAD_PAC_ID_PACIENTE
+   AND CCI.FAT_COC_ID = CCP.FAT_COC_ID
+   AND (CCI.FAT_CCI_FL_PACOTE IS NULL OR CCI.FAT_CCI_FL_PACOTE <> 'S')
+   AND CCI.FAT_CCI_FL_STATUS = 'A'
+--   AND CCI.FAT_CCI_FL_FATURADO = 'S'
+GROUP BY ATD.ATD_ATE_TP_PACIENTE,
+       ATD.ATD_ATE_ID,
+       CCP.FAT_CCP_ID,
+       CCP.FAT_CCP_MES_FAT,
+       CCP.FAT_CCP_ANO_FAT,
+       CCI.CAD_TAP_TP_ATRIBUTO,
+       CCP.FAT_COC_ID,
+       LNF.FAT_LNF_ID,
+    ATD.CAD_UNI_ID_UNIDADE;
+
+io_cursor := v_cursor;
+
+end PRC_FAT_LNF_LOTE_CTA_PAR_NF_SL;
+ 

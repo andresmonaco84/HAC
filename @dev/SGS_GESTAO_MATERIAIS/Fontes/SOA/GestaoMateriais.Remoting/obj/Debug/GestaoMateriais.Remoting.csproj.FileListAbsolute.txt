@@ -1,0 +1,9 @@
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.remoting\obj\Debug\GestaoMateriais.Remoting.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\Servicos\_Debug\GestaoMateriais\GestaoMateriais.Remoting.exe.config
+C:\TFS\SGS\Servicos\_Debug\GestaoMateriais\GestaoMateriais.Remoting.exe
+C:\TFS\SGS\Servicos\_Debug\GestaoMateriais\GestaoMateriais.Remoting.pdb
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.remoting\obj\Debug\GestaoMateriais.Remoting.exe
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.remoting\obj\Debug\GestaoMateriais.Remoting.pdb
+C:\SGS_ANACOSTA\SGS\Servicos\_Debug\GestaoMateriais\GestaoMateriais.Remoting.exe.config
+C:\SGS_ANACOSTA\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.remoting\obj\Debug\GestaoMateriais.Remoting.exe
+C:\SGS_ANACOSTA\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.remoting\obj\Debug\GestaoMateriais.Remoting.pdb

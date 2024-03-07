@@ -1,0 +1,80 @@
+CREATE OR REPLACE FUNCTION FNC_MTMD_RETORNA_FILIAL
+( pCAD_MTMD_ID        IN TB_CAD_MTMD_MAT_MED.CAD_MTMD_ID%type,
+  pCAD_MTMD_FILIAL_ID IN TB_CAD_MTMD_MAT_MED.CAD_MTMD_FILIAL_ID%type,
+  pCAD_SET_ID         IN TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type --DEFAULT NULL
+)
+RETURN  NUMBER IS
+-- RETORNA FILIAL CORRETA CONFORME TIPO DE PRODUTO
+-- MATERIAL: SEMPRE HAC
+-- FRACIONADO: SEMPRE HAC
+-- OUTROS: RETORNA FILIAL ORIGINAL
+-- QUANDO FILIAL E CARRINHO DE EMERGENCIA, RETORNA ELE MESMO
+-- QUANDO SETOR E ESTOQUE UNIFICADO, RETORNA HAC QUANDO FILIAL E ACS
+pMED_CONSIGNADO TB_CAD_PRD_PRODUTO.CAD_PRD_FL_MAT_CONSIGNADO%TYPE;
+pCOD_PRD   SGS.TB_CAD_MTMD_MAT_MED.CAD_MTMD_CODMNE%TYPE;
+pMATERIAL  SGS.TB_CAD_MTMD_MAT_MED.tis_med_cd_tabelamedica%TYPE;
+pFRACIONA  SGS.TB_CAD_MTMD_MAT_MED.cad_mtmd_fl_fraciona%TYPE;
+pESTOQUE_UNIFICADO_HAC SGS.TB_MTMD_MATMED_SETOR.MTMD_ESTOQUE_UNIFICADO_HAC%TYPE;
+nFILIAL    NUMBER;
+BEGIN
+    IF (pCAD_MTMD_FILIAL_ID IS NOT NULL) THEN
+      IF (pCAD_MTMD_FILIAL_ID = 2) THEN -- ACS
+
+          pESTOQUE_UNIFICADO_HAC := 0;
+
+          IF (pCAD_SET_ID IS NOT NULL) THEN
+            BEGIN
+                SELECT S.MTMD_ESTOQUE_UNIFICADO_HAC
+                  INTO pESTOQUE_UNIFICADO_HAC
+                  FROM TB_MTMD_MATMED_SETOR S
+                  WHERE S.CAD_SET_ID = pCAD_SET_ID;
+            EXCEPTION WHEN NO_DATA_FOUND THEN
+                pESTOQUE_UNIFICADO_HAC := 0;
+            END;
+          END IF;
+
+          IF (NVL(pESTOQUE_UNIFICADO_HAC, 0) = 1) THEN
+            nFILIAL := 1;
+          ELSE
+            BEGIN
+               SELECT MTMD.tis_med_cd_tabelamedica, MTMD.cad_mtmd_fl_fraciona, MTMD.CAD_MTMD_CODMNE
+               INTO   pMATERIAL,                    pFRACIONA,                 pCOD_PRD
+               FROM SGS.TB_CAD_MTMD_MAT_MED MTMD
+               WHERE MTMD.cad_mtmd_id = pCAD_MTMD_ID;
+            EXCEPTION WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20000,' PRODUTO NAO ENCONTRADO ID '||TO_CHAR(pCAD_MTMD_ID));
+            END;
+            
+            BEGIN
+               SELECT P.CAD_PRD_FL_MAT_CONSIGNADO 
+                 INTO pMED_CONSIGNADO
+                 FROM TB_CAD_PRD_PRODUTO P
+                WHERE P.CAD_PRD_FL_MAT_CONSIGNADO = 'S' AND 
+                      P.CAD_TAP_TP_ATRIBUTO = 'MED' AND 
+                      P.CAD_PRD_FL_STATUS = 'A' AND
+                      TRIM(P.CAD_PRD_CD_CODIGO) = TRIM(pCOD_PRD) AND ROWNUM = 1;
+            EXCEPTION WHEN NO_DATA_FOUND THEN
+                NULL;
+            END;
+
+            IF ( pMATERIAL = '95' ) THEN
+               nFILIAL := 1;
+            ELSIF ( pFRACIONA = 1 ) THEN
+               nFILIAL := 1;
+            ELSIF ( NVL(pMED_CONSIGNADO,'N') = 'S' ) THEN
+               nFILIAL := 1;
+            ELSE
+               nFILIAL := pCAD_MTMD_FILIAL_ID;
+            END IF;
+          END IF;
+      ELSE
+          nFILIAL := pCAD_MTMD_FILIAL_ID;
+      END IF;
+    ELSE
+         -- RETORNA NULL ?????
+         nFILIAL := pCAD_MTMD_FILIAL_ID;
+    END IF;
+    RETURN nFILIAL;
+END;
+
+ 

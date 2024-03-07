@@ -1,0 +1,11 @@
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\SGS.AgenteService.exe.config
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\SGS.AgenteService.exe
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\SGS.AgenteService.pdb
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\HacFramework.Communication.Remoting.dll
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\HacFramework.dll
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\InterfaceAgendaWeb.dll
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\Oracle.DataAccess.dll
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\bin\Debug\InterfaceAgendaWeb.pdb
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\obj\Debug\SGS.AgenteService.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\obj\Debug\SGS.AgenteService.exe
+C:\TFS\SGS\Framework e Ferramentas\SGS.AgenteService\obj\Debug\SGS.AgenteService.pdb

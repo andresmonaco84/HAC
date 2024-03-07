@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGS.AgenteService", "SGS.AgenteService.csproj", "{21483232-BACB-412E-AFDB-B6D57057835A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceAgendaWeb", "..\..\AgendaWeb\InterfaceAgendaWeb\InterfaceAgendaWeb\InterfaceAgendaWeb.csproj", "{1E0D7FC2-5A39-4E6F-AB02-1F65B973E576}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21483232-BACB-412E-AFDB-B6D57057835A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21483232-BACB-412E-AFDB-B6D57057835A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21483232-BACB-412E-AFDB-B6D57057835A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21483232-BACB-412E-AFDB-B6D57057835A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E0D7FC2-5A39-4E6F-AB02-1F65B973E576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E0D7FC2-5A39-4E6F-AB02-1F65B973E576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E0D7FC2-5A39-4E6F-AB02-1F65B973E576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E0D7FC2-5A39-4E6F-AB02-1F65B973E576}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7268963-3B60-43FB-9DD5-4E46D8B21A74}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/hac
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\AgendaWeb\\InterfaceAgendaWeb\\InterfaceAgendaWeb\\InterfaceAgendaWeb.csproj
+		SccProjectName1 = ../../AgendaWeb/InterfaceAgendaWeb/InterfaceAgendaWeb
+		SccLocalPath1 = ..\\..\\AgendaWeb\\InterfaceAgendaWeb\\InterfaceAgendaWeb
+		SccProjectUniqueName2 = SGS.AgenteService.csproj
+		SccLocalPath2 = .
+	EndGlobalSection
+EndGlobal

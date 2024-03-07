@@ -1,0 +1,55 @@
+
+
+--PRC_CAD_CAC_CLASSIF_CONTAB_I
+create or replace procedure PRC_CAD_CAC_CLASSIF_CONTAB_I
+(
+     pNewIdt OUT integer,
+     pCAD_CAC_ID_CLASSCONTABIL IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_ID_CLASSCONTABIL%type default NULL,
+     pCAD_CAC_CD_CLASSCONTABIL IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_CD_CLASSCONTABIL%type,
+     pCAD_CAC_DS_CLASSCONTABIL IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_DS_CLASSCONTABIL%type,
+     pCAD_CAC_FL_CLASSCONTABIL IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_FL_CLASSCONTABIL%type,
+     pCAD_CAC_DT_ULTIMA_ATUALIZACAO IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_CAD_CAC_CLASSIF_CONTAB.SEG_USU_ID_USUARIO%type,
+     pCAD_CAC_CD_RM_NUCLEUS IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_CD_RM_NUCLEUS%type default NULL,
+     pCAD_CAC_DS_RM_NUCLEUS IN TB_CAD_CAC_CLASSIF_CONTAB.CAD_CAC_DS_RM_NUCLEUS%type default NULL	
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_CAC_CLASSIF_CONTAB_I
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/  
+    lIdtRetorno integer;
+	  
+begin
+    SELECT SEQ_CAD_CAC_01.NextVal INTO lIdtRetorno FROM DUAL;
+	    
+INSERT INTO TB_CAD_CAC_CLASSIF_CONTAB
+(
+       CAD_CAC_ID_CLASSCONTABIL,
+       CAD_CAC_CD_CLASSCONTABIL,
+       CAD_CAC_DS_CLASSCONTABIL,
+       CAD_CAC_FL_CLASSCONTABIL,
+       CAD_CAC_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       CAD_CAC_CD_RM_NUCLEUS,
+       CAD_CAC_DS_RM_NUCLEUS
+)
+VALUES
+(
+      lIdtRetorno,
+	     pCAD_CAC_CD_CLASSCONTABIL,
+	     pCAD_CAC_DS_CLASSCONTABIL,
+	     pCAD_CAC_FL_CLASSCONTABIL,
+	     pCAD_CAC_DT_ULTIMA_ATUALIZACAO,
+	     pSEG_USU_ID_USUARIO,
+	     pCAD_CAC_CD_RM_NUCLEUS,
+	     pCAD_CAC_DS_RM_NUCLEUS
+);
+    pNewIdt := lIdtRetorno;	
+end PRC_CAD_CAC_CLASSIF_CONTAB_I;
+

@@ -1,0 +1,11 @@
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\Seguranca.Forms.dll.config
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\Seguranca.Forms.dll
+C:\TFS\SGS\@dev\DLL\_Debug\Seguranca\Seguranca.Forms.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\HospitalAnaCosta.SGS.Seguranca.Forms.FrmBaseSeguranca.resources
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\HospitalAnaCosta.SGS.Seguranca.Forms.FrmCfgSeguranca.resources
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\HospitalAnaCosta.SGS.Seguranca.Forms.FrmLogin.resources
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\HospitalAnaCosta.SGS.Seguranca.Forms.FrmUsuario.resources
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\HospitalAnaCosta.SGS.Seguranca.Forms.Properties.Resources.resources
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\Seguranca.Forms.csproj.GenerateResource.Cache
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\Seguranca.Forms.dll
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca.Forms\obj\Debug\Seguranca.Forms.pdb

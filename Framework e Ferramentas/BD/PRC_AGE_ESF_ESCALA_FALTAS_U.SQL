@@ -1,0 +1,49 @@
+CREATE OR REPLACE PROCEDURE "PRC_AGE_ESF_ESCALA_FALTAS_U"
+  (
+     pAGE_ESF_ID IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_ID%type DEFAULT NULL,
+     pAGE_ESF_DT_INI_FALTA IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_DT_INI_FALTA%type,
+     pAGE_ESF_DS_OBSERVACAO IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_DS_OBSERVACAO%type default NULL,
+     pAGE_ESM_ID IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESM_ID%type,
+     pSEG_USU_ID_USUARIO IN TB_AGE_ESF_ESCALA_FALTAS.SEG_USU_ID_USUARIO%type,
+     pAGE_ESF_DT_FIM_FALTA IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_DT_FIM_FALTA%type,
+     pAGE_ESF_HR_INI_FALTA IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_HR_INI_FALTA%type  default NULL,
+     pAGE_ESF_HR_FIM_FALTA IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_HR_FIM_FALTA%type  default NULL,
+     pAGE_ESF_FL_SUBSTITUTO_OK IN TB_AGE_ESF_ESCALA_FALTAS.AGE_ESF_FL_SUBSTITUTO_OK%type,
+     pTIS_CBO_CD_CBOS_SUBST IN TB_AGE_ESF_ESCALA_FALTAS.TIS_CBO_CD_CBOS_SUBST%type default NULL,
+     pCAD_PRO_ID_PROFISSIONAL_SUBST IN TB_AGE_ESF_ESCALA_FALTAS.CAD_PRO_ID_PROFISSIONAL_SUBST%type default NULL
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_AGE_ESF_ESCALA_FALTAS_U
+  *
+  *    Data Criacao:    30/06/2007  Por: Silmara
+  *    Data Alteracao: 20/07/2007  Por: Carlos Araujo
+  *    Alterac?o: Alterac?o da tabela
+  *
+  *    Funcao: Altera uma falta cadastrada para uma escala medica
+  *
+  *    Data Alterac?o:  08/11/2007  Por: Guilherme
+  *    Alterac?o: Ao alterar uma falta, apagar o periodo de falta anterior
+  *******************************************************************/
+  BEGIN
+    /*  UPDATE TB_AGE_AGG_AGENDA_GERADA
+    SET    AGE_ESF_ID = NULL
+    WHERE  AGE_ESF_ID = pAGE_ESF_ID;
+*/
+    UPDATE TB_AGE_ESF_ESCALA_FALTAS
+    SET
+        AGE_ESF_DT_INI_FALTA = pAGE_ESF_DT_INI_FALTA,
+        AGE_ESF_DS_OBSERVACAO = upper(pAGE_ESF_DS_OBSERVACAO),
+        AGE_ESM_ID = pAGE_ESM_ID,
+        SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO,
+        AGE_ESF_DT_ULTIMA_ATUALIZACAO = sysdate(),
+        AGE_ESF_DT_FIM_FALTA = pAGE_ESF_DT_FIM_FALTA,
+        AGE_ESF_HR_INI_FALTA = pAGE_ESF_HR_INI_FALTA,
+        AGE_ESF_HR_FIM_FALTA = pAGE_ESF_HR_FIM_FALTA,
+        AGE_ESF_FL_SUBSTITUTO_OK = pAGE_ESF_FL_SUBSTITUTO_OK,
+        TIS_CBO_CD_CBOS_SUBST = pTIS_CBO_CD_CBOS_SUBST,
+        CAD_PRO_ID_PROFISSIONAL_SUBST = pCAD_PRO_ID_PROFISSIONAL_SUBST
+    WHERE
+        AGE_ESF_ID = pAGE_ESF_ID;
+  end PRC_AGE_ESF_ESCALA_FALTAS_U;
+ 

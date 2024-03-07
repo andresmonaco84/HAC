@@ -1,0 +1,32 @@
+create or replace procedure PRC_CAD_AUT_AUTORIZADOR_U
+(
+     pCAD_AUT_ID IN TB_CAD_AUT_AUTORIZADOR.CAD_AUT_ID%type,
+     pCAD_AUT_DS_DESCRICAO IN TB_CAD_AUT_AUTORIZADOR.CAD_AUT_DS_DESCRICAO%type,
+     pCAD_AUT_FL_STATUS IN TB_CAD_AUT_AUTORIZADOR.CAD_AUT_FL_STATUS%type,
+     pSEG_USU_ID_USUARIO_CRIACAO IN TB_CAD_AUT_AUTORIZADOR.SEG_USU_ID_USUARIO_CRIACAO%type,
+     pCAD_AUT_DT_CRIACAO IN TB_CAD_AUT_AUTORIZADOR.CAD_AUT_DT_CRIACAO%type,
+     pSEG_USU_ID_USUARIO_ATUALIZA IN TB_CAD_AUT_AUTORIZADOR.SEG_USU_ID_USUARIO_ATUALIZACAO%type default NULL,
+     pCAD_AUT_DT_ULTIMA_ATUALIZACAO IN TB_CAD_AUT_AUTORIZADOR.CAD_AUT_DT_ULTIMA_ATUALIZACAO%type default NULL
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_AUT_AUTORIZADOR_U
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/  
+begin
+UPDATE TB_CAD_AUT_AUTORIZADOR
+SET	   
+        CAD_AUT_DS_DESCRICAO = UPPER(pCAD_AUT_DS_DESCRICAO),
+        CAD_AUT_FL_STATUS = pCAD_AUT_FL_STATUS,
+        SEG_USU_ID_USUARIO_CRIACAO = pSEG_USU_ID_USUARIO_CRIACAO,
+        CAD_AUT_DT_CRIACAO = pCAD_AUT_DT_CRIACAO,
+        SEG_USU_ID_USUARIO_ATUALIZACAO = pSEG_USU_ID_USUARIO_ATUALIZA,
+        CAD_AUT_DT_ULTIMA_ATUALIZACAO = pCAD_AUT_DT_ULTIMA_ATUALIZACAO 
+WHERE
+        CAD_AUT_ID = pCAD_AUT_ID;	
+end PRC_CAD_AUT_AUTORIZADOR_U;

@@ -1,0 +1,63 @@
+﻿@model dynamic
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h2>sgs-admin</h2>
+            </hgroup>
+            <p>
+                <pre>@ViewBag.ErrorMessage</pre>
+            </p>
+        </div>
+    </section>
+}
+<h2>Web</h2>
+
+<table>
+    <tr class="center">
+        <th>Server</th>
+        <th>WebApplication</th>
+        <th></th>
+    </tr>
+
+
+
+    @foreach (var webApplication in Model)
+    {
+        var host = "";
+        var nome = "";
+        var caminho = "";
+        var reinicia = false;
+
+        foreach (var col in webApplication)
+        {
+            if (col.Key == "HOST") { host = col.Value; }
+            if (col.Key == "NOME") { nome = col.Value; }
+            if (col.Key == "CAMINHO") { caminho = col.Value; }
+            if (col.Key == "REINICIA") { reinicia = col.Value == "S"; }
+        }
+    
+    
+        <tr>
+            <td>@host</td>
+            <td>
+                @if (reinicia)
+                {
+                    <input class="Running" type="button" value="@nome" onclick=" document.location.href = '@Url.Action("Restart", new { host = host })    ' "/>
+                }
+                else
+                {
+                    <input class="Running" type="button" value="@nome" onclick=" alert('Não é possível reiniciar esse item.');" />
+                }
+            </td>
+            <td>
+                <span class="service-update">@Html.ActionLink("Publish", "Publish", new { host = host, path = caminho })</span>
+            </td>
+        </tr>
+
+    }
+
+
+</table>
+

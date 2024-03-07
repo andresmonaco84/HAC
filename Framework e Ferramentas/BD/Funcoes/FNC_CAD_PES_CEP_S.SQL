@@ -1,0 +1,17 @@
+create or replace function FNC_CAD_PES_CEP_S(PCAD_PES_ID_PESSOA in TB_CAD_PES_PESSOA.CAD_PES_ID_PESSOA%type,
+                                                  PCD_TIPO_ENDERECO  in TB_CAD_TEL_TELEFONE.AUX_TTE_CD_TP_TEL_END%type)
+  return varchar2 is
+  Result varchar2(200);
+
+begin
+
+  SELECT ENDE.CAD_END_CD_CEP
+    INTO Result
+    FROM TB_CAD_END_ENDERECO ENDE, TB_CAD_PES_PESSOA PES
+   WHERE ENDE.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+     AND PES.CAD_PES_ID_PESSOA = PCAD_PES_ID_PESSOA
+     AND ENDE.AUX_TTE_CD_TP_TEL_END = PCD_TIPO_ENDERECO
+     AND rownum = 1;
+
+  return(Result);
+end FNC_CAD_PES_CEP_S;

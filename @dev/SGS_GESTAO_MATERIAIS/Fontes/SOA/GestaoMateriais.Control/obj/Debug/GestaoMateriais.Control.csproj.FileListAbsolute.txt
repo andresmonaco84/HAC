@@ -1,0 +1,7 @@
+C:\TFS\SGS\@dev\DLL\_Debug\GestaoMateriais\GestaoMateriais.Control.dll
+C:\TFS\SGS\@dev\DLL\_Debug\GestaoMateriais\GestaoMateriais.Control.pdb
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Control\obj\Debug\GestaoMateriais.Control.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Control\obj\Debug\HospitalAnaCosta.SGS.GestaoMateriais.Control.Properties.Resources.resources
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Control\obj\Debug\GestaoMateriais.Control.csproj.GenerateResource.Cache
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Control\obj\Debug\GestaoMateriais.Control.dll
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Control\obj\Debug\GestaoMateriais.Control.pdb

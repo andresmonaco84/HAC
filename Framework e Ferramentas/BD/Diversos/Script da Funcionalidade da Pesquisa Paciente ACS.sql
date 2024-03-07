@@ -1,0 +1,7 @@
+prompt Importing table TB_SEG_FUN_FUNCIONALIDADE...
+set feedback off
+set define off
+insert into TB_SEG_FUN_FUNCIONALIDADE (SEG_FUN_ID_FUNCIONALIDADE, SEG_FUN_DS_DESCRICAO, SEG_FUN_FL_ITEM_MENU_OK, SEG_FUN_ID_FUNCIONALIDADE_PAI, SEG_FUN_DS_NOME_PAGINA, SEG_FUN_NM_NOME, SEG_MOD_ID_MODULO)
+values (408, 'PESQUISA PACIENTE - ACS', 'S', 250, '~/index.aspx?ID_FUN=408', 'Pesquisa de Pacientes - ACS', 41);
+
+prompt Done.

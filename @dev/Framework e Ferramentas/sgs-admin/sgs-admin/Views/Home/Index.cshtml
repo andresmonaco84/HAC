@@ -1,0 +1,24 @@
+﻿@model IEnumerable<dynamic>
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h2>sgs-admin</h2>
+                
+            </hgroup>
+            <p>
+                <pre>@ViewBag.ErrorMessage</pre>
+            </p>
+        </div>
+    </section>
+}
+<h3>@ViewBag.Message</h3>
+
+    @foreach(var service in Model){
+        <span class="@service.Status">
+            <input class="@service.Status" type="button" value=" @service.ServiceName" onclick="document.location.href = '@Url.Action("StartStop", new {serviceName = service.ServiceName, start = !(service.Status.ToString() == "Running") }) '"/> 
+            <span class="service-status">@service.Status</span>
+            <span class="service-update">@Html.ActionLink("Update Service", "Update", new { serviceName = service.ServiceName})</span>
+        </span><br/>
+    }

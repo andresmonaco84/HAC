@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>11.6181cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.68061cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.89706cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.63492cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Material / Medicamento</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Qtd</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Conversão</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>None</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.63492cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CAD_MTMD_NOMEFANTASIA">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CAD_MTMD_NOMEFANTASIA.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>CAD_MTMD_NOMEFANTASIA</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MTMD_MOV_QTDE">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MTMD_MOV_QTDE.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MTMD_MOV_QTDE</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DS_QTDE_CONVERTIDA">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DS_QTDE_CONVERTIDA.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DS_QTDE_CONVERTIDA</rd:DefaultName>
+                      <Style>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.63492cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox11</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox13">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox13</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <RightBorder>
+                          <Style>None</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="table1_Details_Group">
+                <DataElementName>Detail</DataElementName>
+              </Group>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+              <DataElementName>Detail_Collection</DataElementName>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Top>0.13228cm</Top>
+        <Height>1.90476cm</Height>
+        <Width>17.19577cm</Width>
+        <Style />
+      </Tablix>
+    </ReportItems>
+    <Height>2.03704cm</Height>
+    <Style />
+  </Body>
+  <Width>17.24868cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>3.4127cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Image Name="image1">
+          <Source>Embedded</Source>
+          <Value>logo_bcc</Value>
+          <Left>0.02646cm</Left>
+          <Height>2.38095cm</Height>
+          <Width>7.48677cm</Width>
+          <Style />
+        </Image>
+        <Textbox Name="textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Listagem Consumo Paciente</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>16pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox1</rd:DefaultName>
+          <Left>7.53968cm</Left>
+          <Height>0.82011cm</Height>
+          <Width>9.65608cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox2">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!sUnidLocalSetor.Value</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox2</rd:DefaultName>
+          <Top>1.74603cm</Top>
+          <Left>7.53968cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>9.65608cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox3">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Paciente:</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox3</rd:DefaultName>
+          <Top>2.56614cm</Top>
+          <Left>0.18519cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>2.16931cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox4">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!SNomPac.Value</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox4</rd:DefaultName>
+          <Top>2.56614cm</Top>
+          <Left>5.13228cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>10.42328cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox14">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!sAtendimento.Value</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox14</rd:DefaultName>
+          <Top>2.56614cm</Top>
+          <Left>2.46032cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>2.53968cm</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>1.13757cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox8">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Now</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox8</rd:DefaultName>
+          <Top>0.05291cm</Top>
+          <Left>0.07937cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>6.16402cm</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox9">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber &amp; "/" &amp; Globals!TotalPages</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox9</rd:DefaultName>
+          <Top>0.07937cm</Top>
+          <Left>11.53439cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>5.68783cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <TopBorder>
+          <Style>None</Style>
+        </TopBorder>
+      </Style>
+    </PageFooter>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>21cm</PageWidth>
+    <LeftMargin>2.5cm</LeftMargin>
+    <RightMargin>1cm</RightMargin>
+    <TopMargin>2.5cm</TopMargin>
+    <BottomMargin>2.5cm</BottomMargin>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SgsProducao">
+      <DataSourceReference>SgsProducao</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>99d43b73-0d05-41df-96cc-acc0075d9c2b</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SgsProducao</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="PCAD_LAT_ID_LOCAL_ATENDIMENTO">
+            <Value>=Parameters!PCAD_LAT_ID_LOCAL_ATENDIMENTO.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="PCAD_UNI_ID_UNIDADE">
+            <Value>=Parameters!PCAD_UNI_ID_UNIDADE.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="PCAD_SET_ID">
+            <Value>=Parameters!PCAD_SET_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="PATD_ATE_ID">
+            <Value>=Parameters!PATD_ATE_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="PATD_ATE_TP_PACIENTE">
+            <Value>=Parameters!PATD_ATE_TP_PACIENTE.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>PRC_MTMD_MOV_HIST_PACIENTE</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="MTMD_MOV_ID">
+          <DataField>MTMD_MOV_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_LAT_ID_LOCAL_ATENDIMENTO">
+          <DataField>CAD_LAT_ID_LOCAL_ATENDIMENTO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_UNI_ID_UNIDADE">
+          <DataField>CAD_UNI_ID_UNIDADE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_SET_ID">
+          <DataField>CAD_SET_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_REQ_ID">
+          <DataField>MTMD_REQ_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_LOTEST_ID">
+          <DataField>MTMD_LOTEST_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_ID">
+          <DataField>CAD_MTMD_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_TPMOV_ID">
+          <DataField>CAD_MTMD_TPMOV_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_SUBTP_ID">
+          <DataField>CAD_MTMD_SUBTP_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_MOV_DATA">
+          <DataField>MTMD_MOV_DATA</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_MOV_QTDE">
+          <DataField>MTMD_MOV_QTDE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_MOV_FL_FINALIZADO">
+          <DataField>MTMD_MOV_FL_FINALIZADO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ATD_ATE_ID">
+          <DataField>ATD_ATE_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ATD_ATE_TP_PACIENTE">
+          <DataField>ATD_ATE_TP_PACIENTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_MOV_FL_FATURADO">
+          <DataField>MTMD_MOV_FL_FATURADO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_FILIAL_ID">
+          <DataField>CAD_MTMD_FILIAL_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_TP_FRACAO_ID">
+          <DataField>MTMD_TP_FRACAO_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_NOMEFANTASIA">
+          <DataField>CAD_MTMD_NOMEFANTASIA</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_UNIDADE_VENDA">
+          <DataField>CAD_MTMD_UNIDADE_VENDA</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_FL_FRACIONA">
+          <DataField>CAD_MTMD_FL_FRACIONA</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DS_QTDE_CONVERTIDA">
+          <DataField>DS_QTDE_CONVERTIDA</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_DT_RESSUPRIMENTO">
+          <DataField>MTMD_DT_RESSUPRIMENTO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_SET_DS_SETOR">
+          <DataField>CAD_SET_DS_SETOR</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_UNI_DS_UNIDADE">
+          <DataField>CAD_UNI_DS_UNIDADE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_SUBTP_DESCRICAO">
+          <DataField>CAD_MTMD_SUBTP_DESCRICAO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_FL_FATURA">
+          <DataField>CAD_MTMD_FL_FATURA</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DS_USUARIO">
+          <DataField>DS_USUARIO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DS_QTDE_CONSUMO">
+          <DataField>DS_QTDE_CONSUMO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="PCAD_LAT_ID_LOCAL_ATENDIMENTO">
+      <DataType>String</DataType>
+      <Prompt>PCAD_LAT_ID_LOCAL_ATENDIMENTO</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PCAD_UNI_ID_UNIDADE">
+      <DataType>String</DataType>
+      <Prompt>PCAD_UNI_ID_UNIDADE</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PCAD_SET_ID">
+      <DataType>String</DataType>
+      <Prompt>PCAD_SET_ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PATD_ATE_ID">
+      <DataType>String</DataType>
+      <Prompt>PATD_ATE_ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PATD_ATE_TP_PACIENTE">
+      <DataType>String</DataType>
+      <Prompt>PATD_ATE_TP_PACIENTE</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="sUnidLocalSetor">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>sUnidLocalSetor</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SNomPac">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>SNomPac</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="sAtendimento">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report_Parameter_7</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <EmbeddedImages>
+    <EmbeddedImage Name="logo_bcc">
+      <MIMEType>image/gif</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>6d428def-caa7-4031-a096-d7db96d64807</rd:ReportID>
+</Report>

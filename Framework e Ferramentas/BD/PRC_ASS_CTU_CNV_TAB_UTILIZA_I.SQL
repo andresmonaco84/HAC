@@ -1,0 +1,55 @@
+﻿create or replace procedure PRC_ASS_CTU_CNV_TAB_UTILIZA_I
+(
+      pNewIdt OUT integer,
+    -- pASS_CTU_ID IN TB_ASS_CTU_CNV_TAB_UTILIZA.ASS_CTU_ID%type,
+     pCAD_CNV_ID_CONVENIO IN TB_ASS_CTU_CNV_TAB_UTILIZA.CAD_CNV_ID_CONVENIO%type,
+     pTIS_MED_CD_TABELAMEDICA IN TB_ASS_CTU_CNV_TAB_UTILIZA.TIS_MED_CD_TABELAMEDICA%type,
+     pASS_CTU_DT_INICIO_VIGENCIA IN TB_ASS_CTU_CNV_TAB_UTILIZA.ASS_CTU_DT_INICIO_VIGENCIA%type,
+     pSEG_USU_ID_USUARIO IN TB_ASS_CTU_CNV_TAB_UTILIZA.SEG_USU_ID_USUARIO%type,
+     pASS_CTU_DT_FIM_VIGENCIA IN TB_ASS_CTU_CNV_TAB_UTILIZA.ASS_CTU_DT_FIM_VIGENCIA%type default NULL,
+     pASS_CTU_DT_ULTIMA_ATUALIZACAO IN TB_ASS_CTU_CNV_TAB_UTILIZA.ASS_CTU_DT_ULTIMA_ATUALIZACAO%type,
+     pCAD_TAP_TP_ATRIBUTO IN TB_ASS_CTU_CNV_TAB_UTILIZA.CAD_TAP_TP_ATRIBUTO%type default NULL,
+     pTIS_MED_CD_TABELAMEDICA_COBRA IN TB_ASS_CTU_CNV_TAB_UTILIZA.TIS_MED_CD_TABELAMEDICA_COBRA%type default NULL
+) 
+is
+/********************************************************************
+*    Procedure: PRC_ASS_CTU_CNV_TAB_UTILIZA_I
+* 
+*    Data Criacao: 19/2/2010	   Por: Pedro
+*    Data Alteracao: 24/08/2010  Por: André S. Monaco
+*         Alteracao: Adição do campo TIS_MED_CD_TABELAMEDICA_COBRA
+*
+*    Funcao: Inclusão de registro de Convenio X Tabela Utilizada
+*
+*******************************************************************/  
+	   lIdtRetorno integer;
+begin
+	    SELECT Seq_Ass_Ctu_01 .NextVal INTO lIdtRetorno FROM DUAL;
+      
+INSERT INTO TB_ASS_CTU_CNV_TAB_UTILIZA
+(
+       ASS_CTU_ID,
+       CAD_CNV_ID_CONVENIO,
+       TIS_MED_CD_TABELAMEDICA,
+       ASS_CTU_DT_INICIO_VIGENCIA,
+       SEG_USU_ID_USUARIO,
+       ASS_CTU_DT_FIM_VIGENCIA,
+       ASS_CTU_DT_ULTIMA_ATUALIZACAO,
+       CAD_TAP_TP_ATRIBUTO,
+       TIS_MED_CD_TABELAMEDICA_COBRA
+)
+VALUES
+(
+	     lIdtRetorno,
+	     pCAD_CNV_ID_CONVENIO,
+	     pTIS_MED_CD_TABELAMEDICA,
+	     pASS_CTU_DT_INICIO_VIGENCIA,
+	     pSEG_USU_ID_USUARIO,
+	     pASS_CTU_DT_FIM_VIGENCIA,
+	     pASS_CTU_DT_ULTIMA_ATUALIZACAO,
+	     pCAD_TAP_TP_ATRIBUTO,
+       pTIS_MED_CD_TABELAMEDICA_COBRA
+);
+	pNewIdt := lIdtRetorno;
+end PRC_ASS_CTU_CNV_TAB_UTILIZA_I;
+

@@ -1,0 +1,122 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seguranca Servico", "Seguranca Servico", "{97F7D792-50B1-45B1-8345-0E3415BF8E10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Model", "SOA\Seguranca.Model\Seguranca.Model.csproj", "{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Interface", "SOA\Seguranca.Interface\Seguranca.Interface.csproj", "{937EBE97-553E-4B38-8E70-25EB22525597}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F91F151E-76E2-4F53-AF84-D470714F071A} = {F91F151E-76E2-4F53-AF84-D470714F071A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.DTO", "SOA\Seguranca.DTO\Seguranca.DTO.csproj", "{F91F151E-76E2-4F53-AF84-D470714F071A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Control", "SOA\Seguranca.Control\Seguranca.Control.csproj", "{5C06877D-97D6-462C-91DA-AD166A7794FA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA} = {5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}
+		{937EBE97-553E-4B38-8E70-25EB22525597} = {937EBE97-553E-4B38-8E70-25EB22525597}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Forms", "..\Seguranca.Forms\Seguranca.Forms.csproj", "{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}"
+EndProject
+Project("{4F174C21-8C12-11D0-8340-0000F80270F8}") = "SegurancaBD", "SegurancaBD\SegurancaBD.dbp", "{18452E9A-4C86-4085-A1D6-71C785D61121}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.Remoting", "SOA\Seguranca.Remoting\Seguranca.Remoting\Seguranca.Remoting.csproj", "{E1E93418-8430-472C-8AD1-31737A3ECD5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca.View", "Seguranca.View\Seguranca.View.csproj", "{74136C59-AC98-44B5-A2F2-7C44B69FC25E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C06877D-97D6-462C-91DA-AD166A7794FA} = {5C06877D-97D6-462C-91DA-AD166A7794FA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 9
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/hac
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SOA\\Seguranca.Model\\Seguranca.Model.csproj
+		SccProjectTopLevelParentUniqueName1 = Seguranca.sln
+		SccProjectName1 = SOA/Seguranca.Model
+		SccLocalPath1 = SOA\\Seguranca.Model
+		SccProjectUniqueName2 = SOA\\Seguranca.Interface\\Seguranca.Interface.csproj
+		SccProjectTopLevelParentUniqueName2 = Seguranca.sln
+		SccProjectName2 = SOA/Seguranca.Interface
+		SccLocalPath2 = SOA\\Seguranca.Interface
+		SccProjectUniqueName3 = SOA\\Seguranca.DTO\\Seguranca.DTO.csproj
+		SccProjectTopLevelParentUniqueName3 = Seguranca.sln
+		SccProjectName3 = SOA/Seguranca.DTO
+		SccLocalPath3 = SOA\\Seguranca.DTO
+		SccProjectUniqueName4 = SOA\\Seguranca.Control\\Seguranca.Control.csproj
+		SccProjectTopLevelParentUniqueName4 = Seguranca.sln
+		SccProjectName4 = SOA/Seguranca.Control
+		SccLocalPath4 = SOA\\Seguranca.Control
+		SccProjectUniqueName5 = ..\\Seguranca.Forms\\Seguranca.Forms.csproj
+		SccProjectName5 = ../Seguranca.Forms
+		SccLocalPath5 = ..\\Seguranca.Forms
+		SccProjectUniqueName6 = SOA\\Seguranca.Remoting\\Seguranca.Remoting\\Seguranca.Remoting.csproj
+		SccProjectTopLevelParentUniqueName6 = Seguranca.sln
+		SccProjectName6 = SOA/Seguranca.Remoting/Seguranca.Remoting
+		SccLocalPath6 = SOA\\Seguranca.Remoting\\Seguranca.Remoting
+		SccProjectUniqueName7 = Seguranca.View\\Seguranca.View.csproj
+		SccProjectName7 = Seguranca.View
+		SccLocalPath7 = Seguranca.View
+		SccProjectUniqueName8 = SegurancaBD\\SegurancaBD.dbp
+		SccProjectTopLevelParentUniqueName8 = Seguranca.sln
+		SccProjectName8 = SegurancaBD
+		SccLocalPath8 = SegurancaBD
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937EBE97-553E-4B38-8E70-25EB22525597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91F151E-76E2-4F53-AF84-D470714F071A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C06877D-97D6-462C-91DA-AD166A7794FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74136C59-AC98-44B5-A2F2-7C44B69FC25E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5EA04C20-41DB-4E19-BA14-37DB7BAF4FEA} = {97F7D792-50B1-45B1-8345-0E3415BF8E10}
+		{937EBE97-553E-4B38-8E70-25EB22525597} = {97F7D792-50B1-45B1-8345-0E3415BF8E10}
+		{F91F151E-76E2-4F53-AF84-D470714F071A} = {97F7D792-50B1-45B1-8345-0E3415BF8E10}
+		{5C06877D-97D6-462C-91DA-AD166A7794FA} = {97F7D792-50B1-45B1-8345-0E3415BF8E10}
+		{18452E9A-4C86-4085-A1D6-71C785D61121} = {97F7D792-50B1-45B1-8345-0E3415BF8E10}
+		{E1E93418-8430-472C-8AD1-31737A3ECD5D} = {97F7D792-50B1-45B1-8345-0E3415BF8E10}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,43 @@
+create or replace procedure PRC_BNF_DOENCA_PRE_S
+(
+       pCODATOMED IN TB_AUT_AUTORIZADOR.CODATOMED%TYPE,
+       pCODCON IN BNF_CARENCIA_BENEFICIARIO.CODCON%TYPE,
+       pCODEST IN BNF_BENEFICIARIO.CODEST%TYPE,
+       pCODBEN IN BNF_BENEFICIARIO.CODBEN%TYPE,
+       pCODSEQBEN IN BNF_BENEFICIARIO.CODSEQBEN%TYPE,
+       io_cursor OUT PKG_CURSOR.t_cursor       
+)
+is
+  v_cursor PKG_CURSOR.t_cursor;
+  vCPT TB_AUT_ATO_MEDICO.ID_CPT%TYPE;
+begin
+
+     SELECT ID_CPT
+     INTO vCPT
+     FROM TB_AUT_ATO_MEDICO
+     WHERE CODATOMED = pCODATOMED;
+     
+     IF ( vCPT = 'S' ) THEN
+        OPEN v_cursor FOR
+          SELECT COUNT(*) AS RETORNO, A.CID, B.DESCID, A.DATLIMITE, C.DATINGCONBEN
+            FROM BNF_BENDEPAGRAV A, DIAGNOSTICO B, BNF_BENEFICIARIO C 
+            WHERE A.CODCON = pCODCON
+            AND A.CODEST = pCODEST
+            AND A.CODBEN = pCODBEN
+            AND A.CODSEQBEN = pCODSEQBEN
+            AND A.CODCON = C.CODCON
+            AND A.CODEST = C.CODEST
+            AND A.CODBEN = C.CODBEN
+            AND A.CODSEQBEN = C.CODSEQBEN
+            AND TRUNC(A.DATLIMITE)>=TRUNC(SYSDATE)                            
+            AND A.CID=B.CID(+)
+            AND TRUNC(C.DATINGCONBEN) BETWEEN ADD_MONTHS(TRUNC(SYSDATE), -24) AND TRUNC(SYSDATE)
+            GROUP BY 
+            A.CID, B.DESCID, A.DATLIMITE, C.DATINGCONBEN;
+          io_cursor := v_cursor;
+     ELSE
+       OPEN v_cursor FOR
+       SELECT 0 AS RETORNO FROM DUAL;
+       io_cursor := v_cursor;
+    END IF;     
+end PRC_BNF_DOENCA_PRE_S;

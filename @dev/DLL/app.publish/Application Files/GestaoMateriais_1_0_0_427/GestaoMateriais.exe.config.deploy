@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <!-- Remoting-->
+    <!-- 172.16.1.21 - DEVHAC02 -->
+    <!-- 172.16.1.24 - DEVHAC03 -->
+    <!-- GestaoMateriais Producao -->
+    <add key="HAC.REMOTING.SGS.ACS.GESTAOMATERIAIS.PORT" value="8090" />
+    <add key="HAC.REMOTING.SGS.ACS.GESTAOMATERIAIS.CHANNEL" value="TCP" />
+    <add key="HAC.REMOTING.SGS.ACS.GESTAOMATERIAIS.PATH" value="svchac01.anacosta.com.br" />
+    <!--<add key="HAC.REMOTING.SGS.ACS.GESTAOMATERIAIS.PATH" value="172.16.1.17"/>-->
+    <!--<add key="HAC.REMOTING.SGS.ACS.GESTAOMATERIAIS.PATH" value="172.16.1.21"/>-->
+    <!--<add key="HAC.REMOTING.SGS.ACS.GESTAOMATERIAIS.PATH" value="172.16.1.24"/>-->
+    <!-- Seguranca -->
+    <add key="HAC.REMOTING.SGS.SEGURANCA.PORT" value="8092" />
+    <add key="HAC.REMOTING.SGS.SEGURANCA.CHANNEL" value="TCP" />
+    <add key="HAC.REMOTING.SGS.SEGURANCA.PATH" value="svchac01.anacosta.com.br" />
+    <!--<add key="HAC.REMOTING.SGS.SEGURANCA.PATH" value="172.16.1.17"/>-->
+    <!--<add key="HAC.REMOTING.SGS.SEGURANCA.PATH" value="172.16.1.24"/>-->
+    <!--<add key="HAC.REMOTING.SGS.SEGURANCA.PATH" value="172.16.1.21"/>-->
+    <!-- CALCULOFATURAMENTO -->
+    <!--<add key ="HAC.REMOTING.SERVICES.CALCULOFATURAMENTO.PORT" value ="8102"/>-->
+    <!--<add key="HAC.REMOTING.SERVICES.CALCULOFATURAMENTO.PATH" value="localhost"/>-->
+    <!--<add key="HAC.REMOTING.SERVICES.CALCULOFATURAMENTO.PATH" value="172.16.1.17"/>-->
+    <!--<add key="HAC.REMOTING.SERVICES.CALCULOFATURAMENTO.CHANNEL" value="TCP"/>-->
+    <add key="HAC.REMOTING.SERVICES.BENEFICIARIOACS.PORT" value="8093" />
+    <!--<add key="HAC.REMOTING.SERVICES.BENEFICIARIOACS.PATH" value="localhost"/>-->
+    <add key="HAC.REMOTING.SERVICES.BENEFICIARIOACS.PATH" value="svchac01.anacosta.com.br" />
+    <add key="HAC.REMOTING.SERVICES.BENEFICIARIOACS.CHANNEL" value="TCP" />
+    <add key="ReportServerURL" value="http://sqlhac01.anacosta.com.br/Reportserver_SGSSQLDB/" />
+    <add key="ReportPath" value="/SGS/prod/" />
+    <add key="ManualURL" value="P:\Manual\SGS\Gestao de Materiais\Index.htm" />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+  </appSettings>
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" />
+      </providers>
+    </membership>
+    <roleManager defaultProvider="ClientRoleProvider" enabled="true">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400" />
+      </providers>
+    </roleManager>
+  </system.web>
+</configuration>

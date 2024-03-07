@@ -1,0 +1,34 @@
+# Microsoft Developer Studio Project File - Database Project
+Begin DataProject = "HospitalAnaCosta.Services.BeneficiarioACS.DataBase"
+   MSDTVersion = "80"
+   DefDBRef = "DESENV.SGS"
+   SccProjectName = "SAK"
+   SccLocalPath = "SAK"
+   SccAuxPath = "SAK"
+   SccProvider = "SAK"
+   Begin Folder = "Change Scripts"
+   End
+   Begin Folder = "Create Scripts"
+      Script = "PRC__BENEFICIARIO_D.SQL"
+      Script = "PRC__BENEFICIARIO_I.SQL"
+      Script = "PRC__BENEFICIARIO_SID.SQL"
+      Script = "PRC__BENEFICIARIO_U.SQL"
+      Script = "PRC_BENEF_ACS_S.sql"
+      Script = "PRC_BNF_HOMECARE_D.sql"
+      Script = "PRC_BNF_HOMECARE_END_INC_S.sql"
+      Script = "PRC_BNF_HOMECARE_I.sql"
+      Script = "PRC_BNF_HOMECARE_S.sql"
+      Script = "PRC_BNF_HOMECARE_SID.sql"
+      Script = "PRC_BNF_HOMECARE_U.sql"
+      Script = "ScriptsGeracao.sql"
+   End
+   Begin DBRefFolder = "Database References"
+      Begin DBRefNode = "DESENV.SGS"
+         ConnectStr = "Data Source=DESENV;User ID=sgs;Unicode=True"
+         Provider = "{8F5C5018-AE09-42CF-B2CC-2CCCC7CFC2BB}"
+         Colorizer = 4
+      End
+   End
+   Begin Folder = "Queries"
+   End
+End

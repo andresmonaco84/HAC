@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+        <h2>
+            SerializerHelper Example</h2>
+        <p>
+            A classe DemoVO possui alguns campos que serão Serializados / Deserializados.</p>
+        <pre lang="cs">
+<span class="cs-keyword">using</span> System;
+<span class="cs-keyword">using</span> System.Xml.Serialization;
+<span class="cs-keyword">using</span> DEMO.Common;
+
+<span class="cs-keyword">namespace</span> DEMO.DemoDataTransferObjects
+{
+    <span class="cs-comment">/// </span>
+    <span class="cs-comment">/// Summary description for the DemoDTO.</span>
+    <span class="cs-comment">/// </span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">class</span> DemoVO
+    {
+        <span class="cs-comment">// Variables encapsulated by class (private).</span>
+        <span class="cs-keyword">private</span> <span class="cs-keyword">string</span> demoId = <span
+            class="cpp-string">""</span>;
+        <span class="cs-keyword">private</span> <span class="cs-keyword">string</span> demoName = <span
+            class="cpp-string">""</span>;
+        <span class="cs-keyword">private</span> <span class="cs-keyword">string</span> demoProgrammer = <span
+            class="cpp-string">""</span>;
+
+        <span class="cs-keyword">public</span> DemoVO()
+        {
+        }
+
+        <span class="cs-comment">///Public access to the DemoId field.</span>
+        <span class="cs-comment">///String</span>
+        [XmlElement(IsNullable=<span class="cs-keyword">true</span>)]
+        <span class="cs-keyword">public</span> <span class="cs-keyword">string</span> DemoId
+        {
+            <span class="cs-keyword">get</span>
+            {
+                <span class="cs-keyword">return</span> <span class="cs-keyword">this</span>.demoId;
+            }
+            <span class="cs-keyword">set</span>
+            {
+                <span class="cs-keyword">this</span>.demoId = value;
+            }
+        }
+
+        <span class="cs-comment">///Public access to the DemoId field.</span>
+        <span class="cs-comment">///String</span>
+        [XmlElement(IsNullable=<span class="cs-keyword">true</span>)]
+        <span class="cs-keyword">public</span> <span class="cs-keyword">string</span> DemoName
+        {
+            <span class="cs-keyword">get</span>
+            {
+                <span class="cs-keyword">return</span> <span class="cs-keyword">this</span>.demoName;
+            }
+            <span class="cs-keyword">set</span>
+            {
+                <span class="cs-keyword">this</span>.demoName = value;
+            }
+        }
+
+        <span class="cs-comment">///Public access to the DemoId field.</span>
+        <span class="cs-comment">///String</span>
+        [XmlElement(IsNullable=<span class="cs-keyword">true</span>)]
+        <span class="cs-keyword">public</span> <span class="cs-keyword">string</span> DemoProgrammer
+        {
+            <span class="cs-keyword">get</span>
+            {
+                <span class="cs-keyword">return</span> <span class="cs-keyword">this</span>.demoProgrammer;
+            }
+            <span class="cs-keyword">set</span>
+            {
+                <span class="cs-keyword">this</span>.demoProgrammer = value;
+            }
+        }
+
+    }
+}<br /><br /><br />
+<h2>
+    Console App showing VO example</h2><p>
+        O Console Aplication demonstra como é fácil criar uma classe VO, serializar e deserializar
+        uma VO.</p><pre lang="cs">
+<span class="cs-keyword">
+    <br />
+    using</span> System;
+<span class="cs-keyword">using</span> DEMO.Common;
+<span class="cs-keyword">using</span> DEMO.DemoDataTransferObjects;
+
+<span class="cs-keyword">namespace</span> DemoConsoleApplication
+{
+    <span class="cs-comment">/// </span>
+    <span class="cs-comment">/// Summary description for DemoClass.</span>
+    <span class="cs-comment">/// </span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">class</span> DemoClass
+    {
+        <span class="cs-keyword">public</span> DemoClass()
+        {
+        }
+
+        <span class="cs-keyword">public</span> <span class="cs-keyword">void</span> StartDemo()
+        {
+            <span class="cs-keyword">this</span>.ProcessDemo();
+        }
+
+        <span class="cs-keyword">private</span> <span class="cs-keyword">void</span> ProcessDemo()
+        {
+            VOSerializer&lt;DemoVO&gt; oVOSerializerHelper = new VOSerializer&lt;DemoVO&gt;();   
+            DemoVO enDemoVO = <span class="cs-keyword">this</span>.CreateDemoVO();
+            
+            <span class="cs-comment">// Serialize the dto to xml.</span>
+            <span class="cs-keyword">string</span> strXml = VOSerializerHelper.SerializeVO(enDemoVO);
+            
+            <span class="cs-comment">// Write the serialized dto as xml.</span>
+            Console.WriteLine(<span class="cpp-string">"Serialized VO"</span>);
+            Console.WriteLine(<span class="cpp-string">"======================="</span>);
+            Console.WriteLine(<span class="cpp-string">"\r"</span>);
+            Console.WriteLine(strXml);
+            Console.WriteLine(<span class="cpp-string">"\r"</span>);
+
+            <span class="cs-comment">// Deserialize the xml to the data transfer object.</span>
+            DemoVO desDto = (DemoVO) VOSerializerHelper.DeserializeXml(strXml, <span class="cs-keyword">new</span> DemoVO());
+            
+            <span class="cs-comment">// Write the deserialized dto values.</span>
+            Console.WriteLine(<span class="cpp-string">"Deseralized VO"</span>);
+            Console.WriteLine(<span class="cpp-string">"======================="</span>);
+            Console.WriteLine(<span class="cpp-string">"\r"</span>);
+            Console.WriteLine(<span class="cpp-string">"DemoId : "</span> + desDto.DemoId);
+            Console.WriteLine(<span class="cpp-string">"Demo Name : "</span> + desDto.DemoName);
+            Console.WriteLine(<span class="cpp-string">"Demo Programmer: "</span> + desDto.DemoProgrammer);
+            Console.WriteLine(<span class="cpp-string">"\r"</span>);
+        }
+
+        <span class="cs-keyword">private</span> DemoVO CreateDemoVO()
+        {
+            DemoVO enDemoVO = <span class="cs-keyword">new</span> DemoVO();
+            
+            enDemoVO.DemoId            = <span class="cpp-string">"1"</span>;
+            enDemoVO.DemoName          = <span class="cpp-string">"Value Object Demonstration Program"</span>;
+            enDemoVO.DemoProgrammer    = <span class="cpp-string">"Carlos Araujo"</span>;
+
+            <span class="cs-keyword">return</span> enDemoVO;
+        }
+    }
+}</pre></pre>
+	
+	</body>
+</html>

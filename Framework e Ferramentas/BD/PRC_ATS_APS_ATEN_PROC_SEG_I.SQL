@@ -1,0 +1,69 @@
+  --PRC_ATS_APS_ATEN_PROC_SEG_I
+  create or replace procedure PRC_ATS_APS_ATEN_PROC_SEG_I
+  (
+     pNewIdt OUT integer,
+     pATS_ATE_CD_INTLIB IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_ATE_CD_INTLIB%type,
+     pATS_ATE_IN_INTLIB IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_ATE_IN_INTLIB%type,
+     pATS_ATE_ID IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_ATE_ID%type,
+     pAUX_EPP_CD_ESPECPROC IN TB_ATS_APS_ATEN_PROC_SEGMENTO.AUX_EPP_CD_ESPECPROC%type,
+     pCAD_PRD_ID IN TB_ATS_APS_ATEN_PROC_SEGMENTO.CAD_PRD_ID%type,
+     pATS_APS_ID IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_APS_ID%type default NULL,
+     pATS_CPS_CD_SEGMENTO IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_CPS_CD_SEGMENTO%type,
+     pATS_APS_DT_ULTIMA_ATUALIZACAO IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_APS_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_ATS_APS_ATEN_PROC_SEGMENTO.SEG_USU_ID_USUARIO%type,
+     pATS_APS_FL_STATUS IN TB_ATS_APS_ATEN_PROC_SEGMENTO.ATS_APS_FL_STATUS%type,
+     pCAD_PRD_ID_APS IN TB_ATS_APS_ATEN_PROC_SEGMENTO.CAD_PRD_ID_APS%type,
+     pTIS_MED_CD_TABELAMEDICA IN TB_ATS_APS_ATEN_PROC_SEGMENTO.TIS_MED_CD_TABELAMEDICA%TYPE
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_ATS_APS_ATEN_PROC_SEG_I
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	29/03/2010 Por: Pedro
+  *    Alteracao: pTIS_MED_CD_TABELAMEDICA
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/  
+	  lIdtRetorno integer;
+
+  begin
+  
+  SELECT SEQ_ATS_APS_01.NextVal INTO lIdtRetorno FROM DUAL;
+	    
+    INSERT INTO TB_ATS_APS_ATEN_PROC_SEGMENTO
+    (
+		ATS_ATE_CD_INTLIB,
+		ATS_ATE_IN_INTLIB,
+		ATS_ATE_ID,
+		AUX_EPP_CD_ESPECPROC,
+		CAD_PRD_ID,
+		ATS_APS_ID,
+		ATS_CPS_CD_SEGMENTO,
+		ATS_APS_DT_ULTIMA_ATUALIZACAO,
+		SEG_USU_ID_USUARIO,
+		ATS_APS_FL_STATUS,
+		CAD_PRD_ID_APS,
+    TIS_MED_CD_TABELAMEDICA
+    )
+    VALUES
+    (
+		pATS_ATE_CD_INTLIB,
+	    pATS_ATE_IN_INTLIB,
+	    pATS_ATE_ID,
+	    pAUX_EPP_CD_ESPECPROC,
+	    pCAD_PRD_ID,
+	    lIdtRetorno,
+	    pATS_CPS_CD_SEGMENTO,
+	    pATS_APS_DT_ULTIMA_ATUALIZACAO,
+	    pSEG_USU_ID_USUARIO,
+	    pATS_APS_FL_STATUS,
+	    pCAD_PRD_ID_APS,
+      pTIS_MED_CD_TABELAMEDICA
+    );
+    
+	pNewIdt := lIdtRetorno;	
+	
+  end PRC_ATS_APS_ATEN_PROC_SEG_I;
+/

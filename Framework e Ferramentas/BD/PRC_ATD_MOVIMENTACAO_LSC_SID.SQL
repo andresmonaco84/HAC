@@ -1,0 +1,79 @@
+create or replace procedure PRC_ATD_MOVIMENTACAO_LSC_SID
+  (
+     pATD_ATE_ID IN TB_ATD_ATE_ATENDIMENTO.ATD_ATE_ID%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_ATD_MOVIMENTACAO_LSC_SID
+  * 
+  *    Data Criacao:   data da  criação   Por: Nome do Analista
+  *    Data Alteracao: 17/08/2010         Por: Fabiola R. Lopes
+  *    Alteração: Inclusão do alias da data de movimentacao, status e os campos para ordenação
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT IML.ATD_ATE_ID ID_ATENDIMENTO,
+       IML.ATD_IML_DT_ENTRADA DT_ENTRADA,
+       IML.ATD_IML_HR_ENTRADA HR_ENTRADA,
+       IML.ATD_IML_DT_SAIDA DT_SAIDA,
+       IML.ATD_IML_HR_SAIDA HR_SAIDA,
+       IML.ATD_IML_ID ID_MOVIMENTACAO,
+       'IML' LOCAL,
+       
+       QLE.CAD_QLE_ID ID_LOCAL,
+       QLE.CAD_QLE_NR_QUARTO || '/' || QLE.CAD_QLE_NR_LEITO DESCRICAO,
+       
+       IML.ATD_IML_DT_ULTIMA_ATUALIZACAO DT_ULTIMA_MOVIMENTACAO
+
+  FROM TB_ATD_IML_INT_MOV_LEITO IML, TB_CAD_QLE_QUARTO_LEITO QLE
+ WHERE IML.ATD_ATE_ID = pATD_ATE_ID
+   AND QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+   AND IML.ATD_IML_FL_STATUS = 'A'
+
+UNION ALL
+SELECT IMS.ATD_ATE_ID ID_ATENDIMENTO,
+       IMS.ATD_IMS_DT_ENTRADA DT_ENTRADA,
+       IMS.ATD_IMS_HR_ENTRADA HR_ENTRADA,
+       IMS.ATD_IMS_DT_SAIDA DT_SAIDA,
+       IMS.ATD_IMS_HR_SAIDA HR_SAIDA,
+       IMS.ATD_IMS_ID ID_MOVIMENTACAO,
+       'IMS' LOCAL,
+       
+       SETOR.CAD_SET_ID       ID_LOCAL,
+       SETOR.CAD_SET_DS_SETOR DESCRICAO,
+       
+       IMS.ATD_IMS_DT_ULTIMA_ATUALIZACAO DT_ULTIMA_MOVIMENTACAO
+
+  FROM TB_ATD_IMS_INT_MOV_SETOR IMS, TB_CAD_SET_SETOR SETOR
+ WHERE IMS.ATD_ATE_ID = pATD_ATE_ID
+   AND SETOR.CAD_SET_ID = IMS.CAD_SET_ID_SETOR
+   AND IMS.ATD_IMS_FL_STATUS = 'A'
+
+UNION ALL
+SELECT IMC.ATD_ATE_ID ID_ATENDIMENTO,
+       IMC.ATD_IMC_DT_ENTRADA DT_ENTRADA,
+       IMC.ATD_IMC_HR_ENTRADA HR_ENTRADA,
+       IMC.ATD_IMC_DT_SAIDA DT_SAIDA,
+       IMC.ATD_IMC_HR_SAIDA HR_SAIDA,
+       IMC.ATD_IMC_ID ID_MOVIMENTACAO,
+       'IMC' LOCAL,
+       
+       CLC.CAD_CLC_ID        ID_LOCAL,
+       PES.CAD_PES_NM_PESSOA DESCRICAO,
+       
+       IMC.ATD_IMC_DT_ULTIMA_ATUALIZACAO DT_ULTIMA_MOVIMENTACAO
+
+  FROM TB_ATD_IMC_INT_MOV_CLINICA IMC, TB_CAD_CLC_CLINICA_CREDENCIADA CLC, TB_CAD_PES_PESSOA PES
+ WHERE IMC.ATD_ATE_ID = pATD_ATE_ID
+   AND CLC.CAD_CLC_ID = IMC.CAD_CLC_ID
+   AND CLC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+ ORDER BY 2, 3, 10;
+ 
+    io_cursor := v_cursor;
+    
+  end PRC_ATD_MOVIMENTACAO_LSC_SID;

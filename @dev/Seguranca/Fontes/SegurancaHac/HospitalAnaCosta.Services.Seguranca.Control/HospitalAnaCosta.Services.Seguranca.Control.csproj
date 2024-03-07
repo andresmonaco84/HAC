@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{15F00A22-611D-4BDD-991A-9217D14BF2CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HospitalAnaCosta.Services.Seguranca.Control</RootNamespace>
+    <AssemblyName>HospitalAnaCosta.Services.Seguranca.Control</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\DLL\_Debug\Seguranca\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\DLL\_Release\Seguranca\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HacFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\SGS\Fontes\packages\HacFramework.1.0.2\lib\HacFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Control.cs" />
+    <Compile Include="Funcionalidade.cs" />
+    <Compile Include="LogErros.cs" />
+    <Compile Include="Modulo.cs" />
+    <Compile Include="ModuloPerfil.cs" />
+    <Compile Include="Parametro.cs" />
+    <Compile Include="Perfil.cs" />
+    <Compile Include="PerfilFuncionalidade.cs" />
+    <Compile Include="PermissaoUsuario.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="UnidadeLocalSetorUsuario.cs" />
+    <Compile Include="Usuario.cs" />
+    <Compile Include="UsuarioUnidade.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Control\Cadastro.Control.csproj">
+      <Project>{B984A28E-3E7D-4A30-9332-FD2D9AD0019D}</Project>
+      <Name>Cadastro.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.DTO\Cadastro.DTO.csproj">
+      <Project>{B1A4C379-87D9-4D11-85BF-89FF4AA30BF1}</Project>
+      <Name>Cadastro.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\cadastro\Fontes\Cadastro\SOA\Cadastro.Interface\Cadastro.Interface.csproj">
+      <Project>{A6998BE4-A444-4FC2-807D-CDAE77A77BD9}</Project>
+      <Name>Cadastro.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HospitalAnaCosta.Services.Seguranca.DTO\HospitalAnaCosta.Services.Seguranca.DTO.csproj">
+      <Project>{83D8AF55-3438-41B8-8915-F4540743439A}</Project>
+      <Name>HospitalAnaCosta.Services.Seguranca.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HospitalAnaCosta.Services.Seguranca.Interface\HospitalAnaCosta.Services.Seguranca.Interface.csproj">
+      <Project>{4C997F85-58F8-4674-BBBD-75DAD6821102}</Project>
+      <Name>HospitalAnaCosta.Services.Seguranca.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HospitalAnaCosta.Services.Seguranca.Model\HospitalAnaCosta.Services.Seguranca.Model.csproj">
+      <Project>{5F1C88F8-3754-4129-A06B-FFF59CB18A01}</Project>
+      <Name>HospitalAnaCosta.Services.Seguranca.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

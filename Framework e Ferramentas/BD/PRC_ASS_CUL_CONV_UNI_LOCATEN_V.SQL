@@ -1,0 +1,36 @@
+create or replace procedure PRC_ASS_CUL_CONV_UNI_LOCATEN_V
+  (
+     pCAD_CNV_ID_CONVENIO IN TB_ASS_CNU_CONVENIO_UNIDADE.CAD_CNV_ID_CONVENIO%type,
+     pASS_CUL_DT_FIM_VIGENCIA IN TB_ASS_CUL_CONV_UNI_LOCATEND.ASS_CUL_DT_FIM_VIGENCIA%TYPE,
+     pCAD_UNI_ID_UNIDADE IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%TYPE,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_ASS_CUL_CONV_UNI_LOCATEN_V
+  *
+  *    Data Criacao: 	05/06/2007  Por: Bruno
+  *    Alteracao: RECUPERA ASSOCIACOES ATIVAS
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT
+       CUL.ASS_CUL_ID,
+       CUL.ASS_CUL_DT_INI_VIGENCIA,
+       CUL.ASS_CUL_DS_MOTIVO_FIM_VIGENCIA,
+       CUL.ASS_CUL_DT_ULTIMA_ATUALIZACAO,
+       CUL.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+       CUL.ASS_CUL_DT_FIM_VIGENCIA,
+       CUL.SEG_USU_ID_USUARIO,
+       CUL.ASS_CNU_ID
+    FROM TB_ASS_CUL_CONV_UNI_LOCATEND CUL,
+         TB_ASS_CNU_CONVENIO_UNIDADE CNU
+    WHERE
+         CNU.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+    AND  CNU.ASS_CNU_ID = CUL.ASS_CNU_ID
+    AND  CNU.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO
+    AND  CUL.ASS_CUL_DT_FIM_VIGENCIA > pASS_CUL_DT_FIM_VIGENCIA;
+
+    io_cursor := v_cursor;
+  end PRC_ASS_CUL_CONV_UNI_LOCATEN_V;

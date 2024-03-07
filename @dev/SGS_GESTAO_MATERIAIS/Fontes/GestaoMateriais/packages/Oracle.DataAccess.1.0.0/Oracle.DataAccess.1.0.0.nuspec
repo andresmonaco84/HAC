@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Oracle.DataAccess</id>
+    <version>1.0.0</version>
+    <authors>marcus.relva</authors>
+    <owners>marcus.relva</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Oracle.DataAccess</description>
+    <summary>Oracle.DataAccess</summary>
+    <releaseNotes>Oracle.DataAccess</releaseNotes>
+  </metadata>
+</package>

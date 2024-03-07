@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Release\Seguranca\Seguranca.DTO.dll
+C:\TFS\SGS\@dev\DLL\_Release\Seguranca\Seguranca.DTO.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.DTO\obj\Release\Seguranca.DTO.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.DTO\obj\Release\Seguranca.DTO.dll
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.DTO\obj\Release\Seguranca.DTO.pdb

@@ -1,0 +1,88 @@
+CREATE OR REPLACE PROCEDURE PRC_AGE_ESM_LIB_ALTERACAO_SALA
+(
+       pAGE_ESM_ID                   IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_ID%TYPE,
+       pCAD_UNI_ID_UNIDADE           IN TB_AGE_ESM_ESCALA_MEDICA.CAD_UNI_ID_UNIDADE%TYPE,
+       pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_AGE_ESM_ESCALA_MEDICA.CAD_LAT_ID_LOCAL_ATENDIMENTO%TYPE,
+       pAGE_ESM_NR_DIA_SEMANA        IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_NR_DIA_SEMANA%TYPE,
+       pAGE_SAU_ID                   IN TB_AGE_ESM_ESCALA_MEDICA.AGE_SAU_ID%TYPE,
+       pAGE_ESM_DT_INI_ESCALA        IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_DT_INI_ESCALA%TYPE,
+       pAGE_ESM_HR_INI_ESCALA        IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_HR_INI_ESCALA%TYPE,
+       pAGE_ESM_HR_FIM_ESCALA        IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_HR_FIM_ESCALA%TYPE,
+       pAGE_ESM_DT_CRIACAO_ESCALA    IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_DT_CRIACAO_ESCALA%TYPE,
+       io_cursor                     OUT PKG_CURSOR.t_cursor
+)
+IS
+/********************************************************************
+  *    Procedure: PRC_AGE_ESM_LIB_ALTERACAO_SALA
+  *
+  *    Data Criacao:  26/02/2008   Por: Fabiola
+  *    Data Alteracao:             Por:
+  *    Alteracao: Busca Escala ja existente na Unidade, Local, Sala, Dia Semana e Permodo
+  *
+  *    Data Alteracao: 11/08/2008   Por: Bruno Costa
+  *    Alteracao: Adicionado o id da escala pesquisado.
+  *
+  *    Data Alteracao: 09/01/2009  Por: Davi Silvestre M. dos Reis
+  *    Alteracao: Inclusao do atributo AGE_ESM_DT_CRIACAO_ESCALA na 
+  *               clausula 'WHERE', para buscar precisamente a escala
+  *
+  *    Data Alteracao: 23/01/2009        	  Por: Davi Silvestre M. dos Reis
+  *    Alteracao: Inclusão do campo AGE_ESM_ENDER_ATEND_ESCALA.
+  *
+  ********************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT
+         ESM.AGE_ESM_ID,
+         ESM.AGE_SAU_ID,
+         ESM.AGE_ESM_DT_INI_ESCALA,
+         ESM.AGE_ESM_HR_INI_ESCALA,
+         ESM.AGE_ESM_DT_FIM_ESCALA,
+         ESM.AGE_ESM_HR_FIM_ESCALA,
+         ESM.AGE_ESM_NR_DIA_SEMANA,
+         ESM.AGE_ESM_FL_SITUACAO,
+         ESM.AGE_ESM_QT_DIAS_CRIACAO,
+         ESM.AGE_ESM_QT_AGE_PERM_PHORA,
+         ESM.AGE_ESM_FL_PERM_ENCAIXE,
+         ESM.AGE_ESM_FL_PERM_ENCAIXE_ESP,
+         ESM.AGE_ESM_FL_PERM_RETORNO,
+         ESM.AGE_ESM_DT_CRIACAO_ESCALA,
+         ESM.AGE_ESM_QT_ENCAIXE,
+         ESM.AGE_ESM_QT_ENCAIXE_PHORA,
+         ESM.AGE_ESM_QT_ENCAIXE_ESP,
+         ESM.AGE_ESM_QT_ENCAIXE_ESP_PHORA,
+         ESM.AGE_ESM_DS_OBS,
+         ESM.SEG_USU_ID_USUARIO,
+         ESM.AGE_ESM_DT_ULTIMA_ATUALIZACAO,
+         ESM.AGE_ESM_FL_TRANSF,
+         ESM.TIS_CBO_CD_CBOS,
+         ESM.CAD_PRO_ID_PROFISSIONAL,
+         ESM.CAD_UNI_ID_UNIDADE,
+         ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+         ESM.AGE_PEE_ID,
+         ESM.AGE_ESM_QT_DIAS_INTERVALO,
+         ESM.AGE_ESM_QT_RET_PERM_PHORA,
+         ESM.AGE_ESM_FL_PERM_AGENDA_SP,
+         ESM.AGE_ESM_QT_AGE_PERM_PHORA_SP,
+         ESM.AGE_ESM_FL_AGENDAGERADA_OK,
+         ESM.AGE_ESM_ENDER_ATEND_ESCALA
+    FROM
+         TB_AGE_ESM_ESCALA_MEDICA ESM
+    WHERE
+         AGE_ESM_FL_SITUACAO = 'A'
+    AND  ESM.AGE_ESM_ID != pAGE_ESM_ID
+    AND  ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+    AND  ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+    AND  ESM.AGE_ESM_NR_DIA_SEMANA = pAGE_ESM_NR_DIA_SEMANA
+    AND  ESM.AGE_SAU_ID = pAGE_SAU_ID
+    AND  ESM.AGE_ESM_DT_CRIACAO_ESCALA = pAGE_ESM_DT_CRIACAO_ESCALA
+    AND
+         ((pAGE_ESM_DT_INI_ESCALA = AGE_ESM_DT_FIM_ESCALA AND AGE_ESM_DT_FIM_ESCALA >= TRUNC(SYSDATE))
+    OR
+         (AGE_ESM_DT_FIM_ESCALA IS NULL))
+    AND  ((PAGE_ESM_HR_INI_ESCALA+1) BETWEEN AGE_ESM_HR_INI_ESCALA AND AGE_ESM_HR_FIM_ESCALA
+    OR   (PAGE_ESM_HR_FIM_ESCALA-1)  BETWEEN AGE_ESM_HR_INI_ESCALA AND AGE_ESM_HR_FIM_ESCALA);
+    io_cursor := v_cursor;
+    END PRC_AGE_ESM_LIB_ALTERACAO_SALA;
+/

@@ -1,0 +1,63 @@
+-- Create table
+create table TB_CAD_MTMD_MARCAS
+(
+  CAD_MTMD_ID             NUMBER(10) not null,
+  CAD_MTMD_DSC_MARCA      VARCHAR2(150) not null,
+  CAD_MTMD_DT_ATUALIZACAO DATE not null,
+  SEG_USU_ID_USUARIO      NUMBER not null,
+  CAD_MTMD_MARCA_NUM      NUMBER not null
+)
+tablespace SGS_DADOS
+  pctfree 10
+  pctused 40
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the columns 
+comment on column TB_CAD_MTMD_MARCAS.CAD_MTMD_ID
+  is 'IdProduto';
+comment on column TB_CAD_MTMD_MARCAS.CAD_MTMD_DSC_MARCA
+  is 'DscMarca';
+comment on column TB_CAD_MTMD_MARCAS.CAD_MTMD_DT_ATUALIZACAO
+  is 'DtAtualizacao';
+comment on column TB_CAD_MTMD_MARCAS.SEG_USU_ID_USUARIO
+  is 'IdUsuario';
+comment on column TB_CAD_MTMD_MARCAS.CAD_MTMD_MARCA_NUM
+  is 'MarcaNumero';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table TB_CAD_MTMD_MARCAS
+  add constraint MARCA_PK primary key (CAD_MTMD_MARCA_NUM, CAD_MTMD_ID)
+  using index 
+  tablespace SGS_DADOS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table TB_CAD_MTMD_MARCAS
+  add constraint MARCA_FK1 foreign key (CAD_MTMD_ID)
+  references TB_CAD_MTMD_MAT_MED (CAD_MTMD_ID);
+alter table TB_CAD_MTMD_MARCAS
+  add constraint MARCA_FK2 foreign key (SEG_USU_ID_USUARIO)
+  references TB_SEG_USU_USUARIO (SEG_USU_ID_USUARIO);
+-- Create/Recreate indexes 
+create index IND_01_CAD_MTMD_MARCA on TB_CAD_MTMD_MARCAS (CAD_MTMD_ID)
+  tablespace SGS_DADOS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );

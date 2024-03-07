@@ -1,0 +1,187 @@
+// PÁGINA DO SITE: http://leonelfraga.com/neomatrixtech/index.php?paged=13
+using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.OleDb;
+using System.IO;
+
+/// <summary>
+/// Classe auxiliar do Exemplo de Importação/Exportação Excel -> DataTable via ADO.NET
+/// </summary>
+public class Auxiliar
+{
+	public Auxiliar()
+	{
+		//
+		// TODO: Add constructor logic here
+		//
+	}
+
+    public DataTable CreateSampleTable()
+    {
+        //Estrutura
+        DataTable dt = new DataTable();
+        dt.TableName = "ExemploDataTable2Excel";
+        dt.Columns.Add(new DataColumn("CODIGO"));
+        dt.Columns.Add(new DataColumn("NOME"));
+        dt.Columns.Add(new DataColumn("SEXO"));
+        dt.Columns.Add(new DataColumn("PROFISSAO"));
+
+        //Dados Exemplo
+        dt.Rows.Add(1, "CLODOVIL HERNANDES", "G", "DE*PUTA*DO ESTADUAL" );
+        dt.Rows.Add(2, "JUCA KIFOURI", "M", "JORNALISTA");
+        dt.Rows.Add(3, "BENJAMIN 'NARIGUDO' BACK", "M", "APRESENTADOR DO ESTÁDIO 97" );
+        dt.Rows.Add(4, "MILLY LACOMBE", "L", "REPÓRTER MALA" );
+        dt.Rows.Add(5, "ROGÉRIO CENI", "M", "GOLEIRO DO TRICOLAÇO DO MORUMBI" );
+        dt.Rows.Add(6, "MICHELE", "F", "DELÍCIA DO BBB 9 (ops... MODELO)" );
+        dt.Rows.Add(6, "MARIA DAS GRAÇAS MENEGHEL", "B", "ATRIZ DE FILME EDUCATIVO");
+        dt.Rows.Add(6, "ALEXANDRE FROTA", "B", "ATOR DE FILME EDUCATIVO");
+        dt.Rows.Add(6, "GALVÃO BUENO", "M", "LOCUTOR MALA DA REDE BOBO");
+
+        return dt;
+    }
+
+    /// <summary>
+    /// Importa os dados de uma planilha Excel para um datatable
+    /// </summary>
+    ///
+Caminho do arquivo xls
+    ///
+Nome da planilha a ser importada.
+    /// <returns></returns>
+    public DataTable ExcelPlan2DataTable(string pWorksheetPath, string pPlanName)
+    {
+        string cnnString = String.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=""Excel 8.0;HDR=YES;""", pWorksheetPath);
+        string isql = "select * from [{0}$]";
+        System.Data.OleDb.OleDbConnection cnn = new System.Data.OleDb.OleDbConnection(cnnString);
+        System.Data.OleDb.OleDbDataAdapter da = new System.Data.OleDb.OleDbDataAdapter(String.Format(isql, pPlanName), cnn);
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        try
+        {
+            cnn.Open();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+        finally
+        {
+            cnn.Close();
+            cnn.Dispose();
+            da.Dispose();
+            ds.Dispose();
+        }
+        return dt;
+    }
+
+    /// <summary>
+    /// Exporta um DataTable para uma Planilha Excel
+    /// </summary>
+    ///
+Caminho da Planilha Base
+    ///
+Caminho da Planilha a ser salva (temporária)
+    ///
+Datatable a ser exportado
+    ///
+Nome da planilha de destino
+    ///
+String de Ordenação (DataView)
+    /// <returns>Array de bytes com a planilha no formato Microsoft Excel.</returns>
+    /// <remarks>A planilha de destino deverá ter OS MESMOS CAMPOS do datatable de origem.</remarks>
+    public byte[] DataTable2ExcelPlan(string pBaseWorksheetPath, string pTempWorksheetPath, DataTable pDtOrigem, string pOrdenar)
+    {
+        //Copia a planilha de origem
+        File.Copy(pBaseWorksheetPath, pTempWorksheetPath, true);
+        //Fim da rotina de cópia
+
+        //Instancia planilha de destino, criando um DataTable para inserir os dados
+        string cnnString = String.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=""Excel 8.0;HDR=YES;""", pTempWorksheetPath);
+        string sqlInsertGen = "insert into [{0}$] ({1}) values ({2})";
+
+        System.Data.OleDb.OleDbConnection cnn = new System.Data.OleDb.OleDbConnection(cnnString);
+        System.Data.OleDb.OleDbCommand cd = new System.Data.OleDb.OleDbCommand();
+        cd.Connection = cnn;
+
+        //Cria uma nova planilha no Excel
+
+        //Cria nova planilha e Monta SQL de inserção
+        string cmdCreateTable = "create table {0} ({1})";
+        string Campos = "";
+        string Values = "";
+        string CamposCreate = "";
+        int contador = 0;
+        foreach (DataColumn dc in pDtOrigem.Columns)
+        {
+            Campos += dc.ColumnName + ",";
+            Values += ""{" + contador.ToString() + "}",";
+            CamposCreate += dc.ColumnName + " varchar(30),";
+            contador++;
+        }
+
+        Campos = Campos.Substring(0, Campos.Length - 1);
+        Values = Values.Substring(0, Values.Length - 1);
+        CamposCreate = CamposCreate.Substring(0, CamposCreate.Length - 1);
+        string sqlInsert = String.Format(sqlInsertGen, pDtOrigem.TableName, Campos, Values);
+
+        //Fim da montagem do SQL de inserção
+
+        try
+        {
+            cnn.Open();
+            cd.CommandText = String.Format(cmdCreateTable, pDtOrigem.TableName, CamposCreate);
+            cd.ExecuteNonQuery();
+
+            if (!pOrdenar.Equals(""))
+            {
+                DataView dv = pDtOrigem.DefaultView;
+                dv.Sort = pOrdenar;
+                pDtOrigem = dv.ToTable();
+            }
+
+            //Cópia dos dados
+            foreach (DataRow rOrigem in pDtOrigem.Rows)
+            {
+                object[] valores = new object[pDtOrigem.Columns.Count];
+                int ctValores = 0;
+                foreach (DataColumn cOrigem in pDtOrigem.Columns)
+                {
+                    valores[ctValores] = rOrigem[cOrigem.ColumnName].ToString();
+                    ctValores++;
+                }
+                cd.CommandText = String.Format(sqlInsert, valores);
+                cd.ExecuteNonQuery();
+            }
+        }
+        finally
+        {
+            cnn.Close();
+            cnn.Dispose();
+            cd.Dispose();
+        }
+        //Fim da inserção dos dados na planilha
+
+        //Captura a planilha de destino para um stream e saída no array de bytes
+        FileStream fs = new FileStream(pTempWorksheetPath, FileMode.Open);
+        byte[] planOutput = new byte[fs.Length];
+
+        try
+        {
+            fs.Position = 0;
+            fs.Read(planOutput, 0, (int)fs.Length);
+        }
+        finally
+        {
+            fs.Close();
+            fs.Dispose();
+            File.Delete(pTempWorksheetPath);
+        }
+        //Fim da captura do arquivo final
+        return planOutput;
+    }
+}

@@ -1,0 +1,57 @@
+create or replace procedure PRC_ATD_PKT_PRESCRICAO_KIT_I
+(
+      pNewIdt OUT integer,
+--pATD_PKT_ID IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_ID%type,
+     pATD_PKT_KIT_STATUS IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_KIT_STATUS%type,
+     pATD_PKT_DESCRICAO IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_DESCRICAO%type,
+     pATD_PKT_ID_USU_ULT_ATUALIZ IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_ID_USU_ULT_ATUALIZ%type,
+     pATD_PKT_DT_ULT_ATUALIZ IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_DT_ULT_ATUALIZ%type,
+     pCAD_SET_ID IN TB_ATD_PKT_PRESCRICAO_KIT.CAD_SET_ID%type default NULL,
+     pATD_PKT_FL_INT_ALA IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_FL_INT_ADULTO%type default NULL,
+     pATD_PKT_FL_INT_UTI IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_FL_INT_NEO%type default NULL ,
+     pATD_PKT_FL_INT_ADULTO IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_FL_INT_ADULTO%type default NULL,
+     pATD_PKT_FL_INT_NEO IN TB_ATD_PKT_PRESCRICAO_KIT.ATD_PKT_FL_INT_NEO%type default NULL
+)
+is
+/********************************************************************
+*    Procedure: PRC_ATD_PKT_PRESCRICAO_KIT_I
+*
+*    Data Criacao:  data da  criação   Por: Nome do Analista
+*    Data Alteracao:  data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+    lIdtRetorno integer;
+begin
+
+SELECT SEQ_ATD_PKT_01.NextVal INTO lIdtRetorno FROM DUAL;
+
+INSERT INTO TB_ATD_PKT_PRESCRICAO_KIT
+(
+       ATD_PKT_ID,
+       ATD_PKT_KIT_STATUS,
+       ATD_PKT_DESCRICAO,
+       ATD_PKT_ID_USU_ULT_ATUALIZ,
+       ATD_PKT_DT_ULT_ATUALIZ,
+       CAD_SET_ID,
+      ATD_PKT_FL_INT_ALA,
+       ATD_PKT_FL_INT_UTI,
+       ATD_PKT_FL_INT_ADULTO,
+       ATD_PKT_FL_INT_NEO
+)
+VALUES
+(
+       lIdtRetorno,
+       pATD_PKT_KIT_STATUS,
+       pATD_PKT_DESCRICAO,
+       pATD_PKT_ID_USU_ULT_ATUALIZ,
+       pATD_PKT_DT_ULT_ATUALIZ,
+       pCAD_SET_ID,
+       pATD_PKT_FL_INT_ALA,
+       pATD_PKT_FL_INT_UTI,
+       pATD_PKT_FL_INT_ADULTO,
+       pATD_PKT_FL_INT_NEO
+);
+    pNewIdt := lIdtRetorno;
+end PRC_ATD_PKT_PRESCRICAO_KIT_I;

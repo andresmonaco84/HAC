@@ -1,0 +1,45 @@
+ 
+  --PRC_SMS_MRE_MSG_RECEBIDA_S
+  create or replace procedure PRC_SMS_MRE_MSG_RECEBIDA_S 
+  (
+     pSMS_MRE_ID IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_MRE_ID%type DEFAULT NULL,
+     pSMS_MRE_DT_RECEBIMENTO IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_MRE_DT_RECEBIMENTO%type DEFAULT NULL,
+     pSMS_MRE_HR_RECEBIMENTO IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_MRE_HR_RECEBIMENTO%type DEFAULT NULL,
+     pSMS_MRE_DS_RESPOSTA_OPERACAO IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_MRE_DS_RESPOSTA_OPERACAO%type DEFAULT NULL,
+     pSMS_MEN_ID IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_MEN_ID%type DEFAULT NULL,
+     pSMS_OPE_ID IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_OPE_ID%type DEFAULT NULL,
+     pSMS_MRE_TELEFONE_RECEBIMENTO IN TB_SMS_MRE_MENSAGEM_RECEBIDA.SMS_MRE_TELEFONE_RECEBIMENTO%TYPE DEFAULT NULL
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_SMS_MRE_MENSAGEM_RECEBIDA_S
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+       SMS_MRE_ID,
+       SMS_MRE_DT_RECEBIMENTO,
+       SMS_MRE_HR_RECEBIMENTO,
+       SMS_MRE_DS_RESPOSTA_OPERACAO,
+       SMS_MEN_ID,
+       SMS_OPE_ID,
+       SMS_MRE_TELEFONE_RECEBIMENTO
+    FROM TB_SMS_MRE_MENSAGEM_RECEBIDA
+    WHERE
+        (pSMS_MRE_ID is null OR SMS_MRE_ID = pSMS_MRE_ID) AND 
+        (pSMS_MRE_DT_RECEBIMENTO is null OR SMS_MRE_DT_RECEBIMENTO = pSMS_MRE_DT_RECEBIMENTO) AND 
+        (pSMS_MRE_HR_RECEBIMENTO is null OR SMS_MRE_HR_RECEBIMENTO = pSMS_MRE_HR_RECEBIMENTO) AND 
+        (pSMS_MRE_DS_RESPOSTA_OPERACAO is null OR SMS_MRE_DS_RESPOSTA_OPERACAO = pSMS_MRE_DS_RESPOSTA_OPERACAO) AND 
+        (pSMS_MEN_ID is null OR SMS_MEN_ID = pSMS_MEN_ID) AND 
+        (pSMS_OPE_ID is null OR SMS_OPE_ID = pSMS_OPE_ID) AND
+        (pSMS_MRE_TELEFONE_RECEBIMENTO is null or SMS_MRE_TELEFONE_RECEBIMENTO = pSMS_MRE_TELEFONE_RECEBIMENTO);          
+    io_cursor := v_cursor;
+  end PRC_SMS_MRE_MSG_RECEBIDA_S;

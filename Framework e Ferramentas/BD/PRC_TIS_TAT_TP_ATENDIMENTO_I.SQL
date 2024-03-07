@@ -1,0 +1,49 @@
+create or replace procedure PRC_TIS_TAT_TP_ATENDIMENTO_I
+  (
+     pTIS_TAT_CD_TPATENDIMENTO IN TB_TIS_TAT_TP_ATENDIMENTO.TIS_TAT_CD_TPATENDIMENTO%type,
+     pTIS_TAT_DS_TPATENDIMENTO IN TB_TIS_TAT_TP_ATENDIMENTO.TIS_TAT_DS_TPATENDIMENTO%type,
+     pTIS_TAT_FL_STATUS     IN TB_TIS_TAT_TP_ATENDIMENTO.TIS_TAT_FL_STATUS%type,
+     
+     pTIS_TAT_DT_CRIACAO IN TB_TIS_TAT_TP_ATENDIMENTO.TIS_TAT_DT_CRIACAO%TYPE DEFAULT NULL,     
+     pSEG_USU_ID_USUARIO_CRIACAO IN TB_TIS_TAT_TP_ATENDIMENTO.SEG_USU_ID_USUARIO_CRIACAO%TYPE DEFAULT NULL,
+     pTIS_TAT_DT_ULT_ATUALIZACAO IN TB_TIS_TAT_TP_ATENDIMENTO.TIS_TAT_DT_ULT_ATUALIZACAO%TYPE DEFAULT NULL,
+     pSEG_USU_ID_USU_ULT_ATUALIZ IN TB_TIS_TAT_TP_ATENDIMENTO.SEG_USU_ID_USU_ULT_ATUALIZ%TYPE DEFAULT NULL
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_TIS_TAT_TP_ATENDIMENTO_I
+  *
+  *    Data Criacao:   11/04/2007     Por: Fabiola R. Lopes
+  *    Data Alteracao:    28/05/2007   Por: Silmara
+  *    Alterac?o: Foi alterado os parametros para gravar em maiusculo
+  *    Funcao: Cadastrar Tipos de Atendimentos
+  *
+  *******************************************************************/
+
+  begin
+
+    INSERT INTO TB_TIS_TAT_TP_ATENDIMENTO
+    (
+       TIS_TAT_CD_TPATENDIMENTO,
+       TIS_TAT_DS_TPATENDIMENTO,
+       TIS_TAT_FL_STATUS,
+       TIS_TAT_DT_CRIACAO,
+        SEG_USU_ID_USUARIO_CRIACAO,
+        TIS_TAT_DT_ULT_ATUALIZACAO,
+        SEG_USU_ID_USU_ULT_ATUALIZ
+
+    )
+    VALUES
+    (
+      pTIS_TAT_CD_TPATENDIMENTO,
+      UPPER(pTIS_TAT_DS_TPATENDIMENTO),
+      pTIS_TAT_FL_STATUS,
+      SYSDATE,
+      pSEG_USU_ID_USUARIO_CRIACAO,
+      SYSDATE,
+      pSEG_USU_ID_USU_ULT_ATUALIZ
+
+    );
+
+  end PRC_TIS_TAT_TP_ATENDIMENTO_I;
+ 

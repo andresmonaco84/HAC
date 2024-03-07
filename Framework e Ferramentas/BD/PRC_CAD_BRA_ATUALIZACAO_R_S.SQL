@@ -1,0 +1,109 @@
+CREATE OR REPLACE PROCEDURE PRC_CAD_BRA_ATUALIZACAO_R_S
+(
+     pCAD_BRA_DS_PRODUTO IN TB_CAD_BRA_BRASINDICE.CAD_BRA_DS_PRODUTO%type default null,
+     pVAL_ZERADO IN NUMBER default null, --0 ou 1 
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_BRA_ATUALIZACAO_R_S
+* 
+*    Data Criacao:   02/08/2010   Por: Rafael Coimbra 
+*
+*    Funcao: seleciona os registros da Tabela que tem mnemonico
+*            cadastrado e filtra ou n?o por descric?o.
+*
+*    Data Alteracao:  17/07/2014  Por: Andrea Cazuca
+*    Alteracao:    Inclusao do campo CAD_BRA_FL_RESTRITO
+*
+*    Data Alteracao:  31/01/2017  Por: Andre S. Monaco
+*    Alteracao:    Inclusao do param. pVAL_ZERADO
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+IF (NVL(pVAL_ZERADO,0) = 0) THEN
+  OPEN v_cursor FOR
+  SELECT BRA.CAD_BRA_ID,
+         BRA.CAD_BRA_CD_TISS,
+         BRA.CAD_BRA_NM_MNEMONICO,
+         BRA.CAD_BRA_CD_LAB,
+         BRA.CAD_BRA_DS_LAB,
+         BRA.CAD_BRA_CD_PRODUTO,
+         BRA.CAD_BRA_DS_PRODUTO,
+         BRA.CAD_BRA_CD_APR,
+         BRA.CAD_BRA_DS_APR,
+         NVL(BRA.CAD_BRA_VL_PRECO,0) AS CAD_BRA_VL_PRECO,
+         NVL(BRA.CAD_BRA_QT_EMBALAGEM,0) AS CAD_BRA_QT_EMBALAGEM,
+         BRA.CAD_BRA_TP_PRECO,
+         NVL(BRA.CAD_BRA_VL_PRECO_UNITARIO,0) AS CAD_BRA_VL_PRECO_UNITARIO,
+         BRA.CAD_BRA_ED_EDICAO,
+         NVL(BRA.CAD_BRA_PC_IPI,0)AS CAD_BRA_PC_IPI,
+         BRA.CAD_CME_CLASSIF_MED,
+         DECODE(BRA.CAD_CME_CLASSIF_MED,'1','NEGATIVA','2','POSITIVA','3','NEUTRA') AS Lista,
+         BRA.CAD_BRA_ID_INTEIRO,
+         DECODE(BRA.CAD_BRA_ID_INTEIRO, 'N', 'NAO', 'S', 'SIM', '')AS DescricaoInteiro,
+         BRA.CAD_BRA_ID_FRACIONADO,
+         DECODE(BRA.CAD_BRA_ID_FRACIONADO, 'N', 'NAO', 'S', 'SIM', '')AS DescricaoFracionado,
+         NVL(BRA.CAD_BRA_QT_FRACIONADO,0) AS CAD_BRA_QT_FRACIONADO,
+         BRA.CAD_BRA_DT_ULTIMA_ATUALIZACAO,
+         BRA.SEG_USU_ID_USUARIO,
+         PRD.CAD_PRD_DS_DESCRICAO,
+         PRD.CAD_PRD_ID,
+         PRD.CAD_PRD_FL_FRACIONADO,
+         NVL(PRD.CAD_PRD_VL_PRODUTO,0) AS CAD_PRD_VL_PRODUTO,
+         TRIM (BRA.CAD_BRA_DS_PRODUTO) ||' - '|| TRIM(BRA.CAD_BRA_DS_APR) AS DescricaoApresentacaoProduto,
+         PRD.CAD_TAP_TP_ATRIBUTO,
+         BRA.CAD_BRA_CD_TUSS,
+         BRA.CAD_BRA_FL_RESTRITO,
+         PRD.CAD_PRD_DT_ULTIMA_ATUALIZACAO
+  FROM   TB_CAD_BRA_BRASINDICE BRA, TB_CAD_PRD_PRODUTO PRD
+  WHERE  PRD.CAD_PRD_DS_DESCRICAO LIKE '%' || pCAD_BRA_DS_PRODUTO || '%'
+    AND  BRA.CAD_BRA_NM_MNEMONICO = PRD.CAD_PRD_NM_MNEMONICO       
+    AND  PRD.TIS_MED_CD_TABELAMEDICA = '5'
+  ORDER BY PRD.CAD_PRD_DS_DESCRICAO;
+ELSE
+  OPEN v_cursor FOR
+  SELECT  
+         BRA.CAD_BRA_ID,
+         BRA.CAD_BRA_CD_TISS,
+         BRA.CAD_BRA_NM_MNEMONICO,
+         BRA.CAD_BRA_CD_LAB,
+         BRA.CAD_BRA_DS_LAB,
+         BRA.CAD_BRA_CD_PRODUTO,
+         BRA.CAD_BRA_DS_PRODUTO,
+         BRA.CAD_BRA_CD_APR,
+         BRA.CAD_BRA_DS_APR,
+         NVL(BRA.CAD_BRA_VL_PRECO,0) AS CAD_BRA_VL_PRECO,
+         NVL(BRA.CAD_BRA_QT_EMBALAGEM,0) AS CAD_BRA_QT_EMBALAGEM,
+         BRA.CAD_BRA_TP_PRECO,
+         NVL(BRA.CAD_BRA_VL_PRECO_UNITARIO,0) AS CAD_BRA_VL_PRECO_UNITARIO,
+         BRA.CAD_BRA_ED_EDICAO,
+         NVL(BRA.CAD_BRA_PC_IPI,0)AS CAD_BRA_PC_IPI,
+         BRA.CAD_CME_CLASSIF_MED,
+         DECODE(BRA.CAD_CME_CLASSIF_MED,'1','NEGATIVA','2','POSITIVA','3','NEUTRA') AS Lista,
+         BRA.CAD_BRA_ID_INTEIRO,
+         DECODE(BRA.CAD_BRA_ID_INTEIRO, 'N', 'NAO', 'S', 'SIM', '')AS DescricaoInteiro,
+         BRA.CAD_BRA_ID_FRACIONADO,
+         DECODE(BRA.CAD_BRA_ID_FRACIONADO, 'N', 'NAO', 'S', 'SIM', '')AS DescricaoFracionado,
+         NVL(BRA.CAD_BRA_QT_FRACIONADO,0) AS CAD_BRA_QT_FRACIONADO,
+         BRA.CAD_BRA_DT_ULTIMA_ATUALIZACAO,
+         BRA.SEG_USU_ID_USUARIO,
+         PRD.CAD_PRD_DS_DESCRICAO,
+         PRD.CAD_PRD_ID,
+         PRD.CAD_PRD_FL_FRACIONADO,
+         NVL(PRD.CAD_PRD_VL_PRODUTO,0) AS CAD_PRD_VL_PRODUTO,
+         TRIM (BRA.CAD_BRA_DS_PRODUTO) ||' - '|| TRIM(BRA.CAD_BRA_DS_APR) AS DescricaoApresentacaoProduto,
+         PRD.CAD_TAP_TP_ATRIBUTO,
+         BRA.CAD_BRA_CD_TUSS,
+         BRA.CAD_BRA_FL_RESTRITO,
+         PRD.CAD_PRD_DT_ULTIMA_ATUALIZACAO
+  FROM   TB_CAD_BRA_BRASINDICE BRA, TB_CAD_PRD_PRODUTO PRD
+  WHERE  PRD.TIS_MED_CD_TABELAMEDICA = '5'
+     AND PRD.CAD_PRD_DS_DESCRICAO LIKE '%' || pCAD_BRA_DS_PRODUTO || '%'
+     AND (BRA.CAD_BRA_CD_TISS = PRD.CAD_PRD_CD_TABELA_MATMED)
+     AND ((NVL(BRA.CAD_BRA_VL_PRECO,0) = 0 AND NVL(BRA.CAD_BRA_VL_PRECO_UNITARIO,0) = 0 AND PRD.CAD_PRD_FL_STATUS = 'A'))
+  ORDER BY PRD.CAD_PRD_DS_DESCRICAO;
+END IF;
+io_cursor := v_cursor;
+end PRC_CAD_BRA_ATUALIZACAO_R_S;

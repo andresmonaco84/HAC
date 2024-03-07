@@ -1,0 +1,46 @@
+ 
+--PRC_CAD_APM_APRES_PRO_MATMED_L
+create or replace procedure PRC_CAD_APM_APRES_PRO_MATMED_L 
+(
+     pCAD_APM_ID_MATMED IN TB_CAD_APM_APRES_PRO_MATMED.CAD_APM_ID_MATMED%type DEFAULT NULL,
+     pCAD_APM_DS_PRODUTO IN TB_CAD_APM_APRES_PRO_MATMED.CAD_APM_DS_PRODUTO%type DEFAULT NULL,
+     pCAD_APM_FL_STATUS IN TB_CAD_APM_APRES_PRO_MATMED.CAD_APM_FL_STATUS%type DEFAULT NULL,
+     pCAD_APM_DT_ULTIMA_ATUALIZACAO IN TB_CAD_APM_APRES_PRO_MATMED.CAD_APM_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_CAD_APM_APRES_PRO_MATMED.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_APM_APRES_PRO_MATMED_L
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pCAD_APM_ID_MATMED IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_APM_ID_MATMED = ' || pCAD_APM_ID_MATMED; END IF;
+IF pCAD_APM_DS_PRODUTO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_APM_DS_PRODUTO = ' || CHR(39) || pCAD_APM_DS_PRODUTO || CHR(39); END IF;
+IF pCAD_APM_FL_STATUS IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_APM_FL_STATUS = ' || CHR(39) || pCAD_APM_FL_STATUS || CHR(39); END IF;
+IF pCAD_APM_DT_ULTIMA_ATUALIZACAO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_APM_DT_ULTIMA_ATUALIZACAO = ' || CHR(39) || pCAD_APM_DT_ULTIMA_ATUALIZACAO || CHR(39); END IF;
+IF pSEG_USU_ID_USUARIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_USU_ID_USUARIO = ' || pSEG_USU_ID_USUARIO; END IF;
+ 
+   V_SELECT := '
+SELECT	
+       CAD_APM_ID_MATMED,
+       CAD_APM_DS_PRODUTO,
+       CAD_APM_FL_STATUS,
+       CAD_APM_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO
+FROM TB_CAD_APM_APRES_PRO_MATMED
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_CAD_APM_APRES_PRO_MATMED_L;

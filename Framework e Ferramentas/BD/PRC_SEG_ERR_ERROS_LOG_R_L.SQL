@@ -1,0 +1,52 @@
+
+--PRC_SEG_ERR_ERROS_LOG_R_L
+ create or replace procedure PRC_SEG_ERR_ERROS_LOG_R_L 
+(
+     pSEG_ERR_ID_ERRO IN TB_SEG_ERR_ERROS_LOG.SEG_ERR_ID_ERRO%type DEFAULT NULL,
+     pSEG_ERR_DT_ERRO IN TB_SEG_ERR_ERROS_LOG.SEG_ERR_DT_ERRO%type DEFAULT NULL,
+     pSEG_ERR_DS_URL_ERRO IN TB_SEG_ERR_ERROS_LOG.SEG_ERR_DS_URL_ERRO%type DEFAULT NULL,
+     pSEG_ERR_CD_CODIGO IN TB_SEG_ERR_ERROS_LOG.SEG_ERR_CD_CODIGO%type DEFAULT NULL,
+     pSEG_ERR_DS_ERRO IN TB_SEG_ERR_ERROS_LOG.SEG_ERR_DS_ERRO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_SEG_ERR_ERROS_LOG.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pSEG_ERR_DS_STACK_TRACE IN TB_SEG_ERR_ERROS_LOG.SEG_ERR_DS_STACK_TRACE%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_SEG_ERR_ERROS_LOG_R_L
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pSEG_ERR_ID_ERRO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_ERR_ID_ERRO = ' || pSEG_ERR_ID_ERRO; END IF;
+IF pSEG_ERR_DT_ERRO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_ERR_DT_ERRO = ' || CHR(39) || pSEG_ERR_DT_ERRO || CHR(39); END IF;
+IF pSEG_ERR_DS_URL_ERRO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_ERR_DS_URL_ERRO = ' || CHR(39) || pSEG_ERR_DS_URL_ERRO || CHR(39); END IF;
+IF pSEG_ERR_CD_CODIGO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_ERR_CD_CODIGO = ' || pSEG_ERR_CD_CODIGO; END IF;
+IF pSEG_ERR_DS_ERRO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_ERR_DS_ERRO = ' || CHR(39) || pSEG_ERR_DS_ERRO || CHR(39); END IF;
+IF pSEG_USU_ID_USUARIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_USU_ID_USUARIO = ' || pSEG_USU_ID_USUARIO; END IF;
+IF pSEG_ERR_DS_STACK_TRACE IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_ERR_DS_STACK_TRACE = ' || CHR(39) || pSEG_ERR_DS_STACK_TRACE || CHR(39); END IF;
+ 
+   V_SELECT := '
+SELECT	
+       SEG_ERR_ID_ERRO,
+       SEG_ERR_DT_ERRO,
+       SEG_ERR_DS_URL_ERRO,
+       SEG_ERR_CD_CODIGO,
+       SEG_ERR_DS_ERRO,
+       SEG_USU_ID_USUARIO,
+       SEG_ERR_DS_STACK_TRACE
+FROM TB_SEG_ERR_ERROS_LOG
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_SEG_ERR_ERROS_LOG_R_L;

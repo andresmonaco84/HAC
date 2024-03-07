@@ -1,0 +1,99 @@
+﻿@model IEnumerable<AvisoCirurgiaViewModel>
+
+<meta http-equiv="refresh" content="30" />
+
+<div class="row">
+    <div class="col-xs-6">
+        <img src="~/Content/logo.png" height="180" />
+    </div>
+    <div class="col-xs-6 top30">
+        <h1 class="top30">MAPA CIRÚRGICO</h1>
+    </div>
+</div>
+<div>
+    <div class="col-xs-12 ">
+
+        <table class="table bigb meg text-center">
+            <tr>
+                <th>
+                    Sala Cirúrgica
+                </th>
+                <th>
+                    Situação
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Paciente)
+                </th>
+                <th>
+                    Nascimento
+                </th>
+                <th>
+                    Cirurgião
+                </th>
+            </tr>
+
+            @if (Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr title="@item.Inicio">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sala)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Situacao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nascimento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cirurgiao)
+                        </td>
+                    </tr>
+                }
+
+
+
+            }
+            else
+            {
+                
+                    <tr>
+                        <td colspan="5">
+                            <div style="font-style:italic; text-align:center; color:#bbb; font-size:30px; padding-top:100px;">
+                                Sem informações no momento
+                            </div>
+                        </td>
+                    </tr>
+                
+
+            }
+
+        </table>
+
+
+
+        </div>
+
+
+
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $("#obo").animate({ scrollTop: $(document).height() }, 4000);
+                setTimeout(function () {
+                    $('#obo').animate({ scrollTop: 0 }, 4000);
+                }, 4000);
+                var scrolltopbottom = setInterval(function () {
+                    // 4000 - it will take 4 secound in total from the top of the page to the bottom
+                    $("#obo").animate({ scrollTop: $(document).height() }, 4000);
+                    setTimeout(function () {
+                        $('#obo').animate({ scrollTop: 0 }, 4000);
+                    }, 4000);
+                }, 8000);
+            });
+        </script>

@@ -1,0 +1,481 @@
+create or replace procedure PRC_AGE_AGD_TRANSF_S
+  (
+     pCAD_UNI_ID_UNIDADE IN TB_AGE_ESM_ESCALA_MEDICA.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_AGE_ESM_ESCALA_MEDICA.CAD_LAT_ID_LOCAL_ATENDIMENTO%type DEFAULT NULL,
+     pTIS_CBO_CD_CBOS IN TB_AGE_ESM_ESCALA_MEDICA.TIS_CBO_CD_CBOS%type DEFAULT NULL,
+     pCAD_PRO_ID_PROFISSIONAL IN TB_AGE_ESM_ESCALA_MEDICA.CAD_PRO_ID_PROFISSIONAL%type DEFAULT NULL,
+     pAGE_AGG_DT_AGENDA IN TB_AGE_AGG_AGENDA_GERADA.AGE_AGG_DT_AGENDA%type DEFAULT NULL,
+     pAGE_AGG_HR_AGENDA IN TB_AGE_AGG_AGENDA_GERADA.AGE_AGG_HR_AGENDA%type DEFAULT NULL,
+     pAGE_TRA_TP_TRANSF IN TB_AGE_TRA_TRANSF_AGENDA.AGE_TRA_TP_TRANSF%type DEFAULT NULL,
+     pAGE_AGG_FL_STATUS_HORARIO IN TB_AGE_AGG_AGENDA_GERADA.AGE_AGG_FL_STATUS_HORARIO%type DEFAULT NULL,
+     pAGE_ESM_ID IN TB_AGE_ESM_ESCALA_MEDICA.AGE_ESM_ID%type DEFAULT NULL,
+     pORIGEM_DESTINO CHAR,
+     pRESUMO CHAR,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_AGE_AGD_TRANSF_S
+  * 
+  *    Data Criacao: 	21/08/2007           Por: Andrea Cazuca
+  *    Funcao: Lista o resumo da Escala para transferencia
+  *
+  *********************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    IF pAGE_TRA_TP_TRANSF = '1' THEN /* Verifica se é transferencia por Data Especifica */
+       IF pORIGEM_DESTINO = 'O' THEN /* Quando for o grid de Origem */
+          IF pRESUMO = 'S' THEN      /* Se for Resumo */
+              OPEN v_cursor FOR
+              SELECT ESM.AGE_ESM_ID ESCALA_ORIGEM, PEE.AGE_PEE_DS_PERIODO_ESCALA PERIODO_ESCALA, 
+                     DECODE(AGG_OCU.CONT, NULL, 0, AGG_OCU.CONT) HOR_OCU,
+                     DECODE(RET_OCU.CONT, NULL, 0, RET_OCU.CONT) RET_OCU,
+                     DECODE(RET_ENC.CONT, NULL, 0, RET_ENC.CONT) RET_ENC, null AGENDA_GERADA, 
+                     null AGENDA, null PACIENTE, null STATUS, null TIPO, 
+                     ESM.AGE_ESM_FL_TRANSF TRANSF, DECODE(AGG.AGE_ESF_ID, NULL, NULL, 'F') FALTA, null NOME
+              FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                     TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                      AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                      AND    AGD.AGE_AGD_FL_STATUS = 'P'
+                      AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                      AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO NOT IN(2, 3, 4)
+                      GROUP BY AGG.AGE_ESM_ID) AGG_OCU,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                      AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                      AND    AGD.AGE_AGD_FL_STATUS = 'P'
+                      AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                      AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 4
+                      GROUP BY AGG.AGE_ESM_ID) RET_OCU,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                      AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                      AND    AGD.AGE_AGD_FL_STATUS = 'P'
+                      AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                      AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 2
+                      GROUP BY AGG.AGE_ESM_ID) RET_ENC
+              WHERE   ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+              AND     ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+              AND     ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+              AND     ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+              AND     ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+              AND     ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+              AND     AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+              AND     AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+              AND     AGD.AGE_AGD_FL_STATUS = 'P'
+              AND     AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+              AND     AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+              AND     AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+              AND     AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+              AND     AGG.AGE_ESM_ID = AGG_OCU.AGE_ESM_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_OCU.AGE_ESM_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_ENC.AGE_ESM_ID (+)
+              GROUP BY ESM.AGE_ESM_ID, PEE.AGE_PEE_DS_PERIODO_ESCALA, PEE.AGE_PEE_ID,
+                       AGG_OCU.CONT, RET_OCU.CONT, RET_ENC.CONT, ESM.AGE_ESM_FL_TRANSF,
+                       AGG.AGE_ESF_ID;
+          ELSE                        /* Lista Completa */
+              OPEN v_cursor FOR
+              SELECT ESM.AGE_ESM_ID ESCALA_ORIGEM, PEE.AGE_PEE_DS_PERIODO_ESCALA PERIODO_ESCALA, 
+                     AGG.AGE_AGG_ID AGENDA_GERADA, AGD.AGE_AGD_ID AGENDA, AGG.AGE_AGG_TP_HORARIO TIPO,
+                     AGD.CAD_PAC_ID_PACIENTE PACIENTE, ESM.AGE_ESM_FL_SITUACAO STATUS,
+                     DECODE(AGG_OCU.CONT, NULL, 0, AGG_OCU.CONT) HOR_OCU,
+                     DECODE(RET_OCU.CONT, NULL, 0, RET_OCU.CONT) RET_OCU,
+                     DECODE(RET_ENC.CONT, NULL, 0, RET_ENC.CONT) RET_ENC,
+                     ESM.AGE_ESM_FL_TRANSF TRANSF, DECODE(AGG.AGE_ESF_ID, NULL, NULL, 'F') FALTA, 
+                     PES.CAD_PES_NM_PESSOA NOME, AGE_AGG_HR_AGENDA HORA
+              FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                     TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG, TB_CAD_PAC_PACIENTE PAC,
+                     TB_CAD_PES_PESSOA PES,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                      AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                      AND    AGD.AGE_AGD_FL_STATUS = 'P'
+                      AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                      AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO NOT IN(2, 3, 4)
+                      GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) AGG_OCU,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                      AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                      AND    AGD.AGE_AGD_FL_STATUS = 'P'
+                      AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                      AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 4
+                      GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) RET_OCU,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                      AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                      AND    AGD.AGE_AGD_FL_STATUS = 'P'
+                      AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                      AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 2
+                      GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) RET_ENC
+              WHERE   ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+              AND     ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+              AND     ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+              AND     ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+              AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+              AND     ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+              AND     ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+              AND     AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+              AND     AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+              AND     AGD.AGE_AGD_FL_STATUS = 'P'
+              AND     AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+              AND     AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+              AND     AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+              AND     AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+              AND     AGG.AGE_ESM_ID = AGG_OCU.AGE_ESM_ID (+)
+              AND     AGG.AGE_AGG_ID = AGG_OCU.AGE_AGG_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_OCU.AGE_ESM_ID (+)
+              AND     AGG.AGE_AGG_ID = RET_OCU.AGE_AGG_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_ENC.AGE_ESM_ID (+)
+              AND     AGG.AGE_AGG_ID = RET_ENC.AGE_AGG_ID (+)
+              AND     AGD.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+              AND     PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+              GROUP BY ESM.AGE_ESM_ID, PEE.AGE_PEE_DS_PERIODO_ESCALA, AGG.AGE_AGG_ID, AGD.AGE_AGD_ID, 
+                     AGG.AGE_AGG_TP_HORARIO, AGD.CAD_PAC_ID_PACIENTE, ESM.AGE_ESM_FL_SITUACAO,
+                     AGG_OCU.CONT, RET_OCU.CONT, RET_ENC.CONT, ESM.AGE_ESM_FL_TRANSF, AGG.AGE_ESF_ID, 
+                     PES.CAD_PES_NM_PESSOA, AGG.AGE_AGG_HR_AGENDA;
+           END IF;
+
+       ELSIF pORIGEM_DESTINO = 'D' THEN /* Quando for o grid de Destino */
+          IF pRESUMO = 'S' THEN         /* Se for Resumo */
+              OPEN v_cursor FOR
+              SELECT ESM.AGE_ESM_ID ESCALA_DESTINO, PEE.AGE_PEE_DS_PERIODO_ESCALA PERIODO_ESCALA, 
+                     DECODE(AGG_LIB.CONT, NULL, 0, AGG_LIB.CONT) HOR_LIB,
+                     DECODE(RET_LIB.CONT, NULL, 0, RET_LIB.CONT) RET_LIB,
+                     DECODE(RET_ENC.CONT, NULL, 0, RET_ENC.CONT) RET_ENC, null AGENDA_GERADA, 
+                     null AGENDA, null PACIENTE, null STATUS, null TIPO, 
+                     ESM.AGE_ESM_FL_TRANSF TRANSF, DECODE(AGG.AGE_ESF_ID, NULL, NULL, 'F') FALTA,
+                     null HORA
+              FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                     TB_AGE_AGG_AGENDA_GERADA AGG,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO NOT IN (2, 3, 4)
+                      GROUP BY AGG.AGE_ESM_ID) AGG_LIB,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 4
+                      GROUP BY AGG.AGE_ESM_ID) RET_LIB,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 2
+                      GROUP BY AGG.AGE_ESM_ID) RET_ENC
+              WHERE   ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+              AND     ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+              AND     ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+              AND     ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+              AND     ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+              AND     ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+              AND     AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+              AND     AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+              AND     AGG.AGE_ESM_ID = AGG_LIB.AGE_ESM_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_LIB.AGE_ESM_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_ENC.AGE_ESM_ID (+)
+              GROUP BY ESM.AGE_ESM_ID, PEE.AGE_PEE_DS_PERIODO_ESCALA, PEE.AGE_PEE_ID,
+                       AGG_LIB.CONT, RET_LIB.CONT, RET_ENC.CONT, ESM.AGE_ESM_FL_TRANSF,
+                       AGG.AGE_ESF_ID;
+          ELSE                        /* Lista Completa */
+              OPEN v_cursor FOR
+              SELECT ESM.AGE_ESM_ID ESCALA_DESTINO, PEE.AGE_PEE_DS_PERIODO_ESCALA PERIODO_ESCALA, 
+                     AGG.AGE_AGG_ID AGENDA_GERADA, AGG.AGE_AGG_TP_HORARIO TIPO, ESM.AGE_ESM_FL_SITUACAO STATUS,
+                     DECODE(AGG_LIB.CONT, NULL, 0, AGG_LIB.CONT) HOR_LIB,
+                     DECODE(RET_LIB.CONT, NULL, 0, RET_LIB.CONT) RET_LIB,
+                     DECODE(RET_ENC.CONT, NULL, 0, RET_ENC.CONT) RET_ENC,
+                     ESM.AGE_ESM_FL_TRANSF TRANSF, DECODE(AGG.AGE_ESF_ID, NULL, NULL, 'F') FALTA,
+                     AGG.AGE_AGG_HR_AGENDA HORA
+              FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                     TB_AGE_AGG_AGENDA_GERADA AGG,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO NOT IN(2, 3, 4)
+                      GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) AGG_LIB,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 4
+                      GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) RET_LIB,
+                     (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                      FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                             TB_AGE_AGG_AGENDA_GERADA AGG
+                      WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                      AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                      AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                      AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                      AND    ESM.AGE_ESM_ID = pAGE_ESM_ID
+                      AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                      AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                      AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                      AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                      AND    AGE_AGG_TP_HORARIO = 2
+                      GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) RET_ENC
+              WHERE   ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+              AND     ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+              AND     ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+              AND     ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+              AND     ESM.AGE_ESM_ID = pAGE_ESM_ID
+              AND     ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+              AND     ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+              AND     AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+              AND     AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+              AND     AGG.AGE_ESM_ID = AGG_LIB.AGE_ESM_ID (+)
+              AND     AGG.AGE_AGG_ID = AGG_LIB.AGE_AGG_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_LIB.AGE_ESM_ID (+)
+              AND     AGG.AGE_AGG_ID = RET_LIB.AGE_AGG_ID (+)
+              AND     AGG.AGE_ESM_ID = RET_ENC.AGE_ESM_ID (+)
+              AND     AGG.AGE_AGG_ID = RET_ENC.AGE_AGG_ID (+)
+              GROUP BY ESM.AGE_ESM_ID, PEE.AGE_PEE_DS_PERIODO_ESCALA, AGG.AGE_AGG_ID, AGG.AGE_AGG_TP_HORARIO,
+                    AGG_LIB.CONT, RET_LIB.CONT, RET_ENC.CONT, AGG.AGE_AGG_TP_HORARIO, ESM.AGE_ESM_FL_TRANSF, 
+                    AGG.AGE_ESF_ID, ESM.AGE_ESM_FL_SITUACAO, AGG.AGE_AGG_HR_AGENDA;
+          END IF;
+       END IF;
+                 
+    ELSIF pAGE_TRA_TP_TRANSF = '2' THEN  /* Verifica se é transferencia por Data e Hora Especifica */
+       IF pORIGEM_DESTINO = 'O' THEN  /* Quando for o grid de Origem */
+          OPEN v_cursor FOR
+          SELECT ESM.AGE_ESM_ID ESCALA_ORIGEM, PEE.AGE_PEE_DS_PERIODO_ESCALA PERIODO_ESCALA, 
+                 AGG.AGE_AGG_ID AGENDA_GERADA, AGD.AGE_AGD_ID AGENDA, AGG.AGE_AGG_TP_HORARIO TIPO,
+                 AGD.CAD_PAC_ID_PACIENTE PACIENTE, ESM.AGE_ESM_FL_SITUACAO STATUS,
+                 DECODE(AGG_OCU.CONT, NULL, 0, AGG_OCU.CONT) HOR_OCU,
+                 DECODE(RET_OCU.CONT, NULL, 0, RET_OCU.CONT) RET_OCU,
+                 ESM.AGE_ESM_FL_TRANSF TRANSF, DECODE(AGG.AGE_ESF_ID, NULL, NULL, 'F') FALTA, null RET_ENC,
+                 PES.CAD_PES_NM_PESSOA NOME
+          FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                 TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG, TB_CAD_PAC_PACIENTE PAC,
+                 TB_CAD_PES_PESSOA PES,
+                 (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                  FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                         TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                  WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                  AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                  AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                  AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                  AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                  AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                  AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                  AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                  AND     AGD.AGE_AGD_FL_STATUS = 'P'
+                  AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                  AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                  AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                  AND    AGE_AGG_HR_AGENDA = pAGE_AGG_HR_AGENDA
+                  AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                  AND    AGE_AGG_TP_HORARIO NOT IN (3, 4)
+                  GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) AGG_OCU,
+                 (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                  FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                         TB_AGE_AGD_AGENDA AGD, TB_AGE_AGG_AGENDA_GERADA AGG
+                  WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                  AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                  AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                  AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                  AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                  AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                  AND    AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+                  AND    AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+                  AND     AGD.AGE_AGD_FL_STATUS = 'P'
+                  AND    AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+                  AND    AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+                  AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                  AND    AGE_AGG_HR_AGENDA = pAGE_AGG_HR_AGENDA
+                  AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                  AND    AGE_AGG_TP_HORARIO = 4
+                  GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) RET_OCU
+          WHERE   ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+          AND     ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+          AND     ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+          AND     ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+          AND     ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+          AND     ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+          AND     AGG.AGE_AGG_ID = AGD.AGE_AGG_ID
+          AND     AGG.AGE_ESM_ID = AGD.AGE_ESM_ID
+          AND     AGD.AGE_AGD_FL_STATUS = 'P'
+          AND     AGG.AGE_AGG_DT_AGENDA = AGD.AGE_AGD_DT_ATENDIMENTO
+          AND     AGG.AGE_AGG_HR_AGENDA = AGD.AGE_AGD_HR_ATENDIMENTO
+          AND     AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+          AND     AGE_AGG_HR_AGENDA = pAGE_AGG_HR_AGENDA
+          AND     AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+          AND     AGG.AGE_ESM_ID = AGG_OCU.AGE_ESM_ID (+)
+          AND     AGG.AGE_AGG_ID = AGG_OCU.AGE_AGG_ID (+)
+          AND     AGG.AGE_ESM_ID = RET_OCU.AGE_ESM_ID (+)
+          AND     AGG.AGE_AGG_ID = RET_OCU.AGE_AGG_ID (+)
+          AND     AGD.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE
+          AND     PAC.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA
+          GROUP BY ESM.AGE_ESM_ID, PEE.AGE_PEE_DS_PERIODO_ESCALA, AGG.AGE_AGG_ID, AGD.AGE_AGD_ID, 
+                     AGG.AGE_AGG_TP_HORARIO, AGD.CAD_PAC_ID_PACIENTE, ESM.AGE_ESM_FL_SITUACAO,
+                     AGG_OCU.CONT, RET_OCU.CONT, ESM.AGE_ESM_FL_TRANSF, AGG.AGE_ESF_ID, PES.CAD_PES_NM_PESSOA;
+                
+       ELSIF pORIGEM_DESTINO = 'D' THEN /* Quando for o grid de Destino */
+          OPEN v_cursor FOR
+          SELECT ESM.AGE_ESM_ID ESCALA_DESTINO, PEE.AGE_PEE_DS_PERIODO_ESCALA PERIODO_ESCALA, 
+                 AGG.AGE_AGG_ID AGENDA_GERADA, AGG.AGE_AGG_TP_HORARIO TIPO,
+                 DECODE(AGG_LIB.CONT, NULL, 0, AGG_LIB.CONT) HOR_LIB,
+                 DECODE(RET_LIB.CONT, NULL, 0, RET_LIB.CONT) RET_LIB,
+                 ESM.AGE_ESM_FL_TRANSF TRANSF, DECODE(AGG.AGE_ESF_ID, NULL, NULL, 'F') FALTA,
+                 ESM.AGE_ESM_FL_SITUACAO STATUS, null HORA
+          FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                 TB_AGE_AGG_AGENDA_GERADA AGG,
+                 (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                  FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                         TB_AGE_AGG_AGENDA_GERADA AGG
+                  WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                  AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                  AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                  AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                  AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                  AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                  AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                  AND    AGE_AGG_HR_AGENDA = pAGE_AGG_HR_AGENDA
+                  AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                  AND    AGE_AGG_TP_HORARIO NOT IN (3, 4)
+                  GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) AGG_LIB,
+                 (SELECT COUNT(*) CONT, AGG.AGE_ESM_ID, AGG.AGE_AGG_ID
+                  FROM   TB_AGE_ESM_ESCALA_MEDICA ESM, TB_AGE_PEE_PERIODO_ESCALA PEE, 
+                         TB_AGE_AGG_AGENDA_GERADA AGG
+                  WHERE  ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+                  AND    ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+                  AND    ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+                  AND    ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+                  AND    ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+                  AND    ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+                  AND    AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+                  AND    AGE_AGG_HR_AGENDA = pAGE_AGG_HR_AGENDA
+                  AND    AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+                  AND    AGE_AGG_TP_HORARIO = 4
+                  GROUP BY AGG.AGE_ESM_ID, AGG.AGE_AGG_ID) RET_LIB
+          WHERE   ESM.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS
+          AND     ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+          AND     ESM.CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+          AND     ESM.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL
+          AND     ESM.AGE_PEE_ID = PEE.AGE_PEE_ID
+          AND     ESM.AGE_ESM_ID = AGG.AGE_ESM_ID
+          AND     AGE_AGG_DT_AGENDA = pAGE_AGG_DT_AGENDA
+          AND     AGE_AGG_HR_AGENDA = pAGE_AGG_HR_AGENDA
+          AND     AGE_AGG_FL_STATUS_HORARIO = pAGE_AGG_FL_STATUS_HORARIO
+          AND     AGG.AGE_ESM_ID = AGG_LIB.AGE_ESM_ID (+)
+          AND     AGG.AGE_AGG_ID = AGG_LIB.AGE_AGG_ID (+)
+          AND     AGG.AGE_ESM_ID = RET_LIB.AGE_ESM_ID (+)
+          AND     AGG.AGE_AGG_ID = RET_LIB.AGE_AGG_ID (+)
+          GROUP BY ESM.AGE_ESM_ID, PEE.AGE_PEE_DS_PERIODO_ESCALA, AGG.AGE_AGG_ID, AGG.AGE_AGG_TP_HORARIO,
+                   AGG_LIB.CONT, RET_LIB.CONT, AGG.AGE_AGG_TP_HORARIO, ESM.AGE_ESM_FL_TRANSF, AGG.AGE_ESF_ID,
+                   ESM.AGE_ESM_FL_SITUACAO;
+       END IF;
+    END IF;
+    io_cursor := v_cursor;
+  end PRC_AGE_AGD_TRANSF_S;
+/

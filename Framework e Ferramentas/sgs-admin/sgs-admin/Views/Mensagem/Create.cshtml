@@ -1,0 +1,99 @@
+﻿@model sgs_admin.Models.Mensagem
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#Inicio").focus();
+        $('#LogoImagem').val('ti');
+        $('#ti').val(true);
+    });
+
+   
+
+    function rbAltera(id) {
+        $('#LogoImagem').val(id);
+    } 
+</script>
+
+@*@using (Html.BeginForm("Create", "Mensagem", FormMethod.Post, new { id = "formBacana"})) *@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false)
+    
+    <fieldset>
+        <legend>Mensagem</legend>
+
+        <div class="editor-label" style="display: inline-block;">
+            @Html.LabelFor(model => model.Inicio)
+        </div>
+        <div class="editor-field focus"  style="display: inline-block;">
+            @*@Html.TextBoxFor(model => model.Inicio, new { required = "required" })*@
+            @Html.TextBoxFor(model => model.Inicio)
+        </div>
+
+        <div class="editor-label"  style="display: inline-block;">
+            @Html.LabelFor(model => model.Fim)
+        </div>
+        <div class="editor-field"  style="display: inline-block;">
+            @Html.EditorFor(model => model.Fim)
+            @*@Html.ValidationMessageFor(model => model.Fim)*@
+        </div>
+
+        <div class="editor-label" >
+            @Html.LabelFor(model => model.Sistema)
+        </div>
+        <div class="editor-field textboxUpper"  style="display: inline-block;">
+            @*@Html.EditorFor(model => model.Sistema)*@
+            @*@Html.ValidationMessageFor(model => model.Sistema)*@
+            @*@Html.EditorFor(model => model.Sistema, new { @class = "form-control", id = "Sistema" , @Value = "teste" })*@
+            @Html.TextBoxFor(model => model.Sistema, new { @class = "form-control", id = "Sistema" , @Value="SGS", @readonly="readonly" } )
+        </div>
+         
+        <div class="editor-field"  style="display: inline-block;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.LogoImagem, htmlAttributes: new { @class = "control-label col-md-2" })
+            
+                     <input type="radio" id="ti" name="imagem" value="ti" checked onchange="rbAltera('ti')" style="width:40px"> TI
+                      <input type="radio" id="hac" name="imagem" value="hac" onchange="rbAltera('hac')" style="width:40px"> HAC
+                      <input type="radio" id="uhg" name="imagem" value="uhg" onchange="rbAltera('uhg')" style="width:40px"> UHG
+
+                    @Html.TextBoxFor(model => model.LogoImagem, htmlAttributes: new { @class = "form-control", id = "LogoImagem", name ="LogoImagem", @readonly="readonly" })
+            </div>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Texto)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Texto, new {style = "width: 700px;height:230px"})
+            @*@Html.EditorFor(model => model.Texto)*@
+            @*@Html.ValidationMessageFor(model => model.Texto)*@
+        </div>
+        
+        @*@Html.HiddenFor(model => model.Status);*@
+
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Status, new { visible = "false" } )
+            //@Html.ValidationMessageFor(model => model.Status)
+        </div>*@
+
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.Modulo)
+        </div>
+        <div class="editor-field numeric-only">
+            @Html.EditorFor(model => model.Modulo)
+        </div>*@
+
+        <p>
+            <input type="submit" value="Salvar" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>

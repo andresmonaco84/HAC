@@ -1,0 +1,660 @@
+﻿##|TYPE Template
+##|UNIQUEID 08f1ecdb-741b-4340-bf26-807adae2e1b5
+##|TITLE Gerador de Procedures Oracle
+##|NAMESPACE 
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE PL/SQL
+##|GUI_ENGINE Microsoft Script
+##|GUI_LANGUAGE VBScript
+##|GUI_BEGIN
+Dim cmbDatabases
+Dim lstTables
+
+Sub setup()
+  
+	If Not input.Contains("lstTables") Or Not input.Contains("txtPath") Then
+
+		ui.Title = "Select tables for this Template."
+		ui.Width  = 330
+		ui.Height = 455
+
+		' Se o valor default do Caminho de Saída dos Arquivos estiver gravado
+		Dim sOutputPath
+		sOutputPath = ""
+		If input.Contains("defaultOutputPath") Then 
+			sOutputPath = "C:\Geracao\SQL"
+		End If
+
+		ui.AddLabel "lblPath", "Output file path: ",  "Select the output path."
+		ui.AddTextBox "txtPath", sOutputPath, "Select the Output Path."
+		ui.AddFilePicker "btnPath", "Select Path", "Select the Output Path.", "txtPath", true
+
+		'Prefixo da Procedure
+		ui.AddLabel "lblPrefixo", "Prefixo da procedure: ",  "Informe o prefixo da procedure (não obrigatório)."
+		ui.AddTextBox "txtPrefixo", "PRC_" , ""
+
+		' Preenche um listbox com a lista de tabelas
+		ui.AddLabel "lblDatabases", "Select a database:", "Select a database in the dropdown below."
+		Set cmbDatabases = ui.AddComboBox("cmbDatabase", "Select a database.")
+
+		' List Tables in a listbox
+		ui.AddLabel "lblTables", "Select tables:", "Select tables from the listbox below."
+		Set lstTables = ui.AddListBox ("lstTables", "Select tables:")
+		lstTables.IsMultiSelect = true
+		lstTables.Height = 150
+
+		' Adiciona o evento onchange
+		setupDatabaseDropdown cmbDatabases
+		cmbDatabases.AttachEvent "onchange", "cmbDatabases_onchange"
+		
+		'Posiciona a combo de database e seleciona as tables
+		cmbDatabases.SelectedValue = "SGS"
+		cmbDatabases_onchange(cmbDatabases)
+
+		ui.ShowGUI = true
+	Else 
+		ui.ShowGUI = false
+	End if
+
+End Sub
+
+Sub setupDatabaseDropdown(cmbDatabases)
+	cmbDatabases.BindData MyMeta.Databases
+
+	If Not MyMeta.DefaultDatabase Is Nothing Then
+		cmbDatabases.SelectedValue = MyMeta.DefaultDatabase.Name
+		bindTables cmbDatabases.SelectedValue
+	End If
+End Sub
+
+Sub bindTables(sDatabase)
+	Set db = MyMeta.Databases(sDatabase)
+	lstTables.BindData(db.Tables)
+End Sub
+
+' Event Handler
+Sub cmbDatabases_onchange(control)
+	Set cmbDatabases = ui.item("cmbDatabase")
+	bindTables cmbDatabases.SelectedText
+End Sub
+
+'Monta o nome da procedure a partir do nome da tabela e tipo
+'Ex: nome da tabela = TB_SEG_MOD_MODULO
+'    tipo = _D
+'Ex. Retorno = PRC_SEG_MOD_MODULO_D
+Function MontaNomeProcedure(strNomeTabela, strTipo)
+	dim strRetorno
+	strRetorno = mid(ucase(TrimSpaces(strNomeTabela)),4)
+	strRetorno = strPrefixoProcedure & strRetorno + strTipo
+	MontaNomeProcedure = strRetorno
+End Function
+##|GUI_END
+##|BODY_MODE Markup
+##|BODY_ENGINE Microsoft Script
+##|BODY_LANGUAGE VBScript
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%
+'------------------------------------------------------------------------------
+' Gerador_StoredProcedureOracle.vbgen
+' Data de Criação : 18/03/2008
+' Autor: Bruno Alvares da Costa
+'
+' Última Alteração: 
+'------------------------------------------------------------------------------
+'
+'  Este Template gera 4 stored procedures
+
+'  1) [Prefixo][TableName]_s - Sel
+'  2) [Prefixo][TableName]_u - Upd
+'  3) [Prefixo][TableName]_i - Ins
+'  4) [Prefixo][TableName]_d - Del
+'
+'======================================================================
+Dim lstNomeTabelasSelecionadas  ' Lista de Nomes de Tabelas Selecionadas pelo Usuario
+Dim objDataBase			' Objeto Base de Dados
+Dim objTabela			' Objeto que recebe uma tabela do objDataBase
+Dim objColuna			' Objeto que recebe uma coluna da tabela objTabela
+Dim strNomeProcedure	' Nome da procedure gerada
+Dim strPrefixoProcedure	' Prefixo da Procedure (ex.: 'prc_pro_usuario')
+Dim strNomeBaseDados  	' Nome da Base de Dados
+Dim bInFirst
+
+' Pega o prefixo da procedure
+strPrefixoProcedure = ucase(input.Item("txtPrefixo"))
+
+' Pega o nome da Base de Dados
+strNomeBaseDados  = input.Item("cmbDatabase")
+Set objDataBase = MyMeta.Databases(strNomeBaseDados)
+
+' Pega a lista de tabelas selecionadas pelo usurio
+Set lstNomeTabelasSelecionadas = input.Item("lstTables")
+
+' ------------- INICIA A GERAÇÃO DAS STORED PROCEDURES -------------
+' Verifica se alguma tabela foi selecionada
+IF lstNomeTabelasSelecionadas.Count > 0 THEN
+
+For Each objTabelaCombo in lstNomeTabelasSelecionadas
+
+	Set objTabela = objDataBase.Tables(objTabelaCombo)
+	Set props = objTabela.Properties
+		
+	If objTabela.PrimaryKeys.Count = 0 Then
+		' Mensagem de erro
+		output.write "-- ERRO: A tabela '" & objTabela.Name & "' precisa ter uma chave primária." & vbCrLf
+		return 
+	End If%> 
+  --<%= MontaNomeProcedure(objTabela.Name, "_L")%>
+  create or replace procedure <%= MontaNomeProcedure(objTabela.Name, "_L")%> 
+  (
+<%
+	' list all keys as parameters
+	bInFirst = True
+	For Each objColuna in objTabela.Columns
+
+		If Not bInFirst Then 
+			output.write  "," & vbCrLf
+		End if	
+
+		bInFirst = false
+		output.write "     p" & GetParameterName(objColuna) & " IN " & objTabela.Name & "." & objColuna.Name & "%type DEFAULT NULL"
+	Next	
+	
+	If Not bInFirst Then 
+		output.write  "," & vbCrLf
+	End if		
+	output.write "     io_cursor OUT PKG_CURSOR.t_cursor" 
+%>
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: <%= MontaNomeProcedure(objTabela.Name, "_L")%>
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+<%	' Lista todos os campos
+	bInFirst = true
+	For Each objColuna in objTabela.Columns
+
+		If Not bInFirst Then 
+			output.write  "," & vbCrLf
+		End if	
+
+		bInFirst = false			
+
+		output.write "       " & objColuna.Name
+	Next
+%>
+    FROM <%output.write objTabela.Name %>
+    WHERE
+<%
+	bInFirst = True
+	For Each objColuna in objTabela.Columns
+
+		If Not bInFirst Then 
+			output.write  " AND " & vbCrLf
+		End if	
+
+		bInFirst = false	
+
+		output.write "        (p" & GetParameterName(objColuna) & " is null OR " & objColuna.Name & " = p" & GetParameterName(objColuna) & ")"
+	Next
+	output.write  ";"
+%>          
+    io_cursor := v_cursor;
+  end <%= MontaNomeProcedure(objTabela.Name, "_L")%>;
+<%	'**************************************************
+	'Grava 1 procedure por arquivo
+	'**************************************************
+	Dim strNomeArquivoSaida
+	strNomeArquivoSaida = input.item("txtPath")
+
+	Dim intTamanho
+	Dim intPosicaoBarra
+	intTamanho = Len(strNomeArquivoSaida)
+	intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+
+	If Not intPosicaoBarra = intTamanho Then
+		strNomeArquivoSaida = strNomeArquivoSaida & "\"
+	End If
+
+	strNomeArquivoSaida = strNomeArquivoSaida & MontaNomeProcedure(objTabela.Name, "_L") & ".SQL"
+
+	output.save strNomeArquivoSaida, false
+	strBuffer = strBuffer & output.text
+	output.clear
+%>
+
+  --<%= MontaNomeProcedure(objTabela.Name, "_S")%>
+  create or replace procedure <%= MontaNomeProcedure(objTabela.Name, "_S")%> 
+  (
+<%
+	' list all keys as parameters
+	bInFirst = true
+	For Each objColuna in objTabela.PrimaryKeys
+
+		' check if at end of keys
+		If Not bInFirst Then
+			output.write "," & vbCrLf
+		End If
+
+		bInFirst = false
+
+		output.write "     p" & GetParameterName(objColuna) & " IN " & objTabela.Name & "." & objColuna.Name & "%type"
+	Next
+   output.write "," & vbCrLf
+   output.write "     io_cursor OUT PKG_CURSOR.t_cursor" 
+%>
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: <%= MontaNomeProcedure(objTabela.Name, "_S")%>
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT	
+<%	' Lista todos os campos
+	bInFirst = true
+	For Each objColuna in objTabela.Columns
+
+		If Not bInFirst Then 
+			output.write  "," & vbCrLf
+		End if	
+
+		bInFirst = false			
+
+		output.write "       " & objColuna.Name
+	Next
+%>
+    FROM <%output.write objTabela.Name %>
+    WHERE
+<%
+  ' Compare keys with parameters
+	blnFirst = True
+	For Each objColuna In objTabela.PrimaryKeys
+		If Not blnFirst Then 
+			output.write vbCrLf & "    AND " & objColuna.Name & " = p" & GetParameterName(objColuna)
+		Else
+			output.write "        " & objColuna.Name & " = p" & GetParameterName(objColuna) 
+		End if
+		blnFirst = False
+	Next
+	output.write  ";"
+%>          
+    io_cursor := v_cursor;
+  end <%= MontaNomeProcedure(objTabela.Name, "_S")%>;
+<%	'**************************************************
+	'Grava 1 procedure por arquivo
+	'**************************************************
+	
+	strNomeArquivoSaida = input.item("txtPath")
+
+	intTamanho = Len(strNomeArquivoSaida)
+	intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+
+	If Not intPosicaoBarra = intTamanho Then
+		strNomeArquivoSaida = strNomeArquivoSaida & "\"
+	End If
+
+	strNomeArquivoSaida = strNomeArquivoSaida & MontaNomeProcedure(objTabela.Name, "_S") & ".SQL"
+
+	output.save strNomeArquivoSaida, false
+	strBuffer = strBuffer & output.text
+	output.clear
+%>
+
+  --<%= MontaNomeProcedure(objTabela.Name, "_I")%>
+  create or replace procedure <%= MontaNomeProcedure(objTabela.Name, "_I")%>
+  (
+<%
+	dim blnPossuiSequence
+	dim strPropNameSequence
+	blnPossuiSequence = false
+	strPropNameSequence = "SEQ:I:" + ucase(objTabela.name)
+	For Each objColuna in objTabela.Columns					
+		If props.ContainsKey(strPropNameSequence) Then					
+			output.write "     pNewIdt OUT integer," & vbCrLf
+			blnPossuiSequence = true
+			exit for
+		End If
+	Next
+	
+	' list all fields as parameters
+	bInFirst = true
+	For Each objColuna in objTabela.Columns
+		If Not bInFirst Then 
+			output.write "," & vbCrLf
+		End If 
+
+		bInFirst = false		
+		dir = " IN "
+
+		output.write "     p" & GetParameterName(objColuna) & dir & objTabela.Name & "." & objColuna.Name & "%type"
+				
+		if (objColuna.IsNullable) or (objColuna.IsInPrimaryKey and blnPossuiSequence) then
+			output.write " default NULL"
+		end if
+
+	Next
+%>	
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: <%= MontaNomeProcedure(objTabela.Name, "_I")%>
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/  
+<%  if (blnPossuiSequence) then
+		output.write "    lIdtRetorno integer;" & vbCrLf
+	end if
+%>	  
+  begin
+<%
+	if (blnPossuiSequence) then
+		For Each objColuna in objTabela.Columns					
+			If props.ContainsKey(strPropNameSequence) Then					
+				output.write "    SELECT " & props(strPropNameSequence).Value & ".NextVal INTO lIdtRetorno FROM DUAL;" & vbCrLf
+				exit for
+			End If
+		Next
+	end if
+%>	    
+    INSERT INTO <%output.write objTabela.Name %>
+    (
+<%		' list all fields except identity (if one exists)
+		bInFirst = true
+		For Each objColuna in objTabela.Columns
+
+			' check if field is not an indentity in which case we won't include it into insert list
+			If Not objColuna.IsAutoKey And Not objColuna.IsComputed And Not objColuna.DataTypeName = "timestamp" Then 			
+				If Not bInFirst Then 
+					output.write  "," & vbCrLf
+				End if	
+
+				bInFirst = False
+
+				output.write "       " & objColuna.Name
+			End If
+		Next
+%>
+    )
+    VALUES
+    (
+<%
+		blnFirst = True
+
+		' list all parameters except the one for indetity (if one exists)
+		bInFirst = true
+		For Each objColuna in objTabela.Columns
+
+			if objColuna.IsInPrimaryKey and blnPossuiSequence then				
+				output.write "      lIdtRetorno," & vbcrlf
+			else
+				If Not bInFirst Then 
+					output.write  "," & vbCrLf
+				End if	
+
+				bInFirst = False				
+				output.write "	     p" & GetParameterName(objColuna)			
+			end if
+
+		Next
+%>
+    );
+<%
+	if blnPossuiSequence then
+		output.write "    pNewIdt := lIdtRetorno;"
+	end if
+%>	
+  end <%= MontaNomeProcedure(objTabela.Name, "_I")%>;
+
+<%	'**************************************************
+	'Grava 1 procedure por arquivo
+	'**************************************************
+	strNomeArquivoSaida = input.item("txtPath")
+	intTamanho = Len(strNomeArquivoSaida)
+	intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+
+	If Not intPosicaoBarra = intTamanho Then
+		strNomeArquivoSaida = strNomeArquivoSaida & "\"
+	End If
+
+	strNomeArquivoSaida = strNomeArquivoSaida & MontaNomeProcedure(objTabela.Name, "_I") & ".SQL"
+
+	output.save strNomeArquivoSaida, false
+	strBuffer = strBuffer & output.text
+	output.clear
+%>
+
+  --<%= MontaNomeProcedure(objTabela.Name, "_U")%>
+  create or replace procedure <%= MontaNomeProcedure(objTabela.Name, "_U")%>
+  (
+<%
+    ' list all fields as parameters
+	bInFirst = true
+	For Each objColuna in objTabela.Columns
+
+		If Not bInFirst Then 
+			output.write "," & vbCrLf
+		End If 
+
+		bInFirst = false		
+		dir = " IN "
+
+		output.write "     p" & GetParameterName(objColuna) & dir & objTabela.Name & "." & objColuna.Name & "%type"
+		
+		If (objColuna.IsNullable Or objColuna.IsComputed) And dir = " IN " Then
+			output.write " default NULL"
+		End If		
+
+	Next
+%>
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: <%= MontaNomeProcedure(objTabela.Name, "_U")%>
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/  
+  begin
+    UPDATE <%output.write objTabela.Name %>
+    SET	   
+<%
+		' Lista todos os campos
+		bInFirst = true
+		For Each objColuna in objTabela.Columns
+			
+			If Not objColuna.IsInPrimaryKey And Not objColuna.IsAutoKey And Not objColuna.IsComputed Then
+				If Not bInFirst Then 
+					output.write  "," & vbCrLf
+				End if	
+
+				bInFirst = False				
+				output.write "        " & objColuna.Name & " = p" & GetParameterName(objColuna)			
+			End if
+		Next
+%> 
+    WHERE
+<%
+	' Compara chaves com parametros
+	blnFirst = True
+	For Each objColuna In objTabela.PrimaryKeys
+		If Not blnFirst Then 
+			output.write vbCrLf & "    AND " & objColuna.Name & " = p" & GetParameterName(objColuna)
+		Else
+			output.write "        " & objColuna.Name & " = p" & GetParameterName(objColuna) 
+		End if
+		blnFirst = False
+	Next
+%>;	
+  end <%= MontaNomeProcedure(objTabela.Name, "_U")%>;
+
+<%	'**************************************************
+	'Grava 1 procedure por arquivo
+	'**************************************************
+	strNomeArquivoSaida = input.item("txtPath")
+	intTamanho = Len(strNomeArquivoSaida)
+	intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+
+	If Not intPosicaoBarra = intTamanho Then
+		strNomeArquivoSaida = strNomeArquivoSaida & "\"
+	End If
+
+	strNomeArquivoSaida = strNomeArquivoSaida & MontaNomeProcedure(objTabela.Name, "_U") & ".SQL"
+
+	output.save strNomeArquivoSaida, false
+	strBuffer = strBuffer & output.text
+	output.clear
+%>
+
+  --<%= MontaNomeProcedure(objTabela.Name, "_D")%>
+  create or replace procedure <%= MontaNomeProcedure(objTabela.Name, "_D")%> 
+  (
+<%
+	' list all keys as parameters
+	bInFirst = true
+	For Each objColuna in objTabela.PrimaryKeys
+
+		' check if at end of keys
+		If Not bInFirst Then
+			output.write "," & vbCrLf
+		End If
+
+		bInFirst = false
+
+		output.write "     p" & GetParameterName(objColuna) & " IN " & objTabela.Name & "." & objColuna.Name & "%type"
+	Next
+%>	
+  )
+  is
+  /********************************************************************
+  *    Procedure: <%= MontaNomeProcedure(objTabela.Name, "_D")%>
+  * 
+  *    Data Criacao: 	data da  criação   Por: Nome do Analista
+  *    Data Alteracao:	data da alteração  Por: Nome do Analista
+  *
+  *    Funcao: Descrição da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/    
+  begin
+    DELETE <%output.write objTabela.Name %>
+    WHERE  
+<%
+   ' Compare keys with parameters
+	blnFirst = True
+	For Each objColuna In objTabela.PrimaryKeys
+		If Not blnFirst Then 
+			output.write vbCrLf & "    AND " & objColuna.Name & " = p" & GetParameterName(objColuna)
+		Else
+			output.write "        " & objColuna.Name & " = p" & GetParameterName(objColuna) 
+		End if
+		blnFirst = False
+	Next
+%>;	   
+  end <%= MontaNomeProcedure(objTabela.Name, "_D")%>;
+<%  '**************************************************
+	'Grava 1 procedure por arquivo
+	'**************************************************
+	strNomeArquivoSaida = input.item("txtPath")
+	intTamanho = Len(strNomeArquivoSaida)
+	intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+
+	If Not intPosicaoBarra = intTamanho Then
+		strNomeArquivoSaida = strNomeArquivoSaida & "\"
+	End If
+
+	strNomeArquivoSaida = strNomeArquivoSaida & MontaNomeProcedure(objTabela.Name, "_D") & ".SQL"
+
+	output.save strNomeArquivoSaida, false
+	strBuffer = strBuffer & output.text
+	output.clear	
+Next	
+End If
+%>
+
+<%
+output.write strBuffer
+
+'Se desejar gravar todas as procedures em 1 arquivo só, descomentar o código abaixo
+'==================================================================================
+'strNomeArquivoSaida = input.item("txtPath") 
+'intTamanho = Len(strNomeArquivoSaida) 
+'intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+'
+'If Not intPosicaoBarra = intTamanho Then 
+'  strNomeArquivoSaida = strNomeArquivoSaida & "\" 
+'End If 
+'
+'strNomeArquivoSaida = strNomeArquivoSaida & "_Procs.sql" 
+'output.save strNomeArquivoSaida, false 
+
+%>
+<%
+
+Function GetParameterName(objColuna)
+	Dim name
+	name = TrimSpaces(objColuna.Name)
+	GetParameterName = name
+End Function
+
+'=======================================
+' RETIRA OS ESPAÇOS A DIREITA DA STRING
+'=======================================
+Function TrimSpaces(str)
+
+	Dim tname
+	Dim name
+	Dim char
+	Dim l
+
+	name = ""
+	tname = str
+	l = Len(tname)
+
+	For j = 1 To l
+		char = Mid(tname, j, 1)
+		If Not char = " " Then
+			name = name & char
+		End If
+	Next
+
+	TrimSpaces = name
+End Function
+
+'Monta o nome da procedure a partir do nome da tabela e tipo
+'Ex: nome da tabela = TB_SEG_MOD_MODULO
+'    tipo = _D
+'Ex. Retorno = PRC_SEG_MOD_MODULO_D
+Function MontaNomeProcedure(strNomeTabela, strTipo)
+	dim strRetorno
+	strRetorno = mid(ucase(TrimSpaces(strNomeTabela)),4)
+	strRetorno = strPrefixoProcedure & strRetorno + strTipo
+	MontaNomeProcedure = strRetorno
+End Function
+
+%>
+##|BODY_END

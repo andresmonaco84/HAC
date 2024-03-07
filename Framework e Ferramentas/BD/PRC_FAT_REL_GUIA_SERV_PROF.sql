@@ -1,0 +1,178 @@
+create or replace procedure PRC_FAT_REL_GUIA_SERV_PROF
+  (
+    pLOTE IN TB_FAT_FCL_CONTR_EMI_LOTE.FAT_FCL_NR_SEQ_LOTE%TYPE DEFAULT NULL,
+    --pATD_ATE_TP_PACIENTE IN TB_ATD_ATE_ATENDIMENTO.ATD_ATE_TP_PACIENTE%TYPE DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_FAT_REL_GUIA_SERV_PROF
+  *
+  *    Data Alteracao: 17/03/2010  Por: Pedro
+  *    Alteração:
+  *
+  *    Atendimento Amb. e Internação Externo( não interna, utiliza sala de cirurg.)
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+
+SELECT DISTINCT
+               PAC.CAD_PAC_ID_PACIENTE,
+               ATD.ATD_ATE_ID,
+               DECODE(ATD.ATD_ATE_TP_PACIENTE,'I','INTERNO','E','EXTERNO','A','AMBULATORIO','U','URGENCIA') ATD_ATE_TP_PACIENTE,
+               ATD.ATD_ATE_FL_CARATER_SOLIC,
+               ATD.TIS_TAT_CD_TPATENDIMENTO,
+               TAT.TIS_TAT_DS_TPATENDIMENTO,
+               ATD.TIS_TSC_CD_TIPOSAIDACONSULTA,
+               TSC.TIS_TSC_DS_TIPOSAIDACONSULTA,
+               ATD.TIS_IAC_CD_INDACIDENTE,
+               IAC.TIS_IAC_DS_INDACIDENTE,
+               to_char(ATD.ATD_ATE_DT_ATENDIMENTO,'dd/MM/yyyy') ATD_ATE_DT_ATENDIMENTO,
+               ATD.ATD_ATE_HR_ATENDIMENTO,
+               ATD.ATD_ATE_DS_INDCLINICA,
+               CASE WHEN IDG.ATD_IDG_CD_CIDPRINCIPAL IS NOT NULL THEN
+                         IDG.ATD_IDG_CD_CIDPRINCIPAL
+                         ELSE
+                         ATD.CAD_CID_CD_CID10
+               END ATD_IDG_CD_CIDPRINCIPAL,
+
+               AIC.TIS_TRI_CD_REGINTENNACAO,
+               AIC.TIS_TIN_CD_INTERNACAO,
+
+               COC.FAT_COC_ID,
+               CCP.FAT_CCP_ID,
+               to_char(COC.FAT_COC_ID) || '-' || to_char(CCP.FAT_CCP_ID) conta_parcela,
+
+               UNI.CAD_UNI_DS_UNIDADE UNIDADE,
+               UNI.CAD_UNI_NR_CNES,
+
+               PES_UNI.CAD_PES_NM_RAZAOSOCIAL UNI_NOME,
+               PES_UNI.CAD_PES_NR_CNPJ_CPF UNI_CPF,
+               ENDERECO.AUX_MUN_NM_MUNICIPIO,
+               ENDERECO.CAD_END_NM_BAIRRO,
+               ENDERECO.CAD_END_NM_LOGRADOURO,
+               ENDERECO.CAD_END_DS_NUMERO,
+               ENDERECO.CAD_END_DS_COMPLEMENTO,
+               ENDERECO.CAD_END_SG_UF,
+               ENDERECO.AUX_MUN_CD_IBGE,
+               ENDERECO.CAD_END_CD_CEP,
+               ENDERECO.TIS_TLG_CD_TPLOGRADOURO,
+
+               GUI.ATD_GUI_CD_SENHA,
+               TO_CHAR(GUI.ATD_GUI_DT_EMISSAOGUIA,'dd/MM/yyyy') ATD_GUI_DT_EMISSAOGUIA,
+               GUI.ATD_GUI_CD_CODIGO,
+               TO_CHAR(GUI.ATD_GUI_DT_AUTORIZGUIA,'dd/MM/yyyy') ATD_GUI_DT_AUTORIZGUIA,
+
+               CCP.FAT_CCP_MES_COMPET,
+               CCP.FAT_CCP_ANO_COMPET,
+               CCP.FAT_CCP_MES_FAT,
+               CCP.FAT_CCP_ANO_FAT,
+
+               AIC.ATD_AIC_DS_EMPRESA,
+
+               PAC.CAD_PAC_CD_CREDENCIAL,
+               PAC.CAD_PAC_NR_PRONTUARIO,
+               PES.CAD_PES_NM_PESSOA PACIENTE,
+               PAC.CAD_PAC_DT_VALIDADECREDENCIAL,
+               PES.CAD_PES_NR_RG,
+               PAC.CAD_PAC_NM_TITULAR,
+
+               DECODE(AIC.ATD_AIC_TP_SITUACAO_PAC,'I','INTERNADO','A','ALTA') ATD_AIC_TP_SITUACAO_PAC,
+
+               CNV.CAD_CNV_CD_HAC_PRESTADOR,
+               CNV.CAD_CNV_NM_FANTASIA,
+               PES_CNV.CAD_PES_NM_PESSOA CONVENIO,
+               PLA.CAD_PLA_CD_TIPOPLANO,
+               PLA.CAD_PLA_CD_PLANO_HAC,
+               CNV.CAD_CNV_CD_REG_ANS,
+               CNV.TIS_TFA_CD_TPFATURAMENTO,
+
+ NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,'MED',ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL_MED,
+               NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,'MAT',ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL_MAT,
+               NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,'TAX',ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL_TAX,
+               NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,'DIA',ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL_DIA,
+               NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,'EXA',ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL_EXA,
+               NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,'HM',ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL_HM,
+               
+               NVL(fnc_fat_total_item(COC.FAT_COC_ID,CCP.FAT_CCP_ID,NULL,ATD.ATD_ATE_ID,NULL,NULL,PAC.CAD_PAC_ID_PACIENTE),0) TOTAL
+
+               --TOTAL GASES?  -- TOTAL PROCEDIMENTOS
+
+  FROM
+                TB_FAT_COC_CONTA_CONSUMO    COC
+  JOIN          TB_ATD_ATE_ATENDIMENTO      ATD
+  ON            ATD.ATD_ATE_ID            = COC.ATD_ATE_ID
+  JOIN          TB_FAT_CCP_CONTA_CONS_PARC  CCP
+  ON            CCP.FAT_COC_ID            = COC.FAT_COC_ID
+  AND           CCP.ATD_ATE_ID            = ATD.ATD_ATE_ID 
+  AND           CCP.CAD_PAC_ID_PACIENTE   = COC.CAD_PAC_ID_PACIENTE
+  JOIN          TB_FAT_CCI_CONTA_CONSU_ITEM CCI
+  ON            CCI.FAT_CCP_ID            = CCP.FAT_CCP_ID
+  AND           CCI.FAT_COC_ID            = COC.FAT_COC_ID
+  AND           CCI.ATD_ATE_ID            = ATD.ATD_ATE_ID
+  AND           CCI.CAD_PAC_ID_PACIENTE   = CCP.CAD_PAC_ID_PACIENTE
+  LEFT JOIN     TB_TIS_GPP_GRAU_PART_PROF   GPP
+  ON            GPP.TIS_GPP_CD_GRAU_PART_PROF = CCI.TIS_GPP_CD_GRAU_PART_PROF
+
+  JOIN          TB_CAD_PAC_PACIENTE       PAC
+  ON            PAC.CAD_PAC_ID_PACIENTE = CCP.CAD_PAC_ID_PACIENTE
+  JOIN          TB_CAD_PES_PESSOA         PES
+  ON            PES.CAD_PES_ID_PESSOA   = PAC.CAD_PES_ID_PESSOA
+  JOIN          TB_CAD_CNV_CONVENIO       CNV
+  ON            CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+  JOIN          TB_CAD_PES_PESSOA         PES_CNV
+  ON            PES_CNV.CAD_PES_ID_PESSOA = CNV.CAD_PES_ID_PESSOA
+  JOIN          TB_CAD_PLA_PLANO          PLA
+  ON            PLA.CAD_PLA_ID_PLANO    = PAC.CAD_PLA_ID_PLANO
+  LEFT JOIN          TB_ATD_AIC_ATE_INT_COMPL  AIC
+  ON            AIC.ATD_ATE_ID          = ATD.ATD_ATE_ID
+
+  JOIN          TB_CAD_UNI_UNIDADE          UNI
+  ON            UNI.CAD_UNI_ID_UNIDADE    = ATD.CAD_UNI_ID_UNIDADE
+  JOIN          TB_CAD_PES_PESSOA           PES_UNI
+  ON            PES_UNI.CAD_PES_ID_PESSOA = UNI.CAD_PES_ID_PESSOA
+
+  LEFT JOIN     TB_ATD_IDG_INT_DIAGNOSTICO  IDG
+  ON            IDG.ATD_ATE_ID            = ATD.ATD_ATE_ID
+  LEFT JOIN     TB_CAD_CID_CID10            CID_PRI
+  ON            CID_PRI.CAD_CID_CD_CID10  = IDG.ATD_IDG_CD_CIDPRINCIPAL
+
+  LEFT JOIN     TB_ATD_GUI_GUIAATEND        GUI
+  ON            GUI.ATD_ATE_ID            = CCI.ATD_ATE_ID
+
+  JOIN          TB_TIS_TAT_TP_ATENDIMENTO TAT
+  ON            TAT.TIS_TAT_CD_TPATENDIMENTO = ATD.TIS_TAT_CD_TPATENDIMENTO
+  LEFT JOIN     TB_TIS_IAC_INDACIDENTE IAC
+  ON            IAC.TIS_IAC_CD_INDACIDENTE = ATD.TIS_IAC_CD_INDACIDENTE
+  LEFT JOIN     TB_TIS_TSC_TIPOSAIDACONSULTA TSC
+  ON            TSC.TIS_TSC_CD_TIPOSAIDACONSULTA = ATD.TIS_TSC_CD_TIPOSAIDACONSULTA
+
+   JOIN          TB_FAT_FCL_CONTR_EMI_LOTE FCL
+  ON            FCL.FAT_COC_ID            = COC.FAT_COC_ID
+  AND           FCL.FAT_CCP_ID            = CCP.FAT_CCP_ID
+  AND           FCL.ATD_ATE_ID            = COC.ATD_ATE_ID
+  AND           FCL.ATD_ATE_ID            = CCP.ATD_ATE_ID
+  AND           FCL.ATD_ATE_ID            = CCI.ATD_ATE_ID
+  AND           FCL.CAD_PAC_ID_PACIENTE   = CCP.CAD_PAC_ID_PACIENTE
+  AND           FCL.CAD_PAC_ID_PACIENTE   = COC.CAD_PAC_ID_PACIENTE
+  AND           FCL.CAD_PAC_ID_PACIENTE   = CCI.CAD_PAC_ID_PACIENTE
+  
+  LEFT JOIN    (SELECT  MUN.AUX_MUN_NM_MUNICIPIO,ENDE.CAD_END_NM_BAIRRO,ENDE.TIS_TLG_CD_TPLOGRADOURO, ENDE.CAD_END_NM_LOGRADOURO,ENDE.CAD_END_DS_NUMERO,
+                        ENDE.CAD_END_DS_COMPLEMENTO,ENDE.CAD_END_SG_UF, ENDE.AUX_MUN_CD_IBGE, ENDE.CAD_END_CD_CEP,ENDE.CAD_PES_ID_PESSOA
+                FROM    TB_CAD_END_ENDERECO ENDE,
+                        TB_AUX_MUN_MUNICIPIO MUN
+                WHERE   ENDE.AUX_MUN_CD_IBGE = MUN.AUX_MUN_CD_IBGE
+                --AND     ENDE.AUX_TTE_CD_TP_TEL_END = 1
+                AND     rownum = 1
+               ) ENDERECO
+  ON ENDERECO.CAD_PES_ID_PESSOA = UNI.CAD_PES_ID_PESSOA
+
+
+     WHERE  (FCL.FAT_FCL_NR_SEQ_LOTE = pLOTE)  --34
+   --  AND    ATD.Atd_Ate_Tp_Paciente = pATD_ATE_TP_PACIENTE
+
+
+  ;
+             io_cursor := v_cursor;
+  end PRC_FAT_REL_GUIA_SERV_PROF;

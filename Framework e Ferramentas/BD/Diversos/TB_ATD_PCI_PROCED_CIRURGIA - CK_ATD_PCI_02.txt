@@ -1,0 +1,6 @@
+-- Create/Recreate check constraints 
+alter table TB_ATD_PCI_PROCED_CIRURGIA
+  drop constraint CK_ATD_PCI_02;
+alter table TB_ATD_PCI_PROCED_CIRURGIA
+  add constraint CK_ATD_PCI_02
+  check (ATD_PCI_FL_SITUACAO IN ('A','I','E'));

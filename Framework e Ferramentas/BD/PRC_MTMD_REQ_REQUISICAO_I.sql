@@ -1,0 +1,118 @@
+CREATE OR REPLACE PROCEDURE PRC_MTMD_REQ_REQUISICAO_I
+  (
+     pATD_ATE_ID                   IN TB_MTMD_REQ_REQUISICAO.ATD_ATE_ID%type default NULL,
+     pATD_ATE_TP_PACIENTE          IN TB_MTMD_REQ_REQUISICAO.ATD_ATE_TP_PACIENTE%type default NULL,
+     pMTMD_REQ_FL_STATUS           IN TB_MTMD_REQ_REQUISICAO.MTMD_REQ_FL_STATUS%type default NULL,
+     pCAD_SET_ID                   IN TB_CAD_SET_SETOR.CAD_SET_ID%type,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_CAD_LAT_LOCAL_ATENDIMENTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%TYPE,
+     pCAD_UNI_ID_UNIDADE           IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%type,
+     pMTM_TIPO_REQUISICAO          IN TB_MTMD_REQ_REQUISICAO.MTM_TIPO_REQUISICAO%type,
+     pCAD_MTMD_FILIAL_ID           IN TB_MTMD_REQ_REQUISICAO.CAD_MTMD_FILIAL_ID%type,
+     -- ESSES CAMPO NAO PRECISAM SER PASSADOS COMO PARAMETROS
+     -- pMTMD_DATA_REQUISICAO         IN TB_MTMD_REQ_REQUISICAO.mtmd_data_requisicao%TYPE DEFAULT NULL,
+     -- pMTMD_ID_USUARIO_REQUISICAO   IN TB_MTMD_REQ_REQUISICAO.mtmd_id_usuario_requisicao%TYPE DEFAULT NULL,
+     -- pMTMD_DATA_DISPENSACAO        IN TB_MTMD_REQ_REQUISICAO.mtmd_data_dispensacao%TYPE DEFAULT NULL,
+     -- pMTMD_ID_USUARIO_DISPENSACAO  IN TB_MTMD_REQ_REQUISICAO.mtmd_id_usuario_dispensacao%TYPE DEFAULT NULL,
+     pSEG_USU_ID_USUARIO           IN TB_MTMD_REQ_REQUISICAO.SEG_USU_ID_USUARIO%TYPE DEFAULT NULL,
+     pMTMD_FL_PENDENTE             IN TB_MTMD_REQ_REQUISICAO.MTMD_FL_PENDENTE%TYPE DEFAULT NULL,
+     pMTMD_REQ_ID_REF              IN TB_MTMD_REQ_REQUISICAO.MTMD_REQ_ID_REF%TYPE DEFAULT NULL,
+     pCAD_MTMD_KIT_ID              IN TB_MTMD_REQ_REQUISICAO.CAD_MTMD_KIT_ID%TYPE DEFAULT NULL,
+     pCAD_SET_SETOR_FARMACIA       IN TB_MTMD_REQ_REQUISICAO.CAD_SET_SETOR_FARMACIA%TYPE DEFAULT NULL,
+     pMTMD_REQ_FL_URGENCIA         IN TB_MTMD_REQ_REQUISICAO.MTMD_REQ_FL_URGENCIA%TYPE DEFAULT NULL,
+     pNewIdt                       OUT integer
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_MTMD_REQ_REQUISICAO_I
+  *
+  *    Data Criacao:   06/2009      Por: RICARDO COSTA
+  *    Data Alteracao: 05/12/2014  Por: Andre Monaco
+  *         Alteracao: Validacao de duplicacao de pedidos em digitacao
+  *
+  *    Funcao: INSERE REQUISIC?O
+  *            OBS: A data da requisic?o ( mtmd_data_requisicao ) so e preenchida
+  *                 quando o usuario envia para o almoxarifado
+  *                 antes disto ela fica null
+  *
+  *******************************************************************/
+    lIdtRetorno                 integer;
+    pMTMD_DATA_REQUISICAO       TB_MTMD_REQ_REQUISICAO.mtmd_data_requisicao%TYPE;
+    pMTMD_ID_USUARIO_REQUISICAO TB_MTMD_REQ_REQUISICAO.mtmd_id_usuario_requisicao%TYPE;
+    flPendente TB_MTMD_REQ_REQUISICAO.MTMD_FL_PENDENTE%TYPE;
+    nPedidosAbertos NUMBER := 0;
+  BEGIN
+    -- verifica se requisic?o n?o foi liberada por outra estac?o
+    IF (pMTMD_FL_PENDENTE IS NULL) THEN
+       flPendente := 0;
+    ELSE
+       flPendente := pMTMD_FL_PENDENTE;
+    END IF;
+    IF (flPendente = 0 AND pMTMD_REQ_FL_STATUS = 1 AND pMTM_TIPO_REQUISICAO IN (0,2,6,7) AND NVL(pMTMD_REQ_FL_URGENCIA,0) = 0) THEN -- Validar duplicacao de pedidos em digitacao
+      SELECT COUNT(R.MTMD_REQ_ID)
+        INTO nPedidosAbertos
+        FROM TB_MTMD_REQ_REQUISICAO R
+        WHERE R.MTMD_FL_PENDENTE = 0 AND
+              R.MTMD_REQ_FL_STATUS = 1 AND
+              R.MTM_TIPO_REQUISICAO = pMTM_TIPO_REQUISICAO AND
+              R.CAD_SET_ID = pCAD_SET_ID AND
+              (pATD_ATE_ID IS NULL OR R.ATD_ATE_ID = pATD_ATE_ID);
+       IF (nPedidosAbertos > 1 AND pMTM_TIPO_REQUISICAO = 0) THEN
+          RAISE_APPLICATION_ERROR(-20051,'NAO FOI POSSIVEL SALVAR O PEDIDO, POIS JA TEM UM SENDO DIGITADO PARA ESTE PACIENTE ');
+       ELSIF (nPedidosAbertos > 0 AND pMTM_TIPO_REQUISICAO != 0) THEN
+          RAISE_APPLICATION_ERROR(-20051,'NAO FOI POSSIVEL SALVAR O PEDIDO, POIS JA TEM UM SENDO DIGITADO PARA ESTE SETOR ');
+       END IF;
+    END IF;
+    SELECT SEQ_MTMD_REQUISICAO.NextVal INTO lIdtRetorno FROM DUAL;
+    -- VERIFICA SE A REQUISICAO FOI FECHADA PARA ENVIO PRO ALMOXARIFADO OU RECEBIDA PELO PROCESSO DE TRANSF. DE PACIENTE
+    IF ( pMTMD_REQ_FL_STATUS IN (2,4) ) THEN
+       pMTMD_DATA_REQUISICAO       := SYSDATE;
+       pMTMD_ID_USUARIO_REQUISICAO := pSEG_USU_ID_USUARIO;
+    END IF;
+    INSERT INTO TB_MTMD_REQ_REQUISICAO
+    (
+       MTMD_REQ_ID,
+       ATD_ATE_ID,
+       ATD_ATE_TP_PACIENTE,
+       MTMD_REQ_FL_STATUS,
+       MTMD_REQ_DT_ATUALIZACAO,
+       CAD_SET_ID,
+       CAD_LAT_ID_LOCAL_ATENDIMENTO,
+       CAD_UNI_ID_UNIDADE,
+       MTM_TIPO_REQUISICAO,
+       CAD_MTMD_FILIAL_ID,
+       MTMD_DATA_REQUISICAO,
+       MTMD_ID_USUARIO_REQUISICAO,
+       MTMD_DATA_DISPENSACAO,
+       MTMD_ID_USUARIO_DISPENSACAO,
+       SEG_USU_ID_USUARIO,
+       MTMD_FL_PENDENTE,
+       MTMD_REQ_ID_REF,
+       CAD_MTMD_KIT_ID,
+       CAD_SET_SETOR_FARMACIA,
+       MTMD_REQ_FL_URGENCIA
+    )
+    VALUES
+    (
+       lIdtRetorno,
+       pATD_ATE_ID,
+       pATD_ATE_TP_PACIENTE,
+       pMTMD_REQ_FL_STATUS,
+       SYSDATE,
+       pCAD_SET_ID,
+       pCAD_LAT_ID_LOCAL_ATENDIMENTO,
+       pCAD_UNI_ID_UNIDADE,
+        pMTM_TIPO_REQUISICAO,
+        pCAD_MTMD_FILIAL_ID,
+        pMTMD_DATA_REQUISICAO,
+        pMTMD_ID_USUARIO_REQUISICAO,
+        NULL,
+        NULL,
+        pSEG_USU_ID_USUARIO,
+        flPendente,
+        pMTMD_REQ_ID_REF,
+        pCAD_MTMD_KIT_ID,
+        pCAD_SET_SETOR_FARMACIA,
+        pMTMD_REQ_FL_URGENCIA
+    );
+    pNewIdt := lIdtRetorno;
+  END PRC_MTMD_REQ_REQUISICAO_I;

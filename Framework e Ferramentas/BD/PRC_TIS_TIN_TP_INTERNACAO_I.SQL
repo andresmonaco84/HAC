@@ -1,0 +1,47 @@
+create or replace procedure PRC_TIS_TIN_TP_INTERNACAO_I
+  (
+     pTIS_TIN_CD_INTERNACAO IN TB_TIS_TIN_TP_INTERNACAO.TIS_TIN_CD_INTERNACAO%type,
+     pTIS_TIN_DS_INTERNACAO IN TB_TIS_TIN_TP_INTERNACAO.TIS_TIN_DS_INTERNACAO%type,
+     pTIS_TIN_FL_STATUS  IN TB_TIS_TIN_TP_INTERNACAO.TIS_TIN_FL_STATUS%type,
+     
+     pTIS_TIN_DT_CRIACAO IN TB_TIS_TIN_TP_INTERNACAO.TIS_TIN_DT_CRIACAO%TYPE DEFAULT NULL,     
+     pSEG_USU_ID_USUARIO_CRIACAO IN TB_TIS_TIN_TP_INTERNACAO.SEG_USU_ID_USUARIO_CRIACAO%TYPE DEFAULT NULL,
+     pTIS_TIN_DT_ULT_ATUALIZACAO IN TB_TIS_TIN_TP_INTERNACAO.TIS_TIN_DT_ULT_ATUALIZACAO%TYPE DEFAULT NULL,
+     pSEG_USU_ID_USU_ULT_ATUALIZ IN TB_TIS_TIN_TP_INTERNACAO.SEG_USU_ID_USU_ULT_ATUALIZ%TYPE DEFAULT NULL
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_TIS_TIN_TP_INTERNACAO_I
+  *
+  *    Data Criacao:  11/04/2007   Por: Andrea Cazuca
+  *    Data Alteracao: 28/05/2007  Por: Silmara
+  *    Alterac?o:Foi alterado os parametros para gravar em maiusculo
+  *    Funcao: Insere Tipo de Internac?o
+  *
+  *******************************************************************/
+
+  begin
+
+    INSERT INTO TB_TIS_TIN_TP_INTERNACAO
+    (
+       TIS_TIN_CD_INTERNACAO,
+       TIS_TIN_DS_INTERNACAO,
+       TIS_TIN_FL_STATUS,
+       TIS_TIN_DT_CRIACAO,
+       SEG_USU_ID_USUARIO_CRIACAO,
+       TIS_TIN_DT_ULT_ATUALIZACAO,
+       SEG_USU_ID_USU_ULT_ATUALIZ
+    )
+    VALUES
+    (
+      pTIS_TIN_CD_INTERNACAO,
+      UPPER(pTIS_TIN_DS_INTERNACAO),
+      pTIS_TIN_FL_STATUS,
+       SYSDATE,
+       pSEG_USU_ID_USUARIO_CRIACAO,
+       SYSDATE,
+       pSEG_USU_ID_USU_ULT_ATUALIZ
+    );
+
+  end PRC_TIS_TIN_TP_INTERNACAO_I;
+ 

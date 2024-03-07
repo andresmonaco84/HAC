@@ -1,0 +1,48 @@
+create or replace procedure PRC_AGE_SAU_SALA_POR_AND_S
+  (
+    pAGE_SAU_ID                      IN TB_AGE_SAU_SALA_UNID_AND.AGE_SAU_ID%type DEFAULT NULL,
+    pAGE_SAU_CD_ANDAR                IN TB_AGE_SAU_SALA_UNID_AND.AGE_SAU_CD_ANDAR%TYPE DEFAULT NULL,
+    pAGE_SAU_NR_SALA                 IN TB_AGE_SAU_SALA_UNID_AND.AGE_SAU_NR_SALA%TYPE DEFAULT NULL,
+    pCAD_UNI_ID_UNIDADE              IN TB_AGE_SAU_SALA_UNID_AND.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+    pAGE_SAU_FL_STATUS               IN TB_AGE_SAU_SALA_UNID_AND.AGE_SAU_FL_STATUS%type DEFAULT NULL,
+    pSEG_USU_ID_USUARIO              IN TB_AGE_SAU_SALA_UNID_AND.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+    pAGE_SAU_DT_ULTIMA_ATUALIZACAO   IN TB_AGE_SAU_SALA_UNID_AND.AGE_SAU_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+    pAGE_SAU_DS_SALA                 IN TB_AGE_SAU_SALA_UNID_AND.AGE_SAU_DS_SALA%type DEFAULT NULL,
+    io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_AGE_SAU_SALA_POR_AND_S
+  *
+  *    Data Criacao:   14/08/2008            Por: Fabiola Lopes
+  *    Alteracao: Inclusao campo
+  *    Funcao: Seleção de registros da tabela TB_AGE_SAU_SALA_UNID_AND
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT
+           AGE_SAU_ID,
+           AGE_SAU_CD_ANDAR,
+           AGE_SAU_NR_SALA,
+           CAD_UNI_ID_UNIDADE,
+           AGE_SAU_FL_STATUS,
+           SEG_USU_ID_USUARIO,
+           AGE_SAU_DT_ULTIMA_ATUALIZACAO,
+           AGE_SAU_DS_SALA
+    FROM   TB_AGE_SAU_SALA_UNID_AND
+    WHERE
+          (pAGE_SAU_ID is null OR AGE_SAU_ID = pAGE_SAU_ID)
+      AND (pAGE_SAU_CD_ANDAR IS NULL OR AGE_SAU_CD_ANDAR = pAGE_SAU_CD_ANDAR)
+      AND (pAGE_SAU_NR_SALA IS NULL OR AGE_SAU_NR_SALA = pAGE_SAU_NR_SALA)
+      AND (pCAD_UNI_ID_UNIDADE is null OR CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+      AND (pAGE_SAU_FL_STATUS IS NULL OR AGE_SAU_FL_STATUS = pAGE_SAU_FL_STATUS)
+      AND (pSEG_USU_ID_USUARIO IS NULL OR SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO)
+      AND (pAGE_SAU_DT_ULTIMA_ATUALIZACAO IS NULL OR AGE_SAU_DT_ULTIMA_ATUALIZACAO = pAGE_SAU_DT_ULTIMA_ATUALIZACAO)
+      AND (pAGE_SAU_DS_SALA IS NULL OR AGE_SAU_DS_SALA LIKE pAGE_SAU_DS_SALA)
+      ORDER BY AGE_SAU_CD_ANDAR, AGE_SAU_NR_SALA;
+    io_cursor := v_cursor;
+
+  end PRC_AGE_SAU_SALA_POR_AND_S;
+/

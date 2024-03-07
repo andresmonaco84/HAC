@@ -1,0 +1,37 @@
+create or replace procedure PRC_ASS_CDR_DIA_RETORNO_U
+  (
+     pASS_CDR_ID_DIA_RETORNO IN TB_ASS_CDR_DIA_RETORNO.ASS_CDR_ID_DIA_RETORNO%type,
+     pASS_CDR_FL_ESPECIALIDADE_OK IN TB_ASS_CDR_DIA_RETORNO.ASS_CDR_FL_ESPECIALIDADE_OK%type,
+     pASS_CDR_FL_UNIDADE_OK IN TB_ASS_CDR_DIA_RETORNO.ASS_CDR_FL_UNIDADE_OK%type,
+     pASS_CDR_FL_PROFISSIONAL_OK IN TB_ASS_CDR_DIA_RETORNO.ASS_CDR_FL_PROFISSIONAL_OK%type,
+     pASS_CDR_QT_DIAS IN TB_ASS_CDR_DIA_RETORNO.ASS_CDR_QT_DIAS%type,
+     pSEG_USU_ID_USUARIO IN TB_ASS_CDR_DIA_RETORNO.SEG_USU_ID_USUARIO%type,
+     pASS_CUL_ID IN TB_ASS_CDR_DIA_RETORNO.ASS_CUL_ID%type default NULL,
+     pTIS_CBO_CD_CBOS IN TB_TIS_CBO_CBOS.TIS_CBO_CD_CBOS%TYPE DEFAULT NULL,
+     pASS_CDR_FL_LOCAL_OK IN TB_ASS_CDR_DIA_RETORNO.ASS_CDR_FL_LOCAL_OK%TYPE
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_ASS_CDR_DIA_RETORNO_U
+  *
+  *    Data Criacao: 	data da  cria??o   Por: Nome do Analista
+  *    Data Alteracao:	data da altera??o  Por: Nome do Analista
+  *
+  *    Funcao: Descri??o da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  begin
+    UPDATE TB_ASS_CDR_DIA_RETORNO
+    SET
+        ASS_CDR_FL_ESPECIALIDADE_OK = pASS_CDR_FL_ESPECIALIDADE_OK,
+        ASS_CDR_FL_UNIDADE_OK = pASS_CDR_FL_UNIDADE_OK,
+        ASS_CDR_FL_PROFISSIONAL_OK = pASS_CDR_FL_PROFISSIONAL_OK,
+        ASS_CDR_QT_DIAS = pASS_CDR_QT_DIAS,
+        ASS_CDR_DT_ULTIMA_ATUALIZACAO = SYSDATE,
+        SEG_USU_ID_USUARIO = pSEG_USU_ID_USUARIO,
+        ASS_CUL_ID = pASS_CUL_ID,
+        TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS,
+        ASS_CDR_FL_LOCAL_OK = pASS_CDR_FL_LOCAL_OK
+    WHERE
+        ASS_CDR_ID_DIA_RETORNO = pASS_CDR_ID_DIA_RETORNO;
+  end PRC_ASS_CDR_DIA_RETORNO_U;

@@ -1,0 +1,105 @@
+CREATE OR REPLACE PROCEDURE PRC_CAD_PRD_PRODUTO_R_S
+(
+     pCAD_PRD_ID IN TB_CAD_PRD_PRODUTO.CAD_PRD_ID%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+)
+is
+/********************************************************************
+*    Procedure: PRC_CAD_PRD_PRODUTO_R_S
+*
+*    Data Criacao: 	?   Por: ?
+*    Data Alteracao:  31/07/2012  Por: Andr� S. Monaco
+*         Alteracao:  Adi��o do campo CAD_PRD_CD_ANVISA
+*    Data Alteracao:  24/04/2014  Por: Andr� S. Monaco
+*         Alteracao:  Adi��o dos campos CAD_PRD_CD_TUSS e CAD_PRD_CD_REF_MAT_FABRICA
+*
+*    Funcao:  Busca informa��es sobre produtos cadastrados
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+SELECT
+       CAD_PRD_ID,
+       CAD_PRD_CD_CODIGO,
+       CAD_PRD_CD_GPREXA,
+       CAD_PRD_DS_DESCRICAO,
+       SEG_USU_ID_USUARIO,
+       CAD_PRD_DT_ULTIMA_ATUALIZACAO,
+       CAD_PRD_FL_STATUS,
+       CAD_PRD_NM_MNEMONICO,
+       AUX_EPP_CD_ESPECPROC,
+       AUX_GPC_CD_GRUPOPROC,
+       CAD_PRD_DS_RESUMIDA,
+       CAD_PRD_TP_PRODUTO,
+       TIS_MED_CD_TABELAMEDICA,
+       CAD_PRD_FL_UTILIZAAGEND_OK,
+       CAD_PRD_ID_PRODUTOTABELA,
+       CAD_PRD_FL_CONTRASTADO,
+       CAD_TAP_TP_ATRIBUTO,
+       CAD_TIH_TP_INDICE_HOSP,
+       CAD_PRD_QT_INDICE_HOSP,
+       CAD_PRD_QT_AUXILIAR,
+       CAD_PRD_PC_DOPPLER,
+       CAD_PRD_TP_PORTE,
+       CAD_DT_INICIO_VIGENCIA,
+       CAD_PRD_QT_INCIDENCIA,
+       CAD_PRD_QT_M2_FILME,
+       CAD_PRD_QT_CUSTO_OPER,
+       CAD_PRD_QT_HONORARIO,
+       CAD_PRD_TP_SEXO_PERMITIDO,
+       CAD_PRD_FL_COBRA_HEXTRA,
+       TIS_TAC_CD_TIPO_ACOMODACAO,
+       CAD_PRD_FL_PERMITE_RETORNO,
+       CAD_PRD_CD_NAT_DESPESA_TISS,
+       CAD_PRD_VL_PRODUTO,
+       CAD_PRD_PC_HAC,
+       CAD_UMC_CD_MEDIDA_CONSUMO,
+       CAD_PRD_NM_FANTASIA,
+       CAD_PRD_FL_FRACIONADO,
+       CAD_PRD_PC_ACRESCIMO,
+       CAD_PRD_VL_VENDA,
+       CAD_PRD_VL_CUSTOMEDIO,
+       CAD_PRD_VL_CUSTO,
+       CAD_PRD_QT_MINIMA,
+       CAD_PRD_QT_MAXIMA,
+       CAD_APM_ID_MATMED,
+       CAD_PRD_QT_APR_MATMED,
+       CAD_PRD_FL_ISENTO_COBRANCA,
+       CAD_PRD_FL_ESTOQUE_ACS,
+       CAD_PRD_PC_DESCONTO,
+       CAD_PRD_FL_KIT,
+       CAD_PRD_CD_BARRA,
+       CAD_PRD_FL_ALTO_CUSTO,
+       CAD_PRD_VL_UNITARIO,
+       CAD_CME_CLASSIF_MED,
+       CAD_PRD_FL_USORESTRITOMED,
+       CAD_PRD_VL_MATMED_FABRICA,
+       CAD_PRD_FL_MATESPECIAL,
+       CAD_CMM_CD_CARACMATMED,
+       CAD_PRD_VL_MATMED_VEND_FRA,
+       CAD_PRD_VL_MATMED_FABR_FRA,
+       CAD_PRD_ID_PRODUTO_MATMED,
+       CAD_PRD_CD_FABR_MATMED,
+       CAD_PRD_NM_FABR_MATMED,
+       CAD_PRD_TP_EMBALAG_MATMED,
+       CAD_PRD_CD_TABELA_MATMED,
+       CAD_PRD_CD_TAB_APRE_MATMED,
+       CAD_PRD_NM_TAB_APRE_MATMED,
+       CAD_PRD_FL_MAT_CONSIGNADO,
+       CAD_PRD_CD_CODIGO_AMB92,
+       CAD_PRD_FL_NOTAFISCALMATMED,
+       CAD_PRD_TP_PORTE_CBHPM,
+       CAD_PRD_FL_COBRAPCHMACO,
+       CAD_PRD_TP_PORTE_SALA,
+       CAD_PRD_PC_PORTE_CBHPM,
+       CAD_PRD_CD_ANVISA,
+       TIS_GPP_CD_GRAU_PART_PROF,
+       CAD_PRD_CD_TUSS,
+       CAD_PRD_CD_REF_MAT_FABRICA,
+       CAD_PRD_NM_FABR_RM,
+   	   CAD_PRD_FL_COBRAPCVIDEO
+FROM TB_CAD_PRD_PRODUTO
+WHERE
+        CAD_PRD_ID = pCAD_PRD_ID;
+io_cursor := v_cursor;
+end PRC_CAD_PRD_PRODUTO_R_S;

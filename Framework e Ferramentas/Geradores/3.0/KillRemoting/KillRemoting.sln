@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KillRemoting", "KillRemoting.csproj", "{4B68E2A2-9ACF-4534-BBFD-52C6B7404541}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://devhac01:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = KillRemoting.csproj
+		SccProjectName1 = KillRemoting
+		SccLocalPath1 = KillRemoting
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B68E2A2-9ACF-4534-BBFD-52C6B7404541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B68E2A2-9ACF-4534-BBFD-52C6B7404541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B68E2A2-9ACF-4534-BBFD-52C6B7404541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B68E2A2-9ACF-4534-BBFD-52C6B7404541}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

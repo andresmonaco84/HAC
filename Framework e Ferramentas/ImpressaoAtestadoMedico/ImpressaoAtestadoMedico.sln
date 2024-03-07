@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpressaoAtestadoMedico", "ImpressaoAtestadoMedico\ImpressaoAtestadoMedico.csproj", "{5AFC88C8-648A-4487-9AA8-82217038CC54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGS.BD.Acesso.View", "..\..\@dev\SGS\Fontes\SGS.BD.Acesso.View\SGS.BD.Acesso.View.csproj", "{D750584B-F122-473B-B1EF-3FE2ECCF19B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGS.Tools", "..\..\@dev\SGS\Fontes\SGS.Tools\SGS.Tools.csproj", "{7E70A1C3-0A36-4F30-A8CF-B93F91BE726B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGS.Impressao", "..\..\@dev\SGS\Fontes\SGS.Impressao\SGS.Impressao.csproj", "{9E58C33E-7C07-4EE6-BD01-1DA9FEA3D1C9}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshac01:8080/tfs/sgs
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ImpressaoAtestadoMedico\\ImpressaoAtestadoMedico.csproj
+		SccProjectName1 = ImpressaoAtestadoMedico
+		SccLocalPath1 = ImpressaoAtestadoMedico
+		SccProjectUniqueName2 = ..\\..\\@dev\\SGS\\Fontes\\SGS.BD.Acesso.View\\SGS.BD.Acesso.View.csproj
+		SccProjectName2 = ../../@dev/SGS/Fontes/SGS.BD.Acesso.View
+		SccLocalPath2 = ..\\..\\@dev\\SGS\\Fontes\\SGS.BD.Acesso.View
+		SccProjectUniqueName3 = ..\\..\\@dev\\SGS\\Fontes\\SGS.Tools\\SGS.Tools.csproj
+		SccProjectName3 = ../../@dev/SGS/Fontes/SGS.Tools
+		SccLocalPath3 = ..\\..\\@dev\\SGS\\Fontes\\SGS.Tools
+		SccProjectUniqueName4 = ..\\..\\@dev\\SGS\\Fontes\\SGS.Impressao\\SGS.Impressao.csproj
+		SccProjectName4 = ../../@dev/SGS/Fontes/SGS.Impressao
+		SccLocalPath4 = ..\\..\\@dev\\SGS\\Fontes\\SGS.Impressao
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5AFC88C8-648A-4487-9AA8-82217038CC54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AFC88C8-648A-4487-9AA8-82217038CC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AFC88C8-648A-4487-9AA8-82217038CC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AFC88C8-648A-4487-9AA8-82217038CC54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D750584B-F122-473B-B1EF-3FE2ECCF19B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D750584B-F122-473B-B1EF-3FE2ECCF19B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D750584B-F122-473B-B1EF-3FE2ECCF19B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D750584B-F122-473B-B1EF-3FE2ECCF19B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E70A1C3-0A36-4F30-A8CF-B93F91BE726B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E70A1C3-0A36-4F30-A8CF-B93F91BE726B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E70A1C3-0A36-4F30-A8CF-B93F91BE726B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E70A1C3-0A36-4F30-A8CF-B93F91BE726B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E58C33E-7C07-4EE6-BD01-1DA9FEA3D1C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E58C33E-7C07-4EE6-BD01-1DA9FEA3D1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E58C33E-7C07-4EE6-BD01-1DA9FEA3D1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E58C33E-7C07-4EE6-BD01-1DA9FEA3D1C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

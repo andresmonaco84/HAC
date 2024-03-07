@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Release\GestaoMateriais\GestaoMateriais.Model.dll
+C:\TFS\SGS\@dev\DLL\_Release\GestaoMateriais\GestaoMateriais.Model.pdb
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Model\obj\Release\GestaoMateriais.Model.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Model\obj\Release\GestaoMateriais.Model.dll
+C:\TFS\SGS\@dev\SGS_GESTAO_MATERIAIS\Fontes\SOA\GestaoMateriais.Model\obj\Release\GestaoMateriais.Model.pdb

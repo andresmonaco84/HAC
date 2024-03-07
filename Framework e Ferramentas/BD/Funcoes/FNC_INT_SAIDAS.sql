@@ -1,0 +1,50 @@
+create or replace function FNC_INT_SAIDAS(pCAD_SET_ID           IN TB_CAD_SET_SETOR.CAD_SET_ID%TYPE,
+                                          pATD_INA_DT_ALTA_ADM  IN TB_ATD_INA_INT_ALTA.ATD_INA_DT_ALTA_ADM%TYPE,
+                                          pCAD_PLA_ID_PLANO     IN TB_CAD_PLA_PLANO.CAD_PLA_ID_PLANO%TYPE DEFAULT NULL,
+                                          pCAD_PLA_CD_TIPOPLANO IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+                                          pCAD_UNI_ID_UNIDADE   IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%TYPE DEFAULT NULL
+                                          ,
+                                           pCAD_CNV_ID_CONVENIO IN TB_CAD_CNV_CONVENIO.CAD_CNV_ID_CONVENIO%TYPE DEFAULT NULL,
+                                           pSUBGRUPO VARCHAR2 DEFAULT NULL,
+                                           pCOM_HOSP_DIA VARCHAR2 DEFAULT NULL,
+                                           pCAD_CSE_ID IN TB_CAD_SET_SETOR.CAD_CSE_ID%TYPE DEFAULT NULL)
+---retorna a qtd de saidas do setor
+ return NUMBER is
+  Result NUMBER;
+begin
+  SELECT COUNT( IML.ATD_ATE_ID)
+    INTO RESULT
+    FROM TB_ATD_IML_INT_MOV_LEITO IML
+    JOIN TB_CAD_QLE_QUARTO_LEITO QLE ON QLE.CAD_QLE_ID = IML.CAD_CAD_QLE_ID
+    JOIN TB_ATD_ATE_ATENDIMENTO ATD ON ATD.ATD_ATE_ID = IML.ATD_ATE_ID
+    JOIN TB_CAD_PAC_PACIENTE PAC ON PAC.CAD_PAC_ID_PACIENTE = FNC_BUSCAR_PACIENTE_ATUAL(ATD.ATD_ATE_ID)
+   -- JOIN TB_ATD_AIC_ATE_INT_COMPL AIC
+  --    ON AIC.ATD_ATE_ID = ATD.ATD_ATE_ID
+    JOIN TB_CAD_PLA_PLANO PLA ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+    JOIN TB_ATD_INA_INT_ALTA INA ON INA.ATD_ATE_ID = ATD.ATD_ATE_ID
+    LEFT JOIN TB_TIS_MSI_MOTIVO_SAIDA_INT MSI ON MSI.TIS_MSI_CD_MOTIVOSAIDAINT = INA.TIS_MSI_CD_MOTIVOSAIDAINT
+    JOIN TB_CAD_SET_SETOR SETOR ON SETOR.CAD_SET_ID = QLE.CAD_SET_ID
+            JOIN TB_CAD_CNV_CONVENIO CNV ON CNV.CAD_CNV_ID_CONVENIO = PAC.CAD_CNV_ID_CONVENIO
+   WHERE (INA.ATD_INA_DT_ALTA_ADM = pATD_INA_DT_ALTA_ADM)
+     and iml.atd_iml_dt_saida = INA.ATD_INA_DT_ALTA_ADM
+     and iml.atd_iml_hr_saida = ina.atd_ina_hr_alta_adm
+     AND (pCAD_SET_ID is null or QLE.CAD_SET_ID = pCAD_SET_ID)
+     AND MSI.TIS_MSI_CD_TIPOALTA != 4
+     AND (IML.ATD_IML_FL_STATUS = 'A')
+     AND (pCAD_PLA_ID_PLANO IS NULL OR PLA.CAD_PLA_ID_PLANO = pCAD_PLA_ID_PLANO)
+    AND ((pCOM_HOSP_DIA IS NULL) OR
+          (pCOM_HOSP_DIA = '0' AND (PCAD_CSE_ID = '8') AND SETOR.CAD_CSE_ID = 8) OR
+          (pCOM_HOSP_DIA = '0' AND (PCAD_CSE_ID NOT IN ('8','9') OR PCAD_CSE_ID IS NULL) AND SETOR.CAD_CSE_ID NOT IN ('8','9')) OR
+          (pCOM_HOSP_DIA = '1' AND SETOR.CAD_CSE_ID = 8) )
+
+     AND ( atd.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE)
+                  AND (pCAD_CNV_ID_CONVENIO IS NULL OR PAC.CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO)
+
+    AND ((pSUBGRUPO = 'ACS' AND CNV.CAD_CNV_ID_CONVENIO = 281) OR
+         (pSUBGRUPO = 'AMIL' AND cnv.cad_cgc_id = 1 and cnv.cad_tpe_cd_codigo = 'SP' and cnv.cad_cnv_cd_hac_prestador != 'S077') OR
+         (pSUBGRUPO = 'FUNCIONARIO' AND cnv.cad_cnv_cd_hac_prestador in ('GG05', 'HAC', 'NP01', 'NR14', 'S077') ) OR
+         (pSUBGRUPO = 'MERCADO' AND CNV.cad_cgc_id = 2 AND cnv.cad_cnv_id_convenio!=282 ) OR
+         (pSUBGRUPO = 'PARTICULAR' AND CNV.cad_cgc_id = 2 AND CNV.CAD_CNV_ID_CONVENIO = 282))
+                   ;
+  return(Result);
+end FNC_INT_SAIDAS;

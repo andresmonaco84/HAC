@@ -1,0 +1,158 @@
+ CREATE OR REPLACE PROCEDURE PRC_MTMD_MOV_CONS_HIST_CCUS_R
+  (
+   pCAD_UNI_ID_UNIDADE           IN TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+   pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type DEFAULT NULL,
+   pCAD_SET_ID                   IN TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type DEFAULT NULL,
+   pATD_ATE_ID                   IN TB_MTMD_MOV_MOVIMENTACAO.ATD_ATE_ID%type default NULL,
+   pATD_ATE_TP_PACIENTE          IN TB_MTMD_MOV_MOVIMENTACAO.ATD_ATE_TP_PACIENTE%type DEFAULT NULL,
+   pMTMD_MOV_DATA                IN TB_MTMD_MOV_MOVIMENTACAO.MTMD_MOV_DATA%type DEFAULT NULL,
+   pMTMD_MOV_DATA_ATE            IN TB_MTMD_MOV_MOVIMENTACAO.MTMD_MOV_DATA%type DEFAULT NULL,
+   pCAD_MTMD_FILIAL_ID           IN TB_MTMD_MOV_MOVIMENTACAO.CAD_MTMD_FILIAL_ID%type DEFAULT NULL,
+   pTIS_MED_CD_TABELAMEDICA      IN TB_CAD_MTMD_MAT_MED.TIS_MED_CD_TABELAMEDICA%type DEFAULT NULL,
+   pBNF_MUN_CD_IBGE              IN TB_BNF_HOMECARE.BNF_MUN_CD_IBGE%TYPE DEFAULT NULL,
+   io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_MTMD_MOV_CONS_HIST_CCUS_R
+  *
+  *    Data Criacao:   17/11/2009   Por: André Souza Monaco
+  *    Data Alteracao: 08/04/2010   Por: André Souza Monaco
+  *         Alteracao: Troca da função que pega preço atual pelo preço do período pesquisado
+  *    Data Alteracao: 15/04/2010   Por: André Souza Monaco
+  *         Alteracao: Adicionei parametro pBNF_MUN_CD_IBGE para relatório de HOMECARE
+  *    Data Alteracao: 28/01/2011   Por: André Souza Monaco
+  *         Alteracao: Montagem da query dinâmica
+  *
+  *    Funcao: LISTA MOVIMENTAÇÃO DE DESPESAS CENTRO DE CUSTO PARA RELATÓRIO SINTÉTICO
+  *            27 - MANUTENÇÃO
+  *            28 - HOMECARE
+  *            CHAMADA: SERVIÇO GESTAO DE MATERIAIS (Relatório HomeCare)
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  vMTMD_MOV_DATA DATE := null;
+  vCAD_UNI_ID_UNIDADE number := pCAD_UNI_ID_UNIDADE;
+  vCAD_LAT_ID_LOCAL_ATENDIMENTO number := pCAD_LAT_ID_LOCAL_ATENDIMENTO;
+  vCAD_SET_ID number := pCAD_SET_ID;
+  V_WHERE  varchar2(3000);
+  V_SELECT varchar2(6000);  
+  begin
+    IF (pMTMD_MOV_DATA IS NULL AND pMTMD_MOV_DATA_ATE IS NULL) THEN
+       vMTMD_MOV_DATA := TRUNC(SYSDATE);
+    ELSIF (NOT pMTMD_MOV_DATA IS NULL AND pMTMD_MOV_DATA_ATE IS NULL) THEN
+       vMTMD_MOV_DATA := TRUNC(pMTMD_MOV_DATA);
+    END IF;
+    
+    IF vCAD_SET_ID IS NULL THEN
+       vCAD_SET_ID := 552; -- HomeCare
+    END IF;
+    
+    IF vCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL THEN
+       vCAD_LAT_ID_LOCAL_ATENDIMENTO := 33; -- ADM
+    END IF;
+    
+    IF vCAD_UNI_ID_UNIDADE IS NULL THEN
+       vCAD_UNI_ID_UNIDADE := 244; -- Santos
+    END IF;
+    
+    IF pTIS_MED_CD_TABELAMEDICA IS NOT NULL THEN
+       V_WHERE := ' AND MTMD.TIS_MED_CD_TABELAMEDICA = ' || CHR(39) || pTIS_MED_CD_TABELAMEDICA || CHR(39);
+    END IF;
+    
+    IF pCAD_MTMD_FILIAL_ID IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND MOV.CAD_MTMD_FILIAL_ID = ' || pCAD_MTMD_FILIAL_ID;
+    END IF; 
+    
+    IF vCAD_SET_ID IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND MOV.CAD_SET_ID = ' || vCAD_SET_ID;
+    END IF; 
+    
+    IF vCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND MOV.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || vCAD_LAT_ID_LOCAL_ATENDIMENTO;
+    END IF; 
+ 
+    IF vCAD_UNI_ID_UNIDADE IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND MOV.CAD_UNI_ID_UNIDADE = ' || vCAD_UNI_ID_UNIDADE;
+    END IF; 
+    
+    IF pATD_ATE_TP_PACIENTE IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND MOV.ATD_ATE_TP_PACIENTE = ' || CHR(39) || pATD_ATE_TP_PACIENTE || CHR(39);
+    END IF;
+    
+    IF pATD_ATE_ID IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND MOV.ATD_ATE_ID = ' || pATD_ATE_ID;
+    END IF;
+    
+    IF pBNF_MUN_CD_IBGE IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND BNF.BNF_MUN_CD_IBGE = ' || CHR(39) || pBNF_MUN_CD_IBGE || CHR(39);
+    END IF; 
+    
+    IF vMTMD_MOV_DATA IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND TRUNC(MOV.MTMD_MOV_DATA) >= ' || vMTMD_MOV_DATA;
+    END IF;
+    
+    IF pMTMD_MOV_DATA_ATE IS NOT NULL THEN
+       V_WHERE := V_WHERE || ' AND (TRUNC(MOV.MTMD_MOV_DATA) >= ' || CHR(39) || pMTMD_MOV_DATA || CHR(39);
+       V_WHERE := V_WHERE || ' AND  TRUNC(MOV.MTMD_MOV_DATA) <= ' || CHR(39) || pMTMD_MOV_DATA_ATE || CHR(39) || ') ';
+    END IF;
+    
+    V_SELECT :='SELECT MTMD.CAD_MTMD_CODMNE,
+                       MTMD.CAD_MTMD_NOMEFANTASIA,
+                       SUM(MOV.MTMD_MOV_QTDE) MTMD_MOV_QTDE,
+                       MTMD.CAD_MTMD_UNID_VENDA_DS,
+                       MTMD.CAD_MTMD_UNID_COMPRA_DS,
+                       FNC_MTMD_PRECO_PERIODO(MOV.CAD_MTMD_ID,MOV.CAD_MTMD_FILIAL_ID,'|| CHR(39) || pMTMD_MOV_DATA || CHR(39) ||','|| CHR(39) || pMTMD_MOV_DATA_ATE || CHR(39) ||') VALOR_UNITARIO,
+                       FNC_MTMD_PRECO_PERIODO(MOV.CAD_MTMD_ID,MOV.CAD_MTMD_FILIAL_ID,'|| CHR(39) || pMTMD_MOV_DATA || CHR(39) ||','|| CHR(39) || pMTMD_MOV_DATA_ATE || CHR(39) ||')*SUM(MOV.MTMD_MOV_QTDE) VALOR_TOTAL
+                  FROM TB_MTMD_MOV_MOVIMENTACAO MOV,
+                       TB_CAD_MTMD_MAT_MED      MTMD,
+                       TB_BNF_HOMECARE          BNF
+                  WHERE MTMD.CAD_MTMD_ID          = MOV.CAD_MTMD_ID
+                  AND   BNF.BNF_HOMECARE_ID    (+)= MOV.ATD_ATE_ID
+                  AND   MOV.CAD_MTMD_TPMOV_ID     = 2
+                  AND   MOV.CAD_MTMD_SUBTP_ID    IN (27,28) ' || V_WHERE ||      
+                  'GROUP BY MTMD.CAD_MTMD_CODMNE,
+                           MTMD.CAD_MTMD_NOMEFANTASIA,
+                           MTMD.CAD_MTMD_UNID_VENDA_DS,
+                           MTMD.CAD_MTMD_UNID_COMPRA_DS,
+                           MOV.CAD_MTMD_ID,
+                           MOV.CAD_MTMD_FILIAL_ID
+                  ORDER BY MTMD.CAD_MTMD_NOMEFANTASIA';
+      
+      OPEN v_cursor FOR
+      V_SELECT;
+      io_cursor := v_cursor;
+      
+      /*SELECT MTMD.CAD_MTMD_CODMNE,
+             MTMD.CAD_MTMD_NOMEFANTASIA,
+             SUM(MOV.MTMD_MOV_QTDE) MTMD_MOV_QTDE, 
+             MTMD.CAD_MTMD_UNID_VENDA_DS,
+             MTMD.CAD_MTMD_UNID_COMPRA_DS,
+             FNC_MTMD_PRECO_PERIODO(MOV.CAD_MTMD_ID,MOV.CAD_MTMD_FILIAL_ID,pMTMD_MOV_DATA,pMTMD_MOV_DATA_ATE) VALOR_UNITARIO,
+             FNC_MTMD_PRECO_PERIODO(MOV.CAD_MTMD_ID,MOV.CAD_MTMD_FILIAL_ID,pMTMD_MOV_DATA,pMTMD_MOV_DATA_ATE)*SUM(MOV.MTMD_MOV_QTDE) VALOR_TOTAL
+      FROM TB_MTMD_MOV_MOVIMENTACAO MOV,
+           TB_CAD_MTMD_MAT_MED      MTMD,
+           TB_BNF_HOMECARE          BNF
+      WHERE MTMD.CAD_MTMD_ID                  = MOV.CAD_MTMD_ID
+      AND   BNF.BNF_HOMECARE_ID            (+)= MOV.ATD_ATE_ID
+      AND   MOV.CAD_MTMD_TPMOV_ID             = 2
+      AND   MOV.CAD_MTMD_SUBTP_ID             IN (27,28) -- 19-BAIXA DO ESTOQUE
+      AND   (pTIS_MED_CD_TABELAMEDICA  IS NULL OR     MTMD.TIS_MED_CD_TABELAMEDICA      = pTIS_MED_CD_TABELAMEDICA)
+      AND   (pCAD_MTMD_FILIAL_ID  IS NULL OR          MOV.CAD_MTMD_FILIAL_ID            = pCAD_MTMD_FILIAL_ID)
+      AND   (pCAD_SET_ID IS NULL OR                   MOV.CAD_SET_ID                    = pCAD_SET_ID)
+      AND   (pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NULL OR MOV.CAD_LAT_ID_LOCAL_ATENDIMENTO  = pCAD_LAT_ID_LOCAL_ATENDIMENTO)
+      AND   (pCAD_UNI_ID_UNIDADE IS NULL  OR          MOV.CAD_UNI_ID_UNIDADE            = pCAD_UNI_ID_UNIDADE)
+      AND   (vMTMD_MOV_DATA IS NULL       OR          TRUNC(MOV.MTMD_MOV_DATA) >= TRUNC(vMTMD_MOV_DATA))
+      AND   (pMTMD_MOV_DATA_ATE IS NULL   OR         (TRUNC(MOV.MTMD_MOV_DATA) >= TRUNC(pMTMD_MOV_DATA) AND TRUNC(MOV.MTMD_MOV_DATA) <= TRUNC(pMTMD_MOV_DATA_ATE)))
+      AND   (pATD_ATE_TP_PACIENTE IS NULL OR          MOV.ATD_ATE_TP_PACIENTE           = pATD_ATE_TP_PACIENTE)
+      AND   (pATD_ATE_ID  IS NULL         OR          MOV.ATD_ATE_ID                    = pATD_ATE_ID)
+      AND   (pBNF_MUN_CD_IBGE  IS NULL         OR     BNF.BNF_MUN_CD_IBGE               = pBNF_MUN_CD_IBGE)
+      GROUP BY MTMD.CAD_MTMD_CODMNE,
+               MTMD.CAD_MTMD_NOMEFANTASIA,
+               MTMD.CAD_MTMD_UNID_VENDA_DS,
+               MTMD.CAD_MTMD_UNID_COMPRA_DS, 
+               MOV.CAD_MTMD_ID, 
+               MOV.CAD_MTMD_FILIAL_ID
+      ORDER BY MTMD.CAD_MTMD_NOMEFANTASIA;*/
+
+END PRC_MTMD_MOV_CONS_HIST_CCUS_R;

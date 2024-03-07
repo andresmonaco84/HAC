@@ -1,0 +1,38 @@
+create or replace procedure PRC_ATD_EPM_EXAME_PRESC_MED_U
+(
+     pATD_EPM_ID IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_ID%type,
+     pATD_PME_ID IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_PME_ID%type default NULL,
+     pATD_EPM_DS_EXAME IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_DS_EXAME%type default NULL,
+     pATD_EPM_DS_OBSERVACAO IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_DS_OBSERVACAO%type,
+     pATD_EPM_DT_HORA_CRIACAO IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_DT_HORA_CRIACAO%type default NULL,
+     pATD_EPM_ID_USU_CRIACAO IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_ID_USU_CRIACAO%type default NULL,
+     pATD_EPM_DT_ULT_ATUALIZ IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_DT_ULT_ATUALIZ%type default NULL,
+     pATD_EPM_ID_USU_ULT_ATUALIZ IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_ID_USU_ULT_ATUALIZ%type default NULL,
+          pATD_EPM_STATUS IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_STATUS%type DEFAULT NULL,
+               pATD_EPM_FL_IMPRESSO IN TB_ATD_EPM_EXAME_PRESC_MED.ATD_EPM_FL_IMPRESSO%type DEFAULT NULL
+)
+is
+/********************************************************************
+*    Procedure: PRC_ATD_EPM_EXAME_PRESC_MED_U
+*
+*    Data Criacao:   data da  cria??o   Por: Nome do Analista
+*    Data Alteracao:  data da altera??o  Por: Nome do Analista
+*
+*    Funcao: Descri??o da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+begin
+UPDATE TB_ATD_EPM_EXAME_PRESC_MED
+SET
+        ATD_PME_ID = pATD_PME_ID,
+        ATD_EPM_DS_EXAME = pATD_EPM_DS_EXAME,
+        ATD_EPM_DS_OBSERVACAO = pATD_EPM_DS_OBSERVACAO,
+      -- ATD_EPM_DT_HORA_CRIACAO = pATD_EPM_DT_HORA_CRIACAO,
+      --  ATD_EPM_ID_USU_CRIACAO = pATD_EPM_ID_USU_CRIACAO,
+        ATD_EPM_DT_ULT_ATUALIZ = pATD_EPM_DT_ULT_ATUALIZ,
+        ATD_EPM_ID_USU_ULT_ATUALIZ = pATD_EPM_ID_USU_ULT_ATUALIZ,
+        ATD_EPM_STATUS = pATD_EPM_STATUS,
+        ATD_EPM_FL_IMPRESSO=pATD_EPM_FL_IMPRESSO
+WHERE
+        ATD_EPM_ID = pATD_EPM_ID;
+end PRC_ATD_EPM_EXAME_PRESC_MED_U;

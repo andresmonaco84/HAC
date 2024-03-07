@@ -1,0 +1,67 @@
+
+
+--PRC_CAD_CCR_CCONTA_RM_I
+create or replace procedure PRC_CAD_CCR_CCONTA_RM_I
+(
+     pCAD_CCR_ID IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_ID%type,
+     pCAD_CCR_CD_COLIGADA IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_CD_COLIGADA%type,
+     pCAD_CCR_CD_CONTA IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_CD_CONTA%type,
+     pCAD_CCR_CD_REDUZIDO IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_CD_REDUZIDO%type default NULL,
+     pCAD_CCR_DS_DESCRICAO IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_DS_DESCRICAO%type default NULL,
+     pCAD_CCR_FL_ANALIT_SINT IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_FL_ANALIT_SINT%type default NULL,
+     pCAD_CCR_FL_RATEIO IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_FL_RATEIO%type default NULL,
+     pCAD_CCR_FL_NATUREZA IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_FL_NATUREZA%type default NULL,
+     pCAD_CCR_FL_STATUS IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_FL_STATUS%type default NULL,
+     pSEG_USU_ID_INCLUSAO IN TB_CAD_CCR_CCONTA_RM.SEG_USU_ID_INCLUSAO%type default NULL,
+     pCAD_CCR_DT_INCLUSAO IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_DT_INCLUSAO%type default NULL,
+     pSEG_USU_ID_ALTERACAO IN TB_CAD_CCR_CCONTA_RM.SEG_USU_ID_ALTERACAO%type default NULL,
+     pCAD_CCR_DT_ALTERACAO IN TB_CAD_CCR_CCONTA_RM.CAD_CCR_DT_ALTERACAO%type default NULL	
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_CCR_CCONTA_RM_I
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/  
+	  
+begin
+	    
+INSERT INTO TB_CAD_CCR_CCONTA_RM
+(
+       CAD_CCR_ID,
+       CAD_CCR_CD_COLIGADA,
+       CAD_CCR_CD_CONTA,
+       CAD_CCR_CD_REDUZIDO,
+       CAD_CCR_DS_DESCRICAO,
+       CAD_CCR_FL_ANALIT_SINT,
+       CAD_CCR_FL_RATEIO,
+       CAD_CCR_FL_NATUREZA,
+       CAD_CCR_FL_STATUS,
+       SEG_USU_ID_INCLUSAO,
+       CAD_CCR_DT_INCLUSAO,
+       SEG_USU_ID_ALTERACAO,
+       CAD_CCR_DT_ALTERACAO
+)
+VALUES
+(
+	     pCAD_CCR_ID,
+	     pCAD_CCR_CD_COLIGADA,
+	     pCAD_CCR_CD_CONTA,
+	     pCAD_CCR_CD_REDUZIDO,
+	     pCAD_CCR_DS_DESCRICAO,
+	     pCAD_CCR_FL_ANALIT_SINT,
+	     pCAD_CCR_FL_RATEIO,
+	     pCAD_CCR_FL_NATUREZA,
+	     pCAD_CCR_FL_STATUS,
+	     pSEG_USU_ID_INCLUSAO,
+	     pCAD_CCR_DT_INCLUSAO,
+	     pSEG_USU_ID_ALTERACAO,
+	     pCAD_CCR_DT_ALTERACAO
+);
+	
+end PRC_CAD_CCR_CCONTA_RM_I;
+

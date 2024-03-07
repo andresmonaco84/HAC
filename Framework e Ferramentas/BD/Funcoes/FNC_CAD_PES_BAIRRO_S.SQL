@@ -1,0 +1,21 @@
+create or replace function FNC_CAD_PES_BAIRRO_S
+(
+ PCAD_PES_ID_PESSOA in TB_CAD_PES_PESSOA.CAD_PES_ID_PESSOA%type,
+ PCD_TIPO_ENDERECO in TB_CAD_TEL_TELEFONE.AUX_TTE_CD_TP_TEL_END%type
+)
+return TB_CAD_END_ENDERECO.CAD_END_NM_BAIRRO%type is Result TB_CAD_END_ENDERECO.CAD_END_NM_BAIRRO%type;
+begin
+
+
+SELECT CAD_END_NM_BAIRRO INTO Result
+
+FROM (SELECT  ENDE.CAD_END_NM_BAIRRO
+      FROM    TB_CAD_END_ENDERECO ENDE
+      WHERE   ENDE.CAD_PES_ID_PESSOA = PCAD_PES_ID_PESSOA
+      AND     ENDE.AUX_TTE_CD_TP_TEL_END = PCD_TIPO_ENDERECO
+      order by ende.cad_end_dt_ultima_atualizacao desc
+      )
+WHERE rownum = 1 ;
+
+  return(Result);
+end FNC_CAD_PES_BAIRRO_S;

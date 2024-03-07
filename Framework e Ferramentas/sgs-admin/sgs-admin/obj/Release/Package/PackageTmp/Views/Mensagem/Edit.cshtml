@@ -1,0 +1,71 @@
+﻿@model sgs_admin.Models.Mensagem
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Mensagem</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Inicio)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Inicio)
+            @Html.ValidationMessageFor(model => model.Inicio)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fim)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Fim)
+            @Html.ValidationMessageFor(model => model.Fim)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Sistema)
+        </div>
+        <div class="editor-field textboxUpper">
+            @Html.EditorFor(model => model.Sistema)
+            @Html.ValidationMessageFor(model => model.Sistema)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Texto)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Texto)
+            @Html.ValidationMessageFor(model => model.Texto)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Status)
+            @Html.ValidationMessageFor(model => model.Status)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Modulo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Modulo)
+            @Html.ValidationMessageFor(model => model.Modulo)
+        </div>
+
+        <p>
+            <input type="submit" value="Salvar" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>
+
+

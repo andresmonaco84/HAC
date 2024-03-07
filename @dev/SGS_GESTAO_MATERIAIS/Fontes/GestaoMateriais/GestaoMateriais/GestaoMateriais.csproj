@@ -1,0 +1,1451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{61AC207B-D0DD-40F2-924B-0E3E2F0C6A4F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HospitalAnaCosta.SGS.GestaoMateriais</RootNamespace>
+    <AssemblyName>GestaoMateriais</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ManifestCertificateThumbprint>494202B25045E86368401CA21E25ECAD3E6AA537</ManifestCertificateThumbprint>
+    <ManifestKeyFile>SGS.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>true</SignManifests>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetZone>LocalIntranet</TargetZone>
+    <StartupObject>
+    </StartupObject>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>\\iishac01.anacosta.com.br\Instalar\GestaoSuprimentos\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://iishac01.anacosta.com.br/Instalar/GestaoSuprimentos/</InstallUrl>
+    <UpdateUrl>http://iishac01.anacosta.com.br/Instalar/GestaoSuprimentos/</UpdateUrl>
+    <TargetCulture>pt-BR</TargetCulture>
+    <ProductName>Gestão de Materiais</ProductName>
+    <PublisherName>Gestão de Materiais</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.htm</WebPage>
+    <ApplicationRevision>428</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
+    <BootstrapperComponentsUrl>http://devhac02/GestaoMateriais</BootstrapperComponentsUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\DLL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\DLL\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bematech, Version=1.4.0.0, Culture=neutral, PublicKeyToken=922112168328d899, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\Bematech.dll</HintPath>
+    </Reference>
+    <Reference Include="Bematech.MiniImpressoras, Version=1.4.0.0, Culture=neutral, PublicKeyToken=922112168328d899, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\Bematech.MiniImpressoras.dll</HintPath>
+    </Reference>
+    <Reference Include="Componentes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\Componentes.dll</HintPath>
+    </Reference>
+    <Reference Include="HacFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HacFramework.1.0.1\lib\HacFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="HospitalAnaCosta.Services.BeneficiarioACS.DTO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="HospitalAnaCosta.Services.BeneficiarioACS.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="HospitalAnaCosta.Services.BeneficiarioACS.View, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\BeneficiarioACS\HospitalAnaCosta.Services.BeneficiarioACS.View.dll</HintPath>
+    </Reference>
+    <Reference Include="ImprimeTexto, Version=1.0.1997.35067, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\ImprimeTexto.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.PrinterClassDll, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>obj\Debug\Interop.PrinterClassDll.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.ReportViewer.WinForms.1.0.0\lib\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Seguranca.DTO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\Seguranca\Seguranca.DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="Seguranca.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\Seguranca\Seguranca.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Seguranca.View, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\Seguranca\Seguranca.View.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph, Version=5.1.2.878, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DLL\_Debug\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Auxiliar\FrmAdicionarKit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmAdicionarKit.Designer.cs">
+      <DependentUpon>FrmAdicionarKit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmAdicionarMedKit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmAdicionarMedKit.Designer.cs">
+      <DependentUpon>FrmAdicionarMedKit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmCentroCirurgicoPendencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmCentroCirurgicoPendencia.Designer.cs">
+      <DependentUpon>FrmCentroCirurgicoPendencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmDispensacaoPendencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmDispensacaoPendencias.Designer.cs">
+      <DependentUpon>FrmDispensacaoPendencias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmGeraArquivoContabil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmGeraArquivoContabil.Designer.cs">
+      <DependentUpon>FrmGeraArquivoContabil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmImpPorPeriodo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmImpPorPeriodo.Designer.cs">
+      <DependentUpon>FrmImpPorPeriodo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmKitItemPedido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmKitItemPedido.Designer.cs">
+      <DependentUpon>FrmKitItemPedido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmProtocolo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmProtocolo.Designer.cs">
+      <DependentUpon>FrmProtocolo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmCadKit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmCadKit.Designer.cs">
+      <DependentUpon>FrmCadKit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmCContabilGrupo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmCContabilGrupo.Designer.cs">
+      <DependentUpon>FrmCContabilGrupo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmDoencaDiagnostico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmDoencaDiagnostico.Designer.cs">
+      <DependentUpon>FrmDoencaDiagnostico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmInventarioDigitacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmInventarioDigitacao.Designer.cs">
+      <DependentUpon>FrmInventarioDigitacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmInventarioDigitaMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmInventarioDigitaMed.Designer.cs">
+      <DependentUpon>FrmInventarioDigitaMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPedidoAutoAltera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPedidoAutoAltera.Designer.cs">
+      <DependentUpon>FrmPedidoAutoAltera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPedidoAutomaticoSetor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPedidoAutomaticoSetor.Designer.cs">
+      <DependentUpon>FrmPedidoAutomaticoSetor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPedidoAutoStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPedidoAutoStatus.Designer.cs">
+      <DependentUpon>FrmPedidoAutoStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrescricao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrescricao.Designer.cs">
+      <DependentUpon>FrmPrescricao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrescricaoInt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrescricaoInt.Designer.cs">
+      <DependentUpon>FrmPrescricaoInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrescricaoPesquisa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrescricaoPesquisa.Designer.cs">
+      <DependentUpon>FrmPrescricaoPesquisa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmSetorPedidoAutoParam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmSetorPedidoAutoParam.Designer.cs">
+      <DependentUpon>FrmSetorPedidoAutoParam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmAddSetorConsumo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmAddSetorConsumo.Designer.cs">
+      <DependentUpon>FrmAddSetorConsumo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmEstoqueConsumo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmEstoqueConsumo.Designer.cs">
+      <DependentUpon>FrmEstoqueConsumo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPermissaoMatMedFunc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPermissaoMatMedFunc.Designer.cs">
+      <DependentUpon>FrmPermissaoMatMedFunc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Componentes\FrmGestao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Componentes\FrmGestao.Designer.cs">
+      <DependentUpon>FrmGestao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Componentes\GestaoCmbLocalEstoque.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Componentes\GestaoCmbLocalEstoque.Designer.cs">
+      <DependentUpon>GestaoCmbLocalEstoque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmEnderecoAlmoxarifado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmEnderecoAlmoxarifado.Designer.cs">
+      <DependentUpon>FrmEnderecoAlmoxarifado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmEstoqueOnlineLote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmEstoqueOnlineLote.Designer.cs">
+      <DependentUpon>FrmEstoqueOnlineLote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmImportaInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmImportaInventario.Designer.cs">
+      <DependentUpon>FrmImportaInventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmLivroRegistro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmLivroRegistro.Designer.cs">
+      <DependentUpon>FrmLivroRegistro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmMarcas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmMarcas.Designer.cs">
+      <DependentUpon>FrmMarcas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmRastreioLote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmRastreioLote.Designer.cs">
+      <DependentUpon>FrmRastreioLote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmSeparacaoKit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmSeparacaoKit.Designer.cs">
+      <DependentUpon>FrmSeparacaoKit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmVencimentoMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmVencimentoMed.Designer.cs">
+      <DependentUpon>FrmVencimentoMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerencial\FrmBookAmil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerencial\FrmBookAmil.Designer.cs">
+      <DependentUpon>FrmBookAmil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerencial\FrmExclusaoItemNF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerencial\FrmExclusaoItemNF.Designer.cs">
+      <DependentUpon>FrmExclusaoItemNF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerencial\FrmHistDevolucoesNF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerencial\FrmHistDevolucoesNF.Designer.cs">
+      <DependentUpon>FrmHistDevolucoesNF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerencial\FrmNFProdutos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerencial\FrmNFProdutos.Designer.cs">
+      <DependentUpon>FrmNFProdutos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HomeCare\FrmAtdDomiciliarPendencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HomeCare\FrmAtdDomiciliarPendencias.Designer.cs">
+      <DependentUpon>FrmAtdDomiciliarPendencias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HomeCare\FrmAtendimentoDomiciliar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HomeCare\FrmAtendimentoDomiciliar.Designer.cs">
+      <DependentUpon>FrmAtendimentoDomiciliar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HomeCare\FrmHomeCare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HomeCare\FrmHomeCare.Designer.cs">
+      <DependentUpon>FrmHomeCare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmGrupos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmGrupos.Designer.cs">
+      <DependentUpon>FrmGrupos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmAddSetorAlmox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmAddSetorAlmox.Designer.cs">
+      <DependentUpon>FrmAddSetorAlmox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmAddSubGrupo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmAddSubGrupo.Designer.cs">
+      <DependentUpon>FrmAddSubGrupo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Impressao\Bixolon.cs" />
+    <Compile Include="Impressao\ImpressaoPedido.cs" />
+    <Compile Include="Movimentacao\FrmBaixaPedidoKit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmBaixaPedidoKit.Designer.cs">
+      <DependentUpon>FrmBaixaPedidoKit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmCancelarItemPedido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmCancelarItemPedido.Designer.cs">
+      <DependentUpon>FrmCancelarItemPedido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConferenciaPedido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConferenciaPedido.Designer.cs">
+      <DependentUpon>FrmConferenciaPedido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsumoPacUTI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsumoPacUTI.Designer.cs">
+      <DependentUpon>FrmConsumoPacUTI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDevolucaoConsig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDevolucaoConsig.Designer.cs">
+      <DependentUpon>FrmDevolucaoConsig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDispKitCirurgico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDispKitCirurgico.Designer.cs">
+      <DependentUpon>FrmDispKitCirurgico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmEmprestimo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmEmprestimo.Designer.cs">
+      <DependentUpon>FrmEmprestimo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmEstornoItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmEstornoItem.Designer.cs">
+      <DependentUpon>FrmEstornoItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmEstornoItemPedido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmEstornoItemPedido.Designer.cs">
+      <DependentUpon>FrmEstornoItemPedido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmInventarioRotativo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmInventarioRotativo.Designer.cs">
+      <DependentUpon>FrmInventarioRotativo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmLiberaAtendimento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmLiberaAtendimento.Designer.cs">
+      <DependentUpon>FrmLiberaAtendimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPedidoEstoqueLocal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPedidoEstoqueLocal.Designer.cs">
+      <DependentUpon>FrmPedidoEstoqueLocal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPedidoReplicar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPedidoReplicar.Designer.cs">
+      <DependentUpon>FrmPedidoReplicar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmReprocessarAtd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmReprocessarAtd.Designer.cs">
+      <DependentUpon>FrmReprocessarAtd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmTransfAtd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmTransfAtd.Designer.cs">
+      <DependentUpon>FrmTransfAtd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Outros\FrmAnaliseConsumo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Outros\FrmAnaliseConsumo.Designer.cs">
+      <DependentUpon>FrmAnaliseConsumo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmCfgImpressora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmCfgImpressora.Designer.cs">
+      <DependentUpon>FrmCfgImpressora.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmCodBarraMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmCodBarraMatMed.Designer.cs">
+      <DependentUpon>FrmCodBarraMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmConfigUnidade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmConfigUnidade.Designer.cs">
+      <DependentUpon>FrmConfigUnidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmGrupoMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmGrupoMatMed.Designer.cs">
+      <DependentUpon>FrmGrupoMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmImpCodBarra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmImpCodBarra.Designer.cs">
+      <DependentUpon>FrmImpCodBarra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmItensReq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmItensReq.Designer.cs">
+      <DependentUpon>FrmItensReq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\frmManutProd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\frmManutProd.Designer.cs">
+      <DependentUpon>frmManutProd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmPedidos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmPedidos.Designer.cs">
+      <DependentUpon>FrmPedidos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HomeCare\FrmPesqBenefHomeCare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HomeCare\FrmPesqBenefHomeCare.Designer.cs">
+      <DependentUpon>FrmPesqBenefHomeCare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrincipioAtivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastro\FrmPrincipioAtivo.Designer.cs">
+      <DependentUpon>FrmPrincipioAtivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmQtdMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmQtdMatMed.Designer.cs">
+      <DependentUpon>FrmQtdMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmRegDiveg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmRegDiveg.Designer.cs">
+      <DependentUpon>FrmRegDiveg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmLocalEstoque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CfgUnidade\FrmLocalEstoque.Designer.cs">
+      <DependentUpon>FrmLocalEstoque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmLancamentoOutraUnidade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmLancamentoOutraUnidade.Designer.cs">
+      <DependentUpon>FrmLancamentoOutraUnidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliar\FrmVersao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliar\FrmVersao.Designer.cs">
+      <DependentUpon>FrmVersao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Paciente\FrmPacienteSetor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Paciente\FrmPacienteSetor.designer.cs">
+      <DependentUpon>FrmPacienteSetor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Componentes\FrmMensagem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Componentes\FrmMensagem.Designer.cs">
+      <DependentUpon>FrmMensagem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmEstoqueOnLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmEstoqueOnLine.Designer.cs">
+      <DependentUpon>FrmEstoqueOnLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmPedidoPadrao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmPedidoPadrao.Designer.cs">
+      <DependentUpon>FrmPedidoPadrao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmPesquisaMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmPesquisaMatMed.Designer.cs">
+      <DependentUpon>FrmPesquisaMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Estoque\FrmPesquisaSimilares.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Estoque\FrmPesquisaSimilares.Designer.cs">
+      <DependentUpon>FrmPesquisaSimilares.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrincipal.Designer.cs">
+      <DependentUpon>FrmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generico.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Impressao\Bematech.cs" />
+    <Compile Include="Impressao\Utilitario.cs" />
+    <Compile Include="Impressao\Zebra.cs" />
+    <Compile Include="Movimentacao\FrmConsumoCCirurgico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsumoCCirurgico.Designer.cs">
+      <DependentUpon>FrmConsumoCCirurgico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsultaMovimento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsultaMovimento.Designer.cs">
+      <DependentUpon>FrmConsultaMovimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDispensacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDispensacao.Designer.cs">
+      <DependentUpon>FrmDispensacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmAcertoEstoque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmAcertoEstoque.Designer.cs">
+      <DependentUpon>FrmAcertoEstoque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerencial\FrmAnaliseEstoqueCustos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerencial\FrmAnaliseEstoqueCustos.Designer.cs">
+      <DependentUpon>FrmAnaliseEstoqueCustos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmBaixaProdFrac.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmBaixaProdFrac.Designer.cs">
+      <DependentUpon>FrmBaixaProdFrac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsumoPaciente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsumoPaciente.Designer.cs">
+      <DependentUpon>FrmConsumoPaciente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDivergenciasEstoque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmDivergenciasEstoque.Designer.cs">
+      <DependentUpon>FrmDivergenciasEstoque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerencial\FrmGraficoRotatividade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerencial\FrmGraficoRotatividade.Designer.cs">
+      <DependentUpon>FrmGraficoRotatividade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmImpressaoPedido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmImpressaoPedido.Designer.cs">
+      <DependentUpon>FrmImpressaoPedido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmMovimentacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmMovimentacao.Designer.cs">
+      <DependentUpon>FrmMovimentacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPedidoCarrinhoEmerg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPedidoCarrinhoEmerg.Designer.cs">
+      <DependentUpon>FrmPedidoCarrinhoEmerg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsultaPedidos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmConsultaPedidos.Designer.cs">
+      <DependentUpon>FrmConsultaPedidos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPersonalizado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmPersonalizado.Designer.cs">
+      <DependentUpon>FrmPersonalizado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmRecebUnidade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmRecebUnidade.Designer.cs">
+      <DependentUpon>FrmRecebUnidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmRegistroPerda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmRegistroPerda.Designer.cs">
+      <DependentUpon>FrmRegistroPerda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmReqPedidoPad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmReqPedidoPad.Designer.cs">
+      <DependentUpon>FrmReqPedidoPad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmReqPendente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmReqPendente.Designer.cs">
+      <DependentUpon>FrmReqPendente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmSolicitacaoMaterial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmSolicitacaoMaterial.Designer.cs">
+      <DependentUpon>FrmSolicitacaoMaterial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Movimentacao\FrmTransfMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Movimentacao\FrmTransfMatMed.Designer.cs">
+      <DependentUpon>FrmTransfMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relatorio\FrmKardex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmKardex.Designer.cs">
+      <DependentUpon>FrmKardex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelBaixaCCusto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelBaixaCCusto.Designer.cs">
+      <DependentUpon>FrmRelBaixaCCusto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelConsumoGrupoMercado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelConsumoGrupoMercado.Designer.cs">
+      <DependentUpon>FrmRelConsumoGrupoMercado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelEmprestimos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelEmprestimos.Designer.cs">
+      <DependentUpon>FrmRelEmprestimos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelLivroMov.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelLivroMov.Designer.cs">
+      <DependentUpon>FrmRelLivroMov.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelPrescricao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelPrescricao.Designer.cs">
+      <DependentUpon>FrmRelPrescricao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelPrescricaoImp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelPrescricaoImp.Designer.cs">
+      <DependentUpon>FrmRelPrescricaoImp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelSetoresInvent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelSetoresInvent.Designer.cs">
+      <DependentUpon>FrmRelSetoresInvent.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Auxiliar\FrmAdicionarKit.resx">
+      <DependentUpon>FrmAdicionarKit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmAdicionarMedKit.resx">
+      <DependentUpon>FrmAdicionarMedKit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmCentroCirurgicoPendencia.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmCentroCirurgicoPendencia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmDispensacaoPendencias.resx">
+      <DependentUpon>FrmDispensacaoPendencias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmGeraArquivoContabil.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmGeraArquivoContabil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmImpPorPeriodo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmImpPorPeriodo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmKitItemPedido.resx">
+      <DependentUpon>FrmKitItemPedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmProtocolo.resx">
+      <DependentUpon>FrmProtocolo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmCadKit.resx">
+      <DependentUpon>FrmCadKit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmCContabilGrupo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmCContabilGrupo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmDoencaDiagnostico.resx">
+      <DependentUpon>FrmDoencaDiagnostico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmInventarioDigitacao.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmInventarioDigitacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmInventarioDigitaMed.resx">
+      <DependentUpon>FrmInventarioDigitaMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPedidoAutoAltera.resx">
+      <DependentUpon>FrmPedidoAutoAltera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPedidoAutomaticoSetor.resx">
+      <DependentUpon>FrmPedidoAutomaticoSetor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPedidoAutoStatus.resx">
+      <DependentUpon>FrmPedidoAutoStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPrescricao.resx">
+      <DependentUpon>FrmPrescricao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPrescricaoInt.resx">
+      <DependentUpon>FrmPrescricaoInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPrescricaoPesquisa.resx">
+      <DependentUpon>FrmPrescricaoPesquisa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmSetorPedidoAutoParam.resx">
+      <DependentUpon>FrmSetorPedidoAutoParam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CfgUnidade\FrmAddSetorConsumo.resx">
+      <DependentUpon>FrmAddSetorConsumo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CfgUnidade\FrmEstoqueConsumo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmEstoqueConsumo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPermissaoMatMedFunc.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPermissaoMatMedFunc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmEnderecoAlmoxarifado.resx">
+      <DependentUpon>FrmEnderecoAlmoxarifado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmEstoqueOnlineLote.resx">
+      <DependentUpon>FrmEstoqueOnlineLote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmImportaInventario.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmImportaInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmLivroRegistro.resx">
+      <DependentUpon>FrmLivroRegistro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmMarcas.resx">
+      <DependentUpon>FrmMarcas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmRastreioLote.resx">
+      <DependentUpon>FrmRastreioLote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmSeparacaoKit.resx">
+      <DependentUpon>FrmSeparacaoKit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmVencimentoMed.resx">
+      <DependentUpon>FrmVencimentoMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerencial\FrmBookAmil.resx">
+      <DependentUpon>FrmBookAmil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerencial\FrmExclusaoItemNF.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmExclusaoItemNF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerencial\FrmHistDevolucoesNF.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmHistDevolucoesNF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerencial\FrmNFProdutos.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmNFProdutos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HomeCare\FrmAtdDomiciliarPendencias.resx">
+      <DependentUpon>FrmAtdDomiciliarPendencias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HomeCare\FrmAtendimentoDomiciliar.resx">
+      <DependentUpon>FrmAtendimentoDomiciliar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HomeCare\FrmHomeCare.resx">
+      <DependentUpon>FrmHomeCare.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmGrupos.resx">
+      <DependentUpon>FrmGrupos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CfgUnidade\FrmAddSetorAlmox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmAddSetorAlmox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CfgUnidade\FrmAddSubGrupo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmAddSubGrupo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmBaixaPedidoKit.resx">
+      <DependentUpon>FrmBaixaPedidoKit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmCancelarItemPedido.resx">
+      <DependentUpon>FrmCancelarItemPedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmConferenciaPedido.resx">
+      <DependentUpon>FrmConferenciaPedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmConsumoPacUTI.resx">
+      <DependentUpon>FrmConsumoPacUTI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmDevolucaoConsig.resx">
+      <DependentUpon>FrmDevolucaoConsig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmDispKitCirurgico.resx">
+      <DependentUpon>FrmDispKitCirurgico.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmEmprestimo.resx">
+      <DependentUpon>FrmEmprestimo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmEstornoItem.resx">
+      <DependentUpon>FrmEstornoItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmEstornoItemPedido.resx">
+      <DependentUpon>FrmEstornoItemPedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmInventarioRotativo.resx">
+      <DependentUpon>FrmInventarioRotativo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmLiberaAtendimento.resx">
+      <DependentUpon>FrmLiberaAtendimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmPedidoEstoqueLocal.resx">
+      <DependentUpon>FrmPedidoEstoqueLocal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmPedidoReplicar.resx">
+      <DependentUpon>FrmPedidoReplicar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmReprocessarAtd.resx">
+      <DependentUpon>FrmReprocessarAtd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmTransfAtd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmTransfAtd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Outros\FrmAnaliseConsumo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmAnaliseConsumo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmCfgImpressora.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmCfgImpressora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmCodBarraMatMed.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmCodBarraMatMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CfgUnidade\FrmConfigUnidade.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmConfigUnidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmGrupoMatMed.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmGrupoMatMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmImpCodBarra.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmImpCodBarra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmItensReq.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmItensReq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\frmManutProd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmManutProd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmPedidos.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPedidos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HomeCare\FrmPesqBenefHomeCare.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPesqBenefHomeCare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastro\FrmPrincipioAtivo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPrincipioAtivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmQtdMatMed.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmQtdMatMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmRegDiveg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRegDiveg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CfgUnidade\FrmLocalEstoque.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmLocalEstoque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmLancamentoOutraUnidade.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmLancamentoOutraUnidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliar\FrmVersao.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmVersao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Paciente\FrmPacienteSetor.resx">
+      <DependentUpon>FrmPacienteSetor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Componentes\FrmMensagem.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmMensagem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmEstoqueOnLine.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmEstoqueOnLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmPedidoPadrao.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPedidoPadrao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmPesquisaMatMed.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPesquisaMatMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Estoque\FrmPesquisaSimilares.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPesquisaSimilares.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrincipal.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmConsumoCCirurgico.resx">
+      <DependentUpon>FrmConsumoCCirurgico.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmConsultaMovimento.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmConsultaMovimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmDispensacao.resx">
+      <DependentUpon>FrmDispensacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmAcertoEstoque.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmAcertoEstoque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerencial\FrmAnaliseEstoqueCustos.resx">
+      <DependentUpon>FrmAnaliseEstoqueCustos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmBaixaProdFrac.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmBaixaProdFrac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmConsumoPaciente.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmConsumoPaciente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmDivergenciasEstoque.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmDivergenciasEstoque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerencial\FrmGraficoRotatividade.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmGraficoRotatividade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmImpressaoPedido.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmImpressaoPedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmMovimentacao.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmMovimentacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmPedidoCarrinhoEmerg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPedidoCarrinhoEmerg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmConsultaPedidos.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmConsultaPedidos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmPersonalizado.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPersonalizado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmRecebUnidade.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRecebUnidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmRegistroPerda.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRegistroPerda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmReqPedidoPad.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmReqPedidoPad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmReqPendente.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmReqPendente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmSolicitacaoMaterial.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmSolicitacaoMaterial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Movimentacao\FrmTransfMatMed.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmTransfMatMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmConsumo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmConsumo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmIndiceRotatividade.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmIndiceRotatividade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmInfMatMed.resx">
+      <DependentUpon>FrmInfMatMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmKardex.resx">
+      <DependentUpon>FrmKardex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmObsoletos.resx">
+      <DependentUpon>FrmObsoletos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmPosicaoMensalProduto.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPosicaoMensalProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelatorios.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRelatorios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelatoriosInventario.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRelatoriosInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelBaixaCCusto.resx">
+      <DependentUpon>FrmRelBaixaCCusto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelConsumoGrupoMercado.resx">
+      <DependentUpon>FrmRelConsumoGrupoMercado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelConsumoPac.resx">
+      <DependentUpon>FrmRelConsumoPac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelEmprestimos.resx">
+      <DependentUpon>FrmRelEmprestimos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelEstoque.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRelEstoque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelLivroMov.resx">
+      <DependentUpon>FrmRelLivroMov.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelPrescricao.resx">
+      <DependentUpon>FrmRelPrescricao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelPrescricaoImp.resx">
+      <DependentUpon>FrmRelPrescricaoImp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmRelRegistroInventario.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmRelRegistroInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmReportViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\FrmSaldoSetor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmSaldoSetor.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Relatorio\FrmRelSetoresInvent.resx">
+      <DependentUpon>FrmRelSetoresInvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="GestaoMateriais_4_TemporaryKey.pfx" />
+    <None Include="GestaoMateriais_5_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Relatorio\FrmConsumo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmConsumo.Designer.cs">
+      <DependentUpon>FrmConsumo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmIndiceRotatividade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmIndiceRotatividade.Designer.cs">
+      <DependentUpon>FrmIndiceRotatividade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmInfMatMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmInfMatMed.Designer.cs">
+      <DependentUpon>FrmInfMatMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmObsoletos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmObsoletos.Designer.cs">
+      <DependentUpon>FrmObsoletos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmPosicaoMensalProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmPosicaoMensalProduto.Designer.cs">
+      <DependentUpon>FrmPosicaoMensalProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelatorios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelatorios.Designer.cs">
+      <DependentUpon>FrmRelatorios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelatoriosInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelatoriosInventario.Designer.cs">
+      <DependentUpon>FrmRelatoriosInventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelConsumoPac.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelConsumoPac.Designer.cs">
+      <DependentUpon>FrmRelConsumoPac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelEstoque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelEstoque.Designer.cs">
+      <DependentUpon>FrmRelEstoque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelRegistroInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmRelRegistroInventario.Designer.cs">
+      <DependentUpon>FrmRelRegistroInventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmReportViewer.Designer.cs">
+      <DependentUpon>FrmReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\FrmSaldoSetor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorio\FrmSaldoSetor.Designer.cs">
+      <DependentUpon>FrmSaldoSetor.cs</DependentUpon>
+    </Compile>
+    <None Include="SGS.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Seguranca\Fontes\Seguranca.Forms\Seguranca.Forms.csproj">
+      <Project>{D9ACF4D3-A89B-4EB0-ADF9-A407031DBC24}</Project>
+      <Name>Seguranca.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SOA\GestaoMateriais.DTO\GestaoMateriais.DTO.csproj">
+      <Project>{58E97D43-4E12-43DE-9CE0-2C1332DC21F3}</Project>
+      <Name>GestaoMateriais.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SOA\GestaoMateriais.Interface\GestaoMateriais.Interface.csproj">
+      <Project>{6C20B269-28CB-4C21-B27D-9AE069A78EA7}</Project>
+      <Name>GestaoMateriais.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GestaoMateriaisView\GestaoMateriaisView.csproj">
+      <Project>{B99F59C0-67B1-44B6-A329-7B6126BEC18F}</Project>
+      <Name>GestaoMateriaisView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img_logo_sgs.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Imagens\zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Imagens\building_delete.png" />
+    <Content Include="Imagens\cancel.png" />
+    <None Include="GestaoMateriais_1_TemporaryKey.pfx" />
+    <None Include="GestaoMateriais_2_TemporaryKey.pfx" />
+    <None Include="GestaoMateriais_3_TemporaryKey.pfx" />
+    <None Include="GestaoMateriais_TemporaryKey.pfx" />
+    <None Include="Imagens\control_start_blue.png" />
+    <None Include="Imagens\control_rewind_blue.png" />
+    <None Include="Imagens\control_fastforward_blue.png" />
+    <None Include="Imagens\control_end_blue.png" />
+    <Content Include="Imagens\disk.png" />
+    <Content Include="Imagens\door_in.png" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Imagens\fundo_barras_verde.jpg" />
+    <None Include="Imagens\Export_Excel.png" />
+    <Content Include="Imagens\fundo_barras_verde_botao.jpg" />
+    <None Include="Imagens\img_lupa.gif" />
+    <None Include="Imagens\img_excluir.gif" />
+    <None Include="Imagens\img_login_sgs.gif" />
+    <None Include="Imagens\img_cadeado.gif" />
+    <None Include="Imagens\img_grafico.gif" />
+    <BaseApplicationManifest Include="Properties\app.manifest" />
+    <Content Include="Imagens\img_pesquisa_identificacao_paciente.bmp" />
+    <Content Include="Imagens\page.png" />
+    <Content Include="Imagens\page_new.gif" />
+    <Content Include="Resources\building_delete.png" />
+    <Content Include="Resources\cancel.png" />
+    <Content Include="Resources\disk.png" />
+    <None Include="Resources\exportar_excel.bmp" />
+    <Content Include="Resources\page_new.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="ADODB">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.ReportViewer.Common">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.ReportViewer.ProcessingObjectModel">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

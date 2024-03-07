@@ -1,0 +1,1 @@
+drop procedure PRC_FAT_REL_VALOR_CLASS_CONT

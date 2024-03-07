@@ -1,0 +1,48 @@
+--PRC_ATS_ASR_ATEN_PRO_SEG_RET_S
+create or replace procedure PRC_ATS_ASR_ATEN_PRO_SEG_RET_S 
+(
+     pATS_ASR_ID IN TB_ATS_ASR_ATEN_PRO_SEG_RETIF.ATS_ASR_ID%type DEFAULT NULL,
+     pATS_APS_ID IN TB_ATS_ASR_ATEN_PRO_SEG_RETIF.ATS_APS_ID%type DEFAULT NULL,
+     pCAD_PRD_ID IN TB_ATS_ASR_ATEN_PRO_SEG_RETIF.CAD_PRD_ID%type DEFAULT NULL,
+     pATS_CPD_CD_SEGMENTO IN TB_ATS_ASR_ATEN_PRO_SEG_RETIF.ATS_CPD_CD_SEGMENTO%type DEFAULT NULL,
+     pATS_ASR_DT_ULTIMA_ATUALIZACAO IN TB_ATS_ASR_ATEN_PRO_SEG_RETIF.ATS_ASR_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_ATS_ASR_ATEN_PRO_SEG_RETIF.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_ATS_ASR_ATEN_PRO_SEG_RET_S
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pATS_ASR_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATS_ASR_ID = ' || pATS_ASR_ID; END IF;
+IF pATS_APS_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATS_APS_ID = ' || pATS_APS_ID; END IF;
+IF pCAD_PRD_ID IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_PRD_ID = ' || pCAD_PRD_ID; END IF;
+IF pATS_CPD_CD_SEGMENTO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATS_CPD_CD_SEGMENTO = ' || CHR(39) || pATS_CPD_CD_SEGMENTO || CHR(39); END IF;
+IF pATS_ASR_DT_ULTIMA_ATUALIZACAO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND ATS_ASR_DT_ULTIMA_ATUALIZACAO = ' || CHR(39) || pATS_ASR_DT_ULTIMA_ATUALIZACAO || CHR(39); END IF;
+IF pSEG_USU_ID_USUARIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_USU_ID_USUARIO = ' || pSEG_USU_ID_USUARIO; END IF;
+ 
+   V_SELECT := '
+SELECT	
+       ATS_ASR_ID,
+       ATS_APS_ID,
+       CAD_PRD_ID,
+       ATS_CPD_CD_SEGMENTO,
+       ATS_ASR_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO
+FROM TB_ATS_ASR_ATEN_PRO_SEG_RETIF
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_ATS_ASR_ATEN_PRO_SEG_RET_S;

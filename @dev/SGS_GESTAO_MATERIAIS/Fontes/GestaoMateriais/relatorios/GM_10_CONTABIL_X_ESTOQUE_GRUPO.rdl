@@ -1,0 +1,2173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>5.25cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.75cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.75cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.02646cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.75cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.75cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.5cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.5cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.5cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <ZIndex>37</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox18">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Grupo</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox18</rd:DefaultName>
+                      <ZIndex>36</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox21">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>QTDE</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox21</rd:DefaultName>
+                      <ZIndex>35</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox24">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>VALOR</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox24</rd:DefaultName>
+                      <ZIndex>34</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>QTDE</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox25</rd:DefaultName>
+                      <ZIndex>33</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox27">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>VALOR</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox27</rd:DefaultName>
+                      <ZIndex>32</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox36">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>QTDE</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox36</rd:DefaultName>
+                      <ZIndex>31</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox38">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>VALOR</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox38</rd:DefaultName>
+                      <ZIndex>30</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox39">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>QTDE</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox39</rd:DefaultName>
+                      <ZIndex>29</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox40">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>VALOR</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox40</rd:DefaultName>
+                      <ZIndex>28</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox42">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!MTMD_CUSTO_MEDIO.Value</SortExpression>
+                      </UserSort>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox42</rd:DefaultName>
+                      <ZIndex>27</ZIndex>
+                      <Style>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox43">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!CAD_MTMD_GRUPO_ID.Value</SortExpression>
+                      </UserSort>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox43</rd:DefaultName>
+                      <ZIndex>26</ZIndex>
+                      <Style>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.4cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox51">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CAD_MTMD_GRUPO_ID.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>6pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox60">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Mid(Fields!CAD_MTMD_GRUPO_DESCRICAO.Value,1,35)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>6pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>10</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MTMD_MOV_ESTOQUE_ANTERIOR">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!SALDO_CONT_SIMULADO_SEM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MTMD_MOV_ESTOQUE_ANTERIOR</rd:DefaultName>
+                      <ZIndex>9</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MTMD_VALOR_TOTAL_ANTERIOR">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!VAL_CONT_SIMULADO_SEM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MTMD_VALOR_TOTAL_ANTERIOR</rd:DefaultName>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MTMD_QTDE_ENTRADA">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!SALDO_CONT_COM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MTMD_QTDE_ENTRADA</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MTMD_VALOR_TOTAL_MES_ENTRADA">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!VAL_CONT_COM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MTMD_VALOR_TOTAL_MES_ENTRADA</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!FALTA_QTD.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!FALTA_VALOR.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!EXCEDENTE_QTD.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox10">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!EXCEDENTE_VALOR.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MTMD_CUSTO_MEDIO">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N4</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MTMD_CUSTO_MEDIO</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox1</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.5cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox50">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox50</rd:DefaultName>
+                      <ZIndex>23</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>None</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox47">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox47</rd:DefaultName>
+                      <ZIndex>22</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>None</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox20">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!SALDO_CONT_SIMULADO_SEM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox20</rd:DefaultName>
+                      <ZIndex>21</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox22">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!VAL_CONT_SIMULADO_SEM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox22</rd:DefaultName>
+                      <ZIndex>20</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>None</Style>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox16">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!SALDO_CONT_COM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>19</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox29">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!VAL_CONT_COM_INV.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox29</rd:DefaultName>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>None</Style>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox28">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!FALTA_QTD.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox28</rd:DefaultName>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox26">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!FALTA_VALOR.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox26</rd:DefaultName>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox19">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!EXCEDENTE_QTD.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox19</rd:DefaultName>
+                      <Style>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!EXCEDENTE_VALOR.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <Style>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox37">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox37</rd:DefaultName>
+                      <ZIndex>13</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox35">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>N0</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>1pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.63cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Diferença (val contábil - físico):</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>25</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Style>None</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!VAL_CONT_SIMULADO_SEM_INV.Value)-Sum(Fields!VAL_CONT_COM_INV.Value)</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox17</rd:DefaultName>
+                      <ZIndex>24</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>10</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="table1_Details_Group">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!CAD_MTMD_GRUPO_ID.Value</GroupExpression>
+                </GroupExpressions>
+                <DataElementName>Detail</DataElementName>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!CAD_MTMD_GRUPO_ID.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+              <DataElementName>Detail_Collection</DataElementName>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Left>1.25cm</Left>
+        <Height>2.03cm</Height>
+        <Width>22.27646cm</Width>
+        <Style>
+          <Border>
+            <Width>0.5pt</Width>
+          </Border>
+          <FontFamily>Verdana</FontFamily>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>2.03cm</Height>
+    <Style />
+  </Body>
+  <Width>28.7cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>1.75cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox2">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>CONTÁBIL (DIF. INV.)</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox2</rd:DefaultName>
+          <Top>1.25cm</Top>
+          <Left>7.5cm</Left>
+          <Height>0.38492cm</Height>
+          <Width>3.75cm</Width>
+          <Style>
+            <RightBorder>
+              <Style>None</Style>
+            </RightBorder>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="txtTitulo">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="SGS - Demonstrativo de divergências do Contábil X Saldos em Estoque - REF. "+Parameters!PMTMD_MOV_MES.Value.ToString()+"/"+Parameters!PMTMD_MOV_ANO.Value.ToString()+"- ESTOQUE "+IIf(Parameters!PCAD_MTMD_FILIAL_ID.Value=1,"HAC","ACS")</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.4cm</Top>
+          <Left>3.9cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>24.35cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Image Name="image1">
+          <Source>Embedded</Source>
+          <Value>logo_relatorios</Value>
+          <Height>1.2cm</Height>
+          <Width>3.7037cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style />
+        </Image>
+        <Textbox Name="textbox15">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>FÍSICO</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>1.25cm</Top>
+          <Left>11.25cm</Left>
+          <Height>0.38492cm</Height>
+          <Width>3.75cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <RightBorder>
+              <Style>None</Style>
+            </RightBorder>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox4">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>FALTA</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>1.25cm</Top>
+          <Left>15cm</Left>
+          <Height>0.38492cm</Height>
+          <Width>3.75cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <RightBorder>
+              <Style>None</Style>
+            </RightBorder>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox13">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>EXCEDENTE</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>1.25cm</Top>
+          <Left>18.75cm</Left>
+          <Height>0.38492cm</Height>
+          <Width>3.75cm</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <RightBorder>
+              <Style>None</Style>
+            </RightBorder>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>0.77646cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox30">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>6pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox30</rd:DefaultName>
+          <Top>0.1cm</Top>
+          <Left>0.1cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>0.6cm</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox31">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!TotalPages</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>6pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox31</rd:DefaultName>
+          <Top>0.1cm</Top>
+          <Left>1.2cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>0.7cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox33">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>/</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>6pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox33</rd:DefaultName>
+          <Top>0.1cm</Top>
+          <Left>0.8cm</Left>
+          <Height>0.63492cm</Height>
+          <Width>0.3cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox9">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ExecutionTime</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>6pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox9</rd:DefaultName>
+          <Top>0.25cm</Top>
+          <Left>23.5cm</Left>
+          <Height>0.4cm</Height>
+          <Width>3.42685cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageFooter>
+    <PageHeight>21cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
+    <InteractiveWidth>27cm</InteractiveWidth>
+    <LeftMargin>0.5cm</LeftMargin>
+    <RightMargin>0.5cm</RightMargin>
+    <TopMargin>0.5cm</TopMargin>
+    <BottomMargin>0.5cm</BottomMargin>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <Style>
+      <TopBorder>
+        <Style>None</Style>
+      </TopBorder>
+    </Style>
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SgsProducao">
+      <DataSourceReference>SgsProducao</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>186fd86e-07d1-43a3-9a26-3f72e1f8f633</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SgsProducao</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name=":PDATA_DE">
+            <Value>=Parameters!PDATA_DE.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name=":PDATA_ATE">
+            <Value>=Parameters!PDATA_ATE.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name=":PCAD_MTMD_FILIAL_ID">
+            <Value>=Parameters!PCAD_MTMD_FILIAL_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name=":PCAD_MTMD_GRUPO_ID">
+            <Value>=Parameters!PCAD_MTMD_GRUPO_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT MTMD.CAD_MTMD_ID,
+       MTMD.CAD_MTMD_NOMEFANTASIA DESCRICAO,
+       MTMD.CAD_MTMD_CODMNE,
+       MTMD.CAD_MTMD_UNID_CONTROLE_DS,
+       LINHA_ZERO.CAD_MTMD_GRUPO_ID,
+       LINHA_ZERO.CAD_MTMD_SUBGRUPO_ID,
+       GRUPO.CAD_MTMD_GRUPO_DESCRICAO,
+       SUBGRUPO.CAD_MTMD_SUBGRUPO_DESCRICAO,
+       LINHA_ZERO.MTMD_CUSTO_MEDIO_ATUAL MTMD_CUSTO_MEDIO,
+      (LINHA_ZERO.MTMD_SALDO_ANTERIOR+           
+      (SELECT NVL(SUM(T.MTMD_QTDE_ENTRADA),0)
+         FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+        WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+          AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+          AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+          AND T.CAD_MTMD_TPMOV_ID = 1
+          AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+          AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+      (SELECT NVL(SUM(T.MTMD_QTDE_SAIDA),0)
+         FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+        WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+          AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+          AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+          AND T.CAD_MTMD_TPMOV_ID = 2
+          AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+          AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)) SALDO_CONT_SIMULADO_SEM_INV,          
+      (LINHA_ZERO.MTMD_VALOR_ANTERIOR+
+       (SELECT NVL(SUM(T.MTMD_VALOR_ENTRADA),0)
+         FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+        WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+          AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+          AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+          AND T.CAD_MTMD_TPMOV_ID = 1
+          AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+          AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+      (SELECT NVL(SUM(T.MTMD_VALOR_SAIDA),0)
+         FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+        WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+          AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+          AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+          AND T.CAD_MTMD_TPMOV_ID = 2
+          AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+          AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)) VAL_CONT_SIMULADO_SEM_INV,              
+      LINHA_ZERO.MTMD_SALDO_ATUAL SALDO_CONT_COM_INV,
+      LINHA_ZERO.MTMD_VALOR_ATUAL VAL_CONT_COM_INV,              
+      CASE 
+        WHEN (LINHA_ZERO.MTMD_SALDO_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_QTDE_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_QTDE_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)) &gt; LINHA_ZERO.MTMD_SALDO_ATUAL THEN
+              (LINHA_ZERO.MTMD_SALDO_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_QTDE_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_QTDE_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID))-
+                  LINHA_ZERO.MTMD_SALDO_ATUAL                    
+        ELSE
+          0
+      END FALTA_QTD,        
+      CASE 
+        WHEN (LINHA_ZERO.MTMD_VALOR_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_VALOR_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_VALOR_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)) &gt; LINHA_ZERO.MTMD_VALOR_ATUAL THEN
+              (LINHA_ZERO.MTMD_VALOR_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_VALOR_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_VALOR_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID))-
+                  LINHA_ZERO.MTMD_VALOR_ATUAL                    
+        ELSE
+          0
+      END FALTA_VALOR,        
+      CASE 
+        WHEN (LINHA_ZERO.MTMD_SALDO_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_QTDE_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_QTDE_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)) &lt; LINHA_ZERO.MTMD_SALDO_ATUAL THEN
+              LINHA_ZERO.MTMD_SALDO_ATUAL-
+              (LINHA_ZERO.MTMD_SALDO_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_QTDE_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_QTDE_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID))                                      
+        ELSE
+          0
+      END EXCEDENTE_QTD,        
+      CASE 
+        WHEN (LINHA_ZERO.MTMD_VALOR_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_VALOR_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_VALOR_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)) &lt; LINHA_ZERO.MTMD_VALOR_ATUAL THEN
+              LINHA_ZERO.MTMD_VALOR_ATUAL-
+              (LINHA_ZERO.MTMD_VALOR_ANTERIOR+           
+              (SELECT NVL(SUM(T.MTMD_VALOR_ENTRADA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 1
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (44)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID)-              
+              (SELECT NVL(SUM(T.MTMD_VALOR_SAIDA),0)
+                 FROM SGS.TB_MTMD_MOV_ESTOQUE_DIA T 
+                WHERE T.MTMD_MOV_DATA &gt;= :PDATA_DE
+                  AND T.MTMD_MOV_DATA &lt;= :PDATA_ATE          
+                  AND T.CAD_MTMD_ID = MTMD.CAD_MTMD_ID 
+                  AND T.CAD_MTMD_TPMOV_ID = 2
+                  AND T.CAD_MTMD_SUBTP_ID NOT IN (43)
+                  AND T.CAD_MTMD_FILIAL_ID = DIAP.CAD_MTMD_FILIAL_ID))                                      
+        ELSE
+          0
+      END EXCEDENTE_VALOR            
+  FROM TB_CAD_MTMD_MAT_MED MTMD,
+       TB_CAD_MTMD_GRUPO GRUPO,
+       TB_CAD_MTMD_SUBGRUPO SUBGRUPO,
+       TB_MTMD_MOV_ESTOQUE_DIA DIAP,
+       (
+         SELECT *
+         FROM TB_MTMD_MOV_ESTOQUE_DIA
+         WHERE MTMD_MOV_DATA                = :PDATA_DE
+         AND   ( CAD_MTMD_FILIAL_ID = :PCAD_MTMD_FILIAL_ID )
+         AND   CAD_LAT_ID_LOCAL_ATENDIMENTO = 33
+         AND   CAD_UNI_ID_UNIDADE           = 244
+         AND   CAD_SET_ID                   = 29
+         AND   CAD_MTMD_TPMOV_ID            = 0
+         AND   CAD_MTMD_SUBTP_ID            = 0
+       ) LINHA_ZERO
+  WHERE DIAP.MTMD_MOV_DATA &gt;= :PDATA_DE
+  AND   DIAP.MTMD_MOV_DATA &lt;= :PDATA_ATE
+  AND   ( DIAP.CAD_MTMD_FILIAL_ID = :PCAD_MTMD_FILIAL_ID )
+  AND (:PCAD_MTMD_GRUPO_ID IS NULL OR (DIAP.CAD_MTMD_GRUPO_ID = :PCAD_MTMD_GRUPO_ID AND LINHA_ZERO.CAD_MTMD_GRUPO_ID = :PCAD_MTMD_GRUPO_ID))
+  AND   MTMD.CAD_MTMD_ID                    = DIAP.CAD_MTMD_ID
+  AND   GRUPO.CAD_MTMD_GRUPO_ID             = LINHA_ZERO.CAD_MTMD_GRUPO_ID
+  AND   (SUBGRUPO.CAD_MTMD_GRUPO_ID(+)         = LINHA_ZERO.CAD_MTMD_GRUPO_ID
+  AND   SUBGRUPO.CAD_MTMD_SUBGRUPO_ID(+)       = LINHA_ZERO.CAD_MTMD_SUBGRUPO_ID)
+  AND  LINHA_ZERO.CAD_MTMD_ID(+)               = DIAP.CAD_MTMD_ID
+  AND  LINHA_ZERO.CAD_MTMD_FILIAL_ID(+)        = DIAP.CAD_MTMD_FILIAL_ID
+  AND  LINHA_ZERO.CAD_MTMD_GRUPO_ID(+)         = DIAP.CAD_MTMD_GRUPO_ID
+  AND  (LINHA_ZERO.CAD_MTMD_SUBGRUPO_ID != 942 OR LINHA_ZERO.MTMD_VALOR_ATUAL != 0)
+  AND  NOT LINHA_ZERO.CAD_MTMD_FILIAL_ID IS NULL
+  GROUP BY MTMD.CAD_MTMD_ID,
+           DIAP.CAD_MTMD_FILIAL_ID,
+           MTMD.CAD_MTMD_NOMEFANTASIA,
+           MTMD.CAD_MTMD_CODMNE,
+           MTMD.CAD_MTMD_UNID_CONTROLE_DS,
+           LINHA_ZERO.CAD_MTMD_GRUPO_ID,
+           LINHA_ZERO.CAD_MTMD_SUBGRUPO_ID,
+           GRUPO.CAD_MTMD_GRUPO_DESCRICAO,
+           SUBGRUPO.CAD_MTMD_SUBGRUPO_DESCRICAO,
+           LINHA_ZERO.MTMD_CUSTO_MEDIO_ANTERIOR,
+           LINHA_ZERO.MTMD_SALDO_ATUAL,
+           LINHA_ZERO.MTMD_CUSTO_MEDIO_ATUAL,
+           LINHA_ZERO.MTMD_VALOR_ATUAL,
+           LINHA_ZERO.MTMD_SALDO_ANTERIOR,
+           LINHA_ZERO.MTMD_VALOR_ANTERIOR
+  HAVING (SUM(NVL(DIAP.MTMD_SALDO_ANTERIOR,0)+NVL(DIAP.MTMD_SALDO_ATUAL,0)+ NVL(DIAP.MTMD_QTDE_ENTRADA,0)+ NVL(DIAP.MTMD_QTDE_SAIDA,0)+ NVL(LINHA_ZERO.MTMD_VALOR_ANTERIOR,0) ) &gt; 0 OR LINHA_ZERO.MTMD_SALDO_ATUAL = 0)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="CAD_MTMD_ID">
+          <DataField>CAD_MTMD_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_GRUPO_ID">
+          <DataField>CAD_MTMD_GRUPO_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DESCRICAO">
+          <DataField>DESCRICAO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_CODMNE">
+          <DataField>CAD_MTMD_CODMNE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MTMD_CUSTO_MEDIO">
+          <DataField>MTMD_CUSTO_MEDIO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_UNID_CONTROLE_DS">
+          <DataField>CAD_MTMD_UNID_CONTROLE_DS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_SUBGRUPO_ID">
+          <DataField>CAD_MTMD_SUBGRUPO_ID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_SUBGRUPO_DESCRICAO">
+          <DataField>CAD_MTMD_SUBGRUPO_DESCRICAO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CAD_MTMD_GRUPO_DESCRICAO">
+          <DataField>CAD_MTMD_GRUPO_DESCRICAO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SALDO_CONT_SIMULADO_SEM_INV">
+          <DataField>SALDO_CONT_SIMULADO_SEM_INV</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="VAL_CONT_SIMULADO_SEM_INV">
+          <DataField>VAL_CONT_SIMULADO_SEM_INV</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SALDO_CONT_COM_INV">
+          <DataField>SALDO_CONT_COM_INV</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="VAL_CONT_COM_INV">
+          <DataField>VAL_CONT_COM_INV</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FALTA_QTD">
+          <DataField>FALTA_QTD</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FALTA_VALOR">
+          <DataField>FALTA_VALOR</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXCEDENTE_QTD">
+          <DataField>EXCEDENTE_QTD</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXCEDENTE_VALOR">
+          <DataField>EXCEDENTE_VALOR</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="PMTMD_MOV_MES">
+      <DataType>Integer</DataType>
+      <Prompt>PMTMD_MOV_MES</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PMTMD_MOV_ANO">
+      <DataType>Integer</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PMTMD_MOV_ANO</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PCAD_MTMD_FILIAL_ID">
+      <DataType>Integer</DataType>
+      <Prompt>PCAD_MTMD_FILIAL_ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PDATA_DE">
+      <DataType>DateTime</DataType>
+      <Prompt>PDATA DE</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PDATA_ATE">
+      <DataType>DateTime</DataType>
+      <Prompt>PDATA ATE</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PCAD_MTMD_GRUPO_ID">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>PCAD MTMD GRUPO ID</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function ObterFalta(valContabil as Double, valFisico as Double) as Double
+
+If (valContabil = Nothing) Then
+   valContabil = 0
+End If
+If (valFisico = Nothing) Then
+   valFisico = 0
+End If
+
+If (valContabil &gt; valFisico) Then
+   ObterFalta =  valContabil - valFisico
+Else
+   ObterFalta =   0
+End If
+End Function
+
+Public Function ObterExcedente(valContabil as Double, valFisico as Double) as Double
+
+If (valContabil = Nothing) Then
+   valContabil = 0
+End If
+If (valFisico = Nothing) Then
+   valFisico = 0
+End If
+
+If (valFisico &gt; valContabil) Then
+    ObterExcedente =   valFisico - valContabil
+    Else
+    ObterExcedente =   0
+    End If
+    End Function
+
+    Public Function ObterValFisico(valCont as Double, qtdCont as Integer, qtdFisico as Integer, valCM as Double, valFisico as Double) as Double
+
+    ObterValFisico = valFisico
+    
+
+    End Function
+  </Code>
+  <EmbeddedImages>
+    <EmbeddedImage Name="logo_relatorios">
+      <MIMEType>image/gif</MIMEType>
+      <ImageData>R0lGODlhjAAtAOf/AAABAACHMQCJOQCKMwCLOwCMOwSMNgCNPACOPQCPPgmONwGQPwCQRgyPOACSSA+QOQeSQRGROgGVSh2OPxSSOxaTPCCQQBGVRBiUPRySSCeROyOSQiiSPB+USiqTPSaURCGVSxuXUiyUPiOWTCmWRiWYTTWVRiuYRyKbVjOXTjWZTzKbVzibUTmcUjWdWUObUj+dTUGcWTyfVUOeWzqhXUeeVUSfXFGeV0qhWD6kYFChXk6iZkmkYV2eZFWiWlOjYU6lXGChZ1ykYkqpa1anZGOkamakZF+mZVSpbF2obG+jcVerblyqdGaobV+qbm6nbmOraVytamqscWGveWSvc3Kscmyuc2qveoSnhHeseWWzfHavdnOwe3Cyd2e2f3Wyfmy3epaolY6skJKrl3i1gYaxjHK4goG2gmq8i3y5hJyum4O4hYe3i3S9jY62i5+xnZmznou6jo65lKCzn56zpaWyppK6j6G0oJS6nKO1opq5nIy/mJW9kqW4pJDAlIrClKS5q5++oqa7rqi9r5vEmKLCmZTIoavBs6PGoqDIna3DtafInqvFsLTCtqXJpa/Gq6/Ft7HHua7Kp6jMp6zLrpnRr7nHu67NsKXRq7vJvbzKvrnMuLPPrK3RrL3Lv7XPur7MwKXVtLvOuqzTtb/NwcDOwrfUscHQw7XVt8PRxbjXusHUwMjRzMXTxsbUx8DYvMfVyLvbvcjWysvV0M/Wy8rYzMLcx87Y09HYzc3bztDa1crdydTb0NLb1tbb3dnb19Pd2Nfd0tHf0tTgzdjd4Mnkztjf1NLh1Nbg2tDjztfh3Nrh1tji3d/h3tnj3trk39Tn09vl4N/l2uHk4N3m4dzo1d7o4tzq3eXn5N/p5OPq3+Hr5ujq5uLs5+nr6OPt6Obt4u3q7+rs6eXv6ejv5Ovu6unw5e3v6+Tz5u7w7e/x7vLx6Ozz6Pbw7/Dy7/Tx9vHz8PL08e/26/T28+748/z2
+9fb49Pj79/b7/vr8+f/7+fv9+v/8//z/+/7//P///yH5BAEKAP8ALAAAAACMAC0AAAj+AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo8ePIEOKHEmyJEN/BlGaXMlyIb9427JRm7kMWa9gpdypbMmTZb503bJti0mNGbJgwUBpCjavp1OS99KlO/ftW9BszpghBQXpUCl4T8N+VAcPnrqq3bhle6YMaSlLkAZlcie2rsZ49uzFO1dum9qswZC9VXRIUCa7iCnOG2cP37146cp9i+msrWBLhAcBUpa4s8N727yRheeunGS1bGsOViQIkKV7nmMj9JeOWrZ06s6d81au21C2ypBxJSwoDx1qspMTzDfunDp96ux5+yZ5njBp4YL1yoXsFrFbSlP+KR8/79s5eDy+8PMDIp02KRM6nKHWaxmLETbk9CqVqen42Pv45o4kN5RTDTc/yECAE+9Ik0ICNyTAiy+WbCDAKZkg959n+2STjTpcgDDBiB88UMEHFmTwgQYPPNBLK708wogmluSy04Z2dUgNPFuIQMIHJIhAQQUijHABBiy6KEsrrbjiSSa43IijWPvMxA0nMIDDjTQg1JCAD+XkQoIBNRDwCzKzzMDAW8uwBAAAUyZU5UzvCNBEOy4IkE0KBBjxgQBENOMCCDt0QIALmUSiYUFwCtToQ40+SpCkA1Ha0JtvLmRpRu4E44wz3lDzTDbcBMOMM8IIg0wtsshSyyb+rtBSiieWIPRopJj+gymcu+qqa6a9Wprrr8AOWymjue6qbK8X5ZNLKaek0oq0pfRibS+4tEpLZoDMcQcctdgabKS+HusruY4CaxCvjrZLLKOTwmsusZtG5A81lmiSiSf8WnJtL7LAAossg+SRxxtjjEEHXQfd+qu7mZbL7rnqUsosuerGO2+lGReb0T23QGJJJPlCYi0u2S4JCyAHq/HGG7gk5HDEt05sc7nnIpusuzz3HDG86P5cETuXUIJZ
+JJBAogjAtATMZCt90FGHGlj0sMQutpo7brEdL4szzzczO2myZHOt7EW2EOABBQ8E0UgjgwjSKizTytKLJ0UQ0GL+BXxTkAAUF9UbZ0RkGEABBhU8kEEZjQDiSpO3iOKGDQk8wAHfmGvAwQOvWCT44A8RUMgFh2PAgQE2wNEKLK7IYYCJl1eAOOIaIFnBAFb4BzpPAZghTw0mVrA5Ab3wQUACsvONePLJL/8AA6ZIuTtJfgzQRj5mcDA7Bzb8kIAHzGNegQZ8k4/56VNMzxI5CZzxxwXVOPAA+AlIEoAHHnBAgN5HID+78rbjGwHWoD6TmCMHWuDEKNbBAwN4IAFpiIMADJCBJZzBDjYQ3/gwR7sKPLCAJuGHIVJwATPw4wsEqIAByEAIQiDiCikQwOUwQEPlhQ8DHnAACFcCDUSwQQKu7LCF6Z6XAL15sHnl02DtDOCHHa5EC1pwhAVCQYP58S1/4iMfBw43vg5iAAXSc6JIruGCMziAHJgQgAdq6IEHHO8IqLjGDwSQuc3pQ4wtMQcaFtGCSgxjAAZ4nQGGMAlyEKQTIQAfDQmAR574IwGOsAEZhmGHKABhEvtICTsIsMT0NbIl7EiEPYqBknzkQyHXoIEBNsCwT7IkjAqpxz9Q4cpa2vKWuMylLnc5kYAAADs=</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>pt-BR</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>98b5faa0-a5c3-443a-bff5-de186d103141</rd:ReportID>
+</Report>

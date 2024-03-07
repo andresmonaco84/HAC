@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Release\Seguranca\Seguranca.View.dll
+C:\TFS\SGS\@dev\DLL\_Release\Seguranca\Seguranca.View.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\Seguranca.View\obj\Release\Seguranca.View.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\Seguranca.View\obj\Release\Seguranca.View.dll
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\Seguranca.View\obj\Release\Seguranca.View.pdb

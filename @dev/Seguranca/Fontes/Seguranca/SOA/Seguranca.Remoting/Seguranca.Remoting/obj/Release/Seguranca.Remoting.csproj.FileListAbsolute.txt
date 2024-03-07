@@ -1,0 +1,6 @@
+C:\TFS\SGS\Servicos\_Release\Seguranca\Seguranca.Remoting.exe.config
+C:\TFS\SGS\Servicos\_Release\Seguranca\Seguranca.Remoting.exe
+C:\TFS\SGS\Servicos\_Release\Seguranca\Seguranca.Remoting.pdb
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Remoting\Seguranca.Remoting\obj\Release\Seguranca.Remoting.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Remoting\Seguranca.Remoting\obj\Release\Seguranca.Remoting.exe
+C:\TFS\SGS\@dev\Seguranca\Fontes\Seguranca\SOA\Seguranca.Remoting\Seguranca.Remoting\obj\Release\Seguranca.Remoting.pdb

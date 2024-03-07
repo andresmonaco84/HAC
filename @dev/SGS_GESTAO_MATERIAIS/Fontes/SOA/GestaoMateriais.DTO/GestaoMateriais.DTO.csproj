@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{58E97D43-4E12-43DE-9CE0-2C1332DC21F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HospitalAnaCosta.SGS.GestaoMateriais.DTO</RootNamespace>
+    <AssemblyName>GestaoMateriais.DTO</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\DLL\_Debug\GestaoMateriais\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\DLL\_Release\GestaoMateriais\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContaContabilGrupoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DoencaDiagnosticoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HistoricoNFEstornoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="InternacaoLegadoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="InventarioMatMedDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KitDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LivroRegistroMovimentosDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LocalAtendimentoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MatMedFuncionalidadeDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MotivoPerdaDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MovimentacaoMensalDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MunicipioDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PacienteDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CodigoBarraDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EstoqueLocalDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FilialMatMedDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GrupoMatMedDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HistoricoNotaFiscalDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MaterialMedicamentoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MatMedSetorConfigDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MatMedSimilarDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MovimentacaoComplementoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MovimentacaoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LocalEstoqueDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PedidoPadraoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PedidoPadraoItensDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrescricaoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrincipioAtivoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequisicaoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RequisicaoItensDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SetorDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SetorEstoqueConsumoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubGrupoMatMedDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TipoFracaoDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UnidadeDTO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Framework e Ferramentas\Framework\HacFramework\HacFramework.csproj">
+      <Project>{9e19e9ac-7b48-4ef1-9b18-65286f023f34}</Project>
+      <Name>HacFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

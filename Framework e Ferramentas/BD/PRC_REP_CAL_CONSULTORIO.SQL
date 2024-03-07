@@ -1,0 +1,101 @@
+CREATE OR REPLACE PROCEDURE SGS."PRC_REP_CAL_CONSULTORIO"
+(PREP_PGM_MES_FECHAMENTO               IN TB_REP_PGM_PAGTO_MEDICO.REP_PGM_MES_FECHAMENTO%TYPE,
+  PREP_PGM_ANO_FECHAMENTO               IN TB_REP_PGM_PAGTO_MEDICO.REP_PGM_ANO_FECHAMENTO%TYPE,
+  PREP_PGM_MES_PAGTO                    IN TB_REP_PGM_PAGTO_MEDICO.REP_PGM_MES_PAGTO%TYPE,
+  PREP_PGM_ANO_PAGTO                    IN TB_REP_PGM_PAGTO_MEDICO.REP_PGM_ANO_PAGTO%TYPE,
+  PSEG_USU_ID_USUARIO                   IN TB_REP_PPC_PAG_PROF_CLI.SEG_USU_ID_USUARIO%TYPE--,
+  --PCD_CLINICA                           IN STRING
+) IS
+  /********************************************************************
+  *    PROCEDURE: PRC_REP_CAL_CONSULTORIO
+  *
+  *    DATA CRIACAO:    31/01/2013   POR:
+  *    DATA ALTERACAO:  DATA DA ALTERA??O  POR: NOME DO ANALISTA
+  *
+  *    FUNCAO:
+  *
+  *******************************************************************/
+BEGIN  
+  BEGIN
+  FOR CONS IN (
+               -- ACS
+               SELECT UNI.CAD_UNI_ID_UNIDADE,
+                      LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+                      CLC.CAD_CLC_ID,
+                      CLC.CAD_CLC_CD_CLINICA,
+                      SUM(NVL(GER.VL_PAGO_CLINICA, 0)) PAGOACS,
+                      'MC'  CREDENCIAMENTO,
+                      'ACS' FONTEPAGADORA
+                 FROM REP_PAGTO_GERAL_CLINICA        GER,
+                      TB_CAD_PRO_PROFISSIONAL        PRO,
+                      TB_CAD_UNI_UNIDADE             UNI,
+                      TB_CAD_LAT_LOCAL_ATENDIMENTO   LAT,
+                      TB_CAD_CLC_CLINICA_CREDENCIADA CLC,
+                      TB_REP_IMPORTACAO_CLI_TEMP     ICT
+                      
+                WHERE GER.MES_PAGTO = PREP_PGM_MES_PAGTO
+                  AND GER.ANO_PAGTO = PREP_PGM_ANO_PAGTO
+                  AND GER.CODLOC = 'CON'
+                  AND GER.CD_CLINICA = CLC.CAD_CLC_CD_CLINICA
+                  --AND GER.CD_CLINICA IN (SELECT * FROM TABLE(FNC_SPLIT(PCD_CLINICA)))
+                  AND CLC.CAD_CLC_ID = ICT.CAD_CLC_ID
+                  AND GER.IN_MEDICO_CREDENCIADO = 'MC'
+                  AND UNI.CAD_UNI_CD_UNID_HOSPITALAR = GER.CODUNIHOS
+                  AND LAT.CAD_LAT_CD_LOCAL_ATENDIMENTO = GER.LOCAL
+                  AND TRIM(PRO.CAD_PRO_NR_CONSELHO) = TO_CHAR(GER.CODMED)
+                  AND CLC.CAD_CLC_CD_CLINICA = GER.CD_CLINICA
+                  AND NOT EXISTS(SELECT * FROM TB_REP_PPC_PAG_PROF_CLI PPC
+                  WHERE PPC.CAD_CLC_ID=CLC.CAD_CLC_ID
+                  AND PPC.REP_PPC_MES_PAGTO = PREP_PGM_MES_PAGTO
+                  AND PPC.REP_PPC_ANO_PAGTO = PREP_PGM_ANO_PAGTO
+                  AND PPC.CAD_REP_TP_BASE_CALCULO = 'VLCONS')
+                GROUP BY UNI.CAD_UNI_ID_UNIDADE,
+                         LAT.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+                         CLC.CAD_CLC_ID,
+                         CLC.CAD_CLC_CD_CLINICA) LOOP
+    BEGIN
+      INSERT INTO TB_REP_PPC_PAG_PROF_CLI PPC
+        (PPC.REP_PPC_ID,
+         PPC.CAD_CLC_ID,
+         PPC.CAD_UNI_ID_UNIDADE,
+         PPC.CAD_LAT_ID_LOCAL,
+         PPC.REP_PPC_VL_PAGO_HAC,
+         PPC.REP_PPC_VL_PAGO_ACS,
+         PPC.REP_PPC_MES_FECHAMENTO,
+         PPC.REP_PPC_ANO_FECHAMENTO,
+         PPC.REP_PPC_MES_PAGTO,
+         PPC.REP_PPC_ANO_PAGTO,
+         PPC.SEG_USU_ID_USUARIO,
+         PPC.REP_PPC_DT_ULTIMA_ATUALIZACAO,
+         PPC.REP_PPC_FL_PAGTO,
+         PPC.CAD_REP_TP_BASE_CALCULO,
+         PPC.REP_PPC_TP_CREDENCIA_PROF,
+         PPC.REP_PPC_FONTE_PAGADORA,
+         PPC.REP_PPC_DT_CRIACAO,
+         PPC.SEG_USU_ID_USUARIO_CRIACAO,
+         PPC.CAD_REP_ID)
+      VALUES
+        (SEQ_REP_PPC_01.NEXTVAL,
+         CONS.CAD_CLC_ID,
+         CONS.CAD_UNI_ID_UNIDADE,
+         CONS.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+         0,
+         CONS.PAGOACS,
+         PREP_PGM_MES_FECHAMENTO,
+         PREP_PGM_ANO_FECHAMENTO,
+         PREP_PGM_MES_PAGTO,
+         PREP_PGM_ANO_PAGTO,
+         PSEG_USU_ID_USUARIO,
+         SYSDATE,
+         'P',
+         'VLCONS',
+         CONS.CREDENCIAMENTO,
+         CONS.FONTEPAGADORA,
+         SYSDATE,
+         PSEG_USU_ID_USUARIO,
+         3161);
+    END;
+  END LOOP;
+   COMMIT;
+END;
+END PRC_REP_CAL_CONSULTORIO;

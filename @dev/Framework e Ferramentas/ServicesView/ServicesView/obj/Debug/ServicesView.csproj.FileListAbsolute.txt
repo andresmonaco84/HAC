@@ -1,0 +1,5 @@
+C:\TFS\SGS\@dev\DLL\_Debug\ServicesView.dll
+C:\TFS\SGS\@dev\DLL\_Debug\ServicesView.pdb
+C:\TFS\SGS\@dev\Framework e Ferramentas\ServicesView\ServicesView\obj\Debug\ServicesView.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Framework e Ferramentas\ServicesView\ServicesView\obj\Debug\ServicesView.dll
+C:\TFS\SGS\@dev\Framework e Ferramentas\ServicesView\ServicesView\obj\Debug\ServicesView.pdb

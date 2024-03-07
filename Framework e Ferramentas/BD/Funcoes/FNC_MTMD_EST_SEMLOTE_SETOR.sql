@@ -1,0 +1,60 @@
+CREATE OR REPLACE FUNCTION FNC_MTMD_EST_SEMLOTE_SETOR (
+pCAD_MTMD_ID                  IN TB_MTMD_ESTOQUE_LOTE.CAD_MTMD_ID%type,
+pCAD_UNI_ID_UNIDADE           IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%type,
+pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_CAD_LAT_LOCAL_ATENDIMENTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%TYPE,
+pCAD_SET_ID                   IN TB_CAD_SET_SETOR.CAD_SET_ID%type,
+pCAD_MTMD_FILIAL_ID           IN TB_MTMD_ESTOQUE_LOTE.CAD_MTMD_FILIAL_ID%TYPE
+ )
+RETURN  NUMBER IS
+nTotal NUMBER := 0;
+nTotalComLote NUMBER := 0;
+vUNIDADE_ESTOQUE_CONSUMO   TB_MTMD_MOV_MOVIMENTACAO.CAD_UNI_ID_UNIDADE%type;
+vLOCAL_ESTOQUE_CONSUMO     TB_MTMD_MOV_MOVIMENTACAO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type;
+vSETOR_ESTOQUE_CONSUMO     TB_MTMD_MOV_MOVIMENTACAO.CAD_SET_ID%type;
+vCAD_MTMD_GRUPO_ID         TB_CAD_MTMD_MAT_MED.CAD_MTMD_GRUPO_ID%type;
+vCAD_MTMD_FL_CONTROLA_LOTE TB_CAD_MTMD_MAT_MED.CAD_MTMD_FL_CONTROLA_LOTE%type;
+ /***********************************************************************************************
+*    Function: FNC_MTMD_EST_SEMLOTE_SETOR
+*
+*    Data Criacao:   02/2018         Por: Andre
+*
+*    Funcao: RETORNA SALDO EM ESTOQUE DISPONIVEL P/ CONSUMO SEM LOTE DO SETOR
+*************************************************************************************************/
+
+BEGIN
+
+  nTotal := FNC_MTMD_ESTOQUE_UNIDADE(pCAD_MTMD_ID,pCAD_UNI_ID_UNIDADE,pCAD_LAT_ID_LOCAL_ATENDIMENTO,pCAD_SET_ID,pCAD_MTMD_FILIAL_ID,NULL);
+  
+  SELECT CAD_MTMD_GRUPO_ID,  NVL(CAD_MTMD_FL_CONTROLA_LOTE,0)
+    INTO vCAD_MTMD_GRUPO_ID, vCAD_MTMD_FL_CONTROLA_LOTE
+    FROM TB_CAD_MTMD_MAT_MED PROD
+   WHERE PROD.CAD_MTMD_ID = pCAD_MTMD_ID;
+   
+  IF (vCAD_MTMD_GRUPO_ID = 1 AND vCAD_MTMD_FL_CONTROLA_LOTE = 1) THEN --Verificar saldo de lote apenas para medicamentos com controle de lote
+  
+      PRC_MTMD_ESTOQUE_DE_CONSUMO( pCAD_UNI_ID_UNIDADE,
+                                  pCAD_LAT_ID_LOCAL_ATENDIMENTO,
+                                  pCAD_SET_ID,
+                                  pCAD_MTMD_FILIAL_ID,
+                                  vUNIDADE_ESTOQUE_CONSUMO,
+                                  vLOCAL_ESTOQUE_CONSUMO,
+                                  vSETOR_ESTOQUE_CONSUMO
+                                 );
+      BEGIN                               
+        SELECT NVL(SUM(ESTOQUE.MTMD_EST_QTDE),0)
+          INTO  nTotalComLote
+          FROM TB_MTMD_ESTOQUE_LOTE ESTOQUE
+         WHERE ESTOQUE.CAD_MTMD_ID         = pCAD_MTMD_ID
+         AND   ESTOQUE.CAD_SET_ID          = vSETOR_ESTOQUE_CONSUMO
+         AND   ESTOQUE.CAD_MTMD_FILIAL_ID  = pCAD_MTMD_FILIAL_ID
+         AND   FNC_MTMD_CONTROLA_LOTE_COD(ESTOQUE.CAD_MTMD_ID, ESTOQUE.MTMD_COD_LOTE) = 1;
+      EXCEPTION WHEN NO_DATA_FOUND THEN
+         nTotalComLote := 0;  
+      END;
+      
+      nTotal := nTotal - nTotalComLote;
+     
+  END IF;
+
+  RETURN nTotal ;
+END FNC_MTMD_EST_SEMLOTE_SETOR;

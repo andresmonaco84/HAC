@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HacAjaxControlsExtender", "HacAjaxControlsExtenderSource\HacAjaxControlsExtender.csproj", "{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\SampleHacAjaxControlsExtender\", "SampleHacAjaxControlsExtender", "{1A35BEC2-F655-42D1-AACF-F14251357FA3}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		ProjectReferences = "{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}|HacAjaxControlsExtender.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/SampleHacAjaxControlsExtender"
+		Debug.AspNetCompiler.PhysicalPath = "SampleHacAjaxControlsExtender\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\SampleHacAjaxControlsExtender\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/SampleHacAjaxControlsExtender"
+		Release.AspNetCompiler.PhysicalPath = "SampleHacAjaxControlsExtender\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\SampleHacAjaxControlsExtender\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "4489"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://devhac01:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HacAjaxControlsExtenderSource\\HacAjaxControlsExtender.csproj
+		SccProjectName1 = HacAjaxControlsExtenderSource
+		SccLocalPath1 = HacAjaxControlsExtenderSource
+		SccWebProject2 = true
+		SccProjectUniqueName2 = SampleHacAjaxControlsExtender
+		SccLocalPath2 = .
+		SccProjectFilePathRelativizedFromConnection2 = SampleHacAjaxControlsExtender\\
+		SccProjectEnlistmentChoice2 = 2
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Release|.NET.ActiveCfg = Release|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{04511FA0-F88D-48D7-8CC5-FFAA7526FCD1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Debug|.NET.ActiveCfg = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Debug|.NET.Build.0 = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Release|.NET.ActiveCfg = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Release|.NET.Build.0 = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{1A35BEC2-F655-42D1-AACF-F14251357FA3}.Release|Mixed Platforms.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

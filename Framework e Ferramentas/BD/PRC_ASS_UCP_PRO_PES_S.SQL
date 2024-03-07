@@ -1,0 +1,65 @@
+create or replace procedure PRC_ASS_UCP_PRO_PES_S(
+pCAD_UNI_ID_UNIDADE           IN TB_CAD_UNI_UNIDADE.CAD_UNI_ID_UNIDADE%type,
+pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_CAD_LAT_LOCAL_ATENDIMENTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type,
+pTIS_CBO_CD_CBOS              IN TB_TIS_CBO_CBOS.TIS_CBO_CD_CBOS%type DEFAULT NULL,
+pCAD_PRO_ID_PROFISSIONAL      IN TB_CAD_PRO_PROFISSIONAL.CAD_PRO_ID_PROFISSIONAL%TYPE DEFAULT NULL,
+pASS_UCP_FL_STATUS            IN TB_ASS_UCP_UNID_LOC_CBO_PROF.ASS_UCP_FL_STATUS%type,
+pCAD_PES_NM_PESSOA            IN TB_CAD_PES_PESSOA.CAD_PES_NM_PESSOA%TYPE DEFAULT NULL,
+pTIS_CPR_CD_CONSELHOPROF      IN TB_CAD_PRO_PROFISSIONAL.TIS_CPR_CD_CONSELHOPROF%TYPE DEFAULT NULL,
+io_cursor                     OUT PKG_CURSOR.t_cursor
+--,TESTE OUT LONG
+) is
+  /********************************************************************
+  *    Procedure: PRC_ASS_UCP_PRO_PES_S
+  *
+  *    Data Criacao: 03/06/2008     Por: Fabiola R. Lopes
+  *    Funcao: Lista ou obtem os profissionais associados (unidade x local x especialidade )
+  *
+  *    Data Alteracao: 01/07/2008
+  *    Alteracao: O profissional pode ser nulo
+  *
+  *    Data Alteracao: 30/09/2008  Por:  Andri??a Cazuca
+  *    Alterai??i??o: Inclusi??o o order by
+  *
+  *    Data Alterai??i??o: 16/10/2008  Por: Andri??a Cazuca
+  *    Alterai??i??o: Inclusi??o do parametro pTIS_CPR_CD_CONSELHOPROF
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+    V_WHERE  varchar2(1000);
+    V_SELECT  varchar2(5000);
+  begin
+
+    IF pCAD_UNI_ID_UNIDADE IS NOT NULL THEN V_WHERE := V_WHERE || ' AND ASS.CAD_UNI_ID_UNIDADE = ' || pCAD_UNI_ID_UNIDADE; END IF;
+    IF pCAD_LAT_ID_LOCAL_ATENDIMENTO IS NOT NULL THEN V_WHERE := V_WHERE || ' AND ASS.CAD_LAT_ID_LOCAL_ATENDIMENTO = ' || pCAD_LAT_ID_LOCAL_ATENDIMENTO;   END IF;
+    IF pTIS_CBO_CD_CBOS IS NOT NULL THEN V_WHERE := V_WHERE || ' AND ASS.TIS_CBO_CD_CBOS = ' ||CHR(39)|| pTIS_CBO_CD_CBOS ||CHR(39); END IF;
+    IF pCAD_PRO_ID_PROFISSIONAL IS NOT NULL THEN V_WHERE := V_WHERE || ' AND ASS.CAD_PRO_ID_PROFISSIONAL = ' || pCAD_PRO_ID_PROFISSIONAL;   END IF;
+    IF pASS_UCP_FL_STATUS IS NOT NULL THEN V_WHERE := V_WHERE || ' AND ASS.ASS_UCP_FL_STATUS = ' ||CHR(39)|| pASS_UCP_FL_STATUS ||CHR(39); END IF;
+
+    IF pASS_UCP_FL_STATUS IS NOT NULL AND pASS_UCP_FL_STATUS = 'A'  THEN V_WHERE := V_WHERE || ' AND PRO.CAD_PRO_FL_ATIVO_OK = ' ||CHR(39)|| 'S' ||CHR(39); END IF;
+    IF pASS_UCP_FL_STATUS IS NOT NULL AND pASS_UCP_FL_STATUS = 'I'  THEN V_WHERE := V_WHERE || ' AND PRO.CAD_PRO_FL_ATIVO_OK = ' ||CHR(39)|| 'N' ||CHR(39); END IF;
+        
+    IF pCAD_PES_NM_PESSOA IS NOT NULL THEN V_WHERE := V_WHERE || ' AND PES.CAD_PES_NM_PESSOA LIKE ' ||CHR(39)|| pCAD_PES_NM_PESSOA ||CHR(39); END IF;
+    IF pTIS_CPR_CD_CONSELHOPROF IS NOT NULL THEN V_WHERE := V_WHERE || ' AND PRO.TIS_CPR_CD_CONSELHOPROF = ' ||CHR(39)|| pTIS_CPR_CD_CONSELHOPROF ||CHR(39); END IF;
+
+
+V_SELECT := '
+    SELECT DISTINCT ASS.CAD_PRO_ID_PROFISSIONAL Idt,
+           PES.CAD_PES_NM_PESSOA Nome,
+           PRO.CAD_PRO_NR_CONSELHO Crm
+      FROM TB_ASS_UCP_UNID_LOC_CBO_PROF ASS,
+           TB_CAD_PRO_PROFISSIONAL      PRO,
+           TB_CAD_PES_PESSOA            PES
+     WHERE (PRO.CAD_PRO_ID_PROFISSIONAL = ASS.CAD_PRO_ID_PROFISSIONAL)
+       AND (PRO.CAD_PES_ID_PESSOA = PES.CAD_PES_ID_PESSOA)
+       ' || V_WHERE || '
+     ORDER BY PES.CAD_PES_NM_PESSOA';
+ --  TESTE :=  V_SELECT ;
+  OPEN v_cursor FOR
+   V_SELECT ;
+ -- select sysdate from dual;
+    io_cursor := v_cursor;
+end PRC_ASS_UCP_PRO_PES_S;
+
+
+ 

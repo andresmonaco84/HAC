@@ -1,0 +1,111 @@
+create or replace procedure PRC_CAD_HPL_HORA_PLANTAO_PER_L
+(
+     pCAD_CLC_ID IN TB_CAD_CLC_CLINICA_CREDENCIADA.CAD_CLC_ID%TYPE DEFAULT NULL,
+     pCAD_PRO_ID_PROFISSIONAL IN TB_CAD_PRO_PROFISSIONAL.CAD_PRO_ID_PROFISSIONAL%TYPE DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_HPL_HORA_PLANTAO_PER_L
+* 
+*    Data Criacao:   data da  criação   Por: Nome do Analista
+*    Data Alteracao:  data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+	SELECT A.CAD_HPL_ID,
+           
+           A.CAD_UNI_ID_UNIDADE,
+           DECODE(F.CAD_UNI_DS_UNIDADE, NULL, 'TODAS', F.CAD_UNI_DS_UNIDADE) CAD_UNI_DS_UNIDADE,
+           
+           A.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+           DECODE(G.CAD_LAT_DS_LOCAL_ATENDIMENTO, NULL, 'TODOS', G.CAD_LAT_DS_LOCAL_ATENDIMENTO) CAD_LAT_DS_LOCAL_ATENDIMENTO,
+           
+           A.CAD_SET_ID,
+           DECODE(H.CAD_SET_DS_SETOR, NULL, 'TODOS', H.CAD_SET_DS_SETOR) CAD_SET_DS_SETOR,
+           
+           A.CAD_PRO_ID_PROFISSIONAL,
+           B.CAD_PRO_SG_UF_CONSELHO,
+           B.TIS_CPR_CD_CONSELHOPROF,
+           B.CAD_PRO_NR_CONSELHO,
+           DECODE(B.CAD_PRO_NM_NOME, NULL, 'TODOS', B.CAD_PRO_NM_NOME) CAD_PRO_NM_NOME,
+           
+           A.TIS_CBO_CD_CBOS,
+           DECODE(I.TIS_CBO_DS_CBOS, NULL, 'TODAS', I.TIS_CBO_DS_CBOS) TIS_CBO_DS_CBOS,
+           
+           A.CAD_PRD_ID,
+           DECODE(C.CAD_PRD_DS_DESCRICAO, NULL, 'TODOS', C.CAD_PRD_DS_DESCRICAO) CAD_PRD_DS_DESCRICAO,
+           
+           A.TIS_MED_CD_TABELAMEDICA,
+           DECODE(L.TIS_MED_DS_TABELAMEDICA, NULL, 'TODAS', L.TIS_MED_DS_TABELAMEDICA) TIS_MED_DS_TABELAMEDICA,
+           
+           A.AUX_EPP_CD_ESPECPROC,
+           DECODE(M.AUX_EPP_DS_DESCRICAO, NULL, 'TODOS', M.AUX_EPP_DS_DESCRICAO) AUX_EPP_DS_DESCRICAO,
+           
+           A.AUX_GPC_CD_GRUPOPROC,
+           DECODE(N.AUX_GPC_DS_DESCRICAO, NULL, 'TODOS', N.AUX_GPC_DS_DESCRICAO) AUX_GPC_DS_DESCRICAO,
+
+           A.CAD_PLA_ID_PLANO,
+           E.CAD_PLA_CD_PLANO_HAC,
+           DECODE(E.CAD_PLA_NM_NOME_PLANO, NULL, 'TODOS', E.CAD_PLA_NM_NOME_PLANO) CAD_PLA_NM_NOME_PLANO,
+                              
+           A.CAD_CNV_ID_CONVENIO,
+           D.CAD_CNV_CD_HAC_PRESTADOR,
+           DECODE(D.CAD_CNV_DS_RAZAOSOCIAL, NULL, 'TODOS', D.CAD_CNV_DS_RAZAOSOCIAL) CAD_CNV_DS_RAZAOSOCIAL,
+          
+           A.CAD_TPE_CD_CODIGO,
+           DECODE(J.CAD_TPE_DS_DESCRICAO, NULL, 'TODOS', J.CAD_TPE_DS_DESCRICAO) CAD_TPE_DS_DESCRICAO,
+           
+           A.CAD_CLC_ID,
+           K.CAD_CLC_DS_DESCRICAO,
+           
+           A.CAD_HPL_DT_INICIO_VIGENCIA,
+           A.CAD_HPL_DT_FIM_VIGENCIA,
+           A.CAD_HPL_QT_HORA_SEMANAL,
+           A.CAD_HPL_QT_HORA_FIM_SEMANA,
+           
+           A.CAD_HPL_VL_FATOR_MULTI,
+           A.CAD_HPL_QT_HORA_DIA,
+           A.CAD_HPL_QT_HORA_FALTA
+    
+      FROM TB_CAD_HPL_HORA_PLANTAO        A,
+           TB_CAD_PRO_PROFISSIONAL        B,
+           TB_CAD_PRD_PRODUTO             C,
+           TB_CAD_CNV_CONVENIO            D,
+           TB_CAD_PLA_PLANO               E,
+           TB_CAD_UNI_UNIDADE             F,
+           TB_CAD_LAT_LOCAL_ATENDIMENTO   G,
+           TB_CAD_SET_SETOR               H,
+           TB_TIS_CBO_CBOS                I,
+           TB_CAD_TPE_TIPOEMPRESA         J,
+           TB_CAD_CLC_CLINICA_CREDENCIADA K,
+           TB_TIS_MED_TABELAMEDICA        L,
+           TB_AUX_EPP_ESPECPROC           M,
+           TB_AUX_GPC_GRUPOPROC           N
+    
+     WHERE A.CAD_PRO_ID_PROFISSIONAL = B.CAD_PRO_ID_PROFISSIONAL(+)
+       AND A.TIS_CBO_CD_CBOS = I.TIS_CBO_CD_CBOS(+)
+       AND A.CAD_PRD_ID = C.CAD_PRD_ID(+)
+       AND A.CAD_CNV_ID_CONVENIO = D.CAD_CNV_ID_CONVENIO(+)
+       AND A.CAD_PLA_ID_PLANO = E.CAD_PLA_ID_PLANO(+)
+       AND A.CAD_UNI_ID_UNIDADE = F.CAD_UNI_ID_UNIDADE(+)
+       AND A.CAD_LAT_ID_LOCAL_ATENDIMENTO = G.CAD_LAT_ID_LOCAL_ATENDIMENTO(+)
+       AND A.CAD_SET_ID = H.CAD_SET_ID(+)
+       AND A.CAD_TPE_CD_CODIGO = J.CAD_TPE_CD_CODIGO(+)
+       AND A.CAD_CLC_ID = K.CAD_CLC_ID(+)
+       AND (pCAD_CLC_ID IS NULL OR A.CAD_CLC_ID = pCAD_CLC_ID)
+       AND A.TIS_MED_CD_TABELAMEDICA = L.TIS_MED_CD_TABELAMEDICA(+)
+       AND A.AUX_EPP_CD_ESPECPROC = M.AUX_EPP_CD_ESPECPROC(+)
+       AND A.TIS_MED_CD_TABELAMEDICA = M.TIS_MED_CD_TABELAMEDICA(+)
+       AND A.AUX_GPC_CD_GRUPOPROC = N.AUX_GPC_CD_GRUPOPROC(+)
+       AND A.AUX_EPP_CD_ESPECPROC = N.AUX_EPP_CD_ESPECPROC(+)
+       AND A.TIS_MED_CD_TABELAMEDICA = N.TIS_MED_CD_TABELAMEDICA(+)
+       AND (pCAD_PRO_ID_PROFISSIONAL IS NULL OR B.CAD_PRO_ID_PROFISSIONAL = pCAD_PRO_ID_PROFISSIONAL)
+         
+     ORDER BY 1;     
+io_cursor := v_cursor;
+end PRC_CAD_HPL_HORA_PLANTAO_PER_L;

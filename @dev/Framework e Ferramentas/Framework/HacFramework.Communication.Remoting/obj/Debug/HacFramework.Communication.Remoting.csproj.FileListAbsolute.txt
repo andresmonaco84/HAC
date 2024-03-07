@@ -1,0 +1,7 @@
+C:\TFS\SGS\@dev\DLL\_Debug\HacFramework.Communication.Remoting.dll
+C:\TFS\SGS\@dev\DLL\_Debug\HacFramework.Communication.Remoting.pdb
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework.Communication.Remoting\obj\Debug\HacFramework.Communication.Remoting.csprojResolveAssemblyReference.cache
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework.Communication.Remoting\obj\Debug\HacFramework.Communication.Remoting.Message.resources
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework.Communication.Remoting\obj\Debug\HacFramework.Communication.Remoting.csproj.GenerateResource.Cache
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework.Communication.Remoting\obj\Debug\HacFramework.Communication.Remoting.dll
+C:\TFS\SGS\@dev\Framework e Ferramentas\Framework\HacFramework.Communication.Remoting\obj\Debug\HacFramework.Communication.Remoting.pdb

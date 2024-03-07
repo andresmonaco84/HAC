@@ -1,0 +1,242 @@
+CREATE OR REPLACE PROCEDURE "PRC_AGS_REL_EST_FISIO"
+  (
+     pCAD_PRD_ID IN TB_ATS_ATE_ATENDIMENTO_SADT.CAD_PRD_ID%type DEFAULT NULL,
+     pCAD_UNI_ID_UNIDADE in TB_ATD_ATE_ATENDIMENTO.CAD_UNI_ID_UNIDADE%type DEFAULT NULL,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO in TB_ATD_ATE_ATENDIMENTO.CAD_LAT_ID_LOCAL_ATENDIMENTO%type default null,
+     pCAD_SET_ID IN TB_ATS_ATE_ATENDIMENTO_SADT.CAD_SET_ID_ATEN%type DEFAULT NULL,
+     pAUX_EPP_CD_ESPECPROC IN TB_ATS_ATE_ATENDIMENTO_SADT.AUX_EPP_CD_ESPECPROC%type DEFAULT NULL,
+     pCAD_PRO_ID_PROF_EXECUTANTE IN TB_ATS_ATE_ATENDIMENTO_SADT.CAD_PRO_ID_PROF_EXECUTANTE%type DEFAULT NULL,
+     pDT_INI_CONSULTA IN TB_ATS_ATE_ATENDIMENTO_SADT.ATS_ATE_DT_REALIZ_PROCED%type DEFAULT NULL,
+     pDT_FIM_CONSULTA IN TB_ATS_ATE_ATENDIMENTO_SADT.ATS_ATE_DT_REALIZ_PROCED%type DEFAULT NULL,
+     pHR_INI_CONSULTA IN TB_ATS_ATE_ATENDIMENTO_SADT.ATS_ATE_HR_REALIZ_PROCED%type DEFAULT NULL,
+     pHR_FIM_CONSULTA IN TB_ATS_ATE_ATENDIMENTO_SADT.ATS_ATE_HR_REALIZ_PROCED%type DEFAULT NULL,
+     pATS_ATE_IN_INTLIB IN TB_ATS_ATE_ATENDIMENTO_SADT.ATS_ATE_IN_INTLIB%TYPE DEFAULT NULL,
+     pCAD_PLA_CD_TIPOPLANO IN TB_CAD_PLA_PLANO.CAD_PLA_CD_TIPOPLANO%TYPE DEFAULT NULL,
+     page_sau_id IN TB_AGE_SAU_SALA_UNID_AND.age_sau_id%type default null,
+     io_cursor OUT PKG_CURSOR.t_cursor
+      --  , TESTE OUT LONG
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_AGS_REL_EST_FISIO
+  *
+  *******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+BEGIN   
+OPEN v_cursor FOR
+  SELECT
+      A.DIA_DA_SEMANA,
+      A.DIA_DA_SEMANA2,
+      A.DATA_ATENDIMENTO,
+      A.TIPO_EMPRESA,
+      A.AVALIACOES,
+      A.REAVALIACOES,
+      A.DESMARCADOS,
+      A.FALTAS,
+      A.TOTAL_ATENDIMENTOS,
+      A.PERIODO
+FROM (
+SELECT
+ TO_CHAR(AGS.AGS_AGE_DT_ATENDIMENTO, 'DY', 'NLS_DATE_LANGUAGE = portuguese') DIA_DA_SEMANA,
+ TO_CHAR(AGS.AGS_AGE_DT_ATENDIMENTO, 'D', 'NLS_DATE_LANGUAGE = portuguese') DIA_DA_SEMANA2,
+ AGS.AGS_AGE_DT_ATENDIMENTO          DATA_ATENDIMENTO,
+ PLA.CAD_PLA_CD_TIPOPLANO            TIPO_EMPRESA,
+ NVL(QTDAVA.QTDAVALIAR,0)            AVALIACOES,
+ NVL(QTDREA.QTDREAVALIAR,0)          REAVALIACOES,
+ NVL(QTDDESMARCADO.QTDDESMARCADOS,0) DESMARCADOS,
+ NVL(QTDFALTA.QTDFALTAS,0)           FALTAS,
+ NVL(QTDATE.QTDATE,0)                TOTAL_ATENDIMENTOS,
+ PERIODO.PERIODO
+
+   FROM (SELECT 'FUNCIONARIO' CAD_PLA_CD_TIPOPLANO FROM DUAL
+        UNION SELECT 'PARTICULAR' CAD_PLA_CD_TIPOPLANO FROM DUAL
+        UNION SELECT 'ANA COSTA SAUDE'  CAD_PLA_CD_TIPOPLANO FROM DUAL
+        UNION SELECT 'SERVICO PRESTADO' CAD_PLA_CD_TIPOPLANO FROM DUAL
+          ) PLA 
+CROSS JOIN (SELECT '0' PERIODO FROM DUAL UNION SELECT '1' PERIODO FROM DUAL ) PERIODO
+  CROSS JOIN (SELECT DISTINCT AGS.AGS_AGE_DT_ATENDIMENTO FROM TB_AGS_AGE_AGENDA_SADT AGS WHERE  TRUNC(AGS.AGS_AGE_DT_ATENDIMENTO) BETWEEN pDT_INI_CONSULTA AND pDT_FIM_CONSULTA) AGS
+ -- CROSS JOIN (SELECT PRD.CAD_PRD_CD_CODIGO,PRD.CAD_PRD_DS_DESCRICAO FROM TB_CAD_PRD_PRODUTO PRD WHERE PRD.CAD_PRD_ID IN (627944,627945,628285))
+  LEFT JOIN (
+        SELECT AGS.AGS_AGE_DT_ATENDIMENTO DATA_ATENDIMENTO,
+               CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END PERIODO,
+               DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS') SITUACAO,
+               DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') TIPO_EMPRESA,
+               COUNT(*)                   QTDREAVALIAR
+          FROM TB_AGS_AGE_AGENDA_SADT  AGS
+          JOIN TB_CAD_PRD_PRODUTO      PRD ON PRD.CAD_PRD_ID = AGS.CAD_PRD_ID
+          JOIN TB_AGS_ESM_ESCALA_SADT  ESM ON ESM.AGS_ESM_ID = AGS.AGS_ESM_ID
+          JOIN TB_CAD_PAC_PACIENTE     PAC ON PAC.CAD_PAC_ID_PACIENTE = AGS.CAD_PAC_ID_PACIENTE
+          JOIN TB_CAD_PLA_PLANO        PLA ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO          
+         WHERE ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+           AND PRD.AUX_EPP_CD_ESPECPROC = '25'
+           AND AGS.CAD_PRD_ID  = 628285
+           AND AGS.AGS_AGE_FL_STATUS = 'A'
+           AND TRUNC(AGS.AGS_AGE_DT_ATENDIMENTO) BETWEEN pDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+          AND (pHR_INI_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO >= pHR_INI_CONSULTA)
+          AND (pHR_FIM_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO <= pHR_FIM_CONSULTA)  
+          and (page_sau_id is null or ESM.age_sau_id = page_sau_id)
+         GROUP BY AGS.AGS_AGE_DT_ATENDIMENTO,
+               CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END,         
+                   DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS'),
+                   DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') 
+                                        
+        ) QTDREA ON AGS.AGS_AGE_DT_ATENDIMENTO = QTDREA.DATA_ATENDIMENTO
+                AND PLA.CAD_PLA_CD_TIPOPLANO = QTDREA.TIPO_EMPRESA
+                AND PERIODO.PERIODO = QTDREA.PERIODO
+
+LEFT JOIN (SELECT AGS.AGS_AGE_DT_ATENDIMENTO DATA_ATENDIMENTO,
+                  CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END PERIODO,
+                DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS') SITUACAO,
+                DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') TIPO_EMPRESA,
+                COUNT(*)                  QTDFALTAS
+          FROM TB_AGS_AGE_AGENDA_SADT  AGS
+          JOIN TB_CAD_PRD_PRODUTO      PRD ON PRD.CAD_PRD_ID = AGS.CAD_PRD_ID
+          JOIN TB_AGS_ESM_ESCALA_SADT  ESM ON ESM.AGS_ESM_ID = AGS.AGS_ESM_ID
+          JOIN TB_CAD_PAC_PACIENTE     PAC ON PAC.CAD_PAC_ID_PACIENTE = AGS.CAD_PAC_ID_PACIENTE
+          JOIN TB_CAD_PLA_PLANO        PLA ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+         WHERE ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE          
+           AND PRD.AUX_EPP_CD_ESPECPROC = '25'
+        --   AND PRD.CAD_PRD_ID IN (627944,627945,628285)
+           AND AGS.AGS_AGE_FL_STATUS = 'P'
+           AND TRUNC(AGS.AGS_AGE_DT_ATENDIMENTO) BETWEEN pDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+          AND (pHR_INI_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO >= pHR_INI_CONSULTA)
+          AND (pHR_FIM_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO <= pHR_FIM_CONSULTA) 
+          and (page_sau_id is null or ESM.age_sau_id = page_sau_id)            
+         GROUP BY AGS.AGS_AGE_DT_ATENDIMENTO,
+               CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END,                  
+                  DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS'),
+                  DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO')
+        ) QTDFALTA ON AGS.AGS_AGE_DT_ATENDIMENTO = QTDFALTA.DATA_ATENDIMENTO
+                AND PLA.CAD_PLA_CD_TIPOPLANO = QTDFALTA.TIPO_EMPRESA
+                AND PERIODO.PERIODO = QTDFALTA.PERIODO
+LEFT JOIN  (SELECT AGS.AGS_AGE_DT_ATENDIMENTO DATA_ATENDIMENTO,
+                  CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END PERIODO,
+               DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS') SITUACAO,
+               DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') TIPO_EMPRESA,
+               COUNT(*)                  QTDAVALIAR
+          FROM TB_AGS_AGE_AGENDA_SADT  AGS
+          JOIN TB_CAD_PRD_PRODUTO      PRD ON PRD.CAD_PRD_ID = AGS.CAD_PRD_ID
+          JOIN TB_AGS_ESM_ESCALA_SADT  ESM ON ESM.AGS_ESM_ID = AGS.AGS_ESM_ID
+          JOIN TB_CAD_PAC_PACIENTE     PAC ON PAC.CAD_PAC_ID_PACIENTE = AGS.CAD_PAC_ID_PACIENTE
+          JOIN TB_CAD_PLA_PLANO        PLA ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+         WHERE ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+           AND PRD.AUX_EPP_CD_ESPECPROC = '25'
+           AND PRD.CAD_PRD_ID = 627945
+           AND AGS.AGS_AGE_FL_STATUS = 'A'
+           AND TRUNC(AGS.AGS_AGE_DT_ATENDIMENTO) BETWEEN pDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+          AND (pHR_INI_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO >= pHR_INI_CONSULTA)
+          AND (pHR_FIM_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO <= pHR_FIM_CONSULTA)    
+           and (page_sau_id is null or ESM.age_sau_id = page_sau_id)         
+         GROUP BY AGS.AGS_AGE_DT_ATENDIMENTO,
+               CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END,                  
+                  DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS'),
+                  DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO')
+        ) QTDAVA ON AGS.AGS_AGE_DT_ATENDIMENTO = QTDAVA.DATA_ATENDIMENTO
+               AND PLA.CAD_PLA_CD_TIPOPLANO = QTDAVA.TIPO_EMPRESA
+                AND PERIODO.PERIODO = QTDAVA.PERIODO
+LEFT JOIN  (SELECT AGC.AGS_AGE_DT_ATENDIMENTO DATA_ATENDIMENTO,
+                  CASE WHEN AGC.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END PERIODO,
+               'DESMARCADOS'              SITUACAO,
+               DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') TIPO_EMPRESA,
+               COUNT(*)                   QTDDESMARCADOS
+          FROM TB_AGS_AGC_AGENDA_CANC_SADT  AGC
+          JOIN TB_CAD_PRD_PRODUTO      PRD ON PRD.CAD_PRD_ID = AGC.CAD_PRD_ID
+          JOIN TB_AGS_ESM_ESCALA_SADT  ESM ON ESM.AGS_ESM_ID = AGC.AGS_ESM_ID
+          JOIN TB_CAD_PAC_PACIENTE     PAC ON PAC.CAD_PAC_ID_PACIENTE = AGC.CAD_PAC_ID_PACIENTE
+          JOIN TB_CAD_PLA_PLANO        PLA ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+         WHERE ESM.CAD_UNI_ID_UNIDADE   = pCAD_UNI_ID_UNIDADE
+           AND PRD.AUX_EPP_CD_ESPECPROC = '25'
+         --  AND PRD.CAD_PRD_ID IN (627944,627945,628285)
+           AND TRUNC(AGC.AGS_AGE_DT_ATENDIMENTO) BETWEEN pDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+           AND (pHR_INI_CONSULTA IS NULL OR AGC.AGS_AGE_HR_ATENDIMENTO >= pHR_INI_CONSULTA)
+           AND (pHR_FIM_CONSULTA IS NULL OR AGC.AGS_AGE_HR_ATENDIMENTO <= pHR_FIM_CONSULTA)
+           and (page_sau_id is null or ESM.age_sau_id = page_sau_id)
+         GROUP BY AGC.AGS_AGE_DT_ATENDIMENTO,
+               CASE WHEN AGC.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END,                  
+                   'DESMARCADOS' ,
+                   DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') 
+         ) QTDDESMARCADO ON AGS.AGS_AGE_DT_ATENDIMENTO = QTDDESMARCADO.DATA_ATENDIMENTO
+                AND PLA.CAD_PLA_CD_TIPOPLANO = QTDDESMARCADO.TIPO_EMPRESA
+                AND PERIODO.PERIODO = QTDDESMARCADO.PERIODO
+
+LEFT JOIN  (SELECT AGS.AGS_AGE_DT_ATENDIMENTO DATA_ATENDIMENTO,
+                  CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END PERIODO,
+               DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS') SITUACAO,
+               DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO') TIPO_EMPRESA,
+               COUNT(*)                  QTDATE
+          FROM TB_AGS_AGE_AGENDA_SADT  AGS
+          JOIN TB_CAD_PRD_PRODUTO      PRD ON PRD.CAD_PRD_ID = AGS.CAD_PRD_ID
+          JOIN TB_AGS_ESM_ESCALA_SADT  ESM ON ESM.AGS_ESM_ID = AGS.AGS_ESM_ID
+          JOIN TB_CAD_PAC_PACIENTE     PAC ON PAC.CAD_PAC_ID_PACIENTE = AGS.CAD_PAC_ID_PACIENTE
+          JOIN TB_CAD_PLA_PLANO        PLA ON PLA.CAD_PLA_ID_PLANO = PAC.CAD_PLA_ID_PLANO
+         WHERE ESM.CAD_UNI_ID_UNIDADE = pCAD_UNI_ID_UNIDADE
+           AND PRD.AUX_EPP_CD_ESPECPROC = '25'
+         --  AND PRD.CAD_PRD_ID IN (627944,627945,628285)
+           AND AGS.AGS_AGE_FL_STATUS = 'A'
+           AND TRUNC(AGS.AGS_AGE_DT_ATENDIMENTO) BETWEEN pDT_INI_CONSULTA AND pDT_FIM_CONSULTA
+           AND (pHR_INI_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO >= pHR_INI_CONSULTA)
+           AND (pHR_FIM_CONSULTA IS NULL OR AGS.AGS_AGE_HR_ATENDIMENTO <= pHR_FIM_CONSULTA)  
+           and (page_sau_id is null or ESM.age_sau_id = page_sau_id)
+         GROUP BY AGS.AGS_AGE_DT_ATENDIMENTO,
+               CASE WHEN AGS.AGS_AGE_HR_ATENDIMENTO <= 1259 THEN '0' ELSE '1' END,                  
+                  DECODE(AGS.AGS_AGE_FL_STATUS, 'P', 'FALTAS', 'ATENDIDOS'),
+                  DECODE(PLA.CAD_PLA_CD_TIPOPLANO,
+                                        'FU', 'FUNCIONARIO',
+                                        'PA', 'PARTICULAR',
+                                        'GB', 'ANA COSTA SAUDE',
+                                        'PL', 'ANA COSTA SAUDE',
+                                        'SP', 'SERVICO PRESTADO')
+        ) QTDATE ON AGS.AGS_AGE_DT_ATENDIMENTO = QTDATE.DATA_ATENDIMENTO
+                AND PLA.CAD_PLA_CD_TIPOPLANO = QTDATE.TIPO_EMPRESA
+                AND PERIODO.PERIODO = QTDATE.PERIODO                                        
+   ) A
+   
+   ORDER BY A.DATA_ATENDIMENTO, A.TIPO_EMPRESA
+;
+    io_cursor := v_cursor;
+  end PRC_AGS_REL_EST_FISIO;

@@ -1,0 +1,1 @@
+ create sequence SEQ_SEG_USUARIO;

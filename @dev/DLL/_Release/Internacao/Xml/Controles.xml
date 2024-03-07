@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Leitos>
+  
+  <PosicaoLeito>
+    <Leito posicao="1"  top="14"  left="8"/>
+    <Leito posicao="2"  top="14"  left="50"/>
+    <Leito posicao="3"  top="14"  left="92"/>
+    <Leito posicao="4"  top="14"  left="134"/>
+    <Leito posicao="5"  top="14"  left="176"/>
+  </PosicaoLeito>
+
+  <PosicaoQuarto>
+    <Quarto posicao="1"  top="12"  left="12"/>
+    <Quarto posicao="2"  top="80"  left="12"/>
+    <Quarto posicao="3"  top="148" left="12"/>
+    <Quarto posicao="4"  top="216" left="12"/>
+    <Quarto posicao="5"  top="284" left="12"/>
+    <Quarto posicao="6"  top="352" left="12"/>
+    <Quarto posicao="7"  top="420" left="12"/>
+    <Quarto posicao="8"  top="488" left="12"/>
+
+    <Quarto posicao="9" top="12"  left="230"/>
+    <Quarto posicao="10" top="80"  left="230"/>
+    <Quarto posicao="11" top="148" left="230"/>
+    <Quarto posicao="12" top="216" left="230"/>
+    <Quarto posicao="13" top="284" left="230"/>
+    <Quarto posicao="14" top="352" left="230"/>
+    <Quarto posicao="15" top="420" left="230"/>
+    <Quarto posicao="16" top="488" left="230"/>
+
+    <Quarto posicao="17" top="12"  left="448"/>
+    <Quarto posicao="18" top="80"  left="448"/>
+    <Quarto posicao="19" top="148" left="448"/>
+    <Quarto posicao="20" top="216" left="448"/>
+    <Quarto posicao="21" top="284" left="448"/>
+    <Quarto posicao="22" top="352" left="448"/>
+    <Quarto posicao="23" top="420" left="448"/>
+    <Quarto posicao="24" top="488" left="448"/>
+  </PosicaoQuarto>
+
+  <!-- POSIÇÃO DO SETOR NA TELA -->
+  <PosicaoSetor>
+    <!-- 1º COLUNA -->
+    <Setor posicao="1"   top="100"   left="8"/>
+    <Setor posicao="2"   top="150"  left="8"/>
+    <Setor posicao="3"   top="200"  left="8"/>
+    <Setor posicao="4"   top="250"  left="8"/>
+    <Setor posicao="5"   top="300"  left="8"/>
+    <Setor posicao="6"   top="350"  left="8"/>
+    <Setor posicao="7"   top="400"  left="8"/>
+    <Setor posicao="8"   top="450"  left="8"/>
+    <Setor posicao="9"   top="500"  left="8"/>
+    
+    <!-- 2º COLUNA -->
+    <Setor posicao="10"   top="100"   left="300"/>
+    <Setor posicao="11"   top="150"  left="300"/>
+    <Setor posicao="12"   top="200"  left="300"/>
+    <Setor posicao="13"   top="250"  left="300"/>
+    <Setor posicao="14"   top="300"  left="300"/>
+    <Setor posicao="15"   top="350"  left="300"/>
+    <Setor posicao="16"   top="400"  left="300"/>
+    <Setor posicao="17"   top="450"  left="300"/>
+    <Setor posicao="18"   top="500"  left="300"/>
+
+    <!-- 3º COLUNA -->
+    <Setor posicao="19"   top="100"  left="572"/>
+    <Setor posicao="20"   top="150"  left="572"/>
+    <Setor posicao="21"   top="200"  left="572"/>
+    <Setor posicao="22"   top="250"  left="572"/>
+    <Setor posicao="23"   top="300"  left="572"/>
+    <Setor posicao="24"   top="350"  left="572"/>
+    <Setor posicao="25"   top="400"  left="572"/>
+    <Setor posicao="26"   top="450"  left="572"/>
+    <Setor posicao="27"   top="500"  left="572"/>
+  </PosicaoSetor>
+
+  
+  
+  <PosicaoLeitoUTIs>
+    <LeitoUtis posicao="1"   top="14"  left="8"/>
+    <LeitoUtis posicao="2"   top="14"  left="50"/>
+    <LeitoUtis posicao="3"   top="14"  left="92"/>
+    <LeitoUtis posicao="4"   top="14"  left="134"/>
+    <LeitoUtis posicao="5"   top="14"  left="176"/>
+    <LeitoUtis posicao="6"   top="14"  left="218"/>
+    <LeitoUtis posicao="7"   top="14"  left="260"/>
+    <LeitoUtis posicao="8"   top="14"  left="302"/>
+    <LeitoUtis posicao="9"   top="14"  left="344"/>
+    <LeitoUtis posicao="10"  top="14"  left="386"/>
+    <LeitoUtis posicao="11"  top="14"  left="428"/>
+    <LeitoUtis posicao="12"  top="14"  left="470"/>
+    <LeitoUtis posicao="13"  top="14"  left="512"/>
+    <LeitoUtis posicao="14"  top="14"  left="554"/>
+    <LeitoUtis posicao="15"  top="14"  left="596"/>
+    <LeitoUtis posicao="16"  top="14"  left="638"/>
+    <LeitoUtis posicao="17"  top="14"  left="680"/>
+    <LeitoUtis posicao="18"  top="14"  left="722"/>
+    <LeitoUtis posicao="19"  top="14"  left="764"/>
+    <LeitoUtis posicao="20"  top="14"  left="806"/>
+    <LeitoUtis posicao="21"  top="50"  left="8"/>
+    <LeitoUtis posicao="22"  top="50"  left="50"/>
+    <LeitoUtis posicao="23"  top="50"  left="92"/>
+    <LeitoUtis posicao="24"  top="50"  left="134"/>
+    <LeitoUtis posicao="25"  top="50"  left="176"/>
+    <LeitoUtis posicao="26"  top="50"  left="218"/>
+    <LeitoUtis posicao="27"  top="50"  left="260"/>
+    <LeitoUtis posicao="28"  top="50"  left="302"/>
+    <LeitoUtis posicao="29"  top="50"  left="344"/>
+    <LeitoUtis posicao="30"  top="50"  left="386"/>
+  </PosicaoLeitoUTIs>
+  
+  <PosicaoQuartoUTIs>
+    <QuartoUtis posicao="1"  top="12"   left="12"/>
+    <QuartoUtis posicao="2"  top="108"  left="12"/>
+    <QuartoUtis posicao="3"  top="216"  left="12"/>
+    <QuartoUtis posicao="4"  top="324"  left="12"/>
+    <QuartoUtis posicao="5"  top="432"  left="12"/>
+    <QuartoUtis posicao="6"  top="540"  left="12"/>
+    <QuartoUtis posicao="7"  top="648"  left="12"/>
+  </PosicaoQuartoUTIs>
+
+  <PosicaoQuartoGrande>
+    <QuartoUtis posicao="1"  top="12"   left="12"/>
+    <QuartoUtis posicao="2"  top="70"  left="12"/>
+    <QuartoUtis posicao="3"  top="130"  left="12"/>
+    <QuartoUtis posicao="4"  top="190"  left="12"/>
+    <QuartoUtis posicao="5"  top="250"  left="12"/>
+    <QuartoUtis posicao="6"  top="310"  left="12"/>
+    <QuartoUtis posicao="7"  top="370"  left="12"/>
+    <QuartoUtis posicao="8"  top="430"  left="12"/>
+    <QuartoUtis posicao="9"  top="490"  left="12"/>
+    <QuartoUtis posicao="10"  top="550"  left="12"/>
+    
+  </PosicaoQuartoGrande>
+  
+
+</Leitos>

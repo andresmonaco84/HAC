@@ -1,0 +1,62 @@
+create or replace procedure PRC_SEG_HIU_HIST_USUARIO_S
+  (
+     pSEG_HIU_ID IN TB_SEG_HIU_HISTORICO_USUARIO.SEG_HIU_ID%type DEFAULT NULL,
+     pSEG_MOD_ID_MODULO IN TB_SEG_HIU_HISTORICO_USUARIO.SEG_MOD_ID_MODULO%type DEFAULT NULL,
+     pSEG_FUN_ID_FUNCIONALIDADE IN TB_SEG_HIU_HISTORICO_USUARIO.SEG_FUN_ID_FUNCIONALIDADE%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_SEG_HIU_HISTORICO_USUARIO.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     pCAD_SET_ID IN TB_SEG_HIU_HISTORICO_USUARIO.CAD_SET_ID%type DEFAULT NULL,
+     pATD_ATE_ID IN TB_SEG_HIU_HISTORICO_USUARIO.ATD_ATE_ID%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  ) 
+  is
+  /********************************************************************
+  *    Procedure: PRC_SEG_HIU_HIST_USUARIO_S
+  * 
+  *    Data Criacao:   16/02/2008   Por: Davi Silvestre M. dos Reis
+  *    Data Alteracao:  data        Por: Nome do Analista
+  *
+  *    Funcao: Retorna os dados do Historico de Operacoes do Usuario
+  *
+  *******************************************************************/  
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT 
+           HIU.SEG_HIU_ID,
+           HIU.SEG_MOD_ID_MODULO,
+           MODL.SEG_MOD_NM_MODULO,
+           HIU.SEG_FUN_ID_FUNCIONALIDADE,
+           FUN.SEG_FUN_DS_DESCRICAO,
+           FUN.SEG_FUN_NM_NOME,
+           FUN.SEG_FUN_DS_NOME_PAGINA,
+           HIU.SEG_USU_ID_USUARIO,
+           USU.SEG_USU_DS_NOME,
+           HIU.SEG_HIU_DS_COMPLEMENTO,
+           USU.SEG_USU_DS_TELEFONE,
+           USU.SEG_USU_DS_RAMAL,
+           HIU.CAD_SET_ID,
+           SETOR.CAD_SET_DS_SETOR,
+           HIU.ATD_ATE_ID,
+           HIU.SEG_HIU_DT_ATUALIZACAO,
+           HIU.SEG_HIU_HR_ATUALIZACAO
+           FROM TB_SEG_HIU_HISTORICO_USUARIO HIU
+     INNER JOIN TB_SEG_MOD_MODULO MODL
+        ON MODL.SEG_MOD_ID_MODULO = HIU.SEG_MOD_ID_MODULO
+     INNER JOIN TB_SEG_FUN_FUNCIONALIDADE FUN
+        ON FUN.SEG_FUN_ID_FUNCIONALIDADE = HIU.SEG_FUN_ID_FUNCIONALIDADE
+     INNER JOIN TB_SEG_USU_USUARIO USU
+        ON USU.SEG_USU_ID_USUARIO = HIU.SEG_USU_ID_USUARIO
+      LEFT JOIN TB_CAD_SET_SETOR SETOR
+        ON SETOR.CAD_SET_ID = HIU.CAD_SET_ID
+    WHERE
+        (pSEG_HIU_ID is null OR SEG_HIU_ID = pSEG_HIU_ID)
+    AND (pSEG_MOD_ID_MODULO is null OR SEG_MOD_ID_MODULO  = pSEG_MOD_ID_MODULO)        
+    AND (pSEG_FUN_ID_FUNCIONALIDADE is null OR SEG_FUN_ID_FUNCIONALIDADE  = pSEG_FUN_ID_FUNCIONALIDADE)
+    AND (pSEG_USU_ID_USUARIO is null OR SEG_USU_ID_USUARIO  = pSEG_USU_ID_USUARIO)        
+    AND (pCAD_SET_ID is null OR HIU.CAD_SET_ID  = pCAD_SET_ID)        
+    AND (pATD_ATE_ID is null OR ATD_ATE_ID  = pATD_ATE_ID)        
+    ORDER BY SEG_HIU_ID DESC;
+  io_cursor := v_cursor;
+end PRC_SEG_HIU_HIST_USUARIO_S;
+    
+/

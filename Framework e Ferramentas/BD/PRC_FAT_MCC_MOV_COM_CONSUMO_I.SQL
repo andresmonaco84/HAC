@@ -1,0 +1,66 @@
+create or replace procedure PRC_FAT_MCC_MOV_COM_CONSUMO_I
+(
+     pNewIdt OUT integer,
+     pFAT_MCC_ID IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_ID%type default NULL,
+     pATD_ATE_ID IN TB_FAT_MCC_MOV_COM_CONSUMO.ATD_ATE_ID%type,
+     pFAT_MCC_DT_MOVIMENTACAO IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_DT_MOVIMENTACAO%type,
+     pFAT_MCC_HR_MOVIMENTACAO IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_HR_MOVIMENTACAO%type,
+     pFAT_MCC_VL_TOT_MOV_COMANDA IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_VL_TOT_MOV_COMANDA%type default NULL,
+     pFAT_MCC_QT_TOT_ITEM_MOV_COM IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_QT_TOT_ITEM_MOV_COM%type default NULL,
+     pFAT_MCC_DT_ULTIMA_ATUALIZACAO IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_DT_ULTIMA_ATUALIZACAO%type,
+     pSEG_USU_ID_USUARIO IN TB_FAT_MCC_MOV_COM_CONSUMO.SEG_USU_ID_USUARIO%type,
+     pFAT_MCC_FL_STATUS IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_MCC_FL_STATUS%type,
+     pFAT_COC_FL_FATURADO IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_COC_FL_FATURADO%type,
+     pATD_GUI_CD_CODIGO IN TB_FAT_MCC_MOV_COM_CONSUMO.ATD_GUI_CD_CODIGO%type default NULL,
+     pFAT_TCO_ID IN TB_FAT_MCC_MOV_COM_CONSUMO.FAT_TCO_ID%type,
+     pCAD_SET_ID IN TB_FAT_MCC_MOV_COM_CONSUMO.CAD_SET_ID%type	
+) 
+is
+/********************************************************************
+*    Procedure: PRC_FAT_MCC_MOV_COM_CONSUMO_I
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/  
+    lIdtRetorno integer;
+	  
+begin
+    SELECT SEQ_FAT_MCC_01.NextVal INTO lIdtRetorno FROM DUAL;
+	    
+INSERT INTO TB_FAT_MCC_MOV_COM_CONSUMO
+(
+       FAT_MCC_ID,
+       ATD_ATE_ID,
+       FAT_MCC_DT_MOVIMENTACAO,
+       FAT_MCC_HR_MOVIMENTACAO,
+       FAT_MCC_VL_TOT_MOV_COMANDA,
+       FAT_MCC_QT_TOT_ITEM_MOV_COM,
+       FAT_MCC_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       FAT_MCC_FL_STATUS,
+       FAT_COC_FL_FATURADO,
+       ATD_GUI_CD_CODIGO,
+       FAT_TCO_ID,
+       CAD_SET_ID
+)
+VALUES
+(
+      lIdtRetorno,
+	     pATD_ATE_ID,
+	     pFAT_MCC_DT_MOVIMENTACAO,
+	     pFAT_MCC_HR_MOVIMENTACAO,
+	     pFAT_MCC_VL_TOT_MOV_COMANDA,
+	     pFAT_MCC_QT_TOT_ITEM_MOV_COM,
+	     pFAT_MCC_DT_ULTIMA_ATUALIZACAO,
+	     pSEG_USU_ID_USUARIO,
+	     pFAT_MCC_FL_STATUS,
+	     pFAT_COC_FL_FATURADO,
+	     pATD_GUI_CD_CODIGO,
+	     pFAT_TCO_ID,
+	     pCAD_SET_ID
+);
+    pNewIdt := lIdtRetorno;	
+end PRC_FAT_MCC_MOV_COM_CONSUMO_I;

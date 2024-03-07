@@ -1,0 +1,9 @@
+C:\temptfs\Framework e Ferramentas\Impersonate\Impersonate\bin\Release\SGS.Impersonate.dll
+C:\temptfs\Framework e Ferramentas\Impersonate\Impersonate\bin\Release\SGS.Impersonate.pdb
+C:\temptfs\Framework e Ferramentas\Impersonate\Impersonate\obj\Release\SGS.Impersonate.dll
+C:\temptfs\Framework e Ferramentas\Impersonate\Impersonate\obj\Release\SGS.Impersonate.pdb
+C:\tfshac\Framework e Ferramentas\Impersonate\Impersonate\bin\Release\SGS.Impersonate.dll
+C:\tfshac\Framework e Ferramentas\Impersonate\Impersonate\bin\Release\SGS.Impersonate.pdb
+C:\tfshac\Framework e Ferramentas\Impersonate\Impersonate\obj\Release\SGS.Impersonate.dll
+C:\tfshac\Framework e Ferramentas\Impersonate\Impersonate\obj\Release\SGS.Impersonate.pdb
+C:\tfshac\Framework e Ferramentas\Impersonate\Impersonate\obj\Release\Impersonate.csproj.CoreCompileInputs.cache

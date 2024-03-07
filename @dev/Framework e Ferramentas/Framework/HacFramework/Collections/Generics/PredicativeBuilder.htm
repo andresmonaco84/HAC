@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	<pre lang="cs">
+	
+	//Predicative utilizado em generics, exemplo nos métodos Exists e FindAll.
+	    
+        static void Main(string[] args)
+        {            
+            //add some employees:
+            List<Employee> employeeList = new List<Employee>();
+            employeeList.Add(new Employee("John", "Doe", 55000));
+            employeeList.Add(new Employee("Larry", "Jones", 65000));
+            employeeList.Add(new Employee("Wayne", "Smith", 25000));
+            employeeList.Add(new Employee("Sally", "Johnson", 35000));
+            employeeList.Add(new Employee("Maggie", "Brown", 60000));
+            employeeList.Add(new Employee("David", "Brown", 80000));
+           
+            //output them
+            Console.WriteLine("All Employees: \n");
+            employeeList.ForEach(new Action<Employee>(Employee.Print));
+            Console.WriteLine("\n\n\n");
+            
+            //Verifica se existe algum "john" (sem casesensitive)
+            bool bExistsJohn = employeeList.Exists(PredicateBuilder.Build<Employee>("FirstName = john", false));
+            
+            //select out the Employee's whose last name is Brown (case sensitive):
+            List<Employee> matchesLastName = employeeList.FindAll(PredicateBuilder.Build<Employee>("LastName = Brown"));
+            
+            //output the matches
+            Console.WriteLine("The Brown's:\n");
+            
+            matchesLastName.ForEach(new Action<Employee>(Employee.Print));
+            Console.WriteLine("\n\n\n");
+            
+            //everybody making $50000 or more
+            List<Employee> matches50K = employeeList.FindAll(PredicateBuilder.Build<Employee>("Salary >= 50000"));
+
+            //output the matches
+            Console.WriteLine("People making 50k or more:\n");
+            matches50K.ForEach(new Action<Employee>(Employee.Print));
+            Console.WriteLine("\n\n\n");
+            Console.ReadLine();
+	</pre>
+	</body>
+</html>

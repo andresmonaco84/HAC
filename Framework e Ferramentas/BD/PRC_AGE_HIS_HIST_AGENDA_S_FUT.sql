@@ -1,0 +1,84 @@
+create or replace procedure PRC_AGE_HIS_HIST_AGENDA_S_FUT
+  (
+     pCAD_PES_ID_PESSOA IN TB_CAD_PAC_PACIENTE.CAD_PES_ID_PESSOA%TYPE,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure:      PRC_AGE_HIS_HIST_AGENDA_S_FUT
+  *    Funcao:         Lista os agendamentos futuros do paciente, pelo ID da pessoa
+  *
+  *    Data Criacao: 27/04/2011           Por: Davi Silvestre M. dos Reis
+  *
+  *    Data Alteracao: 28/08/2014           Por: Andrea Cazuca
+  *    Alteracao: Inclus?o da verificac?o de hora na escala de falta
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+   SELECT DISTINCT AGE.AGE_AGD_ID,
+                PAC.CAD_CNV_ID_CONVENIO,
+                PAC.CAD_PLA_ID_PLANO,
+                PAC.CAD_PAC_CD_CREDENCIAL,
+                ESCALA.CAD_UNI_ID_UNIDADE,
+                ESCALA.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+                CBOS.TIS_CBO_CD_CBOS,
+                AGE.CAD_PRO_ID_PROFISSIONALEXEC,
+                ESCALA.AGE_SAU_ID,
+                AGE.AGE_AGD_DT_ATENDIMENTO,
+                AGE.AGE_AGD_HR_ATENDIMENTO,
+                AGE.AGE_AGD_FL_STATUS,
+                AGE.AGE_AGD_DT_LIMITE_RETORNO,
+                ESCALA.AGE_PEE_ID,
+                ESCALA.AGE_ESM_ID,
+                AGE.SEG_USU_ID_USUARIO,
+                CASE WHEN AGE.AGE_AGD_FL_TELEMEDICINA='S' THEN 6 ELSE AGE.AGE_AGD_TP_AGENDA END AGE_AGD_TP_AGENDA,
+                AGE.AGE_AGD_DT_ULTIMA_ATUALIZACAO,
+                AGE.AGE_AGD_FL_TELEMEDICINA
+  FROM TB_AGE_AGD_AGENDA        AGE,
+       TB_CAD_PAC_PACIENTE      PAC,
+       TB_AGE_ESM_ESCALA_MEDICA ESCALA,
+       TB_TIS_CBO_CBOS          CBOS
+ WHERE PAC.CAD_PAC_ID_PACIENTE = AGE.CAD_PAC_ID_PACIENTE
+   AND TO_DATE(TO_CHAR(AGE.AGE_AGD_DT_ATENDIMENTO,'dd-MM-yyyy')||TO_CHAR(AGE.AGE_AGD_HR_ATENDIMENTO,'0000'),'dd-MM-yyyy HH24MI')
+                                   >= TRUNC(SYSDATE)
+   AND AGE.AGE_ESM_ID = ESCALA.AGE_ESM_ID
+   AND CBOS.TIS_CBO_CD_CBOS = ESCALA.TIS_CBO_CD_CBOS
+   AND NOT EXISTS (SELECT *
+           FROM   TB_AGE_AGD_AGENDA AGE2,
+                  TB_CAD_PAC_PACIENTE          PAC2,
+                  TB_AGE_ESM_ESCALA_MEDICA     ESCALA2,
+                  TB_TIS_CBO_CBOS CBOS2,
+                  TB_AGE_ESF_ESCALA_FALTAS ESF2
+           WHERE  PAC2.CAD_PAC_ID_PACIENTE     = AGE2.CAD_PAC_ID_PACIENTE
+           AND    AGE2.AGE_ESM_ID = ESF2.AGE_ESM_ID
+           AND    AGE2.AGE_ESM_ID = ESCALA2.AGE_ESM_ID
+           AND    CBOS2.TIS_CBO_CD_CBOS = ESCALA2.TIS_CBO_CD_CBOS
+           AND    AGE2.AGE_ESM_ID = ESF2.AGE_ESM_ID
+           AND    AGE2.AGE_AGD_ID = AGE.AGE_AGD_ID
+           AND    TO_DATE(TO_CHAR(AGE2.AGE_AGD_DT_ATENDIMENTO,'dd-MM-yyyy')||TO_CHAR(AGE2.AGE_AGD_HR_ATENDIMENTO,'0000'),'dd-MM-yyyy HH24MI')
+                                   >= TRUNC(SYSDATE)
+           AND    (PAC2.CAD_PES_ID_PESSOA = pCAD_PES_ID_PESSOA)
+           AND    (ESF2.AGE_ESF_FL_SUBSTITUTO_OK = 'N' OR ESF2.AGE_ESF_FL_SUBSTITUTO_OK IS NULL)
+--           AND    (pTIS_CBO_CD_CBOS IS NULL OR CBOS2.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS)
+           --AND    AGE2.AGE_AGD_ID NOT IN (SELECT AGC2.AGE_AGD_ID FROM TB_AGE_AGC_AGENDA_CANCELADA AGC2
+                                        -- WHERE AGC2.CAD_PAC_ID_PACIENTE = PAC2.CAD_PAC_ID_PACIENTE)
+           AND  (AGE2.AGE_AGD_DT_ATENDIMENTO BETWEEN ESF2.AGE_ESF_DT_INI_FALTA AND ESF2.AGE_ESF_DT_FIM_FALTA
+   AND  (AGE2.AGE_AGD_HR_ATENDIMENTO BETWEEN ESF2.AGE_ESF_HR_INI_FALTA AND ESF2.AGE_ESF_HR_FIM_FALTA OR
+                 (ESF2.AGE_ESF_HR_INI_FALTA IS NULL AND ESF2.AGE_ESF_HR_FIM_FALTA IS NULL))))
+   --AND AGE.AGE_AGD_ID NOT IN
+   --    (SELECT AGC.AGE_AGD_ID  FROM TB_AGE_AGC_AGENDA_CANCELADA AGC  WHERE AGC.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE)
+   AND (AGE.CAD_PAC_ID_PACIENTE = PAC.CAD_PAC_ID_PACIENTE)
+   AND (PAC.CAD_PES_ID_PESSOA = pCAD_PES_ID_PESSOA)
+--  AND (pTIS_CBO_CD_CBOS IS NULL OR CBOS.TIS_CBO_CD_CBOS = pTIS_CBO_CD_CBOS)
+ ORDER BY ESCALA.CAD_UNI_ID_UNIDADE,
+          ESCALA.CAD_LAT_ID_LOCAL_ATENDIMENTO,
+          CBOS.TIS_CBO_CD_CBOS,
+          AGE.CAD_PRO_ID_PROFISSIONALEXEC,
+          ESCALA.AGE_PEE_ID,
+          AGE.AGE_AGD_DT_ATENDIMENTO,
+          AGE.AGE_AGD_HR_ATENDIMENTO
+      ;
+  io_cursor := v_cursor;
+end PRC_AGE_HIS_HIST_AGENDA_S_FUT;

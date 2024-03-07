@@ -1,0 +1,47 @@
+create or replace procedure PRC_CAD_PAH_PERC_ACRESC_HR_SID
+  (
+     pCAD_PAH_ID IN TB_CAD_PAH_PERC_ACRESCIMO_HR.CAD_PAH_ID%type,
+     pCAD_PAH_NR_DIA_SEMANA IN TB_CAD_PAH_PERC_ACRESCIMO_HR.CAD_PAH_NR_DIA_SEMANA%TYPE,
+     pCAD_TAP_TP_ATRIBUTO IN TB_CAD_PAH_PERC_ACRESCIMO_HR.CAD_TAP_TP_ATRIBUTO%type,
+     pCAD_LAT_ID_LOCAL_ATENDIMENTO IN TB_CAD_PAH_PERC_ACRESCIMO_HR.CAD_LAT_ID_LOCAL_ATENDIMENTO%type,    
+     pCAD_CNV_ID_CONVENIO IN TB_CAD_PAH_PERC_ACRESCIMO_HR.CAD_CNV_ID_CONVENIO%type,
+     pCAD_PAH_HR_INICIO_SEMANA IN TB_CAD_PAH_PERC_ACRESCIMO_HR.CAD_PAH_HR_INICIO_SEMANA%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+  )
+  is
+  /********************************************************************
+  *    Procedure: PRC_CAD_PAH_PERC_ACRESC_HR_SID
+  *
+  *    Data Criacao:   data da  cria??o   Por: Nome do Analista
+  *    Data Alteracao:  27/04/2010  Por: PEDRO
+  *
+  *    Funcao: Descri??o da funcionalidade da Stored Procedure
+  *
+  *******************************************************************/
+  v_cursor PKG_CURSOR.t_cursor;
+  begin
+    OPEN v_cursor FOR
+    SELECT
+       CAD_TAP_TP_ATRIBUTO,
+       CAD_PAH_PC_ACRESCIMO_HR,
+       CAD_PAH_HR_INICIO_SEMANA,
+       CAD_PAH_HR_FIM_SEMANA,
+       CAD_PAH_DT_INICIO_VIGENCIA,
+       CAD_PAH_DT_FIM_VIGENCIA,
+       CAD_PAH_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       CAD_LAT_ID_LOCAL_ATENDIMENTO,
+       CAD_PAH_NR_DIA_SEMANA,
+       CAD_CNV_ID_CONVENIO,
+       CAD_PAH_ID
+    FROM TB_CAD_PAH_PERC_ACRESCIMO_HR
+    WHERE
+        CAD_PAH_ID = pCAD_PAH_ID
+    AND CAD_PAH_NR_DIA_SEMANA = pCAD_PAH_NR_DIA_SEMANA
+    AND CAD_TAP_TP_ATRIBUTO = pCAD_TAP_TP_ATRIBUTO
+    AND CAD_LAT_ID_LOCAL_ATENDIMENTO = pCAD_LAT_ID_LOCAL_ATENDIMENTO
+    AND CAD_CNV_ID_CONVENIO = pCAD_CNV_ID_CONVENIO
+    AND CAD_PAH_HR_INICIO_SEMANA = pCAD_PAH_HR_INICIO_SEMANA
+    ;
+    io_cursor := v_cursor;
+  end PRC_CAD_PAH_PERC_ACRESC_HR_SID;

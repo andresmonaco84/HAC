@@ -1,0 +1,1 @@
+sqlcmd -S agendaweb.anacosta.com.br -U usr_anacosta -P anac@2013 -d agendaweb -i "F:\AgendaWeb\Beneficiario\ATUALIZADADOSBNFACS.SQL" -o "F:\AgendaWeb\Beneficiario\result_ATUALIZADADOSBNFACS.txt"

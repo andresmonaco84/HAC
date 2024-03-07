@@ -1,0 +1,493 @@
+﻿##|TYPE Template
+##|UNIQUEID 489f2e55-f834-46a3-9d18-20a65f414014
+##|TITLE Gerador de Entidades Oracle
+##|NAMESPACE 
+##|SOURCE_TYPE Source
+##|OUTPUT_LANGUAGE C#
+##|GUI_ENGINE Microsoft Script
+##|GUI_LANGUAGE VBScript
+##|GUI_BEGIN
+Dim cmbDatabases
+Dim lstTables
+Dim chk
+
+Sub setup()
+
+	If Not input.Contains("lstTables") Or Not input.Contains("txtPath") Then
+
+		ui.Title = "Gerador de Entidades (Oracle)"
+		ui.Width  = 330
+		ui.Height = 430
+
+		' Grab default output path
+		Dim sOutputPath
+		sOutputPath = ""
+		If input.Contains("defaultOutputPath") Then 
+			sOutputPath = "C:\Geracao\DTO"
+		End If
+
+		' ------ MONTA CAMPO PARA ESCOLHER O CAMINHO DE SAÍDA ------
+		ui.AddLabel "lblPath", "Caminho de saída: ",  "Selecione o caminho de saída."
+		ui.AddTextBox "txtPath", sOutputPath, "Selecione o caminho de saída."
+		ui.AddFilePicker "btnPath", "Seleciona o Caminho", "Seleciona o caminho de saída.", "txtPath", true
+		' ------ MONTA CAMPO PARA ESCOLHER O CAMINHO DE SAÍDA ------
+
+		' ------ MONTA CAMPO PARA ESCOLHER O NAMESPACE ------
+		ui.AddLabel "lblNamespaceEntidade", "Namespace das Entidades: ",  "Namespace das entidades."
+		ui.AddTextBox "txtNamespaceEntidade", "HospitalAnaCosta.Services.CadastroFaturamento.DTO", "Informe o Namespace das entidades."			
+		' ------ MONTA CAMPO PARA ESCOLHER O NAMESPACE ------
+
+		' ------ LISTA OS BANCOS DE DADOS DO SERVIDOR ------
+		ui.AddLabel "lblDatabases", "Selecione o Database:", "Selecione o Database abaixo."
+		Set cmbDatabases = ui.AddComboBox("cmbDatabase", "Selecione o Database.")
+		' ------ LISTA OS BANCOS DE DADOS DO SERVIDOR ------
+
+		' ------ LISTA TODAS AS TABELAS DO BANCO DE DADOS ------
+		ui.AddLabel "lblTables", "Selecione as tabelas:", "Selecione as tabelas abaixo."
+		Set lstTables = ui.AddListBox ("lstTables", "Selecione as tabelas:")
+		lstTables.IsMultiSelect = false
+		lstTables.Height = 120
+		' ------ LISTA TODAS AS TABELAS DO BANCO DE DADOS ------
+
+		' Adiciona o evento onchange
+		setupDatabaseDropdown cmbDatabases
+		
+		'Posiciona a combo de database e seleciona as tables
+		cmbDatabases.SelectedValue = "SGS"
+		cmbDatabases_onchange(cmbDatabases)
+		
+		ui.ShowGUI = true
+	Else 
+		ui.ShowGUI = false
+	End if
+
+End Sub
+
+Sub setupDatabaseDropdown(cmbDatabases)
+	cmbDatabases.BindData MyMeta.Databases
+	
+	If Not MyMeta.DefaultDatabase Is Nothing Then
+		cmbDatabases.SelectedValue = MyMeta.DefaultDatabase.Name
+		bindTables cmbDatabases.SelectedValue
+	End If
+	
+	cmbDatabases.AttachEvent "onchange", "cmbDatabases_onchange"
+End Sub
+
+Sub bindTables(sDatabase)
+	Set db = MyMeta.Databases(sDatabase)
+	lstTables.BindData(db.Tables)
+End Sub
+
+' Event Handler
+Sub cmbDatabases_onchange(control)
+	Set cmbDatabases = ui.item("cmbDatabase")
+	bindTables cmbDatabases.SelectedText
+End Sub
+##|GUI_END
+##|BODY_MODE Markup
+##|BODY_ENGINE Microsoft Script
+##|BODY_LANGUAGE VBScript
+##|BODY_TAG_START <%
+##|BODY_TAG_END %>
+##|BODY_BEGIN
+<%
+'------------------------------------------------------------------------------
+' Gerador_Entity_Oracle.vbgen
+' Data de Criação : 17/03/2008
+' Autor: Bruno Alvares da Costa
+'
+' OBSERVAÇÕES IMPORTANTES:
+' Configurar: Default settings
+' -Alterar DbTarget para DBType
+' -Alterar Language para C#
+'
+'------------------------------------------------------------------------------
+
+Dim objTabela			' Objeto que armazena os dados da tabela
+Dim objColuna			' Objeto que armazena os dados da coluna da tabela
+Dim objBaseDados		' Objeto que armazena os dados do banco de dados
+
+Dim lstNomeTabelas		' Armazena a lista de tabelas selecionadas pelo usuário
+Dim strNomeBaseDados	' Armazena o nome do Banco de Dados
+Dim strNamespace		' Armazena o namespace da entidade
+
+' Armazena o namespace da entidade
+strNamespace = input.Item("txtNamespaceEntidade")
+
+' Armazena a lista de tabelas selecionadas pelo usuário
+Set lstNomeTabelas = input.Item("lstTables")
+
+' Armazena o nome do Banco de Dados
+strNomeBaseDados  = input.Item("cmbDatabase")
+Set objBaseDados = MyMeta.Databases(strNomeBaseDados)
+
+' Loop through the tables the user selected and generate the business entities
+For intLp = 0 To lstNomeTabelas.Count - 1
+	Set objTabela = objBaseDados.Tables(lstNomeTabelas.item(intLp))%>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.IO;
+using MVC = HospitalAnaCosta.Framework;
+
+namespace <%= TrimSpaces(strNamespace) %>
+{
+	/// <summary>
+	/// Classe Entidade <%= objTabela.description %>DataTable
+	/// </summary>
+	[Serializable()]
+	public class <%= objTabela.description %>DataTable : DataTable
+	{
+		
+	    public <%= objTabela.description %>DataTable()
+            : base()
+        {
+        
+			this.TableName = "DADOS";
+
+			<%		output.tabLevel = 2
+
+					' Lista as variáveis privadas
+					For Each objColuna In objTabela.Columns						
+						name = objColuna.description
+						output.autoTabLn "this.Columns.Add(" & objTabela.description  & "DTO.FieldNames." & name & ", typeof("&objColuna.LanguageType&"));"
+					Next%>
+
+			<%  bInFirst = true			
+				For Each objColuna in objTabela.PrimaryKeys
+
+					If Not bInFirst Then 
+						coluna = coluna &  ", "
+					End if	
+					coluna = coluna & "this.Columns["&objTabela.description&"DTO.FieldNames."& objColuna.description &"]"
+					bInFirst = false
+					
+				Next%>
+
+            DataColumn[] primaryKey = { <%=coluna%> };
+
+            this.PrimaryKey = primaryKey;
+        }
+		
+        protected <%= objTabela.description %>DataTable(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        : base(serializationInfo, streamingContext){}
+
+
+		public <%= objTabela.description %>DTO TypedRow(int index)
+        {
+            return (<%= objTabela.description %>DTO)this.Rows[index];
+        }
+		
+        public string GetXml()
+        {
+            string ret;
+            UTF8Encoding utf8 = new UTF8Encoding();
+
+            MemoryStream stream = new MemoryStream();
+            this.WriteXml(stream);
+            ret = utf8.GetString(stream.ToArray());
+            stream.Close();
+            return ret;
+        }
+		
+        public XmlDocument WriteXml()
+        {
+            XmlDocument ret = new XmlDocument();
+            ret.LoadXml(this.GetXml());
+            return ret;
+        }
+
+        public void Add(<%= objTabela.description %>DTO dto)
+        {
+            DataRow dtr = this.NewRow();
+
+
+			<%		output.tabLevel = 2
+
+					' Lista as variáveis privadas
+					For Each objColuna In objTabela.Columns
+						name = objColuna.description
+						dto =  objTabela.description & "DTO"
+						tipoColuna = objColuna.LanguageType
+						output.autoTabLn "if (!dto."&name&".Value.IsNull) dtr["&dto&".FieldNames."&name&"] = ("&tipoColuna&")dto."&name&".Value;"
+					Next%>
+			
+            this.Rows.Add(dtr);
+        }
+		
+		public <%= objTabela.description %>Enumerator GetEnumerator()
+        {
+            return new <%= objTabela.description %>Enumerator(this);
+        }
+    }
+	
+	// Inner class implements IEnumerator interface:
+    public class <%= objTabela.description %>Enumerator
+    {
+        private int position = -1;
+        private DataTable dtb;
+
+        public <%= objTabela.description %>Enumerator(DataTable dtb)
+        {
+            this.dtb = dtb;
+        }
+
+        // Declare the MoveNext method required by IEnumerator:
+        public bool MoveNext()
+        {
+            if (position < dtb.Rows.Count - 1)
+			{
+				position++;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		// Declare the Reset method required by IEnumerator:
+		public void Reset()
+		{
+			position = -1;
+		}
+
+		// Declare the Current property required by IEnumerator:
+		public <%= objTabela.description %>DTO Current
+		{
+		get
+			{
+				<%= objTabela.description %>DTO dto = new <%= objTabela.description %>DTO();			
+				<%For Each objColuna in objTabela.Columns%>dto.<%=objColuna.description%>.Value = dtb.Rows[position][<%= objTabela.description %>DTO.FieldNames.<%=objColuna.description%>].ToString();
+				<%Next%>
+				return dto;
+			}
+		}
+	}
+	
+    [Serializable()]
+    public class <%= objTabela.description %>DTO : MVC.DTO.DTOBase
+    {	
+		<%For Each objColuna In objTabela.Columns				
+			name = lcase(objColuna.name)			
+			output.autoTabLn "private MVC.DTO."&ConvertDataType(objColuna)&" " & name &";"			
+		Next%>
+		
+        public <%= objTabela.description %>DTO()
+        {
+            InitializeComponent();
+        }
+		
+        internal void InitializeComponent()
+        {
+			<%For Each objColuna In objTabela.Columns						
+				name = objColuna.description
+				coluna = lcase(objColuna.name)
+				if (objColuna.LanguageType = "String") then
+				 output.autoTabLn "this."& coluna &"= new MVC.DTO."&ConvertDataType(objColuna)&"(FieldNames."&name&",Captions."&name&", "&objColuna.CharacterMaxLength&");"
+				end if
+				if (objColuna.LanguageType = "Decimal") then
+				 output.autoTabLn "this."& coluna &"= new MVC.DTO."&ConvertDataType(objColuna)&"(FieldNames."&name&",Captions."&name&", DbType.Decimal);"
+				end if
+				if (objColuna.LanguageType = "DateTime") then
+				 output.autoTabLn "this."& coluna &"= new MVC.DTO."&ConvertDataType(objColuna)&"(FieldNames."&name&",Captions."&name&");"
+				end if
+			Next%>		
+        }
+ 
+        #region FieldNames
+
+        public struct FieldNames
+        {
+		<%  For Each objColuna In objTabela.Columns						
+				name = objColuna.description
+				output.autoTabLn "public const string "& name &"=""" &UCase(objColuna.name)&""";"
+			Next%>		
+        }		
+
+        #endregion
+
+        #region Captions
+        public struct Captions
+        {
+		<%  For Each objColuna In objTabela.Columns						
+				name = objColuna.description
+				output.autoTabLn "public const string "& name &"=""" &UCase(name)&""";"
+			Next%>		
+        }		
+
+        #endregion
+		
+        #region Atributos Publicos
+
+		<% For Each objColuna in objTabela.Columns 
+		     nomePropriedade = objColuna.description
+		     name = lcase(objColuna.name)%>
+			 
+		public MVC.DTO.<%= ConvertDataType(objColuna) %> <%= nomePropriedade %>
+		{
+			get { return <%= name %>; }
+			set { <%= name%> = value; }
+		}
+		<% Next %>			
+			
+		#endregion
+
+
+        #region Operators
+
+        public static explicit operator <%= objTabela.description %>DTO(DataRow row)
+        {
+            <%= objTabela.description %>DTO  dto = new <%= objTabela.description %>DTO();
+			<% For Each objColuna in objTabela.Columns %>dto.<%=objColuna.description%>.Value = row[FieldNames.<%=objColuna.description%>].ToString();
+			<%Next%>
+			
+            return dto;
+        }
+
+        public static explicit operator <%= objTabela.description %>DTO(XmlDocument xml)
+        {
+            <%= objTabela.description %>DTO dto = new <%= objTabela.description %>DTO();
+			<% For Each objColuna in objTabela.Columns%>if (xml.FirstChild.SelectSingleNode(FieldNames.<%=objColuna.description%>) != null) dto.<%=objColuna.description%>.Value = xml.FirstChild.SelectSingleNode(FieldNames.<%=objColuna.description%>).InnerText;			
+			<%Next%>
+            return dto;
+        }
+
+        public override XmlDocument GetXML()
+        {
+            XmlDocument xml = new XmlDocument();
+            XmlNode nodeData = xml.CreateNode(XmlNodeType.Element, "DADOS", null);
+			<%For Each objColuna in objTabela.Columns%>XmlNode node<%=objColuna.description%> = xml.CreateNode(XmlNodeType.Element, FieldNames.<%=objColuna.description%>, null);
+			<%Next%>
+			<%For Each objColuna in objTabela.Columns%>if (!this.<%=objColuna.description%>.Value.IsNull) node<%=objColuna.description%>.InnerText = this.<%=objColuna.description%>.Value;
+			<%Next%>
+			<%For Each objColuna in objTabela.Columns%>nodeData.AppendChild(node<%=objColuna.description%>);
+			<%Next%>			
+            xml.AppendChild(nodeData);
+            return xml;
+        }
+
+        public static explicit operator DataRow(<%= objTabela.description %>DTO dto)
+        {
+            <%= objTabela.description %>DataTable dtb = new <%= objTabela.description %>DataTable();
+            DataRow dtr = dtb.NewRow();
+			<%For Each objColuna in objTabela.Columns%>dtr[FieldNames.<%=objColuna.description%>] = dto.<%=objColuna.description%>.Value;
+			<%Next%>
+            return dtr;
+        }
+
+        public static explicit operator XmlDocument(<%= objTabela.description %>DTO dto)
+        {
+            return dto.GetXML();
+        }
+
+        #endregion
+    }
+}
+
+
+<% 
+	' Salva o arquivo de saída
+	Dim strNomeArquivoSaida
+	strNomeArquivoSaida = input.item("txtPath")
+
+	Dim intTamanho
+	Dim intPosicaoBarra
+	intTamanho = Len(strNomeArquivoSaida)
+	intPosicaoBarra = InStrRev(strNomeArquivoSaida, "\") 
+
+    ' Se o número total de caracteres do nome do arquivo de saída for igual ao número de caracteres antes da última barra
+	If Not intPosicaoBarra = intTamanho Then
+		strNomeArquivoSaida = strNomeArquivoSaida & "\"
+	End If
+
+	strNomeArquivoSaida = strNomeArquivoSaida & objTabela.description & "DTO.cs"
+
+	output.save strNomeArquivoSaida, false
+	buffer = buffer & output.text
+	output.clear
+Next '  tableName	
+output.write buffer
+
+'=======================================
+' RETIRA OS ESPAÇOS A DIREITA DA STRING
+'=======================================
+Function TrimSpaces(str)
+
+	Dim tname
+	Dim name
+	Dim char
+	Dim l
+
+	name = ""
+	tname = str
+	l = Len(tname)
+
+	For j = 1 To l
+		char = Mid(tname, j, 1)
+		If Not char = " " Then
+			name = name & char
+		End If
+	Next
+
+	TrimSpaces = name
+End Function
+
+'=======================
+' PEGA O NOME DA COLUNA
+'=======================
+FUNCTION GetName(str)
+	Dim name
+	name = lcase(str)
+	GetName = Left(name, 1) & Right(name, Len(name) -1)
+END FUNCTION
+
+'=======================
+' PEGA O TIPO DA COLUNA 
+'=======================
+
+FUNCTION ConvertDataType(objColuna)
+	SELECT CASE lcase(objColuna.LanguageType)
+		CASE "short", "int", "long", "decimal", "double", "integer"
+			ConvertDataType = "FieldDecimal"
+		CASE "string", "varchar", "varchar2", "VARCHAR2"
+			ConvertDataType = "FieldString"
+		CASE "datetime"
+			ConvertDataType = "FieldDateTime"
+	END SELECT
+	
+END FUNCTION
+
+'=======================
+' PEGA O TIPO DA COLUNA 
+'=======================
+
+FUNCTION VerificaTipoColunaNull(objColuna)	
+
+	SELECT CASE lcase(objColuna.LanguageType)
+		CASE "byte", "short", "int", "long", "decimal", "double", "bool", "datetime"
+			VerificaTipoColunaNull = objColuna.LanguageType & "?"
+		CASE ELSE
+			VerificaTipoColunaNull = objColuna.LanguageType
+	END SELECT
+
+END FUNCTION
+
+'=========================================
+' RETIRA OS CARACTERES INVÁLIDOS DA STRING
+'=========================================
+FUNCTION RetiraCaracteresInvalidos(str)
+
+	str = Replace(str, ">", "")
+	str = Replace(str, "<", "")
+	
+	RetiraCaracteresInvalidos = str
+
+END FUNCTION
+%>
+##|BODY_END

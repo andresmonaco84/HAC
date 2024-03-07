@@ -1,0 +1,104 @@
+create or replace procedure PRC_ATD_IEM_EVOL_MULTI_S
+(
+     pATD_IEM_ID IN TB_ATD_IEM_EVOL_MULTI.ATD_IEM_ID%type,
+     io_cursor OUT PKG_CURSOR.t_cursor
+)
+is
+/********************************************************************
+*    Procedure: PRC_ATD_IEM_EVOL_MULTI_S
+*
+*    Data Criacao: data da  cria¿Æo   Por: Nome do Analista
+*    Data Alteracao:data da altera¿Æo  Por: Nome do Analista
+*
+*    Funcao: Descri¿Æo da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+v_cursor PKG_CURSOR.t_cursor;
+begin
+OPEN v_cursor FOR
+SELECT
+       ATD_IEM_ID,
+       ATD_ATE_ID,
+       ATD_IEM_DT_EVOLUCAO,
+       ATD_IEM_HR_EVOLUCAO,
+       ATD_IEM_DS_GRUPO,
+       ATD_IEM_DS_EVOLUCAO,
+       ATD_IEM_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO,
+       ATD_IEM_FL_STATUS,
+       ATD_IDR_ID,
+       CAD_PRD_ID,
+       CAD_PRO_ID,
+       ATD_IEM_SNDE_DT_INI ,
+       ATD_IEM_SNDE_ACES_SNEGAST ,
+       ATD_IEM_SNDE_ACES_SNEPOSPILO ,
+       ATD_IEM_SNDE_ACES_GTT ,
+       ATD_IEM_SNDE_ACES_JEJUSNO ,
+       ATD_IEM_SNDE_TP_DIE_OLIGO ,
+       ATD_IEM_SNDE_TP_DIE_POLIM ,
+       ATD_IEM_SNDE_TP_DIE_NORMO ,
+       ATD_IEM_SNDE_TP_DIE_HIPER ,
+       ATD_IEM_SNDE_TP_DIE_CFIBR ,
+       ATD_IEM_SNDE_TP_DIE_SFIBR ,
+       ATD_IEM_SNDE_TP_DIE_ESPEC ,
+       ATD_IEM_SNDE_PRD_ID  ,
+       ATD_IEM_SNDE_DIE_VOL_PRESC ,
+       ATD_IEM_SNDE_DIE_VOL_INFU ,
+       ATD_IEM_SNDE_DIE_INFUSAO ,
+       ATD_IEM_SNDE_EVACUA_NR ,
+       ATD_IEM_SNDE_EVACUA_ASPEC ,
+       ATD_IEM_SNDE_EVACUA_CONC  ,
+       ATD_IEM_SNDE_AGUA_GAVAG_VOL ,
+       ATD_IEM_SNDE_AGUA_GAVAG_HRS ,
+       ATD_IEM_SNDE_INTERC_SEM ,
+       ATD_IEM_SNDE_INTERC_VOMITOS ,
+       ATD_IEM_SNDE_INTERC_DIARREIA ,
+       ATD_IEM_SNDE_INTERC_DIST_ABD ,
+       ATD_IEM_SNDE_INTERC_OBSTIP ,
+       ATD_IEM_SNDE_INTERC_DOR_ABD ,
+       ATD_IEM_SNDE_INTERC_BRONCOA ,
+       ATD_IEM_SNDE_INTERC_OBSSOND ,
+       ATD_IEM_SNDE_INTERC_RET_SON  ,
+       ATD_IEM_SNDP_DT_INI ,
+       ATD_IEM_SNDP_ACES_CATVENCENT  ,
+       ATD_IEM_SNDP_ACES_PICC ,
+       ATD_IEM_SNDP_ACES_VEIA_PERI ,
+       ATD_IEM_SNDP_PAR_SOL_PADR ,
+       ATD_IEM_SNDP_PAR_SOL_INDIV ,
+       ATD_IEM_SNDP_PAR_SOL_PRESC  ,
+       ATD_IEM_SNDP_INTERC_SEM ,
+       ATD_IEM_SNDP_INTERC_ICTERICIA ,
+       ATD_IEM_SNDP_INTERC_DISTELET ,
+       ATD_IEM_SNDP_INTERC_HIPERG ,  
+       ATD_IEM_SNDP_INTERC_COLEC ,
+       ATD_IEM_SNDP_INTERC_CONFMENT ,
+       ATD_IEM_SNDP_MODSUP_FIBRAS ,
+       ATD_IEM_SNDP_MODSUP_PROT ,
+       ATD_IEM_SNDP_MODSUP_PREB ,
+       ATD_IEM_SNDP_MODSUP_PROB ,
+       ATD_IEM_SNDP_MODSUP_SIMB ,
+       ATD_IEM_SNDP_PLANO_CUID ,
+       ATD_IEM_SNDP_ATUAL_PLANO  ,
+       ATD_IEM_SNDP_MODSUP_LIPI ,
+       ATD_IEM_SND_VL_PESO ,
+       ATD_IEM_SND_DT_PESO_CALC ,
+       ATD_IEM_SND_NECES_CAL_TOT  ,
+       ATD_IEM_SND_NECES_PROTEIC  ,
+       ATD_IEM_SND_ID_USUARIO_SND ,
+       ATD_IEM_SND_DT_USUARIO_SND ,
+       ATD_IEM_SND_ID_USUARIO_MED ,
+       ATD_IEM_SND_DT_USUARIO_MED ,
+       ATD_IEM_SND_ID_USUARIO_ENF ,
+       ATD_IEM_SND_DT_USUARIO_ENF ,
+
+       CAD_PRO_MED_ID ,
+       CAD_PRO_ENF_ID ,
+       CAD_PRO_SND_ID ,
+       ATD_IEM_DS_EVOLUCAO_ENF
+       
+FROM TB_ATD_IEM_EVOL_MULTI
+WHERE
+        ATD_IEM_ID = pATD_IEM_ID;
+io_cursor := v_cursor;
+end PRC_ATD_IEM_EVOL_MULTI_S;
+/

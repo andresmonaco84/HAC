@@ -1,0 +1,45 @@
+--PRC_CAD_TPE_TIPOEMPRESA_L
+create or replace procedure PRC_CAD_TPE_TIPOEMPRESA_L 
+(
+     pCAD_TPE_CD_CODIGO IN TB_CAD_TPE_TIPOEMPRESA.CAD_TPE_CD_CODIGO%type DEFAULT NULL,
+     pCAD_TPE_DS_DESCRICAO IN TB_CAD_TPE_TIPOEMPRESA.CAD_TPE_DS_DESCRICAO%type DEFAULT NULL,
+     pCAD_TPE_FL_STATUS IN TB_CAD_TPE_TIPOEMPRESA.CAD_TPE_FL_STATUS%type DEFAULT NULL,
+     pCAD_TPE_DT_ULTIMA_ATUALIZACAO IN TB_CAD_TPE_TIPOEMPRESA.CAD_TPE_DT_ULTIMA_ATUALIZACAO%type DEFAULT NULL,
+     pSEG_USU_ID_USUARIO IN TB_CAD_TPE_TIPOEMPRESA.SEG_USU_ID_USUARIO%type DEFAULT NULL,
+     io_cursor OUT PKG_CURSOR.t_cursor
+) 
+is
+/********************************************************************
+*    Procedure: PRC_CAD_TPE_TIPOEMPRESA_L
+* 
+*    Data Criacao: 	data da  criação   Por: Nome do Analista
+*    Data Alteracao:	data da alteração  Por: Nome do Analista
+*
+*    Funcao: Descrição da funcionalidade da Stored Procedure
+*
+*******************************************************************/
+ v_cursor PKG_CURSOR.t_cursor;
+  V_WHERE  varchar2(5000);
+  V_SELECT  varchar2(5000);
+begin
+  V_WHERE := NULL;
+  IF pCAD_TPE_CD_CODIGO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_TPE_CD_CODIGO = ' || CHR(39) || pCAD_TPE_CD_CODIGO || CHR(39); END IF;
+IF pCAD_TPE_DS_DESCRICAO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_TPE_DS_DESCRICAO = ' || CHR(39) || pCAD_TPE_DS_DESCRICAO || CHR(39); END IF;
+IF pCAD_TPE_FL_STATUS IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_TPE_FL_STATUS = ' || CHR(39) || pCAD_TPE_FL_STATUS || CHR(39); END IF;
+IF pCAD_TPE_DT_ULTIMA_ATUALIZACAO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND CAD_TPE_DT_ULTIMA_ATUALIZACAO = ' || CHR(39) || pCAD_TPE_DT_ULTIMA_ATUALIZACAO || CHR(39); END IF;
+IF pSEG_USU_ID_USUARIO IS NOT NULL THEN V_WHERE:= V_WHERE || ' AND SEG_USU_ID_USUARIO = ' || pSEG_USU_ID_USUARIO; END IF;
+ 
+   V_SELECT := '
+SELECT	
+       CAD_TPE_CD_CODIGO,
+       CAD_TPE_DS_DESCRICAO,
+       CAD_TPE_FL_STATUS,
+       CAD_TPE_DT_ULTIMA_ATUALIZACAO,
+       SEG_USU_ID_USUARIO
+FROM TB_CAD_TPE_TIPOEMPRESA
+WHERE null is null  '    ;
+       
+OPEN v_cursor FOR
+  V_SELECT || V_WHERE ;
+  io_cursor := v_cursor;
+end PRC_CAD_TPE_TIPOEMPRESA_L;
